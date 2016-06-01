@@ -1,0 +1,18 @@
+<resources>
+
+    <!--
+     LT = Log Tag
+     nue = notizen_uebersicht
+      -->
+    <string name="app_name">Notizen</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_bla">bla</string>
+    <string name="ChangeCatFragmentCatColor"> -65536</string>
+    <string name="ChangeCatFragmentCatDesc">Description</string>
+    <string name="ChangeCatFragmentCatTitle">Title</string>
+    <string name="ChangeFragmentSaveButton">save</string>
+    <string name="TitleCreateNewCategory">create new</string>
+    <string name="LT_nue_ItemLongClick">InitListViewNotes longitemclick</string>
+    <string name="LT_nue_onActRes_AddNote">onActivityResADDNote</string>
+    <string name="LT_nue_onActRes_EditNote">onActivityResChangeNote</string>
+</resources>
