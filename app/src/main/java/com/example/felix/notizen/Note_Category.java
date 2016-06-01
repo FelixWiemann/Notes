@@ -31,6 +31,7 @@ public class Note_Category implements Parcelable {
         m_ID = m_id;
     }
 
+
     /**
      * empty constructor, creating defaul category
      */
