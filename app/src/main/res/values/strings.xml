@@ -15,4 +15,5 @@
     <string name="LT_nue_ItemLongClick">InitListViewNotes longitemclick</string>
     <string name="LT_nue_onActRes_AddNote">onActivityResADDNote</string>
     <string name="LT_nue_onActRes_EditNote">onActivityResChangeNote</string>
+    <string name="FGM_Change_Cat_Title">choose category</string>
 </resources>

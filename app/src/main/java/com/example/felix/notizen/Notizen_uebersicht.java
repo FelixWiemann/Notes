@@ -87,7 +87,12 @@ public class Notizen_uebersicht extends AppCompatActivity  {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(LOG_TAG,Thread.currentThread().getStackTrace()[2].getMethodName());
-        myActionMode.finish();
+        try {
+            myActionMode.finish();
+        } catch (Exception ignored) {
+        }
+
+
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_NEW_NOTE) {
             Log.d(LOG_TAG_NotizenÜbersicht, getString(R.string.LT_nue_onActRes_AddNote));
             Bundle b = data.getExtras();

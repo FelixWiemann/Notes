@@ -41,7 +41,7 @@ public class NoteCategoryChangeFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         // Inflate the layout for this fragment
-        getDialog().setTitle(R.string.TitleCreateNewCategory);
+        getDialog().setTitle(R.string.FGM_Change_Cat_Title);
         thisView=inflater.inflate(R.layout.fragment_note_category_change, container, false);
         return  thisView;
     }
