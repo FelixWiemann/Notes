@@ -16,4 +16,12 @@
     <string name="LT_nue_onActRes_AddNote">onActivityResADDNote</string>
     <string name="LT_nue_onActRes_EditNote">onActivityResChangeNote</string>
     <string name="FGM_Change_Cat_Title">choose category</string>
+
+    <string name="note__notification_title_template">"Note ": %1$s</string>
+
+    <!-- TODO: remove this placeholder text -->
+    <string name="note__notification_placeholder_text_template">You said %1$s</string>
+
+    <string name="action_share">Share</string>
+    <string name="action_reply">Reply</string>
 </resources>

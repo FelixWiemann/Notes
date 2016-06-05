@@ -199,6 +199,7 @@ public class Notizen_uebersicht extends AppCompatActivity  {
     private void addNote(Note n){
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         ListViewAdapter.addNote(n);
+        Note_Notification.notify(this, n);
     }
 
     private int ContextMenuItemPositionClickedToDelete;

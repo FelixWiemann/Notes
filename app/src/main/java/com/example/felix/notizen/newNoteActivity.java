@@ -1,8 +1,8 @@
 package com.example.felix.notizen;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +43,8 @@ public class newNoteActivity extends AppCompatActivity {
         init();
         int mode = i.getExtras().getInt(Notizen_uebersicht.strRequestCode);
         if (mode == Notizen_uebersicht.REQUEST_CODE_EDIT_NOTE) {
-            AdapterPositionNote = i.getExtras().getInt(Notizen_uebersicht.EDIT_NOTE_ADAPTER_POSITION);
+            AdapterPositionNote = i.getExtras().getInt(Notizen_uebersicht.EDIT_NOTE_ADAPTER_POSITION, -1);
+            // TODO update note in Database when coming from notification
             createdNote = i.getExtras().getParcelable(INTENT_NEW_NOTE_ACTIVITY_PARCEL);
             if (createdNote != null) {
                 edTNoteName.setText(createdNote.NoteName);
@@ -72,6 +73,7 @@ public class newNoteActivity extends AppCompatActivity {
         createdNote.NoteText = (edtNoteContent.getText().toString());
         createdNote.NoteName = (edTNoteName.getText().toString());
         // Prepare data intent
+        createdNote.updateDB(new SQLManagerContract(this));
         Intent data = new Intent();
         data.putExtra(INTENT_NEW_NOTE_ACTIVITY_PARCEL, createdNote);
         // Activity finished ok, return the data
