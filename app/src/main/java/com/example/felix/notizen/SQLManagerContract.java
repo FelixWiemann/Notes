@@ -208,16 +208,16 @@ public class SQLManagerContract extends SQLiteOpenHelper {
         try {
             // write all data from cursor into the note
             note.set_ID(cursor.getInt(0));
-            note.NoteName=(cursor.getString(1));
-            note.NoteText=(cursor.getString(2));
-            note.NoteCreatedDate=(cursor.getInt(3));
-            note.NoteLastChangedDate=(cursor.getInt(4));
-            note.NoteImportance =(cursor.getInt(5));
-            note.NoteIsTask=(SQL_Commands.IntToBool(cursor.getInt(6)));
-            note.TaskDone=(SQL_Commands.IntToBool(cursor.getInt(7)));
-            note.TaskDueDate=(cursor.getInt(8));
+            note.setNoteName(cursor.getString(1));
+            note.setNoteText(cursor.getString(2));
+            note.setNoteCreatedDate(cursor.getInt(3));
+            note.setNoteLastChangedDate(cursor.getInt(4));
+            note.setNoteImportance(cursor.getInt(5));
+            note.setNoteIsTask(SQL_Commands.IntToBool(cursor.getInt(6)));
+            note.setTaskDone(SQL_Commands.IntToBool(cursor.getInt(7)));
+            note.setTaskDueDate(cursor.getInt(8));
             //note.NoteCategory=getNoteCategory(cursor.getInt(9));
-            note.NoteCategory = new Note_Category(cursor.getString(12),cursor.getString(14),cursor.getInt(13),cursor.getInt(11));
+            note.setNoteCategory(new Note_Category(cursor.getString(12), cursor.getString(14), cursor.getInt(13), cursor.getInt(11)));
             // 10 complete data; 11 cat id; 12 cat name; 13 cat color; 14 car description
         } catch (Exception e) {
             e.printStackTrace();
@@ -236,15 +236,15 @@ public class SQLManagerContract extends SQLiteOpenHelper {
         // Order: ID  Name  Content  DateCreated  DateLastChanged  DateImportance  NoteIsTask  NoteDone  NoteDateDue
         // DO NOT WRITE ID, OR DATABASE WILL CORRUPT
         ContentValues values = new ContentValues();
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteName,note.NoteName);
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteContent,note.NoteText);
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDateCreated,note.NoteCreatedDate);
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDateLastChanged,note.NoteLastChangedDate);
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteImportance,note.NoteImportance);
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteIsTask,note.NoteIsTask);
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDone,note.TaskDone);
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDateDue, note.TaskDueDate);
-        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteCategory, note.NoteCategory.getM_ID());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteName, note.getNoteName());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteContent, note.getNoteText());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDateCreated, note.getNoteCreatedDate());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDateLastChanged, note.getNoteLastChangedDate());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteImportance, note.getNoteImportance());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteIsTask, note.isNoteIsTask());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDone, note.isTaskDone());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDateDue, note.getTaskDueDate());
+        values.put(DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteCategory, note.getNoteCategory().getM_ID());
         return values;
     }
 
@@ -276,7 +276,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + DB_Names.NOTE.SQL_DataBase_Name+" JOIN "+ DB_Names.CATEGORY.SQL_TableNameCategories +" ON "+ DB_Names.NOTE.SQL_DataBase_Name+"."+ DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteCategory +" = "+ DB_Names.CATEGORY.SQL_TableNameCategories+"."  + DB_Names.NOTE.SQL_Table_ColumnName_ID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-
+        Alarm a = new Alarm();
         Note note;
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -284,6 +284,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
                 // convert cursor to note
                 note=CursorToNote(cursor);
                 // Adding contact to list
+//                a.SetAlarm(note);
                 noteList.add(note);
             } while (cursor.moveToNext());
         }

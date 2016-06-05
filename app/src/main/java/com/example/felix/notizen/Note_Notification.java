@@ -4,10 +4,13 @@ import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 /**
@@ -17,7 +20,9 @@ import android.support.v4.app.NotificationCompat;
  * This class makes heavy use of the {@link NotificationCompat.Builder} helper
  * class to create notifications in a backward-compatible way.
  */
-public class Note_Notification {
+public class Note_Notification extends Service {
+
+
     /**
      * The unique identifier for this type of notification.
      */
@@ -118,8 +123,8 @@ public class Note_Notification {
 
     public static void notify(final Context context, final Note note) {
         final Resources res = context.getResources();
-        final String title = note.NoteName;
-        final String text = note.NoteText;
+        final String title = note.getNoteName();
+        final String text = note.getNoteText();
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         Intent intent = new Intent(context, newNoteActivity.class);
         // Edit Note
@@ -147,10 +152,10 @@ public class Note_Notification {
                         // should ensure that the activity in this notification's
                         // content intent provides access to the same actions in
                         // another way.
-                .addAction(R.drawable.prev_note, "prev", null)
+                .addAction(R.drawable.prev_note, "prev", null) // TODO add intent
                 .addAction(R.drawable.mark_done, "next", null)// TODO add intent
                 .addAction(R.drawable.next_note, "", null) // TODO add intent
-                        // TODO add intent
+
                         // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(true);
 
@@ -182,5 +187,13 @@ public class Note_Notification {
         } else {
             nm.cancel(NOTIFICATION_TAG.hashCode());
         }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        Note n = intent.getParcelableExtra("NOTE_DUE");
+        notify(getApplicationContext(), n);
+        return null;
     }
 }

@@ -47,9 +47,9 @@ public class newNoteActivity extends AppCompatActivity {
             // TODO update note in Database when coming from notification
             createdNote = i.getExtras().getParcelable(INTENT_NEW_NOTE_ACTIVITY_PARCEL);
             if (createdNote != null) {
-                edTNoteName.setText(createdNote.NoteName);
-                edtNoteContent.setText(createdNote.NoteText);
-                cbNoteIsDone.setChecked(createdNote.TaskDone);
+                edTNoteName.setText(createdNote.getNoteName());
+                edtNoteContent.setText(createdNote.getNoteText());
+                cbNoteIsDone.setChecked(createdNote.isTaskDone());
             }
 
         } else if (mode == Notizen_uebersicht.REQUEST_CODE_NEW_NOTE) {
@@ -70,8 +70,8 @@ public class newNoteActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         Log.i(LOG_TAG,Thread.currentThread().getStackTrace()[2].getMethodName());
-        createdNote.NoteText = (edtNoteContent.getText().toString());
-        createdNote.NoteName = (edTNoteName.getText().toString());
+        createdNote.setNoteText((edtNoteContent.getText().toString()));
+        createdNote.setNoteName((edTNoteName.getText().toString()));
         // Prepare data intent
         createdNote.updateDB(new SQLManagerContract(this));
         Intent data = new Intent();
@@ -85,8 +85,8 @@ public class newNoteActivity extends AppCompatActivity {
     @Override
     public void finish() {
         Log.i(LOG_TAG,Thread.currentThread().getStackTrace()[2].getMethodName());
-        createdNote.NoteText = (edtNoteContent.getText().toString());
-        createdNote.NoteName = (edTNoteName.getText().toString());
+        createdNote.setNoteText((edtNoteContent.getText().toString()));
+        createdNote.setNoteName((edTNoteName.getText().toString()));
         // Prepare data intent
         Intent data = new Intent();
         data.putExtra(INTENT_NEW_NOTE_ACTIVITY_PARCEL, createdNote);

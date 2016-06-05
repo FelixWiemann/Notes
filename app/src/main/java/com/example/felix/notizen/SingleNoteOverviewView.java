@@ -3,8 +3,6 @@ package com.example.felix.notizen;
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -117,11 +115,11 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
 
     private void updateData() {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-        mViewHolder.mCheckBoxNoteDone.setChecked(mNote.TaskDone);
-        mViewHolder.mTextViewDate.setText(String.valueOf(mNote.TaskDueDate));
-        mViewHolder.mTextViewTitle.setText(mNote.NoteName);
-        if(mNote.NoteCategory!=null)
-            mViewHolder.mImageViewCategory.setBackgroundColor(mNote.NoteCategory.getM_CatColor());
+        mViewHolder.mCheckBoxNoteDone.setChecked(mNote.isTaskDone());
+        mViewHolder.mTextViewDate.setText(String.valueOf(mNote.getTaskDueDate()));
+        mViewHolder.mTextViewTitle.setText(mNote.getNoteName());
+        if (mNote.getNoteCategory() != null)
+            mViewHolder.mImageViewCategory.setBackgroundColor(mNote.getNoteCategory().getM_CatColor());
         mNote.updateDB(new SQLManagerContract(getContext()));
     }
 
@@ -136,7 +134,7 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
         mViewHolder.mCheckBoxNoteDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mNote.TaskDone = buttonView.isChecked();
+                mNote.setTaskDone(buttonView.isChecked());
                 updateData();
             }
         });
@@ -146,7 +144,7 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
     @Override
     public void onFinishEditDialog(Note_Category note_category) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-        mNote.NoteCategory=note_category;
+        mNote.setNoteCategory(note_category);
         updateData();
     }
 
