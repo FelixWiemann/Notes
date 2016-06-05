@@ -284,7 +284,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
                 // convert cursor to note
                 note=CursorToNote(cursor);
                 // Adding contact to list
-//                a.SetAlarm(note);
+//d                a.SetAlarm(note);
                 noteList.add(note);
             } while (cursor.moveToNext());
         }
