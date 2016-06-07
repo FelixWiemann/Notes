@@ -6,7 +6,9 @@
         android:layout_height="match_parent"
         android:layout_width="40dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:gravity="center"
         android:id="@+id/cbTaskDone"
         android:checked="false" />
@@ -43,7 +45,7 @@
         android:id="@+id/tvNoteOverview"
         android:layout_toStartOf="@+id/tvNoteDateDue"
         android:layout_toLeftOf="@+id/tvNoteDateDue"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@+id/ivCategory"
         android:visibility="invisible"
@@ -51,14 +53,15 @@
         />
 
     <ImageView
-        android:layout_height="match_parent"
+        android:layout_height="45dp"
         android:layout_width="40dp"
         android:gravity="center"
-        android:id="@+id/ivPriority"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        />
+        android:id="@+id/ivPriority"
+        android:layout_centerVertical="true"
+
+        android:contentDescription="priority" />
 
 
 
@@ -73,7 +76,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:padding="1dp"
-        android:background="@drawable/note_overview_category_image_view_border"/>
+        android:background="@drawable/note_overview_category_image_view_border" />
     <ImageView
         android:layout_height="30dp"
         android:layout_width="30dp"
@@ -84,5 +87,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="#ff0000"/>
+        android:background="#ff0000"
+        android:contentDescription="category" />
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
+import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.Date;
 
 /**
  * Created by Felix "nepumuk" Wiemann on 07.02.2016
@@ -116,11 +119,34 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
     private void updateData() {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         mViewHolder.mCheckBoxNoteDone.setChecked(mNote.isTaskDone());
-        mViewHolder.mTextViewDate.setText(String.valueOf(mNote.getTaskDueDate()));
+        mViewHolder.mTextViewDate.setText(
+                DateFormat.format("dd/MM/yyyy",
+                        new Date(mNote.getNoteLastChangedDate())).toString()); //TODO change back to due date
         mViewHolder.mTextViewTitle.setText(mNote.getNoteName());
         if (mNote.getNoteCategory() != null)
             mViewHolder.mImageViewCategory.setBackgroundColor(mNote.getNoteCategory().getM_CatColor());
         mNote.updateDB(new SQLManagerContract(getContext()));
+        setImportance();
+    }
+
+    private void setImportance() {
+        switch (mNote.getNoteImportance()) {
+            case 1:
+                mViewHolder.mImageViewPriority.setImageResource(R.drawable.importance1);
+                break;
+            case 2:
+                mViewHolder.mImageViewPriority.setImageResource(R.drawable.importance2);
+                break;
+            case 3:
+                mViewHolder.mImageViewPriority.setImageResource(R.drawable.importance3);
+                break;
+            case 4:
+                mViewHolder.mImageViewPriority.setImageResource(R.drawable.importance4);
+                break;
+            case 0:
+                mViewHolder.mImageViewPriority.setImageResource(R.drawable.importance0);
+                break;
+        }
     }
 
     public void initViews() {
@@ -129,8 +155,15 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
         mViewHolder.mImageViewCategory = (ImageView) this.findViewById(com.example.felix.noteoverview.R.id.ivCategory);
         mViewHolder.mTextViewDate = (TextView) this.findViewById(com.example.felix.noteoverview.R.id.tvNoteDateDue);
         mViewHolder.mTextViewTitle = (TextView) this.findViewById(com.example.felix.noteoverview.R.id.tvNoteName);
+        mViewHolder.mImageViewPriority = (ImageView) this.findViewById(R.id.ivPriority);
        // mViewHolder.mImageViewCategory.setBackgroundColor(mNote.NoteCategory);
         mViewHolder.mImageViewCategory.setOnClickListener(onClickListener);
+        mViewHolder.mImageViewPriority.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cycleImportance();
+            }
+        });
         mViewHolder.mCheckBoxNoteDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -139,6 +172,14 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
             }
         });
         invalidate();
+    }
+
+    private void cycleImportance() {
+        if ((mNote.getNoteImportance()) == 5) {
+            mNote.setNoteImportance(0);
+        }
+        mNote.setNoteImportance((mNote.getNoteImportance() + 1));
+        updateData();
     }
 
     @Override
@@ -158,5 +199,8 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
         public TextView mTextViewTitle;
         public TextView mTextViewDate;
         public ImageView mImageViewCategory;
+        public ImageView mImageViewPriority;
     }
+
+
 }

@@ -15,4 +15,6 @@
         android:hint="@string/NoteOVerviewTitleHint"
         android:textColor="#ffffff"
         android:textColorHint="#ffffff" />
+
+
 </android.support.v7.widget.Toolbar>

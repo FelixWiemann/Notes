@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -59,6 +61,15 @@ public class newNoteActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_create_new_note, menu);
+        return true;
+    }
+
     private void init() {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         //createdNote=new Note();
@@ -68,31 +79,8 @@ public class newNoteActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        Log.i(LOG_TAG,Thread.currentThread().getStackTrace()[2].getMethodName());
-        createdNote.setNoteText((edtNoteContent.getText().toString()));
-        createdNote.setNoteName((edTNoteName.getText().toString()));
-        // Prepare data intent
-        createdNote.updateDB(new SQLManagerContract(this));
-        Intent data = new Intent();
-        data.putExtra(INTENT_NEW_NOTE_ACTIVITY_PARCEL, createdNote);
-        // Activity finished ok, return the data
-        setResult(RESULT_OK, data);
-        finish();
-        super.onPause();
-    }
-
-    @Override
     public void finish() {
-        Log.i(LOG_TAG,Thread.currentThread().getStackTrace()[2].getMethodName());
-        createdNote.setNoteText((edtNoteContent.getText().toString()));
-        createdNote.setNoteName((edTNoteName.getText().toString()));
-        // Prepare data intent
-        Intent data = new Intent();
-        data.putExtra(INTENT_NEW_NOTE_ACTIVITY_PARCEL, createdNote);
-        data.putExtra(Notizen_uebersicht.EDIT_NOTE_ADAPTER_POSITION, AdapterPositionNote);
-        // Activity finished ok, return the data
-        setResult(RESULT_OK, data);
+
         super.finish();
     }
 
@@ -100,5 +88,25 @@ public class newNoteActivity extends AppCompatActivity {
     public void save(View view) {
         Log.i(LOG_TAG,Thread.currentThread().getStackTrace()[2].getMethodName());
         finish();
+    }
+
+    public void OnToolBarItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbarmenucreatenote_cancel:
+                finish();
+                break;
+            case R.id.toolbarmenucreatenote_save:
+                Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+                createdNote.setNoteText((edtNoteContent.getText().toString()));
+                createdNote.setNoteName((edTNoteName.getText().toString()));
+                // Prepare data intent
+                createdNote.updateDB(new SQLManagerContract(this));
+                Intent data = new Intent();
+                data.putExtra(INTENT_NEW_NOTE_ACTIVITY_PARCEL, createdNote);
+                // Activity finished ok, return the data
+                setResult(RESULT_OK, data);
+                finish();
+                break;
+        }
     }
 }

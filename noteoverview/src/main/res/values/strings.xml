@@ -1,11 +1,7 @@
 <resources>
+    <!--TODO merge with main strings xml-->
     <string name="app_name">NoteOverview</string>
-    <string name="NoteOverViewCategory1">Category 1</string>
-    <string name="NoteOverViewCategory2">Category 2</string>
-    <string name="NoteOverViewCategory3">Category 3</string>
-    <string name="NoteOverViewCategory4">Category 4</string>
-    <string name="NoteOverViewCategory5">Category 5</string>
-    <string name="NoteOverViewCategory6">Category 6</string>
+
     <string name="NoteOVerviewTitleHint">Enter Titel</string>
     <string name="NoteOVerviewContentHint">Enter content here</string>
 </resources>

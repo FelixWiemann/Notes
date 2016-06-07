@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,16 +167,32 @@ public class ChangeCategoryDialog extends DialogFragment implements NoteCategory
             TextView tvDesc = new TextView(getActivity());
             ImageView ivColor = new ImageView(getActivity());
             TextView tvID = new TextView(getActivity());
+            // TODO apply style from R.values.change_cat_frag_text_view and .change_cat_frag_image_view
             // format views
-            ivColor.setMinimumHeight(50);
-            ivColor.setMinimumWidth(50);
-            tableRow.removeAllViews();
-            tvName.setText(n.getM_CatName());
             tvDesc.setText(n.getM_CatDesc());
             ivColor.setBackgroundColor(n.getM_CatColor());
             tvID.setText(String.valueOf(n.getM_ID()));
             tvID.setVisibility(View.INVISIBLE);
+
+            tableRow.setMinimumHeight(60);
+            tableRow.setMinimumWidth(240);
+
+
+            ivColor.setMinimumHeight(50);
+            ivColor.setMinimumWidth(50);
+
+            tvDesc.setMinimumHeight(40);
+            tvDesc.setMinimumWidth(150);
+            tvDesc.setGravity(Gravity.CENTER);
+
+            tvName.setMinimumHeight(40);
+            tvName.setMinimumWidth(150);
+            tvName.setGravity(Gravity.CENTER);
+            tvName.setText(n.getM_CatName());
+
+
             // add to tablerow
+            tableRow.removeAllViews();
             tableRow.addView(ivColor, 0);
             tableRow.addView(tvName,1);
             tableRow.addView(tvDesc,2);

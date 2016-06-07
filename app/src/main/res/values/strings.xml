@@ -24,4 +24,6 @@
 
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
+    <string name="toolbar_menu_create_note_save">Save</string>
+    <string name="toolbar_menu_create_note_cancel">Cancel</string>
 </resources>
