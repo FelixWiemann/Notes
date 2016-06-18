@@ -15,10 +15,19 @@ import java.util.Date;
 public class Note extends AppCompatActivity implements Parcelable {
     private static final String LOG_TAG = "Note";
 
+    /**
+     * returns the SQLManager of the note
+     *
+     * @return SQL Manager
+     */
     public SQLManagerContract getSqlManagerContract() {
         return sqlManagerContract;
     }
 
+    /**
+     * sets the SQLManager for the note
+     * @param sqlManagerContract new SQLManager
+     */
     public void setSqlManagerContract(SQLManagerContract sqlManagerContract) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
@@ -26,55 +35,99 @@ public class Note extends AppCompatActivity implements Parcelable {
         this.sqlManagerContract = sqlManagerContract;
     }
 
+    /**
+     * returns the NoteCategory of the note
+     * @return Category of note
+     */
     public Note_Category getNoteCategory() {
         return NoteCategory;
     }
 
-    public void setNoteCategory(Note_Category noteCategory) {
-        if (!firstCreated) {
+    /**
+     * sets the Note Category
+     *
+     * @param noteCategory new Category
+     * @param updateDB     whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setNoteCategory(Note_Category noteCategory, boolean updateDB) {
+        if (!firstCreated && !updateDB) {
             NoteLastChangedDate = (new Date()).getTime();
         }
         NoteCategory = noteCategory;
     }
 
+    /**
+     *
+     * @return whether the ID of the Note is the asigned the first time
+     */
     public boolean isFirstTimeIdAsigned() {
         return firstTimeIdAsigned;
     }
+
+    /**
+     * this should NEVER be changed
+     * @param //firstTimeIdAsigned
 
     public void setFirstTimeIdAsigned(boolean firstTimeIdAsigned) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }
         this.firstTimeIdAsigned = firstTimeIdAsigned;
-    }
+    }*/
 
+    /**
+     *
+     * @return date when Note was marked done
+     */
     public long getTaskCompletedDate() {
         return TaskCompletedDate;
     }
 
-    public void setTaskCompletedDate(long taskCompletedDate) {
-        if (!firstCreated) {
+    /**
+     * @param taskCompletedDate set date of completing the note
+     * @param updateDB          whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setTaskCompletedDate(long taskCompletedDate, boolean updateDB) {
+        if (!firstCreated&&!updateDB) {
             NoteLastChangedDate = (new Date()).getTime();
         }
         TaskCompletedDate = taskCompletedDate;
     }
 
+    /**
+     *
+     * @return date of last change
+     */
     public long getNoteLastChangedDate() {
         return NoteLastChangedDate;
     }
 
-    public void setNoteLastChangedDate(long noteLastChangedDate) {
+    /**
+     * set the last changeDate
+     *
+     * @param noteLastChangedDate date of last change
+     * @param updateDB            whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setNoteLastChangedDate(long noteLastChangedDate,boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }
         NoteLastChangedDate = noteLastChangedDate;
     }
 
+    /**
+     *
+     * @return date of creation of the note
+     */
     public long getNoteCreatedDate() {
         return NoteCreatedDate;
     }
 
-    public void setNoteCreatedDate(long noteCreatedDate) {
+    /**
+     * @param noteCreatedDate date the note was created
+     * @param updateDB        whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setNoteCreatedDate(long noteCreatedDate, boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }
@@ -85,7 +138,11 @@ public class Note extends AppCompatActivity implements Parcelable {
         return TaskDueDate;
     }
 
-    public void setTaskDueDate(long taskDueDate) {
+    /**
+     * @param taskDueDate date the note is due
+     * @param updateDB    whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setTaskDueDate(long taskDueDate, boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }
@@ -96,7 +153,11 @@ public class Note extends AppCompatActivity implements Parcelable {
         return NoteName;
     }
 
-    public void setNoteName(String noteName) {
+    /**
+     * @param noteName name of the note
+     * @param updateDB whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setNoteName(String noteName, boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }
@@ -107,11 +168,15 @@ public class Note extends AppCompatActivity implements Parcelable {
         return TaskDone;
     }
 
-    public void setTaskDone(boolean taskDone) {
+    /**
+     * @param taskDone task done?
+     * @param updateDB whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setTaskDone(boolean taskDone, boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }
-        setTaskCompletedDate((new Date()).getTime());
+        setTaskCompletedDate((new Date()).getTime(), updateDB);
         TaskDone = taskDone;
     }
 
@@ -119,7 +184,11 @@ public class Note extends AppCompatActivity implements Parcelable {
         return NoteIsTask;
     }
 
-    public void setNoteIsTask(boolean noteIsTask) {
+    /**
+     * @param noteIsTask whether the note is a task
+     * @param updateDB   whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setNoteIsTask(boolean noteIsTask, boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }
@@ -130,7 +199,11 @@ public class Note extends AppCompatActivity implements Parcelable {
         return NoteImportance;
     }
 
-    public void setNoteImportance(int noteImportance) {
+    /**
+     * @param noteImportance importance of the note
+     * @param updateDB       whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setNoteImportance(int noteImportance, boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }
@@ -141,7 +214,11 @@ public class Note extends AppCompatActivity implements Parcelable {
         return NoteText;
     }
 
-    public void setNoteText(String noteText) {
+    /**
+     * @param noteText text of the note
+     * @param updateDB whether to update DB (if changed by user) or not (if changed to match the db)
+     */
+    public void setNoteText(String noteText, boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
         }

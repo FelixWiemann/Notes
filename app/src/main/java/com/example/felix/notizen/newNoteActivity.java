@@ -97,8 +97,8 @@ public class newNoteActivity extends AppCompatActivity {
                 break;
             case R.id.toolbarmenucreatenote_save:
                 Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-                createdNote.setNoteText((edtNoteContent.getText().toString()));
-                createdNote.setNoteName((edTNoteName.getText().toString()));
+                createdNote.setNoteText((edtNoteContent.getText().toString()), createdNote.getNoteText() == edtNoteContent.getText().toString());
+                createdNote.setNoteName((edTNoteName.getText().toString()), createdNote.getNoteName() == edTNoteName.getText().toString());
                 // Prepare data intent
                 createdNote.updateDB(new SQLManagerContract(this));
                 Intent data = new Intent();

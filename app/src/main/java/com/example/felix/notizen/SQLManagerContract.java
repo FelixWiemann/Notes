@@ -207,17 +207,18 @@ public class SQLManagerContract extends SQLiteOpenHelper {
         Note note = new Note();
         try {
             // write all data from cursor into the note
+            // since reading from cursor that comes from db, no need to update DB
             note.set_ID(cursor.getInt(0));
-            note.setNoteName(cursor.getString(1));
-            note.setNoteText(cursor.getString(2));
-            note.setNoteCreatedDate(cursor.getInt(3));
-            note.setNoteLastChangedDate(cursor.getInt(4));
-            note.setNoteImportance(cursor.getInt(5));
-            note.setNoteIsTask(SQL_Commands.IntToBool(cursor.getInt(6)));
-            note.setTaskDone(SQL_Commands.IntToBool(cursor.getInt(7)));
-            note.setTaskDueDate(cursor.getInt(8));
+            note.setNoteName(cursor.getString(1), false);
+            note.setNoteText(cursor.getString(2), false);
+            note.setNoteCreatedDate(cursor.getInt(3), false);
+            note.setNoteLastChangedDate(cursor.getInt(4), false);
+            note.setNoteImportance(cursor.getInt(5), false);
+            note.setNoteIsTask(SQL_Commands.IntToBool(cursor.getInt(6)), false);
+            note.setTaskDone(SQL_Commands.IntToBool(cursor.getInt(7)), false);
+            note.setTaskDueDate(cursor.getInt(8), false);
             //note.NoteCategory=getNoteCategory(cursor.getInt(9));
-            note.setNoteCategory(new Note_Category(cursor.getString(12), cursor.getString(14), cursor.getInt(13), cursor.getInt(11)));
+            note.setNoteCategory(new Note_Category(cursor.getString(12), cursor.getString(14), cursor.getInt(13), cursor.getInt(11)), false);
             // 10 complete data; 11 cat id; 12 cat name; 13 cat color; 14 car description
         } catch (Exception e) {
             e.printStackTrace();
@@ -343,8 +344,10 @@ public class SQLManagerContract extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String Filter = DB_Names.NOTE.SQL_Table_ColumnName_ID+"="+note.get_ID();
         db.update(DB_Names.NOTE.SQL_DataBase_Name, NoteToContentValues(note), Filter, null);
-        return db.update(DB_Names.NOTE.SQL_DataBase_Name, NoteToContentValues(note), DB_Names.NOTE.SQL_Table_ColumnName_ID + " = ?",
+        int i = db.update(DB_Names.NOTE.SQL_DataBase_Name, NoteToContentValues(note), DB_Names.NOTE.SQL_Table_ColumnName_ID + " = ?",
                 new String[]{String.valueOf(note.get_ID())});
+        db.close();
+        return i;
     }
 
     /**

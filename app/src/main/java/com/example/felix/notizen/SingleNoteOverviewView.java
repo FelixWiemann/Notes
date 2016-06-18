@@ -167,7 +167,7 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
         mViewHolder.mCheckBoxNoteDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mNote.setTaskDone(buttonView.isChecked());
+                mNote.setTaskDone(buttonView.isChecked(), true);
                 updateData();
             }
         });
@@ -176,16 +176,24 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
 
     private void cycleImportance() {
         if ((mNote.getNoteImportance()) == 5) {
-            mNote.setNoteImportance(0);
+            mNote.setNoteImportance(0, true);
+        } else {
+            mNote.setNoteImportance((mNote.getNoteImportance() + 1), true);
         }
-        mNote.setNoteImportance((mNote.getNoteImportance() + 1));
         updateData();
     }
 
     @Override
     public void onFinishEditDialog(Note_Category note_category) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-        mNote.setNoteCategory(note_category);
+
+        if (mNote.getNoteCategory() == note_category) {
+            // since no change, do not update db
+            mNote.setNoteCategory(note_category, false);
+        } else {
+            // change -> update DB
+            mNote.setNoteCategory(note_category, true);
+        }
         updateData();
     }
 

@@ -14,4 +14,9 @@
         <item name="android:layout_marginRight">15dp</item>
         <item name="android:layout_width">40dp</item>
     </style>
+
+    <style name="button_style">
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:background">@drawable/buttonshape</item>
+    </style>
 </resources>
