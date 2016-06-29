@@ -1,4 +1,4 @@
-package com.example.felix.notizen;
+package com.example.felix.notizen.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,7 @@ import android.util.Log;
 /**
  * Created by Felix "nepumuk" Wiemann on 24.05.2016
  * as part of Notizen
- * Part of {@link com.example.felix.notizen.Note} describing the category the user wants to place the note in
+ * Part of {@link Note} describing the category the user wants to place the note in
  */
 public class Note_Category implements Parcelable {
     private static final String LOG_TAG = "Note_Category" ;

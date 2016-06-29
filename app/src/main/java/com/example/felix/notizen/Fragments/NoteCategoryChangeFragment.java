@@ -1,4 +1,4 @@
-package com.example.felix.notizen;
+package com.example.felix.notizen.Fragments;
 
 import android.app.DialogFragment;
 import android.graphics.Color;
@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.felix.notizen.Objects.Note_Category;
+import com.example.felix.notizen.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
+ * com.example.felix.notizen.Activities that contain this fragment must implement the
  * {@link NoteCategoryChangeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */

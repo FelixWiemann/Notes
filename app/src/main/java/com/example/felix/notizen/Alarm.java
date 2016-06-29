@@ -10,6 +10,9 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.Objects.Note_Notification;
+
 /**
  * Created by Felix "nepumuk" Wiemann on 05.06.2016
  * as part of Notizen

@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Notizen_uebersicht"
+            android:name=".Activities.Notizen_uebersicht"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".newNoteActivity"
+            android:name=".Activities.newNoteActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -31,7 +31,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".fragmentTest" />
+        <activity android:name=".Fragments.fragmentTest" />
     </application>
 
 </manifest>

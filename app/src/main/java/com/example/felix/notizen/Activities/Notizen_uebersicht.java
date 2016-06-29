@@ -1,4 +1,4 @@
-package com.example.felix.notizen;
+package com.example.felix.notizen.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -13,10 +13,19 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.felix.notizen.ActionBarCallback;
+import com.example.felix.notizen.CustViews.SingleNoteOverviewView;
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.Objects.Note_Notification;
+import com.example.felix.notizen.R;
+import com.example.felix.notizen.SQLManagerContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +40,9 @@ public class Notizen_uebersicht extends AppCompatActivity  {
     private static final String EDIT_NOTE_NOTE_TOEDIT = "EDIT_NOTE_NOTE_TOEDIT";
     private static final String LOG_TAG = "Notizen_uebersicht" ;
     List<Note> superNotes;
+    private boolean isFabOpen = false;
+    FloatingActionButton fabAddNewNote, fabAddNewNoteText, fabAddNewNoteImage, fabAddNewNoteDraw;
+    private Animation fab_open, fab_close, rotate_forward, rotate_backward;
     @SuppressWarnings("unused")
     Intent intentNewNoteActivity;
     ActionMode myActionMode;
@@ -60,16 +72,15 @@ public class Notizen_uebersicht extends AppCompatActivity  {
         setSupportActionBar(toolbar);
         intent = new Intent(this, newNoteActivity.class);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_NeuerTermin);
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(intent, REQUEST_CODE_NEW_NOTE);
-            }
-        };
-        if (fab != null) {
-            fab.setOnClickListener(onClickListener);
-        }
+        fabAddNewNote = (FloatingActionButton) findViewById(R.id.fab_add_newNote);
+        fabAddNewNoteText = (FloatingActionButton) findViewById(R.id.fab_newNote_Text);
+        fabAddNewNoteImage = (FloatingActionButton) findViewById(R.id.fab_newNote_Image);
+        fabAddNewNoteDraw = (FloatingActionButton) findViewById(R.id.fab_newNote_Drawing);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rot_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rot_backward);
+
         initListViewNotes();
         sqlContract = new SQLManagerContract(this);
         try {
@@ -86,7 +97,7 @@ public class Notizen_uebersicht extends AppCompatActivity  {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(LOG_TAG,Thread.currentThread().getStackTrace()[2].getMethodName());
+        Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         try {
             myActionMode.finish();
         } catch (Exception ignored) {
@@ -160,6 +171,57 @@ public class Notizen_uebersicht extends AppCompatActivity  {
         super.onPause();
     }
 
+    public void animateFAB() {
+
+        if (isFabOpen) {
+
+            fabAddNewNote.startAnimation(rotate_backward);
+            fabAddNewNoteText.startAnimation(fab_close);
+            fabAddNewNoteImage.startAnimation(fab_close);
+            fabAddNewNoteDraw.startAnimation(fab_close);
+            fabAddNewNoteText.setClickable(false);
+            fabAddNewNoteImage.setClickable(false);
+            fabAddNewNoteDraw.setClickable(false);
+            isFabOpen = false;
+            Log.d("Raj", "close");
+
+        } else {
+
+            fabAddNewNote.startAnimation(rotate_forward);
+            fabAddNewNoteText.startAnimation(fab_open);
+            fabAddNewNoteImage.startAnimation(fab_open);
+            fabAddNewNoteDraw.startAnimation(fab_open);
+            fabAddNewNoteText.setClickable(true);
+            fabAddNewNoteImage.setClickable(true);
+            fabAddNewNoteDraw.setClickable(true);
+            isFabOpen = true;
+            Log.d("Raj", "open");
+
+        }
+    }
+
+    public void onFABClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.fab_add_newNote:
+
+                animateFAB();
+                break;
+            case R.id.fab_newNote_Drawing:
+                //animateFAB();
+                Log.d("Raj", "Fab 1");
+                break;
+            case R.id.fab_newNote_Image:
+                //animateFAB();
+                Log.d("Raj", "Fab 2");
+                break;
+            case R.id.fab_newNote_Text:
+                animateFAB();
+                startActivityForResult(intent, REQUEST_CODE_NEW_NOTE);
+                break;
+        }
+    }
+
     private void initListViewNotes(){
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         listViewNote = (ListView) findViewById(R.id.lvNoteContainer2);
@@ -171,7 +233,9 @@ public class Notizen_uebersicht extends AppCompatActivity  {
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                ((SingleNoteOverviewView) listViewNote.getChildAt(ContextMenuItemPositionClickedToDelete)).setClicked(false);
                 ContextMenuItemPositionClickedToDelete = position;
+                ((SingleNoteOverviewView) view).setClicked(true);
                 myActionMode = startActionMode(myCallback);
             }
         };

@@ -1,9 +1,11 @@
-package com.example.felix.notizen;
+package com.example.felix.notizen.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.example.felix.notizen.SQLManagerContract;
 
 import java.util.Date;
 
@@ -14,6 +16,7 @@ import java.util.Date;
  */
 public class Note extends AppCompatActivity implements Parcelable {
     private static final String LOG_TAG = "Note";
+    private boolean noteContentChanged = false;
 
     /**
      * returns the SQLManager of the note
@@ -51,6 +54,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setNoteCategory(Note_Category noteCategory, boolean updateDB) {
         if (!firstCreated && !updateDB) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         NoteCategory = noteCategory;
@@ -89,6 +93,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setTaskCompletedDate(long taskCompletedDate, boolean updateDB) {
         if (!firstCreated&&!updateDB) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         TaskCompletedDate = taskCompletedDate;
@@ -110,6 +115,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setNoteLastChangedDate(long noteLastChangedDate,boolean updateDB) {
         if (!firstCreated) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         NoteLastChangedDate = noteLastChangedDate;
@@ -129,6 +135,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setNoteCreatedDate(long noteCreatedDate, boolean updateDB) {
         if (!firstCreated) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         NoteCreatedDate = noteCreatedDate;
@@ -144,6 +151,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setTaskDueDate(long taskDueDate, boolean updateDB) {
         if (!firstCreated) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         TaskDueDate = taskDueDate;
@@ -159,6 +167,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setNoteName(String noteName, boolean updateDB) {
         if (!firstCreated) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         NoteName = noteName;
@@ -174,6 +183,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setTaskDone(boolean taskDone, boolean updateDB) {
         if (!firstCreated) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         setTaskCompletedDate((new Date()).getTime(), updateDB);
@@ -190,6 +200,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setNoteIsTask(boolean noteIsTask, boolean updateDB) {
         if (!firstCreated) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         NoteIsTask = noteIsTask;
@@ -206,6 +217,7 @@ public class Note extends AppCompatActivity implements Parcelable {
     public void setNoteImportance(int noteImportance, boolean updateDB) {
         if (!firstCreated) {
             NoteLastChangedDate = (new Date()).getTime();
+            noteContentChanged = true;
         }
         NoteImportance = noteImportance;
     }
@@ -220,6 +232,7 @@ public class Note extends AppCompatActivity implements Parcelable {
      */
     public void setNoteText(String noteText, boolean updateDB) {
         if (!firstCreated) {
+            noteContentChanged = true;
             NoteLastChangedDate = (new Date()).getTime();
         }
         NoteText = noteText;
@@ -320,9 +333,13 @@ public class Note extends AppCompatActivity implements Parcelable {
 
     public void updateDB(SQLManagerContract sql)
     {
+        // only update, if things changed
+        if (noteContentChanged) {
         sqlManagerContract = sql;
-        Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-        sqlManagerContract.updateNote(this);
+            Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+            sqlManagerContract.updateNote(this);
+        }
+        noteContentChanged = false;
     }
 
     @Override

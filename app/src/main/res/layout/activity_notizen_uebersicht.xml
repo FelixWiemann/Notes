@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.felix.notizen.Notizen_uebersicht">
+    tools:context=".Activities.Notizen_uebersicht">
 
 
 
@@ -28,12 +28,47 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_NeuerTermin"
+        android:id="@+id/fab_add_newNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:onClick="onFABClick"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_input_add" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_newNote_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:onClick="onFABClick"
+        android:visibility="invisible"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="230dp"
+        android:src="@android:drawable/ic_menu_manage" />
+    <!--TODO change icon-->
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_newNote_Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:onClick="onFABClick"
+        android:layout_marginBottom="160dp"
+        android:visibility="invisible"
+        android:src="@android:drawable/ic_menu_camera" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_newNote_Drawing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="90dp"
+        android:onClick="onFABClick"
+        android:visibility="invisible"
+        android:src="@android:drawable/ic_menu_edit" />
 
 
     <android.support.design.widget.AppBarLayout

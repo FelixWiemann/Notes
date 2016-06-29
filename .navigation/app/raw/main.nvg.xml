@@ -5,24 +5,24 @@
     class = "java.util.ArrayList">
     <statePointEntry>
       <state      
-        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.example.felix.notizen.newNoteActivity"/>
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"
+          className="com.example.felix.notizen.Activities.newNoteActivity" />
       <point      
         x = "3080"      
         y = "540"/>
     </statePointEntry>
     <statePointEntry>
       <state      
-        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.example.felix.notizen.Notizen_uebersicht"/>
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"
+          className="com.example.felix.notizen.Activities.Notizen_uebersicht" />
       <point      
         x = "1628"      
         y = "252"/>
     </statePointEntry>
     <statePointEntry>
       <state      
-        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.example.felix.notizen.fragmentTest"/>
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"
+          className="com.example.felix.notizen.Fragments.fragmentTest" />
       <point      
         x = "600"      
         y = "200"/>

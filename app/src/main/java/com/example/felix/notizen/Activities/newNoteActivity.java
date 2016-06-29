@@ -1,4 +1,4 @@
-package com.example.felix.notizen;
+package com.example.felix.notizen.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.R;
+import com.example.felix.notizen.SQLManagerContract;
 
 
 /**
@@ -103,6 +107,9 @@ public class newNoteActivity extends AppCompatActivity {
                 createdNote.updateDB(new SQLManagerContract(this));
                 Intent data = new Intent();
                 data.putExtra(INTENT_NEW_NOTE_ACTIVITY_PARCEL, createdNote);
+                if (AdapterPositionNote != -1) {
+                    data.putExtra(Notizen_uebersicht.EDIT_NOTE_ADAPTER_POSITION, AdapterPositionNote);
+                }
                 // Activity finished ok, return the data
                 setResult(RESULT_OK, data);
                 finish();

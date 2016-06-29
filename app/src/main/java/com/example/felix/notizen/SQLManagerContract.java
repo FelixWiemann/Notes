@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.Objects.Note_Category;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +21,8 @@ import java.util.List;
  * as part of Notizen
  *
  * Contract-class for managing the SQL-Database used for storing
- * all {@link com.example.felix.notizen.Note} and
- * all {@link com.example.felix.notizen.Note_Category} categories
+ * all {@link Note} and
+ * all {@link Note_Category} categories
  */
 public class SQLManagerContract extends SQLiteOpenHelper {
 
@@ -83,7 +86,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
     }
 
     /**
-     * adds a {@link com.example.felix.notizen.Note} to the database
+     * adds a {@link Note} to the database
      * @param note to add to the database
      */
     public void addNote(Note note) {
@@ -98,14 +101,14 @@ public class SQLManagerContract extends SQLiteOpenHelper {
     }
 
     /**
-     * adds a {@link com.example.felix.notizen.Note_Category} to the database
+     * adds a {@link Note_Category} to the database
      * @param note_category to add to the database
      */
     public void addCategory(Note_Category note_category) {
         Log.i(LOG_TAG,Thread.currentThread().getStackTrace()[2].getMethodName());
         // open db
         SQLiteDatabase db = this.getWritableDatabase();
-        // write {@link com.example.felix.notizen.Note_Category} to contentValues
+        // write {@link com.example.felix.notizen.Objects.Note_Category} to contentValues
         ContentValues values = Note_CategoryToContentValues(note_category);
         // Inserting Row
         db.insert(DB_Names.CATEGORY.SQL_TableNameCategories, null, values);
@@ -113,7 +116,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    /** Query string for getting a single {@link com.example.felix.notizen.Note}
+    /** Query string for getting a single {@link Note}
      * ID|Name|Content|DateCreated|DateLastChanged|NoteImportance|IsTask|Done|DateDue|NoteCategory
      */
     private String[] query_Notes_String = {DB_Names.NOTE.SQL_Table_ColumnName_ID, DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteName,
@@ -122,7 +125,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
             DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteIsTask, DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDone,
             DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteDateDue, DB_Names.NOTE.SQL_Table_Notes_ColumnName_NoteCategory};
     /**
-     * Query string for getting a single {@link com.example.felix.notizen.Note_Category}
+     * Query string for getting a single {@link Note_Category}
      * ID|CatName|CatColor|CatDesq
      */
     private String[] query_Category_String={DB_Names.NOTE.SQL_Table_ColumnName_ID, DB_Names.CATEGORY.SQL_Table_Cat_ColumName_CategoryName,
@@ -130,7 +133,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
 
 
     /**
-     * get a single {@link com.example.felix.notizen.Note} from the database
+     * get a single {@link Note} from the database
      * @param id of note to return
      * @return note with the given ID
      */
@@ -154,7 +157,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
     }
 
     /**
-     * get a single {@link com.example.felix.notizen.Note_Category} from the database
+     * get a single {@link Note_Category} from the database
      * @param id of note_category to retugn
      * @return note_category with given ID
      */
@@ -174,7 +177,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
 
 
     /**
-     * converts a database cursor into a {@link com.example.felix.notizen.Note_Category}
+     * converts a database cursor into a {@link Note_Category}
      * @param cursor to convert to note_category
      * @return note_category described by given cursor
      */
@@ -197,7 +200,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
 
 
     /**
-     * convert database cursor to {@link com.example.felix.notizen.Note}
+     * convert database cursor to {@link Note}
      * @param cursor to convert
      * @return note described by given cursor
      */
@@ -227,7 +230,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
     }
 
     /**
-     * create ContentValues from a {@link com.example.felix.notizen.Note} to write it in the database
+     * create ContentValues from a {@link Note} to write it in the database
      * @param note to convert
      * @return content values describing the converted note
      */
@@ -250,7 +253,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
     }
 
     /**
-     * create ContentValues from a {@link com.example.felix.notizen.Note_Category} to write it in the database
+     * create ContentValues from a {@link Note_Category} to write it in the database
      * @param note_category to convert
      * @return content values describing the converted note
      */
@@ -266,7 +269,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
     }
 
     /**
-     * Getting all {@link com.example.felix.notizen.Note}s stored in the database in one list
+     * Getting all {@link Note}s stored in the database in one list
      * @return list of all notes stored in the database
      */
     public List<Note> getAllNotes(){
@@ -295,7 +298,7 @@ public class SQLManagerContract extends SQLiteOpenHelper {
     }
 
     /**
-     * Getting all {@link com.example.felix.notizen.Note_Category}s stored in the database in one list
+     * Getting all {@link Note_Category}s stored in the database in one list
      * @return List containing all categories stored in the database
      */
     public List<Note_Category> getAllCategories(){

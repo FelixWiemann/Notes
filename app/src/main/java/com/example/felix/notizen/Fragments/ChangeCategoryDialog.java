@@ -1,4 +1,4 @@
-package com.example.felix.notizen;
+package com.example.felix.notizen.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
@@ -13,12 +13,18 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.felix.notizen.CustViews.SingleNoteOverviewView;
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.Objects.Note_Category;
+import com.example.felix.notizen.R;
+import com.example.felix.notizen.SQLManagerContract;
+
 import java.util.List;
 
 /**
  * Created by Felix "nepumuk" Wiemann on 05.02.2016
  * as part of Notizen
- * dialog fragment for changing the category of a {@link com.example.felix.notizen.Note}
+ * dialog fragment for changing the category of a {@link Note}
  */
 public class ChangeCategoryDialog extends DialogFragment implements NoteCategoryChangeFragment.OnFragmentInteractionListener {
     /**
@@ -68,7 +74,7 @@ public class ChangeCategoryDialog extends DialogFragment implements NoteCategory
 
     /**
      * create a new instance of ChangeCategoryDialog from a
-     * {@link com.example.felix.notizen.SingleNoteOverviewView} instance for adding the interfaceconnection
+     * {@link SingleNoteOverviewView} instance for adding the interfaceconnection
      * @param SingleNoteOverviewView to add
      * @return new instance
      */

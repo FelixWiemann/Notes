@@ -1,8 +1,9 @@
-package com.example.felix.notizen;
+package com.example.felix.notizen.CustViews;
 
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
@@ -15,6 +16,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.felix.notizen.Activities.Notizen_uebersicht;
+import com.example.felix.notizen.CustListeners.CustomTouchListener;
+import com.example.felix.notizen.Fragments.ChangeCategoryDialog;
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.Objects.Note_Category;
+import com.example.felix.notizen.R;
+import com.example.felix.notizen.SQLManagerContract;
+
 import java.util.Date;
 
 /**
@@ -22,7 +31,7 @@ import java.util.Date;
  * as part of Notizen
  *
  */
-public class SingleNoteOverviewView extends RelativeLayout implements ChangeCategoryDialog.ChangeCategoryDialogListener{
+public class SingleNoteOverviewView extends RelativeLayout implements ChangeCategoryDialog.ChangeCategoryDialogListener {
     public Note mNote;
     private static final String LOG_TAG = "SingleNoteOverView";
     @SuppressWarnings("unused")
@@ -116,6 +125,7 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
         updateData();
     }
 
+    // TODO dont update db if not needed
     private void updateData() {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         mViewHolder.mCheckBoxNoteDone.setChecked(mNote.isTaskDone());
@@ -200,6 +210,20 @@ public class SingleNoteOverviewView extends RelativeLayout implements ChangeCate
     @SuppressWarnings("unused")
     private void init(Context context, AttributeSet attrs) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+    }
+
+    boolean clicked = false;
+
+    public void setClicked(boolean b) {
+        // if clicked AND click again, still clicked
+        if (clicked && b) {
+            clicked = false;
+            ((RelativeLayout) mViewHolder.mCheckBoxNoteDone.getParent()).setBackgroundColor(Color.parseColor("#dddddd"));
+        } else {
+            clicked = true;
+            ((RelativeLayout) mViewHolder.mCheckBoxNoteDone.getParent()).setBackgroundColor(0xffffff);
+        }
+
     }
 
     public class ViewHolder {

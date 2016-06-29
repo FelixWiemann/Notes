@@ -1,8 +1,10 @@
-package com.example.felix.notizen;
+package com.example.felix.notizen.Fragments;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.example.felix.notizen.R;
 
 public class fragmentTest extends AppCompatActivity {
 
