@@ -3,6 +3,8 @@
     package="com.example.felix.notizen">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +34,13 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".Fragments.fragmentTest" />
+        <activity
+            android:name=".Activities.act_newPhotoNote"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_act_new_photo_note"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

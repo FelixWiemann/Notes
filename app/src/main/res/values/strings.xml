@@ -26,4 +26,5 @@
     <string name="action_reply">Reply</string>
     <string name="toolbar_menu_create_note_save">Save</string>
     <string name="toolbar_menu_create_note_cancel">Cancel</string>
+    <string name="title_activity_act_new_photo_note">act_newPhotoNote</string>
 </resources>

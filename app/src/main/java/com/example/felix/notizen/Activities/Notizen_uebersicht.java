@@ -213,7 +213,7 @@ public class Notizen_uebersicht extends AppCompatActivity  {
                 break;
             case R.id.fab_newNote_Image:
                 //animateFAB();
-                Log.d("Raj", "Fab 2");
+                startActivity(new Intent(this, act_newPhotoNote.class));
                 break;
             case R.id.fab_newNote_Text:
                 animateFAB();
