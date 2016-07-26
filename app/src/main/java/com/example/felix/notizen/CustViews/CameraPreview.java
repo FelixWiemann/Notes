@@ -6,14 +6,18 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.hardware.Camera;
 import android.os.Build;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A basic Camera preview class
@@ -24,7 +28,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Camera mCamera;
     private int[][] pixels;
     private Camera.Size previewSize;
-    TextView tv;
+    private Context currentContext;
 
     public void flashOn(boolean on) {
         Camera.Parameters p = mCamera.getParameters();
@@ -41,23 +45,29 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CameraPreview(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        //inflate(getContext(), R.layout.cv_layout_camera_preview, this);
+        currentContext = context;
     }
 
     public CameraPreview(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        currentContext = context;
 
     }
 
     public CameraPreview(Context context, AttributeSet attrs) {
         super(context, attrs);
+        currentContext = context;
     }
 
     public CameraPreview(Context context) {
         super(context);
+        currentContext = context;
     }
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
+        currentContext = context;
         mCamera = camera;
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
@@ -77,6 +87,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // underlying surface is created and destroyed.
         mHolder = getHolder();
         mCamera.setDisplayOrientation(90);
+        //set camera to continually auto-focus
+        Camera.Parameters params = mCamera.getParameters();
+        //*EDIT*//params.setFocusMode("continuous-picture");
+        //It is better to use defined constraints as opposed to String, thanks to AbdelHady
+        params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        mCamera.setParameters(params);
+        // TODO check for orientation of different devices
         mHolder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -137,9 +154,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         init(cameraInstance);
     }
 
-    public void setTextView(TextView tv) {
-        this.tv = tv;
-    }
 
     void decodeYUV420SP(byte[] yuv420sp, int width, int height) {
 
@@ -187,33 +201,91 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera.release();
     }
 
-    private void makeToast(String message) {
-        Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         //transforms NV21 pixel data into RGB pixels
+        //mCamera.autoFocus();
         decodeYUV420SP(data, previewSize.width, previewSize.height);
-        int averageGreen = 0;
-        int averageBlue = 0;
-        int averageRed = 0;
+    }
 
-        for (int[] i : pixels) {
-            averageRed += i[1];
-            averageGreen += i[2];
-            averageBlue += i[3];
+    public void takePicture() {
+        Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
+            @Override
+            public void onShutter() {
+
+            }
+        };
+        Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+
+            }
+        };
+        Camera.PictureCallback pCJpeg = new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+                String s = savePicture(data);
+
+            }
+        };
+
+        mCamera.takePicture(shutterCallback, pictureCallback, pCJpeg);
+        mCamera.startPreview();
+    }
+
+    private final String FilePrefix = "NoteImage_";
+    private final String FileType = ".jpeg";
+
+    public String savePicture(byte[] dataToSave) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String fileName = FilePrefix + timeStamp + FileType;
+        return savePicture(dataToSave, fileName);
+
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        takePicture();
+        return true;
+    }
+
+    public String savePicture(byte[] dataToSave, String filename) {
+        File file = null;
+        if (isExternalStorageWritable()) {
+            file = new File(currentContext.getExternalFilesDir("images"), filename);
+        } else {
+            file = new File(currentContext.getFilesDir(), filename);
         }
-        averageBlue /= pixels.length;
-        averageGreen /= pixels.length;
-        averageRed /= pixels.length;
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(dataToSave);
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        //tv.setText("r: "+Integer.toHexString(averageRed)+", g: "+Integer.toHexString(averageGreen)+", b: "+Integer.toHexString(averageBlue));
+        return file.getAbsolutePath();
+    }
 
-        //Outuput the value of the top left pixel in the preview to LogCat
-        //Log.i("Pixels", "The top right pixel has the following RGB (hexadecimal) values:"
-        //		+Integer.toHexString(pixels[0]));
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
 
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
     }
 
 }
