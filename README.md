@@ -10,18 +10,18 @@ The features-part of this readme shows current state of the application and what
 
 ## Features
 1. storing your notes
-  * database
+  * ~~database~~
   * sync database/data with cloud
   * encryption of data - currently not my focus, may be coming later when everything else is working
-  * user should be able to delete datasets
-  * give user an overview of all taken notes of any kind
+  * ~~user should be able to delete datasets~~
+  * ~~give user an overview of all taken notes of any kind~~
 
 2. note types you may be able to take
   2.1. text
-  * writing notes
-  * modify taken notes
+  * ~~writing notes~~
+  * ~~modify taken notes~~
   2.2. images
-  * taking an image with the phones camera
+  * ~~taking an image with the phones camera~~
   * selecting an already taken image
   * modify the image (draw on it, mark special things as important, etc)
   2.3. scetches
@@ -30,22 +30,23 @@ The features-part of this readme shows current state of the application and what
   * mark as task
   * set an expiration date -> task has to be done till then
   * notification if task is not done, but due in the next period of time [set by user]
-  * set a category for the notes so you are able to see important things on a glance
-  * priority so you are able to see important things on a glance
-  * mark tasks/notes as done
+  * ~~set a category for the notes so you are able to see important things on a glance~~
+  * ~~priority so you are able to see important things on a glance~~
+  * ~~mark tasks/notes as done~~
   * archive done tasks/notes
   
   3.1. categories
-  * set/create your own categories, they are also stored in a database
+  * ~~set/create your own categories, they are also stored in a database~~
   
   3.2. notification
-  * create notification
+  * ~~create notification~~
   * notify user when task is due
-  * tell user the title and short preview of note 
+  * ~~tell user the title and short preview of note~~
 4. communication between different applications
   * share your notes
   * recieve share from different applications to e.g. save a link to a website, etc.
 
+>~~features available~~
 
 ## known, unsolved bugs
 
