@@ -11,13 +11,19 @@ The features-part of this readme shows current state of the application and what
 ## Features
 1 storing your notes
 [x] database
+
 [ ] sync database/data with cloud
+
 [ ] encryption of data - currently not my focus, may be coming later when everything else is working
+
 [x] user should be able to delete datasets
+
 [ ] give user an overview of all taken notes of any kind
+
 2 note types you may be able to take
   1 text
 [x] writing notes
+
 [x] modify taken notes
   2 images
 [x] taking an image with the phones camera
