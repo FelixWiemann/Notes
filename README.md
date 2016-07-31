@@ -17,15 +17,14 @@ The features-part of this readme shows current state of the application and what
   * give user an overview of all taken notes of any kind
 
 2. note types you may be able to take
-  1. text
+  2.1. text
   * writing notes
-
   * modify taken notes
-  2. images
+  2.2. images
   * taking an image with the phones camera
   * selecting an already taken image
   * modify the image (draw on it, mark special things as important, etc)
-  3. scetches
+  2.3. scetches
   * draw little scetches on ideas that are important to you and easier to express in scetches
 3. properties of notes
   * mark as task
@@ -35,9 +34,11 @@ The features-part of this readme shows current state of the application and what
   * priority so you are able to see important things on a glance
   * mark tasks/notes as done
   * archive done tasks/notes
-  1. categories
+  
+  3.1. categories
   * set/create your own categories, they are also stored in a database
-  2. notification
+  
+  3.2. notification
   * create notification
   * notify user when task is due
   * tell user the title and short preview of note 
