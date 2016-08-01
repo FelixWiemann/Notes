@@ -6,7 +6,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"
-          className="com.example.felix.notizen.Activities.newNoteActivity" />
+          className="com.example.felix.notizen.activities.newNoteActivity" />
       <point      
         x = "3080"      
         y = "540"/>
@@ -14,7 +14,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"
-          className="com.example.felix.notizen.Activities.Notizen_uebersicht" />
+          className="com.example.felix.notizen.activities.Notizen_uebersicht" />
       <point      
         x = "1628"      
         y = "252"/>
@@ -22,7 +22,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"
-          className="com.example.felix.notizen.Fragments.fragmentTest" />
+          className="com.example.felix.notizen.fragments.fragmentTest" />
       <point      
         x = "600"      
         y = "200"/>

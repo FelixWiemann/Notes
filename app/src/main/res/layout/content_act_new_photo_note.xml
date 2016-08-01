@@ -9,10 +9,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.felix.notizen.Activities.act_newPhotoNote"
+    tools:context="com.example.felix.notizen.activities.act_newPhotoNote"
     tools:showIn="@layout/activity_new_photo_note">
 
-    <com.example.felix.notizen.CustViews.CameraPreview
+    <com.example.felix.notizen.cust_views.CameraPreview
         android:layout_width="match_parent"
         android:id="@+id/cameraPreview"
         android:layout_height="match_parent" />

@@ -10,8 +10,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.felix.notizen.Objects.Note;
-import com.example.felix.notizen.Objects.Note_Category;
+import com.example.felix.notizen.objects.Note;
+import com.example.felix.notizen.objects.Note_Category;
 
 import java.util.ArrayList;
 import java.util.List;

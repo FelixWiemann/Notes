@@ -6,7 +6,7 @@
       -->
     <string name="app_name">Notizen</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_bla">bla</string>
+    <string name="title_activity_bla">title</string>
     <string name="ChangeCatFragmentCatColor"> -65536</string>
     <string name="ChangeCatFragmentCatDesc">Description</string>
     <string name="ChangeCatFragmentCatTitle">Title</string>
@@ -26,5 +26,7 @@
     <string name="action_reply">Reply</string>
     <string name="toolbar_menu_create_note_save">Save</string>
     <string name="toolbar_menu_create_note_cancel">Cancel</string>
-    <string name="title_activity_act_new_photo_note">act_newPhotoNote</string>
+    <string name="title_activity_act_new_photo_note">New Photo Note</string>
+    <string name="bt_retake_pic">Retake</string>
+    <string name="bt_cancel_pic">Cancel</string>
 </resources>

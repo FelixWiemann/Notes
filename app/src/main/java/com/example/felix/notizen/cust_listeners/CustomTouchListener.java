@@ -1,4 +1,4 @@
-package com.example.felix.notizen.CustListeners;
+package com.example.felix.notizen.cust_listeners;
 
 import android.content.Context;
 import android.util.Log;
@@ -17,6 +17,7 @@ public class CustomTouchListener extends OnSwipeTouchListener implements Adapter
     View v;
     public Context c;
 
+    @SuppressWarnings("unused")
     public CustomTouchListener(Context c ,View v) {
         super(c);
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());

@@ -13,9 +13,10 @@
         android:icon="@mipmap/ic_launcher_note_v1_0"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:fullBackupContent="@xml/mybackupscheme"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.Notizen_uebersicht"
+            android:name=".activities.Notizen_uebersicht"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -25,8 +26,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.newNoteActivity"
+            android:name=".activities.newNoteActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".fragments.fragmentTest" />
+        <activity
+            android:name=".activities.act_newPhotoNote"
+            android:screenOrientation="portrait"
+
+            android:label="@string/title_activity_act_new_photo_note"
+            android:theme="@style/AppTheme.NoActionBar"><!-- TODO don't force orientation -->
+
+        </activity>
+
+
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -34,15 +46,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-        <activity android:name=".Fragments.fragmentTest" />
-        <activity
-            android:name=".Activities.act_newPhotoNote"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_act_new_photo_note"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
     </application>
 
 </manifest>

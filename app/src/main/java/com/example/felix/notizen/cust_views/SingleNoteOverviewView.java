@@ -1,4 +1,4 @@
-package com.example.felix.notizen.CustViews;
+package com.example.felix.notizen.cust_views;
 
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
@@ -16,13 +16,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.felix.notizen.Activities.Notizen_uebersicht;
-import com.example.felix.notizen.CustListeners.CustomTouchListener;
-import com.example.felix.notizen.Fragments.ChangeCategoryDialog;
-import com.example.felix.notizen.Objects.Note;
-import com.example.felix.notizen.Objects.Note_Category;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.SQLManagerContract;
+import com.example.felix.notizen.activities.Notizen_uebersicht;
+import com.example.felix.notizen.cust_listeners.CustomTouchListener;
+import com.example.felix.notizen.fragments.ChangeCategoryDialog;
+import com.example.felix.notizen.objects.Note;
+import com.example.felix.notizen.objects.Note_Category;
 
 import java.util.Date;
 

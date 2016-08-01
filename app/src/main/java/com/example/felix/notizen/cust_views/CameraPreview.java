@@ -1,10 +1,10 @@
-package com.example.felix.notizen.CustViews;
+package com.example.felix.notizen.cust_views;
 
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,17 +24,25 @@ import java.util.Date;
 
 /**
  * A basic Camera preview class
+ * TODO use camera2
  */
+@SuppressWarnings({"Depreciated", "deprecation"})
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
     private static final String TAG = "CAMERA_PREVIEW";
     private SurfaceHolder mHolder;
     private Camera mCamera;
-    private int[][] pixels;
-    private Camera.Size previewSize;
+    //private int[][] pixels;
+    //private Camera.Size previewSize;
     private Context currentContext;
     private static final String LOG_TAG = "CameraPreview";
 
-    public void flashOn(boolean on) {
+    /**
+     * turns on the flashlight of the camera, if param == true and turns it off, if param == false
+     *
+     * @param on turn light on
+     */
+    @SuppressWarnings("unused")
+    public void useFlash(boolean on) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         Camera.Parameters p = mCamera.getParameters();
         if (on) {
@@ -45,6 +54,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @SuppressWarnings("unused")
     public CameraPreview(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
@@ -71,29 +81,21 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         currentContext = context;
     }
 
-    public CameraPreview(Context context, Camera camera) {
-        super(context);
-        Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-        currentContext = context;
-        mCamera = camera;
-        // Install a SurfaceHolder.Callback so we get notified when the
-        // underlying surface is created and destroyed.
-        mHolder = getHolder();
-        mHolder.addCallback(this);
-        // deprecated setting, but required on Android versions prior to 3.0
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        surfaceCreated(mHolder);
-
-
-    }
-
+    /**
+     * init the camera
+     *
+     * @param camera to use for preview
+     */
     private void init(Camera camera) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+        // set local camera
         mCamera = camera;
-        setImagaeRotation();
+        // set camera rotation
+        setImageRotation();
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
         mHolder = getHolder();
+        // TODO check for orientation of different devices
         mCamera.setDisplayOrientation(90);
         //set camera to continually auto-focus
         Camera.Parameters params = mCamera.getParameters();
@@ -101,36 +103,34 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         //It is better to use defined constraints as opposed to String, thanks to AbdelHady
         params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         mCamera.setParameters(params);
-        // TODO check for orientation of different devices
         mHolder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-        // The Surface has been created, now tell the camera where to draw the preview.
         try {
+            Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+            // The Surface has been created, now tell the camera where to draw the preview.
             mCamera.setPreviewDisplay(holder);
             mCamera.setPreviewCallback(this);
+            // and start preview
             mCamera.startPreview();
         } catch (IOException e) {
-            Log.d(TAG, "Error setting camera preview: " + e.getMessage());
+            Log.e(TAG, "Error setting camera preview: " + e.getMessage());
         }
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         // empty. Take care of releasing the Camera preview in your activity.
-        //mCamera.release();
+        mCamera.release();
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         // If your preview can change or rotate, take care of those events here.
         // Make sure to stop the preview before resizing or reformatting it.
-
-
         if (mHolder.getSurface() == null) {
             // preview surface does not exist
             return;
@@ -146,14 +146,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // set preview size and make any resize, rotate or
         mCamera.getParameters().getPreviewSize();
         // reformatting changes here
-        Canvas canvas = null;
+        //Canvas canvas = null;
 
 
         // start preview with new settings
         try {
             mCamera.setPreviewDisplay(mHolder);
             mCamera.setPreviewCallback(this);
-            previewSize = mCamera.getParameters().getPreviewSize();
+            //previewSize = mCamera.getParameters().getPreviewSize();
             mCamera.startPreview();
 
         } catch (Exception e) {
@@ -161,12 +161,20 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-    public void setCamera(Camera cameraInstance) {
+    /**
+     * set the camera of the preview
+     *
+     * @param newCamera new camera
+     */
+    public void setCamera(Camera newCamera) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-        init(cameraInstance);
+        init(newCamera);
     }
 
-
+    /**
+     * used for pixel manipulation, currently not used
+     */
+    @SuppressWarnings("unused")
     void decodeYUV420SP(byte[] yuv420sp, int width, int height) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         final int frameSize = width * height;
@@ -206,24 +214,31 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
             }
         }
-        pixels = rgb;
+        //pixels = rgb;
     }
 
-    public void closeCam() {
+    /**
+     * closes the camera
+     */
+    @SuppressWarnings("unused")
+    public void closeCamera() {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         mCamera.release();
     }
-
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         //transforms NV21 pixel data into RGB pixels
         //mCamera.autoFocus();
-        decodeYUV420SP(data, previewSize.width, previewSize.height);
+        //decodeYUV420SP(data, previewSize.width, previewSize.height);
     }
 
-    boolean isTakingPicture = false;
+    private boolean isTakingPicture = false;
+
+    /**
+     * take picture
+     */
     public void takePicture() {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
@@ -240,36 +255,40 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
             }
         };
-        Camera.PictureCallback pCJpeg = new Camera.PictureCallback() {
+        Camera.PictureCallback pictureCallbackJpeg = new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
                 String s = savePicture(data);
+                //TODO save image link in DB
                 Log.i(LOG_TAG, "image saved at: " + s);
                 isTakingPicture = false;
+                // TODO remove preview, add restart on view
                 mCamera.startPreview();
                 Log.i(LOG_TAG, "preview restarted");
 
             }
         };
+        // if already taking picture, then can't take a second picture -> camera already in use
         if (!isTakingPicture) {
             mCamera.setPreviewCallback(null);
-            mCamera.takePicture(shutterCallback, pictureCallback, pCJpeg);
+            mCamera.takePicture(shutterCallback, pictureCallback, pictureCallbackJpeg);
             Log.i(LOG_TAG, "pic");
-
-
             isTakingPicture = true;
         }
 
 
     }
 
-    private final String FilePrefix = "NoteImage_";
-    private final String FileType = ".jpeg";
+    private static final String FilePrefix = "NoteImage_";
+    private static final String FileType = ".jpeg";
 
+    @SuppressLint("SimpleDateFormat")
     public String savePicture(byte[] dataToSave) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        // Warning suppressed, user can, but is not supposed to se the names
+        // Date only used for single identifier
         String fileName = FilePrefix + timeStamp + FileType;
         return savePicture(dataToSave, fileName);
 
@@ -286,7 +305,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public String savePicture(byte[] dataToSave, String filename) {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
-        File file = null;
+        File file;
         if (isExternalStorageWritable()) {
             file = new File(currentContext.getExternalFilesDir("images"), filename);
         } else {
@@ -312,6 +331,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     /* Checks if external storage is available to at least read */
+    @SuppressWarnings("unused")
     public boolean isExternalStorageReadable() {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         String state = Environment.getExternalStorageState();
@@ -319,7 +339,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
-    public void setImagaeRotation() {
+    public void setImageRotation() {
         //STEP #1: Get rotation degrees
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(Camera.CameraInfo.CAMERA_FACING_BACK, info);
@@ -345,5 +365,20 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         Camera.Parameters params = mCamera.getParameters();
         params.setRotation(rotate);
         mCamera.setParameters(params);
+    }
+
+    public void onPause() {
+        mCamera.release();
+    }
+
+    public void onResume() {
+        try {
+            mCamera.reconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onButtonClick(View view) {
     }
 }
