@@ -1,4 +1,4 @@
-package com.example.felix.notizen.Fragments;
+package com.example.felix.notizen.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
@@ -13,11 +13,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.felix.notizen.CustViews.SingleNoteOverviewView;
-import com.example.felix.notizen.Objects.Note;
-import com.example.felix.notizen.Objects.Note_Category;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.SQLManagerContract;
+import com.example.felix.notizen.cust_views.SingleNoteOverviewView;
+import com.example.felix.notizen.objects.Note;
+import com.example.felix.notizen.objects.Note_Category;
 
 import java.util.List;
 
@@ -217,10 +217,5 @@ public class ChangeCategoryDialog extends DialogFragment implements NoteCategory
     public interface ChangeCategoryDialogListener {
         void onFinishEditDialog(Note_Category noteCategory);
     }
-
-
-
-
-
 
 }
