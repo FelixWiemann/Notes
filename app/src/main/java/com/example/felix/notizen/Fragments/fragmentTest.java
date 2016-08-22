@@ -1,4 +1,4 @@
-package com.example.felix.notizen.Fragments;
+package com.example.felix.notizen.fragments;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
