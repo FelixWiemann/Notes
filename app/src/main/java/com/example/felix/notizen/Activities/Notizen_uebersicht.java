@@ -1,4 +1,4 @@
-package com.example.felix.notizen.Activities;
+package com.example.felix.notizen.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -21,11 +21,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.felix.notizen.ActionBarCallback;
-import com.example.felix.notizen.CustViews.SingleNoteOverviewView;
-import com.example.felix.notizen.Objects.Note;
-import com.example.felix.notizen.Objects.Note_Notification;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.SQLManagerContract;
+import com.example.felix.notizen.cust_views.SingleNoteOverviewView;
+import com.example.felix.notizen.objects.Note;
+import com.example.felix.notizen.objects.Note_Notification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,7 @@ import java.util.List;
 /**
  * Created by Felix "nepumuk" Wiemann on 24.05.2016
  * as part of Notizen
+ * TODO documentation
  */
 public class Notizen_uebersicht extends AppCompatActivity  {
 
@@ -63,15 +64,18 @@ public class Notizen_uebersicht extends AppCompatActivity  {
     public static String strRequestCode = "requestCode";
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
         setContentView(R.layout.activity_notizen_uebersicht);
+        // Warning (may produce null-pointer) suppressed
         contentView = this.findViewById(android.R.id.content).getRootView();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         intent = new Intent(this, newNoteActivity.class);
 
+        // init views
         fabAddNewNote = (FloatingActionButton) findViewById(R.id.fab_add_newNote);
         fabAddNewNoteText = (FloatingActionButton) findViewById(R.id.fab_newNote_Text);
         fabAddNewNoteImage = (FloatingActionButton) findViewById(R.id.fab_newNote_Image);
