@@ -1,4 +1,4 @@
-package com.example.felix.notizen.Fragments;
+package com.example.felix.notizen.fragments;
 
 import android.app.DialogFragment;
 import android.graphics.Color;
@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.felix.notizen.Objects.Note_Category;
 import com.example.felix.notizen.R;
+import com.example.felix.notizen.objects.Note_Category;
 
 
 /**
@@ -71,9 +71,10 @@ public class NoteCategoryChangeFragment extends DialogFragment {
         }
     };
 
-
-
-    SeekBar.OnSeekBarChangeListener onSeekBarChangeListener =  new SeekBar.OnSeekBarChangeListener() {
+    /**
+     * seekbar change listener used for setting the color of the category
+     */
+    private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener =  new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
@@ -91,19 +92,27 @@ public class NoteCategoryChangeFragment extends DialogFragment {
         }
     };
 
+    // camera store
     private int[] rgbColors = {0,0,0};
 
+    /**
+     * change the background color of the fragment - later used as color of category
+     * @param seekBar changed seekBar
+     */
     private void updateBackColor(SeekBar seekBar){
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+        // init views
         TextView tv;
         String s;
         switch (seekBar.getId()) {
             case R.id.sbRed:
+                // red changed
                 tv = (TextView) thisView.findViewById(R.id.tvR);
                 s = "r: ";
                 rgbColors[0]=seekBar.getProgress();
                 break;
             case R.id.sbGreen:
+                // green changed
                 tv = (TextView) thisView.findViewById(R.id.tvG);
                 s = "g: ";
                 rgbColors[1]=seekBar.getProgress();
@@ -111,21 +120,29 @@ public class NoteCategoryChangeFragment extends DialogFragment {
             case R.id.sbBlue:
                 tv = (TextView) thisView.findViewById(R.id.tvB);
                 s = "b: ";
+                // blue changed
                 rgbColors[2]=seekBar.getProgress();
                 break;
             default:
                 throw new IllegalArgumentException();
         }
+        // change background color
         thisView.setBackgroundColor(Color.argb(255,rgbColors[0],rgbColors[1],rgbColors[2]));
+        // and set text view to the changed color
         tv.setText(String.format("%s%d", s, seekBar.getProgress()));
 
     }
 
+    /**
+     * not the animal but the categories
+     */
     public void saveCats() {
         Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+        // create category by data entered by user
         Note_Category nc = new Note_Category(((TextView) thisView.findViewById(R.id.fragment_note_cat_create_name)).getText().toString(),
                 ((TextView) thisView.findViewById(R.id.fragment_note_cat_create_description)).getText().toString(),
                 Color.argb(125,rgbColors[0],rgbColors[1],rgbColors[2]),1);
+        // return and dismiss the fragment
         mListener.onFragmentNewCategoryResult(nc);
         this.dismiss();
     }
