@@ -1,4 +1,4 @@
-package com.example.felix.notizen.Objects;
+package com.example.felix.notizen.objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
