@@ -1,4 +1,4 @@
-package com.example.felix.notizen.Activities;
+package com.example.felix.notizen.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +11,15 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.example.felix.notizen.Objects.Note;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.SQLManagerContract;
+import com.example.felix.notizen.objects.Note;
 
 
 /**
  * Created by Felix "nepumuk" Wiemann on 24.05.2016
  * as part of Notizen
+ * TODO documentation
  */
 public class newNoteActivity extends AppCompatActivity {
 
@@ -94,6 +95,7 @@ public class newNoteActivity extends AppCompatActivity {
         finish();
     }
 
+    @SuppressWarnings("all")
     public void OnToolBarItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toolbarmenucreatenote_cancel:
@@ -101,6 +103,7 @@ public class newNoteActivity extends AppCompatActivity {
                 break;
             case R.id.toolbarmenucreatenote_save:
                 Log.i(LOG_TAG, Thread.currentThread().getStackTrace()[2].getMethodName());
+                // suppressed warnings (compared strings with == instead of  .equals()), not right minimum api-level
                 createdNote.setNoteText((edtNoteContent.getText().toString()), createdNote.getNoteText() == edtNoteContent.getText().toString());
                 createdNote.setNoteName((edTNoteName.getText().toString()), createdNote.getNoteName() == edTNoteName.getText().toString());
                 // Prepare data intent
