@@ -1,4 +1,4 @@
-package com.example.felix.notizen.Activities;
+package com.example.felix.notizen.activities;
 
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.example.felix.notizen.CustViews.CameraPreview;
 import com.example.felix.notizen.R;
+import com.example.felix.notizen.cust_views.CameraPreview;
 
+/**
+ * TODO documentation
+ */
 public class act_newPhotoNote extends AppCompatActivity {
     CameraPreview cameraPreview;
 
@@ -24,7 +27,7 @@ public class act_newPhotoNote extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraPreview.closeCam();
+                cameraPreview.closeCamera();
                 finish();
             }
         });
@@ -34,6 +37,17 @@ public class act_newPhotoNote extends AppCompatActivity {
         cameraPreview.bringToFront();
 
 
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        cameraPreview.onPause();
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        cameraPreview.onResume();
     }
 
 }
