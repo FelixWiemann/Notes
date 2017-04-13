@@ -12,7 +12,7 @@
     tools:context="com.example.felix.notizen.activities.act_newPhotoNote"
     tools:showIn="@layout/activity_new_photo_note">
 
-    <com.example.felix.notizen.cust_views.CameraPreview
+    <com.example.felix.notizen.old_files.cust_views.CameraPreview
         android:layout_width="match_parent"
         android:id="@+id/cameraPreview"
         android:layout_height="match_parent" />
