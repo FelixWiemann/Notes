@@ -1,4 +1,4 @@
-package com.example.felix.notizen.fragments;
+package com.example.felix.notizen.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.SQLManagerContract;
 import com.example.felix.notizen.cust_views.SingleNoteOverviewView;
-import com.example.felix.notizen.objects.Note;
-import com.example.felix.notizen.objects.Note_Category;
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.Objects.Note_Category;
 
 import java.util.List;
 

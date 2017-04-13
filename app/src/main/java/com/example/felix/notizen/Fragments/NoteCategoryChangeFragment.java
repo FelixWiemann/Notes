@@ -1,4 +1,4 @@
-package com.example.felix.notizen.fragments;
+package com.example.felix.notizen.Fragments;
 
 import android.app.DialogFragment;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.felix.notizen.R;
-import com.example.felix.notizen.objects.Note_Category;
+import com.example.felix.notizen.Objects.Note_Category;
 
 
 /**

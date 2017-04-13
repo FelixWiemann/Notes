@@ -1,4 +1,4 @@
-package com.example.felix.notizen.activities;
+package com.example.felix.notizen.Activities;
 
 import android.hardware.Camera;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.felix.notizen.activities;
+package com.example.felix.notizen.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.SQLManagerContract;
-import com.example.felix.notizen.objects.Note;
+import com.example.felix.notizen.Objects.Note;
 
 
 /**

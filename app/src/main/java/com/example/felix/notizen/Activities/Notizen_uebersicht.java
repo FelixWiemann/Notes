@@ -1,4 +1,4 @@
-package com.example.felix.notizen.activities;
+package com.example.felix.notizen.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -24,8 +24,8 @@ import com.example.felix.notizen.ActionBarCallback;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.SQLManagerContract;
 import com.example.felix.notizen.cust_views.SingleNoteOverviewView;
-import com.example.felix.notizen.objects.Note;
-import com.example.felix.notizen.objects.Note_Notification;
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.Objects.Note_Notification;
 
 import java.util.ArrayList;
 import java.util.List;

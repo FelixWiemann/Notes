@@ -1,4 +1,4 @@
-package com.example.felix.notizen.objects;
+package com.example.felix.notizen.Objects;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -14,8 +14,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.felix.notizen.R;
-import com.example.felix.notizen.activities.Notizen_uebersicht;
-import com.example.felix.notizen.activities.newNoteActivity;
+import com.example.felix.notizen.Activities.Notizen_uebersicht;
+import com.example.felix.notizen.Activities.newNoteActivity;
 
 /**
  * Helper class for showing and canceling note

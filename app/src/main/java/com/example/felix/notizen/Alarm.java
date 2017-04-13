@@ -10,8 +10,8 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.example.felix.notizen.objects.Note;
-import com.example.felix.notizen.objects.Note_Notification;
+import com.example.felix.notizen.Objects.Note;
+import com.example.felix.notizen.Objects.Note_Notification;
 
 /**
  * Created by Felix "nepumuk" Wiemann on 05.06.2016
@@ -24,7 +24,7 @@ public class Alarm extends Service {
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent _) {
+            public void onReceive(Context context, Intent intent) {
 
                 context.unregisterReceiver(this); // this == BroadcastReceiver, not Activity
             }
