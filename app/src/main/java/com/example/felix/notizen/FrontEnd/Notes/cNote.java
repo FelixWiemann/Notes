@@ -6,20 +6,35 @@ import java.util.Date;
  * Created by felix on 13/04/17.
  * base class for Notes
  */
-public class cNote {
+@SuppressWarnings("unused")
+public abstract class cNote {
 
+    /**
+     * ID string of current note, used to identify each note
+     */
     private String mID;
+    /**
+     * title of the note
+     */
     private String mTitle;
+    /**
+     * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
+     * @see Date#getTime()
+     */
     private long mCreationDate;
+    /**
+     * date of last change, numbers of milliseconds after January 1, 1970 00:00:00 GMT
+     * @see Date#getTime()
+     */
     private long mLastChangedDate;
 
 
     /**
-     * create new Note
-     * @param pID id of Note
-     * @param pTitle title of Note
+     * create new note
+     * @param pID id of note
+     * @param pTitle title of note
      */
-    public cNote(String pID, String pTitle){
+    cNote(String pID, String pTitle){
         //  create a note, with given ID and Title
         setId(pID);
         setTitle(pTitle);
@@ -29,14 +44,17 @@ public class cNote {
     }
 
     /**
-     * create new Note
+     * create new note
+     * able to determine whether it is a previously stored note, to not change creation date and
+     * last modified date
+     *
      * @param pID id of Note
      * @param pTitle title of note
      * @param pExistingNote whether is existing node
      *                      true -> no new creation/last changed date
-     *                      false -> new creation/lastchanged date
+     *                      false -> new creation/last changed date
      */
-    public cNote(String pID,String pTitle, boolean pExistingNote){
+    cNote(String pID, String pTitle, boolean pExistingNote){
         setId(pID);
         setTitle(pTitle);
         // only set dates, if not existing note
@@ -48,7 +66,7 @@ public class cNote {
     }
 
     /**
-     * sets the title
+     * sets the title of the note
      * @param pTitle new title
      */
     private void setTitle(String pTitle){
@@ -56,7 +74,8 @@ public class cNote {
     }
 
     /**
-     * sets the id
+     * sets the id of the note
+     * TODO prevent illegal manipulation on runtime on existing notes!
      * @param pID new id
      */
     private void setId(String pID){
@@ -64,14 +83,16 @@ public class cNote {
     }
 
     /**
-     *  sets last changed date to current time
+     * sets last changed date to current time in milliseconds after January 1, 1970 00:00:00 GMT
+     * @see Date#getTime()
      */
-    private void setLastChangedDate(){
+    void setLastChangedDate(){
         mLastChangedDate = (new Date()).getTime();
     }
 
     /**
-     * gets last changed date
+     * gets last changed date in milliseconds after January 1, 1970 00:00:00 GMT
+     * @see Date#getTime()
      * @return last changed date
      */
     public long getLastChangedDate(){
@@ -79,7 +100,7 @@ public class cNote {
     }
 
     /**
-     * gets the id
+     * gets the id o the note
      * @return id
      */
     public String getID(){
@@ -87,7 +108,7 @@ public class cNote {
     }
 
     /**
-     * gets the title
+     * gets the title of the note
      * @return title
      */
     public String getTitle(){
@@ -95,7 +116,8 @@ public class cNote {
     }
 
     /**
-     * gets creation date
+     * gets creation date of the note in milliseconds after January 1, 1970 00:00:00 GMT
+     * @see Date#getTime()
      * @return creation date
      */
     public long getCreationDate(){
@@ -103,11 +125,30 @@ public class cNote {
     }
 
     /**
-     * set creation date to current time
+     * set creation date to current time in milliseconds after January 1, 1970 00:00:00 GMT
+     * @see Date#getTime()
      */
-    public void setCreationDate(){
+    private void setCreationDate(){
         mCreationDate = (new Date()).getTime();
     }
+
+
+    /**
+     * abstract method to override in inherited classes to handle deletion of the note
+     * especially stored data of the note.
+     */
+    public abstract void deleteNote();
+
+
+    /**
+     * add additional data to this note
+     * pDataBlob may contain any kind of data, determined by type of note
+     * @param pDataBlob contains the Data to add, in case of these classes:</p>
+     *                  cImageNote: string containing location of Image
+     *                  cTextNote: string containing the message of the note
+     *                  cTaskNote: List containing all tasks of the note
+     */
+    public abstract void addAdditionalData(Object pDataBlob);
 
 
 
