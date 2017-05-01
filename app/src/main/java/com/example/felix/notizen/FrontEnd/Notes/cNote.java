@@ -1,5 +1,7 @@
 package com.example.felix.notizen.FrontEnd.Notes;
 
+import com.example.felix.notizen.FrontEnd.cIdObject;
+
 import java.util.Date;
 
 /**
@@ -7,16 +9,8 @@ import java.util.Date;
  * base class for Notes
  */
 @SuppressWarnings("unused")
-public abstract class cNote {
+public abstract class cNote extends cIdObject {
 
-    /**
-     * ID string of current note, used to identify each note
-     */
-    private String mID;
-    /**
-     * title of the note
-     */
-    private String mTitle;
     /**
      * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
      * @see Date#getTime()
@@ -34,10 +28,8 @@ public abstract class cNote {
      * @param pID id of note
      * @param pTitle title of note
      */
-    cNote(String pID, String pTitle){
-        //  create a note, with given ID and Title
-        setId(pID);
-        setTitle(pTitle);
+    public cNote(String pID, String pTitle){
+        super(pID,pTitle);
         // set creation and last changed dates
         setCreationDate();
         setLastChangedDate();
@@ -55,31 +47,13 @@ public abstract class cNote {
      *                      false -> new creation/last changed date
      */
     cNote(String pID, String pTitle, boolean pExistingNote){
-        setId(pID);
-        setTitle(pTitle);
+        super(pID,pTitle);
         // only set dates, if not existing note
         // if exists (in DB or copy of other note, do NOT change
         if (!pExistingNote){
             setCreationDate();
             setLastChangedDate();
         }
-    }
-
-    /**
-     * sets the title of the note
-     * @param pTitle new title
-     */
-    private void setTitle(String pTitle){
-        mTitle = pTitle;
-    }
-
-    /**
-     * sets the id of the note
-     * TODO prevent illegal manipulation on runtime on existing notes!
-     * @param pID new id
-     */
-    private void setId(String pID){
-        mID = pID;
     }
 
     /**
@@ -95,24 +69,8 @@ public abstract class cNote {
      * @see Date#getTime()
      * @return last changed date
      */
-    public long getLastChangedDate(){
+    protected long getLastChangedDate(){
         return mLastChangedDate;
-    }
-
-    /**
-     * gets the id o the note
-     * @return id
-     */
-    public String getID(){
-        return mID;
-    }
-
-    /**
-     * gets the title of the note
-     * @return title
-     */
-    public String getTitle(){
-        return mTitle;
     }
 
     /**
@@ -120,7 +78,7 @@ public abstract class cNote {
      * @see Date#getTime()
      * @return creation date
      */
-    public long getCreationDate(){
+    protected long getCreationDate(){
         return mCreationDate;
     }
 

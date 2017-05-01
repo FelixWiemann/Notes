@@ -1,80 +1,73 @@
 package com.example.felix.notizen.FrontEnd.Task;
 
+import com.example.felix.notizen.FrontEnd.cIdObject;
+
 /**
  *
  *
  *
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
+ * TODO add ID
  */
-
-public abstract class cTask {
+@SuppressWarnings("unused")
+public abstract class cTask extends cIdObject {
 
     /**
-     *
-     */
-    private String mTitle;
-    /**
-     *
+     * text of the task
      */
     private String mText;
     /**
-     *
+     * flag whether task is marked as done
+     * true -> task done
+     * false -> task open
      */
     private boolean mDone;
 
     /**
-     * @param mTitle
-     * @param mText
-     * @param mDone
+     * constructor setting title, text and flag for task completion
+     * @param mTitle title of the new task
+     * @param mText text of the new task
+     * @param mDone flag if task is done or not
      */
     public cTask(String mTitle, String mText, boolean mDone){
-        this.mTitle = mTitle;
+        super(null,mTitle);
         this.mText = mText;
         this.mDone = mDone;
     }
 
     /**
-     * @return
+     * returns the flag of task completion
+     * @return true, if task is complete, false if not
      */
     public boolean isDone() {
         return mDone;
     }
 
     /**
-     * @param mDone
+     * sets the flag of task completion
+     * @param mDone true if task is complete, false if not
      */
     public void setDone(boolean mDone) {
         this.mDone = mDone;
     }
 
     /**
-     * @return
+     * returns the text of the task
+     * @return text of the task
      */
     public String getText() {
         return mText;
     }
 
     /**
-     * @param mText
+     * set the text of the task
+     * @param mText new text of task
      */
     public void setText(String mText) {
         this.mText = mText;
     }
 
-    /**
-     * @return
-     */
-    public String getTitle() {
-        return mTitle;
-    }
-
-    /**
-     * @param mTitle
-     */
-    public void setTitle(String mTitle) {
-        this.mTitle = mTitle;
-    }
 
     /**
      * abstract method to implement in each inherited task type.
