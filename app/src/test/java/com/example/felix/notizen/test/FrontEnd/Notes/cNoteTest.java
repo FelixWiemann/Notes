@@ -29,8 +29,9 @@ public class cNoteTest extends cNote {
      *
      * @param pID    id of note
      * @param pTitle title of note
+     *
      */
-    private cNoteTest(String pID, String pTitle) {
+    cNoteTest(String pID, String pTitle) {
         super(pID, pTitle);
     }
 

@@ -28,7 +28,7 @@ public abstract class cNote extends cIdObject {
      * @param pID id of note
      * @param pTitle title of note
      */
-    public cNote(String pID, String pTitle){
+    protected cNote(String pID, String pTitle){
         super(pID,pTitle);
         // set creation and last changed dates
         setCreationDate();

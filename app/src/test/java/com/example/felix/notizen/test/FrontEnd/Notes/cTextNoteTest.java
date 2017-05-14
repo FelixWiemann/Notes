@@ -1,5 +1,7 @@
 package com.example.felix.notizen.test.FrontEnd.Notes;
 
+import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,9 +13,12 @@ import static org.junit.Assert.*;
  * by Felix "nepumuk" Wiemann on 22/04/17.
  */
 public class cTextNoteTest {
+    cTextNote testNote;
+
+
     @Before
     public void setUp() throws Exception {
-
+        testNote = new cTextNote("id","title","message");
     }
 
     @After
@@ -23,12 +28,13 @@ public class cTextNoteTest {
 
     @Test
     public void getMessage() throws Exception {
-
+        assertEquals("message",testNote.getMessage());
     }
 
     @Test
     public void setMessage() throws Exception {
-
+        testNote.setMessage("new message");
+        assertEquals("new message",testNote.getMessage());
     }
 
     @Test
@@ -38,7 +44,8 @@ public class cTextNoteTest {
 
     @Test
     public void addAdditionalData() throws Exception {
-
+        testNote.addAdditionalData("datablob");
+        assertEquals("datablob",testNote.getMessage());
     }
 
 }

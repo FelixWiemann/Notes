@@ -52,7 +52,7 @@ public class cTextNote extends cNote {
      * sets a new message to the note
      * @param mMessage new message to use
      */
-    private void setMessage(String mMessage) {
+    public void setMessage(String mMessage) {
         this.mMessage = mMessage;
     }
 
