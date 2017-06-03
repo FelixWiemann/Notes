@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Created as part of notes in package com.example.felix.notizen.test
  * by Felix "nepumuk" Wiemann on 22/04/17.
+ * TODO write tests
  */
 public class cTaskNoteTest {
     @Before

@@ -12,6 +12,11 @@ package com.example.felix.notizen.FrontEnd.Notes;
 public class cImageNote extends cNote {
 
     /**
+     * identifier of class
+     */
+    public static String aTYPE = "cImageNote";
+
+    /**
      * location of the image of the note
      */
     private String mImageLocation;
@@ -26,6 +31,7 @@ public class cImageNote extends cNote {
      */
     public cImageNote(String pID, String pTitle, String pImageLocation) {
         super(pID, pTitle);
+        logDebug("creating cImageNote");
         // assign image location
         setImageLocation(pImageLocation);
     }
@@ -42,6 +48,7 @@ public class cImageNote extends cNote {
      */
     public cImageNote(String pID, String pTitle,String pImageLocation, boolean pExistingNote) {
         super(pID, pTitle, pExistingNote);
+        logDebug("creating existing cImageNote");
         // assign image location
         setImageLocation(pImageLocation);
     }
@@ -52,6 +59,7 @@ public class cImageNote extends cNote {
      */
     @Override
     public void deleteNote() {
+        logDebug("deleting image note");
         // delete image file
         deleteImageAtStorageLocation();
     }
@@ -64,11 +72,14 @@ public class cImageNote extends cNote {
      */
     @Override
     public void addAdditionalData(Object pDataBlob){
+        logDebug("adding additional data");
         try{
             String imageLocation = (String) pDataBlob;
             setImageLocation(imageLocation);
+            logDebug("added additional data");
         }
         catch (Exception e){
+            logError(e.getMessage());
             //TODO: exception handling and logging
         }
     }
@@ -78,6 +89,7 @@ public class cImageNote extends cNote {
      * @return image location
      */
     public String getImageLocation() {
+        logError("returning image location");
         return mImageLocation;
     }
 
@@ -87,6 +99,7 @@ public class cImageNote extends cNote {
      * @param pImageLocation new location of the image
      */
     private void setImageLocation(String pImageLocation) {
+        logError("setting image location");
         // delete current image if available
         deleteImageAtStorageLocation();
         // change image location
@@ -100,6 +113,8 @@ public class cImageNote extends cNote {
      * handles deletion of the current image
      */
     private void deleteImageAtStorageLocation(){
+        logError("deleting image at storage location");
+        //throw new Exception("not yet implemeted");
         // TODO: handle deletion
         // validate, file exists, delete if exists
     }

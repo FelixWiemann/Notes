@@ -12,6 +12,11 @@ public class cTextNote extends cNote {
 
 
     /**
+     * identifier of class
+     */
+    public static String aTYPE = "cTextNote";
+
+    /**
      * message contained in the note
      */
     private String mMessage;
@@ -26,6 +31,7 @@ public class cTextNote extends cNote {
     public cTextNote(String pID, String pTitle, String pMessage) {
         super(pID, pTitle);
         this.mMessage = pMessage;
+        logDebug("cTextNote created");
     }
 
     /**
@@ -38,6 +44,7 @@ public class cTextNote extends cNote {
     public cTextNote(String pID, String pTitle, boolean pExistingNote, String pMessage) {
         super(pID, pTitle, pExistingNote);
         this.mMessage = pMessage;
+        logDebug("cTextNote created");
     }
 
     /**
@@ -45,6 +52,7 @@ public class cTextNote extends cNote {
      * @return message of the note
      */
     public String getMessage() {
+        logDebug("message returned");
         return mMessage;
     }
 
@@ -53,6 +61,7 @@ public class cTextNote extends cNote {
      * @param mMessage new message to use
      */
     public void setMessage(String mMessage) {
+        logDebug("message set");
         this.mMessage = mMessage;
     }
 
@@ -62,7 +71,7 @@ public class cTextNote extends cNote {
      */
     @Override
     public void deleteNote() {
-
+        logDebug("note deleted");
     }
 
     /**
@@ -74,11 +83,14 @@ public class cTextNote extends cNote {
      */
     @Override
     public void addAdditionalData(Object pDataBlob) {
+        logDebug("adding additional data");
         try{
             String message = (String) pDataBlob;
             setMessage(message);
+            logDebug("added additional data");
         }
         catch (Exception e){
+            logError(e.getMessage());
             //TODO: exception handling and logging
         }
     }

@@ -15,6 +15,12 @@ import java.util.List;
 public class cTaskNote extends cNote {
 
     /**
+     * identifier of class
+     */
+    public static String aTYPE = "cTaskNote";
+
+
+    /**
      * list of tasks stored in this note
      */
     private List<cTask> mTaskList;
@@ -29,6 +35,7 @@ public class cTaskNote extends cNote {
      */
     public cTaskNote(String pID, String pTitle, List<cTask>pTaskList) {
         super(pID, pTitle);
+        logDebug("creating new cTaskNote");
         this.setTaskList(pTaskList);
     }
 
@@ -45,6 +52,7 @@ public class cTaskNote extends cNote {
      */
     public cTaskNote(String pID, String pTitle, List<cTask>pTaskList, boolean pExistingNote) {
         super(pID, pTitle, pExistingNote);
+        logDebug("creating new cTaskNote");
         this.setTaskList(pTaskList);
     }
 
@@ -54,6 +62,7 @@ public class cTaskNote extends cNote {
      */
     @Override
     public void deleteNote() {
+        logDebug("deleting note");
         clearTaskList();
     }
 
@@ -65,6 +74,7 @@ public class cTaskNote extends cNote {
      */
     @Override
     public void addAdditionalData(Object pDataBlob) {
+        logDebug("adding additional data");
         // todo handle adding data
     }
 
@@ -73,6 +83,7 @@ public class cTaskNote extends cNote {
      * @param taskToAdd task that shall be added
      */
     public void addTask(cTask taskToAdd){
+        logDebug("adding task to note");
         mTaskList.add(taskToAdd);
     }
 
@@ -82,6 +93,7 @@ public class cTaskNote extends cNote {
      * @return task that is stored at position pPos
      */
     public cTask getTaskAtPos(int pPos){
+        logDebug("returning task at pos " +String.valueOf(pPos));
         return mTaskList.get(pPos);
     }
 
@@ -89,6 +101,7 @@ public class cTaskNote extends cNote {
      * clears all tasks stored in task list
      */
     private void clearTaskList(){
+        logDebug("clearing all tasks");
         // delete each task in mTaskList
         for (cTask task: mTaskList
                 ) {
@@ -96,6 +109,7 @@ public class cTaskNote extends cNote {
         }
         // clear the list
         mTaskList.clear();
+        logDebug("tasks cleared");
     }
 
 
@@ -104,6 +118,7 @@ public class cTaskNote extends cNote {
      * @return list of all tasks stored in this note
      */
     public List<cTask> getTaskList() {
+        logDebug("returning task list");
         return mTaskList;
     }
 
@@ -112,6 +127,7 @@ public class cTaskNote extends cNote {
      * @param pTaskList new task list
      */
     private void setTaskList(List<cTask> pTaskList) {
+        logDebug("setting task list, clearing current first");
         // clear all tasks currently inside list
         clearTaskList();
         // set tasklist

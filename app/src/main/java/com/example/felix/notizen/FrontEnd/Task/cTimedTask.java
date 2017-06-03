@@ -20,6 +20,7 @@ public class cTimedTask extends cTask{
      * @return due date
      */
     public long getTaskDueDate() {
+        logDebug("getting task due date");
         return mTaskDueDate;
     }
 
@@ -29,6 +30,7 @@ public class cTimedTask extends cTask{
      * @param mTaskDueDate new task due date
      */
     public void setTaskDueDate(long mTaskDueDate) {
+        logDebug("setting task due date");
         this.mTaskDueDate = mTaskDueDate;
     }
 
@@ -46,6 +48,7 @@ public class cTimedTask extends cTask{
      */
     public cTimedTask(String mTitle, String mText, boolean mDone) {
         super(mTitle, mText, mDone);
+        logDebug("creating timed task");
     }
 
     /**
@@ -53,6 +56,7 @@ public class cTimedTask extends cTask{
      */
     @Override
     public void deleteTask() {
+        logDebug("deleting timed task");
         // TODO: delete timer
     }
 

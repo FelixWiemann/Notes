@@ -34,6 +34,7 @@ public abstract class cTask extends cIdObject {
         super(null,mTitle);
         this.mText = mText;
         this.mDone = mDone;
+        logDebug("creating cTask");
     }
 
     /**
@@ -41,6 +42,7 @@ public abstract class cTask extends cIdObject {
      * @return true, if task is complete, false if not
      */
     public boolean isDone() {
+        logDebug("is task done?");
         return mDone;
     }
 
@@ -49,6 +51,7 @@ public abstract class cTask extends cIdObject {
      * @param mDone true if task is complete, false if not
      */
     public void setDone(boolean mDone) {
+        logDebug("setting task done");
         this.mDone = mDone;
     }
 
@@ -57,6 +60,7 @@ public abstract class cTask extends cIdObject {
      * @return text of the task
      */
     public String getText() {
+        logDebug("getting task text");
         return mText;
     }
 
@@ -65,6 +69,7 @@ public abstract class cTask extends cIdObject {
      * @param mText new text of task
      */
     public void setText(String mText) {
+        logDebug("setting task text");
         this.mText = mText;
     }
 

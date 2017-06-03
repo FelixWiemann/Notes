@@ -1,6 +1,7 @@
 package com.example.felix.notizen.FrontEnd.Notes;
 
 import com.example.felix.notizen.FrontEnd.cIdObject;
+import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 
 import java.util.Date;
 
@@ -10,6 +11,11 @@ import java.util.Date;
  */
 @SuppressWarnings("unused")
 public abstract class cNote extends cIdObject {
+
+    /**
+     * identifier of class
+     */
+    public static String aTYPE = "cNote";
 
     /**
      * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
@@ -30,9 +36,11 @@ public abstract class cNote extends cIdObject {
      */
     protected cNote(String pID, String pTitle){
         super(pID,pTitle);
+        logDebug("creating new cNote");
         // set creation and last changed dates
         setCreationDate();
         setLastChangedDate();
+        logDebug("cNote created");
     }
 
     /**
@@ -48,12 +56,14 @@ public abstract class cNote extends cIdObject {
      */
     cNote(String pID, String pTitle, boolean pExistingNote){
         super(pID,pTitle);
+        logDebug("creating preexisting cNote");
         // only set dates, if not existing note
         // if exists (in DB or copy of other note, do NOT change
         if (!pExistingNote){
             setCreationDate();
             setLastChangedDate();
         }
+        logDebug("created cNote");
     }
 
     /**
@@ -61,6 +71,7 @@ public abstract class cNote extends cIdObject {
      * @see Date#getTime()
      */
     void setLastChangedDate(){
+        logDebug("changing date");
         mLastChangedDate = (new Date()).getTime();
     }
 
@@ -70,6 +81,7 @@ public abstract class cNote extends cIdObject {
      * @return last changed date
      */
     protected long getLastChangedDate(){
+        logDebug("returning change date");
         return mLastChangedDate;
     }
 
@@ -79,6 +91,7 @@ public abstract class cNote extends cIdObject {
      * @return creation date
      */
     protected long getCreationDate(){
+        logDebug("returning creation date");
         return mCreationDate;
     }
 
@@ -87,6 +100,7 @@ public abstract class cNote extends cIdObject {
      * @see Date#getTime()
      */
     private void setCreationDate(){
+        logDebug("setting creation date");
         mCreationDate = (new Date()).getTime();
     }
 
