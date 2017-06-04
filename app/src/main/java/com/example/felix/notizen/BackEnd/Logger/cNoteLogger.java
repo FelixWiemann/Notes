@@ -1,6 +1,11 @@
 package com.example.felix.notizen.BackEnd.Logger;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  * Created as part of notes in package com.example.felix.notizen.BackEnd
@@ -38,14 +43,18 @@ public class cNoteLogger {
      */
     private final int mDebugLevelDebug = 4;
 
-    private String[] mDebugLevelStrings = {"[NONE]","[ERROR]","[WARNING]","[INFO]","[DEBUG]"};
+    private String[] mDebugLevelStrings = {"[NON]","[ERR]","[WAR]","[INF]","[DEB]"};
 
     private ArrayList<cLogEntry> logEntries;
+
+    private int entriesBeforeLogFlush = 1;
 
     /**
      * TODO set location of LogFile
      */
     private String logFileLocation = "";
+
+    File f;
 
     /**
      * loggs a message
@@ -71,6 +80,10 @@ public class cNoteLogger {
     public void logDebug(String message){
         log(message,mDebugLevelDebug);
     }
+    public void logNone(String message){
+        log(message,mDebugLevelNone);
+    }
+
 
     private static final cNoteLogger ourInstance = new cNoteLogger();
 
@@ -79,14 +92,23 @@ public class cNoteLogger {
     }
 
     private cNoteLogger() {
+        logEntries = new ArrayList<cLogEntry>();
 
     }
 
     private void writeMessagesToFile(){
-        //TODO write to file
+        if (entriesBeforeLogFlush <logEntries.size()){
+            flush();
+        }
     }
 
-
+    public void init(String logLocation,int debugLevel){
+        // TODO add timestamp to file name
+        this.logFileLocation = logLocation;
+        f = new File(logLocation);
+        this.mCurrentDebugLevel = debugLevel;
+        logNone("logger initialized; debug level: "+ String.valueOf(debugLevel));
+    }
 
     /**
      * builds a string containing the info of logEntry
@@ -97,8 +119,22 @@ public class cNoteLogger {
      */
     private String getFormattedLogEntry(cLogEntry logEntry){
         //TODO make timestamp of format yyyy-mm-dd hh:mm:ss:ms
-        String logMessage = String.format("%d - %s: %s",logEntry.getTimeStamp(),mDebugLevelStrings[logEntry.getLogLevel()],logEntry.getMessage());
+        String logMessage = String.format("%d - %s: %s\n",logEntry.getTimeStamp(),mDebugLevelStrings[logEntry.getLogLevel()],logEntry.getMessage());
         return logMessage;
     }
 
+    public void flush() {
+        Iterator iterator = logEntries.iterator();
+        FileWriter fr = null;
+        try {
+            fr = new FileWriter(f,true);
+            while (iterator.hasNext()){
+                fr.write(getFormattedLogEntry((cLogEntry)iterator.next()));
+            }
+            fr.close();
+            logEntries.clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

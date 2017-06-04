@@ -36,6 +36,7 @@ public class cIdObject {
     }
 
     /**
+     * TODO this constructor to all subclasses
      * creates a new object with an id and a title
      * a unique UUID is added automatically
      * @param mTitle title of the new object
@@ -43,8 +44,7 @@ public class cIdObject {
     public cIdObject(String mTitle){
         logDebug("creating cIdObject with uuid");
         this.mTitle = mTitle;
-        // TODO use UUID as unique identifiers of objects.
-        this.mID = new UUID(10,10).toString();
+        this.mID = UUID.randomUUID().toString();
     }
 
     /**
