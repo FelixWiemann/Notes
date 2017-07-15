@@ -1,51 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.felix.notizen">
+          package="com.example.felix.notizen">
 
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_note_v1_0"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:fullBackupContent="@xml/mybackupscheme"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".activities.Notizen_uebersicht"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activities.newNoteActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".fragments.fragmentTest" />
-        <activity
-            android:name=".activities.act_newPhotoNote"
-            android:screenOrientation="portrait"
-
-            android:label="@string/title_activity_act_new_photo_note"
-            android:theme="@style/AppTheme.NoActionBar"><!-- TODO don't force orientation -->
-
-        </activity>
-
-
-        <!--
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <application>
+       <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

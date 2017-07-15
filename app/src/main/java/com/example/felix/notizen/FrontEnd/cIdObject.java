@@ -17,11 +17,16 @@ public class cIdObject {
     /**
      * ID string of current note, used to identify each note
      */
-    private String mID;
+    private UUID mID;
     /**
      * title of the note
      */
     private String mTitle;
+
+    /**
+     * identifier of class
+     */
+    public String aTYPE = "cIdObject";
 
     /**
      * creates a new object with an id and a title
@@ -29,7 +34,7 @@ public class cIdObject {
      * @param mID id of already existing, stored object
      * @param mTitle title of object
      */
-    public cIdObject(String mID, String mTitle) {
+    public cIdObject(UUID mID, String mTitle) {
         logDebug("creating cIdObject");
         this.mID = mID;
         this.mTitle = mTitle;
@@ -44,7 +49,7 @@ public class cIdObject {
     public cIdObject(String mTitle){
         logDebug("creating cIdObject with uuid");
         this.mTitle = mTitle;
-        this.mID = UUID.randomUUID().toString();
+        this.mID = UUID.randomUUID();
     }
 
     /**
@@ -58,22 +63,24 @@ public class cIdObject {
 
     /**
      * sets the id of the note
-     * TODO prevent illegal manipulation on runtime on existing notes!
      * DO NOT USE THIS FUNCTION. CREATE A NEW OBJECT FROM DB VIA CONSTRUCTOR INSTEAD
      * @param pID new id
      */
     @Deprecated
-    public void setId(String pID){
+    public void setId(UUID pID) throws cIdObjectException {
         logDebug("setting id");
-        throw new Error();
-        //mID = pID;
+        if (mID == null){
+            mID = pID;
+        }else{
+            throw new cIdObjectException(String.format("object %s %s.setId()",mID.toString(),this.getClass().getSimpleName()),cIdObjectException.aID_ALREADY_SET_EXCEPTION,null);
+        }
     }
 
     /**
      * gets the id o the note
      * @return id
      */
-    public String getID(){
+    public UUID getID(){
         logDebug("returning ID");
         return mID;
     }
@@ -85,6 +92,11 @@ public class cIdObject {
     public String getTitle(){
         logDebug("returning title");
         return mTitle;
+    }
+
+
+    public String getIdString(){
+        return mID.toString();
     }
 
 

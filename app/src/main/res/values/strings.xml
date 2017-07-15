@@ -29,4 +29,5 @@
     <string name="title_activity_act_new_photo_note">New Photo Note</string>
     <string name="bt_retake_pic">Retake</string>
     <string name="bt_cancel_pic">Cancel</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

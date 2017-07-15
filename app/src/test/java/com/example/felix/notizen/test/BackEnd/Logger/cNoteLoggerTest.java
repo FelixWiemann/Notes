@@ -12,6 +12,21 @@ import static org.junit.Assert.*;
  */
 @SuppressWarnings("unused")
 public class cNoteLoggerTest {
+    @Test
+    public void logNone() throws Exception {
+
+    }
+
+    @Test
+    public void init() throws Exception {
+
+    }
+
+    @Test
+    public void flush() throws Exception {
+
+    }
+
     @Before
     public void setUp() throws Exception {
 

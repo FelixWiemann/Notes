@@ -4,6 +4,7 @@ import com.example.felix.notizen.FrontEnd.cIdObject;
 import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by felix on 13/04/17.
@@ -15,7 +16,7 @@ public abstract class cNote extends cIdObject {
     /**
      * identifier of class
      */
-    public static String aTYPE = "cNote";
+    public String aTYPE = "cNote";
 
     /**
      * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
@@ -34,7 +35,7 @@ public abstract class cNote extends cIdObject {
      * @param pID id of note
      * @param pTitle title of note
      */
-    protected cNote(String pID, String pTitle){
+    protected cNote(UUID pID, String pTitle){
         super(pID,pTitle);
         logDebug("creating new cNote");
         // set creation and last changed dates
@@ -54,7 +55,7 @@ public abstract class cNote extends cIdObject {
      *                      true -> no new creation/last changed date
      *                      false -> new creation/last changed date
      */
-    cNote(String pID, String pTitle, boolean pExistingNote){
+    cNote(UUID pID, String pTitle, boolean pExistingNote){
         super(pID,pTitle);
         logDebug("creating preexisting cNote");
         // only set dates, if not existing note

@@ -18,6 +18,8 @@ package com.example.felix.notizen.BackEnd;
 @SuppressWarnings("unused")
 public class cNoteMaster {
 
+
+
     /**
      * singleton instance made available for use everywhere
      */

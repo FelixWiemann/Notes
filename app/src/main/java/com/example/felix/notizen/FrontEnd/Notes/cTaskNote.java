@@ -3,6 +3,7 @@ package com.example.felix.notizen.FrontEnd.Notes;
 import com.example.felix.notizen.FrontEnd.Task.cTask;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -17,7 +18,7 @@ public class cTaskNote extends cNote {
     /**
      * identifier of class
      */
-    public static String aTYPE = "cTaskNote";
+    public String aTYPE = "cTaskNote";
 
 
     /**
@@ -33,7 +34,7 @@ public class cTaskNote extends cNote {
      * @param pTitle title of Note
      * @param pTaskList list of tasks in created note
      */
-    public cTaskNote(String pID, String pTitle, List<cTask>pTaskList) {
+    public cTaskNote(UUID pID, String pTitle, List<cTask>pTaskList) {
         super(pID, pTitle);
         logDebug("creating new cTaskNote");
         this.setTaskList(pTaskList);
@@ -50,7 +51,7 @@ public class cTaskNote extends cNote {
      *                      true -> no new creation/last changed date
      * @param pTaskList list of tasks in created note
      */
-    public cTaskNote(String pID, String pTitle, List<cTask>pTaskList, boolean pExistingNote) {
+    public cTaskNote(UUID pID, String pTitle, List<cTask>pTaskList, boolean pExistingNote) {
         super(pID, pTitle, pExistingNote);
         logDebug("creating new cTaskNote");
         this.setTaskList(pTaskList);

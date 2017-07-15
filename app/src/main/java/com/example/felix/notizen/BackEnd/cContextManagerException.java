@@ -9,10 +9,10 @@ package com.example.felix.notizen.BackEnd;
  */
 @SuppressWarnings("unused")
 public class cContextManagerException extends cNoteException {
-    public static String aContextAlreadySet = "<CONTEXT IS ALREADY SET>";
+    public static final String aCONTEXT_ALREADY_SET = "<CONTEXT IS ALREADY SET>";
 
 
-    public cContextManagerException(String location,String message,cNoteException cause){
+    public cContextManagerException(String location,String message,Exception cause){
         super(location,message,cause);
     }
 

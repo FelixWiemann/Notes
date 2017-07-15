@@ -1,6 +1,8 @@
 package com.example.felix.notizen.FrontEnd.Notes;
 
 
+import java.util.UUID;
+
 /**
  *
  *
@@ -14,7 +16,7 @@ public class cImageNote extends cNote {
     /**
      * identifier of class
      */
-    public static String aTYPE = "cImageNote";
+    public String aTYPE = "cImageNote";
 
     /**
      * location of the image of the note
@@ -29,7 +31,7 @@ public class cImageNote extends cNote {
      * @param pTitle title of Note
      * @param pImageLocation location of the image
      */
-    public cImageNote(String pID, String pTitle, String pImageLocation) {
+    public cImageNote(UUID pID, String pTitle, String pImageLocation) {
         super(pID, pTitle);
         logDebug("creating cImageNote");
         // assign image location
@@ -46,7 +48,7 @@ public class cImageNote extends cNote {
      *                      shall be used when loading notes from DB
      * @param pImageLocation location of the image
      */
-    public cImageNote(String pID, String pTitle,String pImageLocation, boolean pExistingNote) {
+    public cImageNote(UUID pID, String pTitle,String pImageLocation, boolean pExistingNote) {
         super(pID, pTitle, pExistingNote);
         logDebug("creating existing cImageNote");
         // assign image location

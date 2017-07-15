@@ -26,11 +26,11 @@ public abstract class cNoteException extends Exception {
     private String aEND_ADDITIONAL_DATA_TAG = "--End Additional Data--";
 
     private String mLocation;
-    private cNoteException mCause;
+    private Exception mCause;
     private long mTimeStamp;
     cNoteLogger log;
 
-    public cNoteException(String location, String message, cNoteException cause){
+    public cNoteException(String location, String message, Exception cause){
         super(message);
         log = cNoteLogger.getInstance();
         this.mCause = cause;
@@ -39,9 +39,14 @@ public abstract class cNoteException extends Exception {
     }
 
     private String exceptionOutput(String indent){
-        String causeOut = "NO CAUSE KNOWN";
+        String causeOut = indent + "<NO CAUSE KNOWN>";
         if (mCause != null){
-            causeOut = mCause.exceptionOutput(indent+aIndent);
+            if (mCause instanceof cNoteException) {
+                causeOut = ((cNoteException)mCause).exceptionOutput(indent + aIndent);
+            }
+            else {
+                causeOut  = mCause.getMessage();
+            }
 
         }
         String output = String.format(

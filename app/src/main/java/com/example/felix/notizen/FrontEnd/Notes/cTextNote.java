@@ -1,5 +1,7 @@
 package com.example.felix.notizen.FrontEnd.Notes;
 
+import java.util.UUID;
+
 /**
  *
  *
@@ -14,7 +16,7 @@ public class cTextNote extends cNote {
     /**
      * identifier of class
      */
-    public static String aTYPE = "cTextNote";
+    public String aTYPE = "cTextNote";
 
     /**
      * message contained in the note
@@ -28,7 +30,7 @@ public class cTextNote extends cNote {
      * @param pTitle title of Note
      * @param pMessage message of cTextNote
      */
-    public cTextNote(String pID, String pTitle, String pMessage) {
+    public cTextNote(UUID pID, String pTitle, String pMessage) {
         super(pID, pTitle);
         this.mMessage = pMessage;
         logDebug("cTextNote created");
@@ -41,7 +43,7 @@ public class cTextNote extends cNote {
      * @param pExistingNote whether is existing node
      * @param pMessage message of cTextNote
      */
-    public cTextNote(String pID, String pTitle, boolean pExistingNote, String pMessage) {
+    public cTextNote(UUID pID, String pTitle, boolean pExistingNote, String pMessage) {
         super(pID, pTitle, pExistingNote);
         this.mMessage = pMessage;
         logDebug("cTextNote created");
