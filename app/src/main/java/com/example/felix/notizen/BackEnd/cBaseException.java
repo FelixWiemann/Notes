@@ -1,7 +1,5 @@
 package com.example.felix.notizen.BackEnd;
 
-import android.util.Log;
-
 import java.util.Date;
 import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 
@@ -13,24 +11,28 @@ import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
  * by Felix "nepumuk" Wiemann on 03/06/17.
  */
 @SuppressWarnings("unused")
-public abstract class cNoteException extends Exception {
+public abstract class cBaseException extends Exception {
 
-    private String aIndent = "    ";
-    private String aBlank = " ";
-    private String aLOCATION_TAG = "Location:";
-    private String aMESSAGE_TAG = "Message:";
-    private String aCLASS_TAG = "Class:";
-    private String aTIME_TAG = "Time:";
-    private String aSEPARATOR = "------------------------------";
-    private String aADDITIONAL_DATA_TAG = "--Begin Additional Data--";
-    private String aEND_ADDITIONAL_DATA_TAG = "--End Additional Data--";
+    // constants used in exceptions
+    private final String aIndent = "    ";
+    private final String aBlank = " ";
+    private final String aLOCATION_TAG = "Location:";
+    private final String aMESSAGE_TAG = "Message:";
+    private final String aCLASS_TAG = "Class:";
+    private final String aTIME_TAG = "Time:";
+    private final String aSEPARATOR = "------------------------------";
+    private final String aADDITIONAL_DATA_TAG = "--Begin Additional Data--";
+    private final String aEND_ADDITIONAL_DATA_TAG = "--End Additional Data--";
 
+    // local vars for excepts
     private String mLocation;
     private Exception mCause;
     private long mTimeStamp;
+    // logger instnace
     cNoteLogger log;
 
-    public cNoteException(String location, String message, cNoteException cause){
+    // constructor
+    public cBaseException(String location, String message, Exception cause){
         super(message);
         log = cNoteLogger.getInstance();
         this.mCause = cause;
@@ -38,17 +40,23 @@ public abstract class cNoteException extends Exception {
         this.mLocation = location;
     }
 
+    // get the output of all exceptions
     private String exceptionOutput(String indent){
+        // set default to no cause known
+        // TODO set constant
         String causeOut = indent + "<NO CAUSE KNOWN>";
+        // if not null
         if (mCause != null){
-            if (mCause instanceof cNoteException) {
-                causeOut = ((cNoteException)mCause).exceptionOutput(indent + aIndent);
+            // in case of cBaseException get output of cause
+            if (mCause instanceof cBaseException) {
+                causeOut = ((cBaseException)mCause).exceptionOutput(indent + aIndent);
             }
             else {
+                // else get the message
                 causeOut  = mCause.getMessage();
             }
-
         }
+        // built the output
         String output = String.format(
                         "\n%s%s%s%s\n" +
                         "%s%s%s%d\n"+
@@ -63,17 +71,22 @@ public abstract class cNoteException extends Exception {
                 indent,causeOut,
                 indent,aEND_ADDITIONAL_DATA_TAG
                 );
+        // return output
         return output;
     }
 
-
+    /**
+     * log the exception
+     */
     public void logException() {
+        // log by logging the output
         log.logError(exceptionOutput(aIndent));
     }
 
     /**
+     * TODO remove
      * abstract function to be called instead of throw
-     * @throws cNoteException
+     * @throws cBaseException
      */
-    public abstract void raise() throws cNoteException;
+    public abstract void raise() throws cBaseException;
 }
