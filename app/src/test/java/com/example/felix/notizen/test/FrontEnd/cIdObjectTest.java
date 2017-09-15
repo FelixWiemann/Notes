@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 /**
@@ -19,7 +21,7 @@ public class cIdObjectTest {
 
     @Before
     public void setUp() throws Exception {
-        object = new cIdObject("1","test title");
+        object = new cIdObject(UUID.randomUUID(),"test title");
     }
 
     @After
@@ -41,8 +43,9 @@ public class cIdObjectTest {
 
     @Test
     public void setId() throws Exception {
-        object.setId("new ID");
-        assertEquals("Constructor_Title",object.getID(),"new ID");
+        String ID_string = UUID.randomUUID().toString();
+        object.setId(UUID.fromString(ID_string));
+        assertEquals("Constructor_Title",object.getID().toString(),ID_string);
     }
 
     @Test

@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  * by Felix "nepumuk" Wiemann on 22/04/17.
  * TODO write tests
  */
-public class cTaskNoteTest {
+public class cBaseTaskNoteTest {
     @Before
     public void setUp() throws Exception {
 

@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,7 +20,7 @@ public class cTextNoteTest {
 
     @Before
     public void setUp() throws Exception {
-        testNote = new cTextNote("id","title","message");
+        testNote = new cTextNote(UUID.fromString("id"),"title","message");
     }
 
     @After

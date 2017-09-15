@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +33,7 @@ public class cNoteTest extends cNote {
      *
      */
     cNoteTest(String pID, String pTitle) {
-        super(pID, pTitle);
+        super(UUID.fromString(pID), pTitle);
     }
 
     @Before
@@ -112,5 +113,8 @@ public class cNoteTest extends cNote {
     }
 
 
-
+    @Override
+    public String generateJSONString() {
+        return null;
+    }
 }
