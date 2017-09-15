@@ -30,7 +30,7 @@ public abstract class cNoteException extends Exception {
     private long mTimeStamp;
     cNoteLogger log;
 
-    public cNoteException(String location, String message, Exception cause){
+    public cNoteException(String location, String message, cNoteException cause){
         super(message);
         log = cNoteLogger.getInstance();
         this.mCause = cause;

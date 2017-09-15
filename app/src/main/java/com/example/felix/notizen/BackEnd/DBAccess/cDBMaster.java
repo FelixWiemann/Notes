@@ -10,14 +10,19 @@ import com.example.felix.notizen.BackEnd.cContextManager;
 import com.example.felix.notizen.FrontEnd.cIdObject;
 
 /**
+ * NOT IN USE ANYMORE
+ * DECIDED AGAINST DB USAGE; BUT JSON FILE
+ *
  * SQL Manager Contract for main table
  * ID              |Type
  * UUID of Note    |type of note
  *
  * Created as part of notes in package com.example.felix.notizen.BackEnd.DBAccess
  * by Felix "nepumuk" Wiemann on 10/06/17.
+ *
  */
 @SuppressWarnings("unused")
+@Deprecated
 public class cDBMaster extends SQLiteOpenHelper {
 
     //Database Version
