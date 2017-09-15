@@ -1,6 +1,7 @@
 package com.example.felix.notizen.FrontEnd.Task;
 
 import com.example.felix.notizen.FrontEnd.cIdObject;
+import com.example.felix.notizen.FrontEnd.cJSONObject;
 
 /**
  *
@@ -11,7 +12,7 @@ import com.example.felix.notizen.FrontEnd.cIdObject;
  * TODO add ID
  */
 @SuppressWarnings("unused")
-public abstract class cTask extends cIdObject {
+public abstract class cBaseTask extends cIdObject {
 
     /**
      * text of the task
@@ -30,11 +31,11 @@ public abstract class cTask extends cIdObject {
      * @param mText text of the new task
      * @param mDone flag if task is done or not
      */
-    public cTask(String mTitle, String mText, boolean mDone){
+    public cBaseTask(String mTitle, String mText, boolean mDone){
         super(null,mTitle);
         this.mText = mText;
         this.mDone = mDone;
-        logDebug("creating cTask");
+        logDebug("creating cBaseTask");
     }
 
     /**

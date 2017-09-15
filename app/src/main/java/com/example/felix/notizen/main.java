@@ -1,20 +1,13 @@
 package com.example.felix.notizen;
 
-import android.content.Context;
-
-import com.example.felix.notizen.BackEnd.DBAccess.cDBMaster;
+import com.example.felix.notizen.BackEnd.JsonManager.cJsonManager;
 import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 import com.example.felix.notizen.BackEnd.Logger.cNoteLoggerException;
-import com.example.felix.notizen.BackEnd.cContextManager;
+import com.example.felix.notizen.BackEnd.cNoteMaster;
 import com.example.felix.notizen.FrontEnd.Notes.cImageNote;
-import com.example.felix.notizen.FrontEnd.Notes.cNote;
-import com.example.felix.notizen.FrontEnd.Notes.cTaskNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
-import com.example.felix.notizen.FrontEnd.Task.cTask;
-import com.example.felix.notizen.FrontEnd.cIdObjectException;
 
-import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -26,22 +19,37 @@ import java.util.UUID;
 
 
 @SuppressWarnings("unused")
+
 public class main {
     public static void main(String [] args)
     {
-        String path = "/home/felix/";
+        String path = "D:\\";
         cNoteLogger logger = cNoteLogger.getInstance();
-        cContextManager cm = cContextManager.getInstance();
-        logger.init(path,5);
-        cTextNote textNote= new cTextNote(UUID.randomUUID(),"title","message");
+        //cContextManager cm = cContextManager.getInstance();
+        logger.init(path,cNoteLogger.mDebugLevelInfo);
+        cTextNote textNote= new cTextNote(UUID.randomUUID(),"dis da title","dis da message");
         cImageNote imageNote = new cImageNote(UUID.randomUUID(), "t", "none");
+        cNoteMaster master = cNoteMaster.getInstance();
+        master.addNote(textNote);
+        master.addNote(new cTextNote(UUID.randomUUID(),"dis da","dis da"));
+        master.addNote(imageNote);
+
         logger.logInfo(textNote.aTYPE);
         logger.logInfo(imageNote.aTYPE);
-        cDBMaster master  = cDBMaster.getInstance();
-        master.insert(textNote);
-        master.insert(imageNote);
-        master.delete(textNote);
-        master.delete(imageNote);
+
+        ArrayList<cTextNote> a = master.getNotesOfType(new cTextNote(null,null,null).aTYPE);
+        int l = a.size();
+        for (int i = 0;i<l;i++){
+            logger.logInfo(a.get(i).generateJSONString());
+        }
+
+        logger.logInfo(textNote.generateJSONString());
+
+        //cDBMaster master  = cDBMaster.getInstance();
+        //master.insert(textNote);
+        //master.insert(imageNote);
+        //master.delete(textNote);
+        //master.delete(imageNote);
 
         imageNote.deleteNote();
         textNote.deleteNote();

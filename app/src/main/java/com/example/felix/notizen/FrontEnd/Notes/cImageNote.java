@@ -122,4 +122,8 @@ public class cImageNote extends cNote {
     }
 
 
+    @Override
+    public String generateJSONString() {
+        return null;
+    }
 }

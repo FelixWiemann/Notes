@@ -32,11 +32,18 @@ public class cContextManager {
     private cContextManager() {
     }
 
+    /**
+     * sets up the context manager for storing the context
+     * @param context context to be stored
+     * @throws cContextManagerException
+     */
     public void setUp(Context context) throws cContextManagerException {
-        if (context == null) {
+        // only set context, if not set already
+        if (mContext == null) {
             this.mContext = context;
         }
         else {
+            // otherwise throw exception
             new cContextManagerException("Context Manager setUp",cContextManagerException.aCONTEXT_ALREADY_SET,null).raise();
         }
     }

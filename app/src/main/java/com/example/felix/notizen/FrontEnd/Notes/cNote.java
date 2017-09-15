@@ -1,7 +1,7 @@
 package com.example.felix.notizen.FrontEnd.Notes;
 
-import com.example.felix.notizen.FrontEnd.cIdObject;
-import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
+import com.example.felix.notizen.BackEnd.cBaseException;
+import com.example.felix.notizen.FrontEnd.cJSONObject;
 
 import java.util.Date;
 import java.util.UUID;
@@ -11,7 +11,7 @@ import java.util.UUID;
  * base class for Notes
  */
 @SuppressWarnings("unused")
-public abstract class cNote extends cIdObject {
+public abstract class cNote extends cJSONObject {
 
     /**
      * identifier of class
@@ -22,12 +22,17 @@ public abstract class cNote extends cIdObject {
      * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
      * @see Date#getTime()
      */
-    private long mCreationDate;
+    private long mCreationDate = -1;
     /**
      * date of last change, numbers of milliseconds after January 1, 1970 00:00:00 GMT
      * @see Date#getTime()
      */
-    private long mLastChangedDate;
+    private long mLastChangedDate = -1;
+
+
+    public static final String aJSON_LAST_CHANGE_DATE = "LAST_CHANGE_DATE";
+
+    public static final String aJSON_CREATION_DATE = "CREATION_DATE";
 
 
     /**
@@ -105,6 +110,25 @@ public abstract class cNote extends cIdObject {
         mCreationDate = (new Date()).getTime();
     }
 
+    /**
+     *
+     * @param pCreationDate
+     * @throws Exception
+     */
+    public void setCreationDate(long pCreationDate) throws cBaseException {
+        // must be -1 to be set, otherwise it was created before
+        if (mCreationDate == -1){
+            mCreationDate = pCreationDate;
+        }
+        else {
+            throw new cNoteException("cNote setCreationDate",cNoteException.aCREATION_DATE_ALREDY_SET,null);
+        }
+
+    }
+    public void setLastChangeDate(long lastChangeDate) {
+        mLastChangedDate = lastChangeDate;
+    }
+
 
     /**
      * abstract method to override in inherited classes to handle deletion of the note
@@ -123,6 +147,13 @@ public abstract class cNote extends cIdObject {
      */
     public abstract void addAdditionalData(Object pDataBlob);
 
+
+    public String getJsonLastChangeDate(){
+        return aJSON_FIELD_SIGN+aJSON_LAST_CHANGE_DATE+aJSON_FIELD_SIGN+aJSON_SEP+aJSON_FIELD_SIGN+getLastChangedDate()+aJSON_FIELD_SIGN;
+    }
+    public String getJsonCreationDate(){
+        return aJSON_FIELD_SIGN+aJSON_CREATION_DATE+aJSON_FIELD_SIGN+aJSON_SEP+aJSON_FIELD_SIGN+getCreationDate()+aJSON_FIELD_SIGN;
+    }
 
 
 }

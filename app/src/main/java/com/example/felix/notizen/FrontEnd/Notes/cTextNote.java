@@ -23,6 +23,8 @@ public class cTextNote extends cNote {
      */
     private String mMessage;
 
+    private String aJSON_TEXT = "TEXT";
+
     /**
      * create new Note with these parameters.
      *
@@ -95,5 +97,19 @@ public class cTextNote extends cNote {
             logError(e.getMessage());
             //TODO: exception handling and logging
         }
+    }
+
+    @Override
+    public String generateJSONString(){
+        String ID = getJsonID();
+        String Title = getJsonTitle()+aJSON_COMMA+aJSON_NEW_LINE;
+        String CreationDate = getJsonCreationDate()+aJSON_COMMA+aJSON_NEW_LINE;
+        String LastChangeDate = getJsonLastChangeDate()+aJSON_COMMA+aJSON_NEW_LINE;
+        String Text = getJsonText();
+        return ID+Title+CreationDate+LastChangeDate + Text + aJSON_OBJ_END;
+    }
+
+    private String getJsonText(){
+        return aJSON_FIELD_SIGN+aJSON_TEXT+aJSON_FIELD_SIGN+aJSON_SEP+aJSON_FIELD_SIGN+getMessage()+aJSON_FIELD_SIGN;
     }
 }

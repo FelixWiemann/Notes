@@ -42,26 +42,31 @@ public class cNoteLogger {
      * 4: Debug
      */
     private int mCurrentDebugLevel = 0;
+
     /**
      * debug level const none
      */
-    private static final int mDebugLevelNone = 0;
+    public static final int mDebugLevelNone = 0;
+
     /**
      * debug level const error
      */
-    private static final int mDebugLevelError = 1;
+    public static final int mDebugLevelError = 1;
+
     /**
      * debug level const warning
      */
-    private static final int mDebugLevelWarning = 2;
+    public static final int mDebugLevelWarning = 2;
+
     /**
      * debug level const info
      */
-    private static final int mDebugLevelInfo = 3;
+    public static final int mDebugLevelInfo = 3;
+
     /**
      * level debug
      */
-    private final int mDebugLevelDebug = 4;
+    public final int mDebugLevelDebug = 4;
 
     /**
      * available log entries
@@ -93,7 +98,6 @@ public class cNoteLogger {
      * log file to be logged into
      */
     private File mLogFile;
-
 
     /**
      * logs a message into the buffer, if the level of the message is to be logged
@@ -163,7 +167,6 @@ public class cNoteLogger {
         log(message,mDebugLevelNone);
     }
 
-
     /**
      * instance of logger
      * to be accessed via getter
@@ -207,8 +210,8 @@ public class cNoteLogger {
      */
     public void init(String logLocation,int debugLevel){
         // TODO log file handling to avoid space clogging on device
-        String formattedDate = (new SimpleDateFormat("yyyymmdd:hhmmss")).format(new Date());
-        this.mLogFileLocation = logLocation + aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
+        String formattedDate = (new SimpleDateFormat("yyyyMMdd_hhmmss")).format(new Date());
+        this.mLogFileLocation = logLocation +"/"+ aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
         mLogFile = new File(mLogFileLocation);
         this.mCurrentDebugLevel = debugLevel;
         // log init finished
@@ -236,8 +239,10 @@ public class cNoteLogger {
         return logMessage;
     }
 
-
-    // flush all entries into the file
+    /**
+     * flush all entries into the file
+     * @throws cNoteLoggerException
+     */
     public void flush() throws cNoteLoggerException {
         Iterator iterator = mLogEntries.iterator();
         FileWriter fr = null;
@@ -250,7 +255,7 @@ public class cNoteLogger {
             mLogEntries.clear();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new cNoteLoggerException("",cNoteLoggerException.aERROR_OPENING_FILE,e);
+            throw new cNoteLoggerException("log flush",cNoteLoggerException.aERROR_OPENING_FILE,null);
         }
     }
 }

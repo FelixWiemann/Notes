@@ -1,6 +1,6 @@
 package com.example.felix.notizen.FrontEnd.Notes;
 
-import com.example.felix.notizen.FrontEnd.Task.cTask;
+import com.example.felix.notizen.FrontEnd.Task.cBaseTask;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class cTaskNote extends cNote {
     /**
      * list of tasks stored in this note
      */
-    private List<cTask> mTaskList;
+    private List<cBaseTask> mTaskList;
 
 
     /**
@@ -34,7 +34,7 @@ public class cTaskNote extends cNote {
      * @param pTitle title of Note
      * @param pTaskList list of tasks in created note
      */
-    public cTaskNote(UUID pID, String pTitle, List<cTask>pTaskList) {
+    public cTaskNote(UUID pID, String pTitle, List<cBaseTask>pTaskList) {
         super(pID, pTitle);
         logDebug("creating new cTaskNote");
         this.setTaskList(pTaskList);
@@ -51,7 +51,7 @@ public class cTaskNote extends cNote {
      *                      true -> no new creation/last changed date
      * @param pTaskList list of tasks in created note
      */
-    public cTaskNote(UUID pID, String pTitle, List<cTask>pTaskList, boolean pExistingNote) {
+    public cTaskNote(UUID pID, String pTitle, List<cBaseTask>pTaskList, boolean pExistingNote) {
         super(pID, pTitle, pExistingNote);
         logDebug("creating new cTaskNote");
         this.setTaskList(pTaskList);
@@ -71,7 +71,7 @@ public class cTaskNote extends cNote {
      * add additional data to this note
      * inherited by cNote
      *
-     * @param pDataBlob of type List<cTask> containing task list
+     * @param pDataBlob of type List<cBaseTask> containing task list
      */
     @Override
     public void addAdditionalData(Object pDataBlob) {
@@ -83,7 +83,7 @@ public class cTaskNote extends cNote {
      * adds a task to notes task list
      * @param taskToAdd task that shall be added
      */
-    public void addTask(cTask taskToAdd){
+    public void addTask(cBaseTask taskToAdd){
         logDebug("adding task to note");
         mTaskList.add(taskToAdd);
     }
@@ -93,7 +93,7 @@ public class cTaskNote extends cNote {
      * @param pPos position of the task that shall be returned
      * @return task that is stored at position pPos
      */
-    public cTask getTaskAtPos(int pPos){
+    public cBaseTask getTaskAtPos(int pPos){
         logDebug("returning task at pos " +String.valueOf(pPos));
         return mTaskList.get(pPos);
     }
@@ -104,7 +104,7 @@ public class cTaskNote extends cNote {
     private void clearTaskList(){
         logDebug("clearing all tasks");
         // delete each task in mTaskList
-        for (cTask task: mTaskList
+        for (cBaseTask task: mTaskList
                 ) {
             task.deleteTask();
         }
@@ -118,7 +118,7 @@ public class cTaskNote extends cNote {
      * return the entire list of tasks inside the note
      * @return list of all tasks stored in this note
      */
-    public List<cTask> getTaskList() {
+    public List<cBaseTask> getTaskList() {
         logDebug("returning task list");
         return mTaskList;
     }
@@ -127,11 +127,16 @@ public class cTaskNote extends cNote {
      * set the task list to the given one
      * @param pTaskList new task list
      */
-    private void setTaskList(List<cTask> pTaskList) {
+    private void setTaskList(List<cBaseTask> pTaskList) {
         logDebug("setting task list, clearing current first");
         // clear all tasks currently inside list
         clearTaskList();
         // set tasklist
         this.mTaskList = pTaskList;
+    }
+
+    @Override
+    public String generateJSONString() {
+        return null;
     }
 }

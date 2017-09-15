@@ -12,7 +12,7 @@ import java.util.Date;
  * TODO create timer, handle it (start/stop/alarm if over/etc.)
  */
 @SuppressWarnings("unused")
-public class cTimedTask extends cTask{
+public class cTimedTask extends cBaseTask {
 
     /**
      * returns the date when the task is due in ms since January 1, 1970 00:00:00 GMT
