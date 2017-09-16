@@ -9,6 +9,7 @@ import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 import com.example.felix.notizen.BackEnd.Logger.cNoteLoggerException;
 import com.example.felix.notizen.BackEnd.cBaseException;
 import com.example.felix.notizen.BackEnd.cContextManager;
+import com.example.felix.notizen.BackEnd.cNoteMaster;
 import com.example.felix.notizen.FrontEnd.Notes.cImageNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
 
@@ -39,17 +40,15 @@ public class MainActivity extends AppCompatActivity {
             cImageNote imageNote = new cImageNote(UUID.randomUUID(), "t", "none");
             logger.logInfo(textNote.aTYPE);
             logger.logInfo(imageNote.aTYPE);
-            String test = getApplicationContext().getFilesDir() + "/" + "test.txt";
-            String json = path + "/test.txt";
-            logger.logInfo(json);
-            logger.logInfo(test);
             // test reading available JSON
+            cNoteMaster noteMaster = cNoteMaster.getInstance();
+            noteMaster.addNote(textNote);
             cJsonManager reader = cJsonManager.getInstance();
-            reader.init(test);
+            reader.init(path+"/JSON_DATA.TXT");
+            reader.writeJSON();
+
             reader.read_JSON();
-            // clean
-            imageNote.deleteNote();
-            textNote.deleteNote();
+
         }catch (cBaseException ex){
             ex.logException();
         }

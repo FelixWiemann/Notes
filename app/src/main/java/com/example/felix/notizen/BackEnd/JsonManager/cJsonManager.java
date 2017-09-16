@@ -2,16 +2,20 @@ package com.example.felix.notizen.BackEnd.JsonManager;
 
 import android.util.JsonReader;
 
+import com.example.felix.notizen.BackEnd.cNoteMaster;
 import com.example.felix.notizen.FrontEnd.Notes.cNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
+import com.example.felix.notizen.FrontEnd.cJSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -20,7 +24,7 @@ import java.util.UUID;
  *
  * Used as singleton
  */
-public class cJsonManager {
+public class cJsonManager extends cJSONObject {
 
     /**
      * Location of JSON file
@@ -31,7 +35,11 @@ public class cJsonManager {
     /**
      * singleton instance
      */
-    private static cJsonManager jsonManagerInstance = new cJsonManager();
+    private static cJsonManager jsonManagerInstance = new cJsonManager(UUID.randomUUID(),"JSON Manager");
+
+    private cJsonManager(UUID mID, String mTitle) {
+        super(mID, mTitle);
+    }
 
     /**
      * get the instance of the JSON manager
@@ -41,10 +49,7 @@ public class cJsonManager {
         return jsonManagerInstance;
     }
 
-    /**
-     * private constructor
-     */
-    private cJsonManager(){    }
+
 
     /**
      * init the JSON manager. shall be set at start of application
@@ -239,4 +244,40 @@ public class cJsonManager {
         //TODO read image note
     }
 
+    public void writeJSON(){
+        String header = "{\n";
+        String _Tasks = "\"TASKS\":{\n";
+        String _Notes = "\"NOTES\":{\n";
+        cNoteMaster noteMaster = cNoteMaster.getInstance();
+        ArrayList<cNote> notes;
+        FileOutputStream outputStream;
+        try {
+            File f = new File(aJSON_FILE_LOCATION);
+            outputStream = new FileOutputStream(f);
+
+            // write begin of file:
+            outputStream.write(header.getBytes());
+            outputStream.write(_Tasks.getBytes());
+            outputStream.write("},".getBytes());
+            outputStream.write(_Notes.getBytes());
+            outputStream.write("\"cTextNote\": [".getBytes());
+            //write TextNotes
+            notes = noteMaster.getNotesOfType("cTextNote");
+            for (int i = 0; i < notes.size(); i++) {
+                outputStream.write(notes.get(i).generateJSONString().getBytes());
+                if (i!=notes.size()-1){
+                    outputStream.write(",\n".getBytes());
+                }
+            }
+            outputStream.write("]\n}\n}".getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String generateJSONString() {
+        return null;
+    }
 }
