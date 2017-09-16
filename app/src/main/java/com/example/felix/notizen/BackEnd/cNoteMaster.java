@@ -4,6 +4,8 @@ import com.example.felix.notizen.FrontEnd.Notes.cImageNote;
 import com.example.felix.notizen.FrontEnd.Notes.cNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTaskNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
+import com.example.felix.notizen.FrontEnd.Task.cTask;
+import com.example.felix.notizen.FrontEnd.Task.cTimedTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +53,9 @@ public class cNoteMaster {
         notes = new HashMap<String, ArrayList>();
         notes.put(new cTextNote(null,null,null).aTYPE,new ArrayList<cTextNote>());
         notes.put(new cImageNote(null,null,null).aTYPE,new ArrayList<cImageNote>());
+        notes.put(new cTaskNote(null,null,null).aTYPE,new ArrayList<cTaskNote>());
+        notes.put(new cTask(null,null,false).aTYPE,new ArrayList<cTask>());
+        notes.put(new cTimedTask(null,null,false).aTYPE,new ArrayList<cTimedTask>());
     }
 
     /**
@@ -78,6 +83,24 @@ public class cNoteMaster {
     public void addNote(cTaskNote pNoteToAdd){
         String type = pNoteToAdd.aTYPE;
         notes.get(type).add(pNoteToAdd);
+    }
+
+    /**
+     * add a task node to the list
+     * @param pTaskToAdd
+     */
+    public void addTask(cTask pTaskToAdd){
+        String type = pTaskToAdd.aTYPE;
+        notes.get(type).add(pTaskToAdd);
+    }
+
+    /**
+     * add a task node to the list
+     * @param pTaskToAdd
+     */
+    public void addTask(cTimedTask pTaskToAdd){
+        String type = pTaskToAdd.aTYPE;
+        notes.get(type).add(pTaskToAdd);
     }
 
     /**
