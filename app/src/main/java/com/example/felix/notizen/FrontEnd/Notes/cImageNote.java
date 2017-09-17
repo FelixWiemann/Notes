@@ -23,6 +23,7 @@ public class cImageNote extends cNote {
      */
     private String mImageLocation;
 
+    private final String aJSON_IMAGE_LOCATION = "IMAGE_LOCATION";
 
     /**
      * create new Note
@@ -123,7 +124,17 @@ public class cImageNote extends cNote {
 
 
     @Override
-    public String generateJSONString() {
-        return null;
+    public String generateJSONString(){
+        String ID = getJsonID();
+        String Title = getJsonTitle()+aJSON_COMMA+aJSON_NEW_LINE;
+        String CreationDate = getJsonCreationDate()+aJSON_COMMA+aJSON_NEW_LINE;
+        String LastChangeDate = getJsonLastChangeDate()+aJSON_COMMA+aJSON_NEW_LINE;
+        String ImageLocation = getJsonImageLocation();
+        return aJSON_OBJ_BEGIN + ID+Title+CreationDate+LastChangeDate + ImageLocation + aJSON_OBJ_END;
+    }
+
+    private String getJsonImageLocation(){
+        String returnString = aJSON_FIELD_SIGN + aJSON_IMAGE_LOCATION + aJSON_FIELD_SIGN + aJSON_SEP + aJSON_FIELD_SIGN + getImageLocation() + aJSON_FIELD_SIGN + aJSON_NEW_LINE;
+        return returnString;
     }
 }

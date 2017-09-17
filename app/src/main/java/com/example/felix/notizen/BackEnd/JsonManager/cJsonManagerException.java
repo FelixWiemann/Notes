@@ -31,8 +31,4 @@ public class cJsonManagerException extends cBaseException {
         super(location, message, cause);
     }
 
-    @Override
-    public void raise() throws cBaseException {
-
-    }
 }
