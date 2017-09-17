@@ -36,14 +36,4 @@ public class cNoteLoggerException extends cBaseException {
         super(location, message, cause);
     }
 
-    /**
-     * abstract function to be called instead of throw
-     *
-     * @throws cBaseException
-     */
-    @Override
-    public void raise() throws cBaseException {
-        logException();
-        throw this;
-    }
 }

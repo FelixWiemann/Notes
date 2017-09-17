@@ -16,10 +16,4 @@ public class cContextManagerException extends cBaseException {
         super(location,message,cause);
     }
 
-
-    @Override
-    public void raise() throws cContextManagerException {
-        logException();
-        throw this;
-    }
 }

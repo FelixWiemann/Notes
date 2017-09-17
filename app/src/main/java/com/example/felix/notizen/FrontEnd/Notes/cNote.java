@@ -121,7 +121,7 @@ public abstract class cNote extends cJSONObject {
             mCreationDate = pCreationDate;
         }
         else {
-            throw new cNoteException("cNote setCreationDate",cNoteException.aCREATION_DATE_ALREDY_SET,null);
+            throw new cNoteException("cNote setCreationDate",cNoteException.aCREATION_DATE_ALREADY_SET,null);
         }
 
     }
@@ -137,15 +137,17 @@ public abstract class cNote extends cJSONObject {
     public abstract void deleteNote();
 
 
-    /**
+    /*
+     * removed as no need in additional Data. setters used instead
      * add additional data to this note
      * pDataBlob may contain any kind of data, determined by type of note
      * @param pDataBlob contains the Data to add, in case of these classes:</p>
      *                  cImageNote: string containing location of Image
      *                  cTextNote: string containing the message of the note
      *                  cTaskNote: List containing all tasks of the note
+     *
      */
-    public abstract void addAdditionalData(Object pDataBlob);
+    //public abstract void addAdditionalData(Object pDataBlob);
 
 
     public String getJsonLastChangeDate(){

@@ -67,17 +67,17 @@ public class cTaskNote extends cNote {
         clearTaskList();
     }
 
-    /**
+    /*
      * add additional data to this note
      * inherited by cNote
      *
      * @param pDataBlob of type List<cBaseTask> containing task list
-     */
+     *
     @Override
     public void addAdditionalData(Object pDataBlob) {
         logDebug("adding additional data");
-        // todo handle adding data
-    }
+        // tod handle adding data
+    }*/
 
     /**
      * adds a task to notes task list

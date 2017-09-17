@@ -16,14 +16,4 @@ public class cIdObjectException extends cBaseException {
         super(location, message, cause);
     }
 
-    /**
-     * abstract function to be called instead of throw
-     *
-     * @throws cBaseException
-     */
-    @Override
-    public void raise() throws cIdObjectException {
-        logException();
-        throw this;
-    }
 }

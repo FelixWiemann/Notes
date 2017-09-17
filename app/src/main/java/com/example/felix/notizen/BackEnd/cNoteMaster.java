@@ -53,9 +53,9 @@ public class cNoteMaster {
         notes = new HashMap<String, ArrayList>();
         notes.put(new cTextNote(null,null,null).aTYPE,new ArrayList<cTextNote>());
         notes.put(new cImageNote(null,null,null).aTYPE,new ArrayList<cImageNote>());
-        notes.put(new cTaskNote(null,null,null).aTYPE,new ArrayList<cTaskNote>());
-        notes.put(new cTask(null,null,false).aTYPE,new ArrayList<cTask>());
-        notes.put(new cTimedTask(null,null,false).aTYPE,new ArrayList<cTimedTask>());
+        //notes.put(new cTaskNote(null,null,null).aTYPE,new ArrayList<cTaskNote>());
+        notes.put(new cTask(null,null,null,false).aTYPE,new ArrayList<cTask>());
+        notes.put(new cTimedTask(null,null,null,false).aTYPE,new ArrayList<cTimedTask>());
     }
 
     /**

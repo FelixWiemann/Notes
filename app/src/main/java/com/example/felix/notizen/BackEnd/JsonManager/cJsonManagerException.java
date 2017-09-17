@@ -9,17 +9,17 @@ import com.example.felix.notizen.BackEnd.cBaseException;
 public class cJsonManagerException extends cBaseException {
 
     /**
-     * file not found exception
-     */
-    public static final String aFILE_NOT_FOUND_EXCEPTION = "aFILE_NOT_FOUND_EXCEPTION";
-    /**
-     * unsupported encoding
-     */
-    public static final String aUNSUPPORTED_ENCODING = "aUNSUPPORTED_ENCODING";
-    /**
      * reading the file failed
      */
     public static final String aREAD_FAILED = "aREAD_FAILED";
+    public static final String aWRITING_OBJECTS_OF_TYPE_FAILED = "aWRITING_OBJECTS_OF_TYPE_FAILED";
+    public static final String aWRITING_TASKS_FAILED = "aWRITING_TASKS_FAILED";
+    public static final String aWRITE_NOTES_FAILED = "aWRITE_NOTES_FAILED";
+    public static final String aWRITE_JSON_FAILED = "aWRITE_JSON_FAILED";
+    public static final String aREAD_TEXT_NOTE_FAILED = "aREAD_TEXT_NOTE_FAILED";
+    public static final String aREAD_NOTES_FAILED = "aREAD_NOTES_FAILED";
+    public static final String aREAD_TASKS_FAILED = "aREAD_TASKS_FAILED";
+
 
     /**
      * constructor for exceptions

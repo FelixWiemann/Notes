@@ -3,13 +3,11 @@ package com.example.felix.notizen.FrontEnd.Task;
 import com.example.felix.notizen.FrontEnd.cIdObject;
 import com.example.felix.notizen.FrontEnd.cJSONObject;
 
+import java.util.UUID;
+
 /**
- *
- *
- *
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
- * TODO add ID
  */
 @SuppressWarnings("unused")
 public abstract class cBaseTask extends cIdObject {
@@ -27,12 +25,13 @@ public abstract class cBaseTask extends cIdObject {
 
     /**
      * constructor setting title, text and flag for task completion
+     * @param mId id of the task
      * @param mTitle title of the new task
      * @param mText text of the new task
      * @param mDone flag if task is done or not
      */
-    public cBaseTask(String mTitle, String mText, boolean mDone){
-        super(null,mTitle);
+    public cBaseTask(UUID mId, String mTitle, String mText, boolean mDone){
+        super(mId,mTitle);
         this.mText = mText;
         this.mDone = mDone;
         logDebug("creating cBaseTask");

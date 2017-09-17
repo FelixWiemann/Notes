@@ -23,7 +23,7 @@ public class cTextNote extends cNote {
      */
     private String mMessage;
 
-    private String aJSON_TEXT = "TEXT";
+    public static final String aJSON_TEXT = "TEXT";
 
     /**
      * create new Note with these parameters.
@@ -78,13 +78,13 @@ public class cTextNote extends cNote {
         logDebug("note deleted");
     }
 
-    /**
+    /*
      * add additional data to this note
      * DataBlob may contain any kind of data, determined by type of note
      *
      * @param pDataBlob contains the Data to add, in case of these classes:</p>
      *                 cImageNote: string containing location of Image
-     */
+     *
     @Override
     public void addAdditionalData(Object pDataBlob) {
         logDebug("adding additional data");
@@ -95,9 +95,9 @@ public class cTextNote extends cNote {
         }
         catch (Exception e){
             logError(e.getMessage());
-            //TODO: exception handling and logging
+            //TOD: exception handling and logging
         }
-    }
+    }*/
 
     @Override
     public String generateJSONString(){
@@ -105,8 +105,8 @@ public class cTextNote extends cNote {
         String Title = getJsonTitle()+aJSON_COMMA+aJSON_NEW_LINE;
         String CreationDate = getJsonCreationDate()+aJSON_COMMA+aJSON_NEW_LINE;
         String LastChangeDate = getJsonLastChangeDate()+aJSON_COMMA+aJSON_NEW_LINE;
-        String Text = getJsonText();
-        return ID+Title+CreationDate+LastChangeDate + Text + aJSON_OBJ_END;
+        String Text = getJsonText()+aJSON_NEW_LINE;
+        return  aJSON_OBJ_BEGIN+ID+Title+CreationDate+LastChangeDate + Text + aJSON_OBJ_END;
     }
 
     private String getJsonText(){

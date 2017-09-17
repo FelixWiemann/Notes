@@ -1,5 +1,7 @@
 package com.example.felix.notizen.FrontEnd.Task;
 
+import java.util.UUID;
+
 /**
  * Implementation class for simple tasks containing only title, text and whether it is done
  *
@@ -15,8 +17,8 @@ public class cTask extends cBaseTask {
      * @param mText  text of the new task
      * @param mDone  flag if task is done or not
      */
-    public cTask(String mTitle, String mText, boolean mDone) {
-        super(mTitle, mText, mDone);
+    public cTask(UUID mId, String mTitle, String mText, boolean mDone) {
+        super(mId, mTitle, mText, mDone);
     }
 
     /**

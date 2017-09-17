@@ -26,7 +26,7 @@ public class main {
         String path = "D:\\";
         cNoteLogger logger = cNoteLogger.getInstance();
         //cContextManager cm = cContextManager.getInstance();
-        logger.init(path,cNoteLogger.mDebugLevelInfo);
+        logger.init(path,cNoteLogger.mDebugLevelInfo,10);
         cTextNote textNote= new cTextNote(UUID.randomUUID(),"dis da title","dis da message");
         cImageNote imageNote = new cImageNote(UUID.randomUUID(), "t", "none");
         cNoteMaster master = cNoteMaster.getInstance();

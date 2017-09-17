@@ -84,10 +84,9 @@ public class cNoteLogger {
     private ArrayList<cLogEntry> mLogEntries;
 
     /**
-     * TODO: make part of init
      * number of entries inside the logger until the log messages get written to file
      */
-    private int mEntriesBeforeLogFlush = 10;
+    private int mEntriesBeforeLogFlush;
 
     /**
      * location logger logs to. To be set in init
@@ -117,7 +116,7 @@ public class cNoteLogger {
                 cNoteLoggerException ex = new cNoteLoggerException(cNoteLoggerException.aCOULD_NOT_WRITE_TO_FILE
                         , String.format("Failed to log %s with level %i", message, level)
                         ,e);
-                // TODO write not to file, as it already failed!
+                ex.printStackTrace();
             }
         }
     }
@@ -208,12 +207,13 @@ public class cNoteLogger {
      * @param logLocation location to store log file
      * @param debugLevel log level to use
      */
-    public void init(String logLocation,int debugLevel){
+    public void init(String logLocation,int debugLevel,int entriesBeforeFlush){
         // TODO log file handling to avoid space clogging on device
-        String formattedDate = (new SimpleDateFormat("yyyyMMdd_hhmmss")).format(new Date());
+        String formattedDate = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
         this.mLogFileLocation = logLocation +"/"+ aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
         mLogFile = new File(mLogFileLocation);
         this.mCurrentDebugLevel = debugLevel;
+        mEntriesBeforeLogFlush = entriesBeforeFlush;
         // log init finished
         logNone("logger initialized");
         logNone("debug level: "+ String.valueOf(debugLevel));

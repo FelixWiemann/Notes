@@ -8,8 +8,11 @@ import android.content.Context;
  *
  * Created as part of notes in package com.example.felix.notizen.BackEnd
  * by Felix "nepumuk" Wiemann on 04/06/17.
+ *
+ * getApplicationContext instead!
  */
 @SuppressWarnings("unused")
+@Deprecated
 public class cContextManager {
     /**
      * mContext variable
@@ -44,7 +47,7 @@ public class cContextManager {
         }
         else {
             // otherwise throw exception
-            new cContextManagerException("Context Manager setUp",cContextManagerException.aCONTEXT_ALREADY_SET,null).raise();
+            throw new cContextManagerException("Context Manager setUp",cContextManagerException.aCONTEXT_ALREADY_SET,null);
         }
     }
 

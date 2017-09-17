@@ -1,6 +1,7 @@
 package com.example.felix.notizen.FrontEnd.Task;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * ${PACKAGE_NAME}
@@ -46,8 +47,8 @@ public class cTimedTask extends cBaseTask {
      * @param mText text of the new task
      * @param mDone flag if task is done or not
      */
-    public cTimedTask(String mTitle, String mText, boolean mDone) {
-        super(mTitle, mText, mDone);
+    public cTimedTask(UUID mId, String mTitle, String mText, boolean mDone) {
+        super(mId,mTitle, mText, mDone);
         logDebug("creating timed task");
     }
 

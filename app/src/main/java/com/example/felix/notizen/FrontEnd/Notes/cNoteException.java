@@ -9,14 +9,10 @@ import com.example.felix.notizen.BackEnd.cBaseException;
 
 public class cNoteException extends cBaseException {
 
-    public static final String aCREATION_DATE_ALREDY_SET = "aCREATION_DATE_ALREDY_SET";
+    static final String aCREATION_DATE_ALREADY_SET = "aCREATION_DATE_ALREADY_SET";
 
     public cNoteException(String location, String message, cBaseException cause) {
         super(location, message, cause);
     }
 
-    @Override
-    public void raise() throws cBaseException {
-
-    }
 }

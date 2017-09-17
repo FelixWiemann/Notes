@@ -99,10 +99,6 @@ public class cIdObject {
         return mID.toString();
     }
 
-
-
-    // TODO add custom info to logger infos
-
     protected void logInfo(String Message){
         logger.logInfo(Message);
     }

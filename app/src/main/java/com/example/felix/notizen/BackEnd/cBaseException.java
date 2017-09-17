@@ -1,5 +1,7 @@
 package com.example.felix.notizen.BackEnd;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Date;
 import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 
@@ -24,6 +26,8 @@ public abstract class cBaseException extends Exception {
     private final String aADDITIONAL_DATA_TAG = "--Begin Additional Data--";
     private final String aEND_ADDITIONAL_DATA_TAG = "--End Additional Data--";
 
+    private static final String aNo_Cause_Known = "<NO CAUSE KNOWN>";
+
     // local vars for excepts
     private String mLocation;
     private Exception mCause;
@@ -43,8 +47,7 @@ public abstract class cBaseException extends Exception {
     // get the output of all exceptions
     private String exceptionOutput(String indent){
         // set default to no cause known
-        // TODO set constant
-        String causeOut = indent + "<NO CAUSE KNOWN>";
+        String causeOut = indent + aNo_Cause_Known;
         // if not null
         if (mCause != null){
             // in case of cBaseException get output of cause
@@ -81,12 +84,12 @@ public abstract class cBaseException extends Exception {
     public void logException() {
         // log by logging the output
         log.logError(exceptionOutput(aIndent));
+        // generate StackTrace
+        // TODO add stack trace to additional data. stack trace in this position is not useful, as only last exception in call gets printed at this point
+        String stackTrace = "";
+        for ( StackTraceElement trace : Thread.currentThread().getStackTrace() )
+            stackTrace += trace.toString()+"\n";
+        log.logError(stackTrace);
     }
 
-    /**
-     * TODO remove
-     * abstract function to be called instead of throw
-     * @throws cBaseException
-     */
-    public abstract void raise() throws cBaseException;
 }

@@ -67,12 +67,12 @@ public class cImageNote extends cNote {
         deleteImageAtStorageLocation();
     }
 
-    /**
+    /*
      * add additional data to this note
      * inherited by cNote
      *
      * @param pDataBlob of type String containing location of Image
-     */
+     *
     @Override
     public void addAdditionalData(Object pDataBlob){
         logDebug("adding additional data");
@@ -83,9 +83,9 @@ public class cImageNote extends cNote {
         }
         catch (Exception e){
             logError(e.getMessage());
-            //TODO: exception handling and logging
+            //TOD: exception handling and logging
         }
-    }
+    }*/
 
     /**
      * returns the image location of the note

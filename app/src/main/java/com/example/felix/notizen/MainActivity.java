@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             cContextManager cm = cContextManager.getInstance();
             cm.setUp(this.getApplicationContext());
             // init logger
-            logger.init(path, 5);
+            logger.init(path, cNoteLogger.mDebugLevelInfo,10);
             cTextNote textNote = new cTextNote(UUID.randomUUID(), "title", "message");
             cImageNote imageNote = new cImageNote(UUID.randomUUID(), "t", "none");
             logger.logInfo(textNote.aTYPE);
