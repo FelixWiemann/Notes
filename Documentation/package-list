@@ -1,8 +1,0 @@
-com.example.felix.notizen
-com.example.felix.notizen.BackEnd
-com.example.felix.notizen.BackEnd.DBAccess
-com.example.felix.notizen.BackEnd.JsonManager
-com.example.felix.notizen.BackEnd.Logger
-com.example.felix.notizen.FrontEnd
-com.example.felix.notizen.FrontEnd.Notes
-com.example.felix.notizen.FrontEnd.Task
