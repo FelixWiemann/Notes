@@ -3,6 +3,10 @@ package com.example.felix.notizen.BackEnd;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 
 /**
@@ -26,13 +30,17 @@ public abstract class cBaseException extends Exception {
     private final String aADDITIONAL_DATA_TAG = "--Begin Additional Data--";
     private final String aEND_ADDITIONAL_DATA_TAG = "--End Additional Data--";
 
+    private final String AdditionalDataSeparator = ":";
     private static final String aNo_Cause_Known = "<NO CAUSE KNOWN>";
+
+    private static final String StackTrace_Key = "STACKTRACE";
+    private HashMap<String,String> mAdditionalData = new HashMap<>();
 
     // local vars for excepts
     private String mLocation;
     private Exception mCause;
     private long mTimeStamp;
-    // logger instnace
+    // logger instance
     cNoteLogger log;
 
     // constructor
@@ -59,21 +67,25 @@ public abstract class cBaseException extends Exception {
                 causeOut  = mCause.getMessage();
             }
         }
-        // built the output
+        // build the output
         String output = String.format(
                         "\n%s%s%s%s\n" +
                         "%s%s%s%d\n"+
                         "%s%s%s%s\n"+
-                        "%s%s\n" +
-                        "%s%s\n" +
                         "%s%s\n",
                 indent,aLOCATION_TAG,aBlank,mLocation,
                 indent,aTIME_TAG,aBlank,mTimeStamp,
                 indent,aMESSAGE_TAG,aBlank,getMessage(),
-                indent,aADDITIONAL_DATA_TAG,
-                indent,causeOut,
-                indent,aEND_ADDITIONAL_DATA_TAG
+                indent,aADDITIONAL_DATA_TAG
                 );
+        // add additional data
+        for (String key:mAdditionalData.keySet()
+             ) {
+           output = output + indent + aIndent +  key + AdditionalDataSeparator + mAdditionalData.get(key) + "\n";
+        }
+        // add output of origin exception
+        output += indent + causeOut + "\n";
+        output += indent + aEND_ADDITIONAL_DATA_TAG;
         // return output
         return output;
     }
@@ -82,14 +94,28 @@ public abstract class cBaseException extends Exception {
      * log the exception
      */
     public void logException() {
+        // generate StackTrace
+        String trace = this.StackTraceToString(aIndent+aIndent + aIndent);
+        // add to additional data
+        this.addAdditionalData(StackTrace_Key,trace);
         // log by logging the output
         log.logError(exceptionOutput(aIndent));
-        // generate StackTrace
-        // TODO add stack trace to additional data. stack trace in this position is not useful, as only last exception in call gets printed at this point
-        String stackTrace = "";
+    }
+
+    /**
+     * adds additional data to this exception
+     * @param key
+     * @param Value
+     */
+    public void addAdditionalData(String key, String Value){
+        mAdditionalData.put(key,Value);
+    }
+
+    private String StackTraceToString(String indent){
+        String stackTrace = "\n";
         for ( StackTraceElement trace : Thread.currentThread().getStackTrace() )
-            stackTrace += trace.toString()+"\n";
-        log.logError(stackTrace);
+            stackTrace += indent + trace.toString()+"\n";
+        return stackTrace;
     }
 
 }
