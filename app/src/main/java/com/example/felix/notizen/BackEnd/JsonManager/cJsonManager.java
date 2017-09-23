@@ -7,18 +7,15 @@ import com.example.felix.notizen.BackEnd.cBaseException;
 import com.example.felix.notizen.BackEnd.cNoteMaster;
 import com.example.felix.notizen.FrontEnd.Notes.cNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
-import com.example.felix.notizen.FrontEnd.cIdObject;
 import com.example.felix.notizen.FrontEnd.cJSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -48,7 +45,6 @@ public class cJsonManager extends cJSONObject {
 
     private cJsonManager(UUID mID, String mTitle) {
         super(mID, mTitle);
-        noteLogger = cNoteLogger.getInstance();
     }
 
     /**
@@ -66,11 +62,12 @@ public class cJsonManager extends cJSONObject {
      * @param pJSON_FILE_LOCATION location of the JSON-file
      */
     public void init(String pJSON_FILE_LOCATION){
+        noteLogger = cNoteLogger.getInstance();
         noteLogger.logDebug("JSON Manager init");
         // discuss whether file should be constant or set at beginning of application
         // -> set at beginning of application; to make setting by user to use internal/external/cloud possible
         aJSON_FILE_LOCATION = pJSON_FILE_LOCATION;
-        noteLogger.logDebug("JSON file at: "+pJSON_FILE_LOCATION);
+        noteLogger.logInfo("JSON file at: "+pJSON_FILE_LOCATION);
         master = cNoteMaster.getInstance();
     }
 
@@ -82,35 +79,33 @@ public class cJsonManager extends cJSONObject {
     public void read_JSON() throws cJsonManagerException{
         noteLogger.logDebug("JSON Manager read JSON");
         // input stream used for reading data
-        InputStream inputStream = null;
+        InputStream inputStream;
         // init reader
         JsonReader reader = null;
         try {
             // open file at file location + opening the stream at the position
             File f = new File(aJSON_FILE_LOCATION);
+            if (!f.exists()){
+                noteLogger.logDebug("file not existent, skipping read");
+                return;
+            }
             inputStream = new FileInputStream(f);
             // open reader
             reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
             // read the file
             read(reader);
         }
-        catch (cJsonManagerException e) {
+        catch (cJsonManagerException | IOException e) {
             cJsonManagerException ex = new cJsonManagerException("cJsonManager readJSON()",cJsonManagerException.aREAD_FAILED,e);
             throw ex;
-        }
-        catch (UnsupportedEncodingException|FileNotFoundException e) {
-            // catch exception
-            cJsonManagerException ex = new cJsonManagerException("cJsonManager readJSON()",cJsonManagerException.aREAD_FAILED,e);
-            // TODO: add stacktrace as additional data
-            throw ex;
-        }
-        finally {
+        } finally {
             try {
-                // close reader
-                reader.close();
+                if (reader!=null){
+                    // close reader
+                    reader.close();
+                }
             } catch (IOException e) {
                 cJsonManagerException ex = new cJsonManagerException("cJsonManager readJSON()",cJsonManagerException.aREAD_FAILED,e);
-                // TODO: add stacktrace as additional data
                 throw ex;
             }
         }
@@ -151,7 +146,6 @@ public class cJsonManager extends cJSONObject {
             reader.endObject();
             noteLogger.logDebug("JSON reading file finished");
         } catch (IOException e) {
-            // TODO: add stacktrace as additional data
             cJsonManagerException exception = new cJsonManagerException("JSON Manager read tasks",cJsonManagerException.aREAD_FAILED,e);
             throw exception;
         } catch (cJsonManagerException e) {
@@ -171,11 +165,7 @@ public class cJsonManager extends cJSONObject {
             readTasks(reader);
             // currently skipped, as not implemented
             reader.endObject();
-        } catch (IOException e) {
-            // TODO: add stacktrace as additional data
-            cJsonManagerException exception = new cJsonManagerException("JSON Manager read tasks",cJsonManagerException.aREAD_TASKS_FAILED,e);
-            throw exception;
-        } catch (cJsonManagerException e) {
+        } catch (IOException | cJsonManagerException e) {
             cJsonManagerException exception = new cJsonManagerException("JSON Manager read tasks",cJsonManagerException.aREAD_TASKS_FAILED,e);
             throw exception;
         }
@@ -215,7 +205,6 @@ public class cJsonManager extends cJSONObject {
         } catch (IOException e) {
             cJsonManagerException exception = new cJsonManagerException("JSON Manager read notes",cJsonManagerException.aREAD_NOTES_FAILED,e);
             throw exception;
-            // TODO: add stacktrace as additional data
         } catch (cJsonManagerException e) {
             cJsonManagerException exception = new cJsonManagerException("JSON Manager read notes",cJsonManagerException.aREAD_NOTES_FAILED,e);
             throw exception;
@@ -260,7 +249,7 @@ public class cJsonManager extends cJSONObject {
             }
             noteLogger.logDebug("text note reading finished, building...");
             // build note
-            cTextNote note = new cTextNote(UUID.fromString(ID),Title,Text);
+            cTextNote note = new cTextNote(UUID.fromString(ID),Title,true,Text);
             // set creation date, as already existent note
             note.setCreationDate(CreationDate);
             // set last changed date
@@ -272,7 +261,6 @@ public class cJsonManager extends cJSONObject {
             reader.endObject();
         } catch (IOException e) {
             cJsonManagerException ex = new cJsonManagerException("JSON Manager read Text Note",cJsonManagerException.aREAD_TEXT_NOTE_FAILED,e);
-            // TODO: add stacktrace as additional data
             throw ex;
         } catch (cBaseException e) {
             cJsonManagerException ex = new cJsonManagerException("JSON Manager read Text Note",cJsonManagerException.aREAD_TEXT_NOTE_FAILED,e);
@@ -309,11 +297,7 @@ public class cJsonManager extends cJSONObject {
             write_Notes(outputStream);
             outputStream.write("\n}".getBytes());
             outputStream.close();
-        } catch (IOException ex){
-            cJsonManagerException exception = new cJsonManagerException("JSON Manager write Objects of Type",cJsonManagerException.aWRITE_JSON_FAILED,ex);
-            // TODO: add stacktrace as additional data
-            throw exception;
-        } catch (cJsonManagerException ex){
+        } catch (IOException | cJsonManagerException ex){
             cJsonManagerException exception = new cJsonManagerException("JSON Manager write Objects of Type",cJsonManagerException.aWRITE_JSON_FAILED,ex);
             throw exception;
         }
@@ -326,6 +310,7 @@ public class cJsonManager extends cJSONObject {
      * @throws cJsonManagerException if something goes wrong
      */
     private void write_Notes(OutputStream stream) throws cJsonManagerException {
+        noteLogger.logDebug("writing notes");
         try {
             String lTypeHeader = aJSON_FIELD_SIGN + "NOTES" + aJSON_FIELD_SIGN + aJSON_SEP;
             stream.write(lTypeHeader.getBytes());
@@ -337,7 +322,6 @@ public class cJsonManager extends cJSONObject {
         }
         catch (IOException ex){
             cJsonManagerException exception = new cJsonManagerException("JSON Manager write Objects of Type",cJsonManagerException.aWRITE_NOTES_FAILED,ex);
-            // TODO: add stacktrace as additional data
             throw exception;
         }
 
@@ -350,6 +334,7 @@ public class cJsonManager extends cJSONObject {
      * @throws cJsonManagerException if something goes wrong
      */
     private void write_Tasks(OutputStream stream) throws cJsonManagerException {
+        noteLogger.logDebug("writing tasks");
         try {
             String lTypeHeader = aJSON_FIELD_SIGN + "TASKS" + aJSON_FIELD_SIGN + aJSON_SEP;
             stream.write(lTypeHeader.getBytes());
@@ -360,7 +345,6 @@ public class cJsonManager extends cJSONObject {
         }
         catch (IOException ex){
             cJsonManagerException exception = new cJsonManagerException("JSON Manager write Objects of Type",cJsonManagerException.aWRITING_TASKS_FAILED,ex);
-            // TODO: add stacktrace as additional data
             throw exception;
         }
     }
@@ -398,7 +382,6 @@ public class cJsonManager extends cJSONObject {
         }
         catch (IOException ex){
             cJsonManagerException exception = new cJsonManagerException("JSON Manager write Objects of Type",cJsonManagerException.aWRITING_OBJECTS_OF_TYPE_FAILED,ex);
-            // TODO: add stacktrace as additional data
             throw exception;
         }
 
