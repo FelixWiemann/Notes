@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -66,7 +68,7 @@ public class cNoteLogger {
     /**
      * level debug
      */
-    public final int mDebugLevelDebug = 4;
+    public static final int mDebugLevelDebug = 4;
 
     /**
      * available log entries
@@ -91,12 +93,17 @@ public class cNoteLogger {
     /**
      * location logger logs to. To be set in init
      */
-    private String mLogFileLocation;
+    private String mCurrentLogFileName;
+
+    private String mLogFileDir;
 
     /**
      * log file to be logged into
      */
     private File mLogFile;
+
+    private int mMaxFiles = 0;
+
 
     /**
      * logs a message into the buffer, if the level of the message is to be logged
@@ -207,11 +214,17 @@ public class cNoteLogger {
      * @param logLocation location to store log file
      * @param debugLevel log level to use
      */
-    public void init(String logLocation,int debugLevel,int entriesBeforeFlush){
-        // TODO log file handling to avoid space clogging on device
+    public void init(String logLocation,int maxFiles,int debugLevel,int entriesBeforeFlush){
+        // save prefs into instance
+        mMaxFiles = maxFiles;
+        mLogFileDir = logLocation;
+        // handle log-files
+        handleLogFiles();
+        // create file name for current instance
         String formattedDate = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
-        this.mLogFileLocation = logLocation +"/"+ aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
-        mLogFile = new File(mLogFileLocation);
+        this.mCurrentLogFileName = logLocation +"/"+ aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
+        // set log-file
+        mLogFile = new File(mCurrentLogFileName);
         this.mCurrentDebugLevel = debugLevel;
         mEntriesBeforeLogFlush = entriesBeforeFlush;
         // log init finished
@@ -219,6 +232,46 @@ public class cNoteLogger {
         logNone("debug level: "+ String.valueOf(debugLevel));
         logNone("log-file location: "+logLocation);
     }
+
+    /**
+     * handles log files
+     * creates dir, if it does not exist
+     * handles amount of log files according to maxFiles setting
+     * deletes, if too much files
+     */
+    private void handleLogFiles() {
+        // get dir of log files
+        File dir = new File(mLogFileDir);
+        // check whether it exists
+        if (!dir.exists()){
+            //create if not
+            //noinspection ResultOfMethodCallIgnored
+            dir.mkdir();
+            logNone("log dir not available, created dir");
+        }else {
+            // list all files inside the dir
+            File[] files = dir.listFiles();
+            // check number of files
+            if (files.length > mMaxFiles - 1) {
+                // only if exceeds max
+                // need to sort, cannot just delete oldest file in case of user changes amount of files to keep
+                // oldest first, latest last
+                Arrays.sort(files, new Comparator<File>(){
+                    public int compare(File f1, File f2)
+                    {
+                        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+                    } });
+                // copy the files, that are out of range (first files in the array)
+                File[] ftd = Arrays.copyOf(files,files.length-(mMaxFiles-1));
+                // delete all files in FilesToDelete
+                for (File f:ftd){
+                    f.delete();
+                }
+            }
+        }
+
+    }
+
 
     /**
      * builds a string containing the info of logEntry
@@ -258,4 +311,6 @@ public class cNoteLogger {
             throw new cNoteLoggerException("log flush",cNoteLoggerException.aERROR_OPENING_FILE,null);
         }
     }
+
+
 }
