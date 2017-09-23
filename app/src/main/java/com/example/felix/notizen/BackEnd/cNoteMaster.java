@@ -1,5 +1,6 @@
 package com.example.felix.notizen.BackEnd;
 
+import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 import com.example.felix.notizen.FrontEnd.Notes.cImageNote;
 import com.example.felix.notizen.FrontEnd.Notes.cNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTaskNote;
@@ -29,6 +30,7 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class cNoteMaster {
 
+    cNoteLogger noteLogger;
 
     // dictionary containing arrays of different Note Types
     private Map<String, ArrayList> notes;
@@ -50,12 +52,15 @@ public class cNoteMaster {
      * private constructor
      */
     private cNoteMaster() {
+        noteLogger = cNoteLogger.getInstance();
+        noteLogger.logDebug("cNoteMaster constructor");
         notes = new HashMap<String, ArrayList>();
         notes.put(new cTextNote(null,null,null).aTYPE,new ArrayList<cTextNote>());
         notes.put(new cImageNote(null,null,null).aTYPE,new ArrayList<cImageNote>());
         //notes.put(new cTaskNote(null,null,null).aTYPE,new ArrayList<cTaskNote>());
         notes.put(new cTask(null,null,null,false).aTYPE,new ArrayList<cTask>());
         notes.put(new cTimedTask(null,null,null,false).aTYPE,new ArrayList<cTimedTask>());
+
     }
 
     /**
@@ -63,6 +68,7 @@ public class cNoteMaster {
      * @param pNoteToAdd
      */
     public void addNote(cTextNote pNoteToAdd){
+        noteLogger.logDebug("adding TextNote");
         String type = pNoteToAdd.aTYPE;
         notes.get(type).add(pNoteToAdd);
     }
@@ -72,6 +78,7 @@ public class cNoteMaster {
      * @param pNoteToAdd
      */
     public void addNote(cImageNote pNoteToAdd){
+        noteLogger.logDebug("adding ImageNote");
         String type = pNoteToAdd.aTYPE;
         notes.get(type).add(pNoteToAdd);
     }
@@ -81,6 +88,7 @@ public class cNoteMaster {
      * @param pNoteToAdd
      */
     public void addNote(cTaskNote pNoteToAdd){
+        noteLogger.logDebug("adding TaskNote");
         String type = pNoteToAdd.aTYPE;
         notes.get(type).add(pNoteToAdd);
     }
@@ -90,6 +98,7 @@ public class cNoteMaster {
      * @param pTaskToAdd
      */
     public void addTask(cTask pTaskToAdd){
+        noteLogger.logDebug("adding Task");
         String type = pTaskToAdd.aTYPE;
         notes.get(type).add(pTaskToAdd);
     }
@@ -99,6 +108,7 @@ public class cNoteMaster {
      * @param pTaskToAdd
      */
     public void addTask(cTimedTask pTaskToAdd){
+        noteLogger.logDebug("adding timed task");
         String type = pTaskToAdd.aTYPE;
         notes.get(type).add(pTaskToAdd);
     }
@@ -109,7 +119,14 @@ public class cNoteMaster {
      * @return
      */
     public ArrayList getNotesOfType(String pType){
+        noteLogger.logDebug("returning notes of type "+pType);
         return notes.get(pType);
     }
 
+    public void clear() {
+        for (String key:notes.keySet()
+             ) {
+            notes.get(key).clear();
+        }
+    }
 }
