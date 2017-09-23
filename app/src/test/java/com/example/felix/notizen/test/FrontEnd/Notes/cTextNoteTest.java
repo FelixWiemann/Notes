@@ -44,10 +44,5 @@ public class cTextNoteTest {
 
     }
 
-    @Test
-    public void addAdditionalData() throws Exception {
-        testNote.addAdditionalData("datablob");
-        assertEquals("datablob",testNote.getMessage());
-    }
 
 }

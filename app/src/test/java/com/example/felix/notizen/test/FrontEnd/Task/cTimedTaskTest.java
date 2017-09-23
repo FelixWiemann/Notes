@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +33,7 @@ public class cTimedTaskTest {
 
     @Before
     public void setUp() throws Exception {
-        timedTask = new cTimedTask("title", "text", false);
+        timedTask = new cTimedTask(UUID.randomUUID(),"title", "text", false);
     }
 
     @After

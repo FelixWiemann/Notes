@@ -97,7 +97,7 @@ public class cNoteTest extends cNote {
         // shall be tested specificly for each implementation
     }
 
-    /**
+    /*
      * add additional data to this note
      * pDataBlob may contain any kind of data, determined by type of note
      *
@@ -105,12 +105,12 @@ public class cNoteTest extends cNote {
      *                  cImageNote: string containing location of Image
      *                  cTextNote: string containing the message of the note
      *                  cTaskNote: List containing all tasks of the note
-     */
+     *
     @Override
     public void addAdditionalData(Object pDataBlob) {
         // must be tested for each implementation
 
-    }
+    }*/
 
 
     @Override
