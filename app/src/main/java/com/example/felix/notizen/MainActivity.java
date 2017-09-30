@@ -2,18 +2,17 @@ package com.example.felix.notizen;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.felix.notizen.BackEnd.JsonManager.cJsonManager;
 import com.example.felix.notizen.BackEnd.JsonManager.cJsonManagerException;
 import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 import com.example.felix.notizen.BackEnd.Logger.cNoteLoggerException;
-import com.example.felix.notizen.BackEnd.cBaseException;
-import com.example.felix.notizen.BackEnd.cContextManager;
 import com.example.felix.notizen.BackEnd.cNoteMaster;
 import com.example.felix.notizen.FrontEnd.Notes.cImageNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
+import com.example.felix.notizen.Settings.cSetting;
+import com.example.felix.notizen.Settings.cSettingException;
 
 import java.util.UUID;
 
@@ -22,20 +21,32 @@ public class MainActivity extends AppCompatActivity {
     private cNoteLogger log;
     private cNoteMaster noteMaster;
     private cJsonManager jsonManager;
+    private cSetting settings;
     private int n = 0;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        settings = cSetting.getInstance();
+        try {
+            settings.init(this.getApplicationContext());
+        } catch (cSettingException e) {
+            // cannot log, as logger instance not ready yet
+            e.printStackTrace();
+        }
         // init vars
         log = cNoteLogger.getInstance();
         String path = this.getApplicationContext().getFilesDir().getPath();
-        log.init(path + "/logs",1, cNoteLogger.mDebugLevelDebug,10);
+        log.init(settings.getSettingString(cSetting.aLOG_LOCATION),
+                settings.getSettingInteger(cSetting.aLOGS_TO_KEEP),
+                settings.getSettingInteger(cSetting.aAPP_DEBUG_LEVEL),
+                settings.getSettingInteger(cSetting.aLOG_ENTRIES_BEFORE_FLUSH));
         log.logInfo("onCreate");
         jsonManager = cJsonManager.getInstance();
-        jsonManager.init(path+"/JSON_DATA.TXT");
+        jsonManager.init(settings.getSettingString(cSetting.aJSON_LOCATION));
         noteMaster = cNoteMaster.getInstance();
 
         cTextNote textNote = new cTextNote(UUID.randomUUID(), "title", "message");
