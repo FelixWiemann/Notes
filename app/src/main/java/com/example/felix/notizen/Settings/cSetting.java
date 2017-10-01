@@ -11,6 +11,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Class storing current settings ad works as an interface to shared preferences
  * manages setting and retrieving the settings
+ * https://developer.android.com/guide/topics/ui/settings.html
  */
 
 public class cSetting {
@@ -26,7 +27,14 @@ public class cSetting {
     public final static String aAPP_DEBUG_LEVEL = "KEY_SETTING_APP_DEBUG_LEVEL";
 
 
-
+    /**
+     * need to decide whether context is used in a static way.
+     * articles regarding this:
+     * https://nfrolov.wordpress.com/2014/07/12/android-using-context-statically-and-in-singletons/
+     * https://stackoverflow.com/questions/37709918/warning-do-not-place-android-context-classes-in-static-fields-this-is-a-memory
+     * this says, no memory leakage is done with context.getApplicationContext(); so current code should be fine
+     * https://stackoverflow.com/questions/40094020/warning-do-not-place-android-context-classes-in-static-fields-this-is-a-memor
+     */
     private static cSetting SettingsSingleton = new cSetting();
     private Context aContext;
     private SharedPreferences prefs;
@@ -49,7 +57,7 @@ public class cSetting {
      */
     public void init (Context context)throws cSettingException{
         // save context
-        aContext = context;
+        aContext = context.getApplicationContext();
         // get prefs
         prefs = aContext.getSharedPreferences(aSHARED_PREFS_FILE_NAME,MODE_PRIVATE);
         // init preferences

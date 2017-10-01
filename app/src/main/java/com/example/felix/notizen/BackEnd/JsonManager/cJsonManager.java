@@ -8,6 +8,7 @@ import com.example.felix.notizen.BackEnd.cNoteMaster;
 import com.example.felix.notizen.FrontEnd.Notes.cNote;
 import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
 import com.example.felix.notizen.FrontEnd.cJSONObject;
+import com.example.felix.notizen.Settings.cSetting;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +26,7 @@ import java.util.UUID;
  *
  * Used as singleton
  */
-public class cJsonManager extends cJSONObject {
+public class cJsonManager extends cJSONObject  {
 
     /**
      * Location of JSON file
@@ -42,6 +43,7 @@ public class cJsonManager extends cJSONObject {
 
     private cNoteMaster master;
 
+    private boolean isInitialized = false;
 
     private cJsonManager(UUID mID, String mTitle) {
         super(mID, mTitle);
@@ -49,26 +51,49 @@ public class cJsonManager extends cJSONObject {
 
     /**
      * get the instance of the JSON manager
+     * the instance gets initialized before returning
      * @return JSON manager instance
      */
     public static cJsonManager getInstance(){
+        // initialize instance before returning
+        jsonManagerInstance.init();
         return jsonManagerInstance;
     }
 
 
+    /**
+     * init the JSON manager. shall be set at start of application
+     * init JSON manager with settings of the application
+     */
+    public void init() {
+        cSetting settings = cSetting.getInstance();
+        // init, but do not re init!
+        init(settings.getSettingString(cSetting.aJSON_LOCATION),false);
+    }
 
     /**
      * init the JSON manager. shall be set at start of application
+     * only gets initialized on first call, after that initialization gets skipped.
+     *
      * @param pJSON_FILE_LOCATION location of the JSON-file
+     * @param reInit flag whether to reinitialize the manager
      */
-    public void init(String pJSON_FILE_LOCATION){
-        noteLogger = cNoteLogger.getInstance();
-        noteLogger.logDebug("JSON Manager init");
-        // discuss whether file should be constant or set at beginning of application
-        // -> set at beginning of application; to make setting by user to use internal/external/cloud possible
-        aJSON_FILE_LOCATION = pJSON_FILE_LOCATION;
-        noteLogger.logInfo("JSON file at: "+pJSON_FILE_LOCATION);
-        master = cNoteMaster.getInstance();
+    private void init(String pJSON_FILE_LOCATION, boolean reInit){
+        // check whether is initialized or reInit is true
+        // if already init or reInit is false, skip
+        if (!isInitialized|reInit) {
+            noteLogger = cNoteLogger.getInstance();
+            noteLogger.logDebug("JSON Manager init");
+            // discuss whether file should be constant or set at beginning of application
+            // -> set at beginning of application; to make setting by user to use internal/external/cloud possible
+            aJSON_FILE_LOCATION = pJSON_FILE_LOCATION;
+            noteLogger.logInfo("JSON file at: " + pJSON_FILE_LOCATION);
+            master = cNoteMaster.getInstance();
+            // set initialization to true
+            isInitialized = true;
+        }else{
+            noteLogger.logDebug("skipping initialization");
+        }
     }
 
     /**

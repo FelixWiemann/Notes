@@ -1,5 +1,7 @@
 package com.example.felix.notizen.BackEnd.Logger;
 
+import com.example.felix.notizen.Settings.cSetting;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,7 +20,7 @@ import java.util.Iterator;
  * by Felix "nepumuk" Wiemann on 03/06/17.
  */
 @SuppressWarnings("unused")
-public class cNoteLogger {
+public class cNoteLogger{
 
     /**
      * timestamp format used for logging
@@ -104,6 +106,34 @@ public class cNoteLogger {
 
     private int mMaxFiles = 0;
 
+    private boolean isInitialized = false;
+
+
+    /**
+     * instance of logger
+     * to be accessed via getter
+     * no other instances inside running application to be created!
+     */
+    private static final cNoteLogger mGlobalLoggerInstance = new cNoteLogger();
+
+    /**
+     * gets the global logger instance.
+     * logger instance gets initialized before returning
+     * only instance to be used
+     * @return global logger instance
+     */
+    public static cNoteLogger getInstance() {
+        mGlobalLoggerInstance.init();
+        return mGlobalLoggerInstance;
+    }
+
+    /**
+     * private constructor
+     */
+    private cNoteLogger() {
+        mLogEntries = new ArrayList<cLogEntry>();
+    }
+
 
     /**
      * logs a message into the buffer, if the level of the message is to be logged
@@ -174,29 +204,6 @@ public class cNoteLogger {
     }
 
     /**
-     * instance of logger
-     * to be accessed via getter
-     * no other instances inside running application to be created!
-     */
-    private static final cNoteLogger mGlobalLoggerInstance = new cNoteLogger();
-
-    /**
-     * gets the global logger instance.
-     * only instance to be used
-     * @return global logger instance
-     */
-    public static cNoteLogger getInstance() {
-        return mGlobalLoggerInstance;
-    }
-
-    /**
-     * private constructor
-     */
-    private cNoteLogger() {
-        mLogEntries = new ArrayList<cLogEntry>();
-    }
-
-    /**
      * writes all messages to the file, if the buffer of messages is bigger than the number of messages to flush
      */
     private void writeMessagesToFile() throws cNoteLoggerException {
@@ -211,26 +218,44 @@ public class cNoteLogger {
 
     /**
      * init the logger with log file location and debug level
+     * uses settings stored in the Settings of the application
+     */
+    public void init() {
+        // get settings instance
+        cSetting settings = cSetting.getInstance();
+        // init the logger based on settings
+        init(settings.getSettingString(cSetting.aLOG_LOCATION),
+                settings.getSettingInteger(cSetting.aLOGS_TO_KEEP),
+                settings.getSettingInteger(cSetting.aAPP_DEBUG_LEVEL),
+                settings.getSettingInteger(cSetting.aLOG_ENTRIES_BEFORE_FLUSH),
+                false);
+    }
+
+    /**
+     * init the logger with log file location and debug level
      * @param logLocation location to store log file
      * @param debugLevel log level to use
      */
-    public void init(String logLocation,int maxFiles,int debugLevel,int entriesBeforeFlush){
-        // save prefs into instance
-        mMaxFiles = maxFiles;
-        mLogFileDir = logLocation;
-        // handle log-files
-        handleLogFiles();
-        // create file name for current instance
-        String formattedDate = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
-        this.mCurrentLogFileName = logLocation +"/"+ aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
-        // set log-file
-        mLogFile = new File(mCurrentLogFileName);
-        this.mCurrentDebugLevel = debugLevel;
-        mEntriesBeforeLogFlush = entriesBeforeFlush;
-        // log init finished
-        logNone("logger initialized");
-        logNone("debug level: "+ String.valueOf(debugLevel));
-        logNone("log-file location: "+logLocation);
+    public void init(String logLocation,int maxFiles,int debugLevel,int entriesBeforeFlush, boolean reInit){
+        if (!isInitialized|reInit) {
+            // save prefs into instance
+            mMaxFiles = maxFiles;
+            mLogFileDir = logLocation;
+            // handle log-files
+            handleLogFiles();
+            // create file name for current instance
+            String formattedDate = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
+            this.mCurrentLogFileName = logLocation + "/" + aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
+            // set log-file
+            mLogFile = new File(mCurrentLogFileName);
+            this.mCurrentDebugLevel = debugLevel;
+            mEntriesBeforeLogFlush = entriesBeforeFlush;
+            // log init finished
+            logNone("logger initialized");
+            logNone("debug level: " + String.valueOf(debugLevel));
+            logNone("log-file location: " + logLocation);
+            isInitialized = true;
+        }
     }
 
     /**

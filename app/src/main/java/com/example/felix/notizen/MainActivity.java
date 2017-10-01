@@ -39,14 +39,10 @@ public class MainActivity extends AppCompatActivity {
         }
         // init vars
         log = cNoteLogger.getInstance();
-        String path = this.getApplicationContext().getFilesDir().getPath();
-        log.init(settings.getSettingString(cSetting.aLOG_LOCATION),
-                settings.getSettingInteger(cSetting.aLOGS_TO_KEEP),
-                settings.getSettingInteger(cSetting.aAPP_DEBUG_LEVEL),
-                settings.getSettingInteger(cSetting.aLOG_ENTRIES_BEFORE_FLUSH));
+        //String path = this.getApplicationContext().getFilesDir().getPath();
+        // init logger with settings from application
         log.logInfo("onCreate");
         jsonManager = cJsonManager.getInstance();
-        jsonManager.init(settings.getSettingString(cSetting.aJSON_LOCATION));
         noteMaster = cNoteMaster.getInstance();
 
         cTextNote textNote = new cTextNote(UUID.randomUUID(), "title", "message");
