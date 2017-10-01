@@ -1,7 +1,0 @@
-<resources>
-    <!--TODO merge with main strings xml-->
-    <string name="app_name">NoteOverview</string>
-
-    <string name="NoteOVerviewTitleHint">Enter Titel</string>
-    <string name="NoteOVerviewContentHint">Enter content here</string>
-</resources>
