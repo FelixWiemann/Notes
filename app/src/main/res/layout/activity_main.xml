@@ -3,20 +3,43 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:orientation="vertical">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClick"
         android:id="@id/btn1"
         android:text="btn1"/>
+
+    <com.example.felix.notizen.FrontEnd.views.ExpandableView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:Size="cust"
+        app:aSizeUnExpanded="200"
+        app:aSizeExpanded="400"/>
+    <com.example.felix.notizen.FrontEnd.views.ExpandableView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:Size="wrap_content"
+        app:aSizeUnExpanded="200"
+        app:aSizeExpanded="400"/>
+    <com.example.felix.notizen.FrontEnd.views.ExpandableView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:aSizeUnExpanded="200"
+        app:aSizeExpanded="400"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClick"
         android:id="@id/btn2"
         android:text="btn2"/>
+
+
+
 </LinearLayout>
     <!--<android.support.v7.widget.ListViewCompat
     xmlns:android="http://schemas.android.com/apk/res/android"

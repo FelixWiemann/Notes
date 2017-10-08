@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        // must init setting-singleton first to make sure cust views have access to settings before
+        // them getting inflated
         settings = cSetting.getInstance();
         try {
             settings.init(this.getApplicationContext());
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
             // cannot log, as logger instance not ready yet
             e.printStackTrace();
         }
+        // settings available, now inflate everything
+        setContentView(R.layout.activity_main);
         // init vars
         log = cNoteLogger.getInstance();
         //String path = this.getApplicationContext().getFilesDir().getPath();
@@ -45,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         jsonManager = cJsonManager.getInstance();
         noteMaster = cNoteMaster.getInstance();
 
-        cTextNote textNote = new cTextNote(UUID.randomUUID(), "title", "message");
-        cImageNote imageNote = new cImageNote(UUID.randomUUID(), "t", "none");
-        // test reading available JSON
 
     }
 
