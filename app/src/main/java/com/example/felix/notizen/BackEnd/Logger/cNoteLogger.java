@@ -140,7 +140,7 @@ public class cNoteLogger{
      * @param message message string of the log message
      * @param level level of the message
      */
-    private void log(String message, int level){
+    public void log(String message, int level){
         // if current debug level is bigger than level of message; then debug
         // e.g: current debug level = 1; levels 2 and bigger are not stored
         if (mCurrentDebugLevel >=  level) {
