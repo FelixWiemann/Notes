@@ -4,162 +4,118 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
 
 import com.example.felix.notizen.R;
 
 /**
  * TODO: document your custom view class.
  */
-public class NoteView extends View {
-    private String mExampleString; // TODO: use a default from R.string...
-    private int mExampleColor = Color.RED; // TODO: use a default from R.color...
-    private float mExampleDimension = 0; // TODO: use a default from R.dimen...
-    private Drawable mExampleDrawable;
+public class ExpandableView extends RelativeLayout implements View.OnClickListener {
 
-    private TextPaint mTextPaint;
-    private float mTextWidth;
-    private float mTextHeight;
+    private int aSizeUnExpanded = 10;
+    private int aSizeExpanded = 60;
+    private int sizeType = 0;
+    private final int EV_SIZE_WRAP_CONTENT = 1;
+    private final int EV_SIZE_CUST = 2;
+    // set log level of ExpandableView independently of application to reduce log entries while debugging
+    private int logLevel = cNoteLogger.mDebugLevelDebug;
+    private cNoteLogger log = cNoteLogger.getInstance();
 
-    public NoteView(Context context) {
+    private TextView tv;
+    private Button bt;
+
+    public ExpandableView(Context context) {
         super(context);
+        log.log("ExpandableView(context)",logLevel);
         init(null, 0);
     }
 
-    public NoteView(Context context, AttributeSet attrs) {
+    public ExpandableView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        log.log("exView context. attrs",logLevel);
         init(attrs, 0);
+
     }
 
-    public NoteView(Context context, AttributeSet attrs, int defStyle) {
+    public ExpandableView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        log.log("exView con, attrs, style",logLevel);
         init(attrs, defStyle);
     }
 
     private void init(AttributeSet attrs, int defStyle) {
+        log.log("init exView",logLevel);
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.NoteView, defStyle, 0);
+                attrs, R.styleable.ExpandableView, defStyle, 0);
+        log.log("loading params",logLevel);
+        // load expanded/unexpanded height
+        aSizeUnExpanded = a.getInt(R.styleable.ExpandableView_aSizeUnExpanded, 10);
+        aSizeExpanded = a.getInt(R.styleable.ExpandableView_aSizeExpanded,60);
+        sizeType = a.getInt(R.styleable.ExpandableView_Size, 0);
 
-        mExampleString = a.getString(
-                R.styleable.NoteView_exampleString);
-        mExampleColor = a.getColor(
-                R.styleable.NoteView_exampleColor,
-                mExampleColor);
-        // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
-        // values that should fall on pixel boundaries.
-        mExampleDimension = a.getDimension(
-                R.styleable.NoteView_exampleDimension,
-                mExampleDimension);
-
-        if (a.hasValue(R.styleable.NoteView_exampleDrawable)) {
-            mExampleDrawable = a.getDrawable(
-                    R.styleable.NoteView_exampleDrawable);
-            mExampleDrawable.setCallback(this);
-        }
 
         a.recycle();
+        // inflate layout
+        log.log("inflating layout",logLevel);
+        inflateLayout(getContext());
+        bt.setOnClickListener(this);
 
-        // Set up a default TextPaint object
-        mTextPaint = new TextPaint();
-        mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mTextPaint.setTextAlign(Paint.Align.LEFT);
+        if (sizeType == EV_SIZE_WRAP_CONTENT){
+            setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        }else if(sizeType == EV_SIZE_CUST){
+            setHeight(aSizeExpanded);
+        }
 
-        // Update TextPaint and text measurements from attributes
-        invalidateTextPaintAndMeasurements();
+        //this.setOnClickListener(this);
     }
 
-    private void invalidateTextPaintAndMeasurements() {
-        mTextPaint.setTextSize(mExampleDimension);
-        mTextPaint.setColor(mExampleColor);
-        mTextWidth = mTextPaint.measureText(mExampleString);
-
-        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-        mTextHeight = fontMetrics.bottom;
+    private void setHeight(int newHeight){
+        log.log("set height: "+Integer.toString(newHeight),logLevel);
+        //measure(ViewGroup.LayoutParams.MATCH_PARENT,newHeight);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,newHeight);
+        this.setLayoutParams(layoutParams);
+        requestLayout();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        log.log("onDraw",logLevel);
+    }
 
-        // TODO: consider storing these as member variables to reduce
-        // allocations per draw cycle.
-        int paddingLeft = getPaddingLeft();
-        int paddingTop = getPaddingTop();
-        int paddingRight = getPaddingRight();
-        int paddingBottom = getPaddingBottom();
+    private void inflateLayout(Context context){
+        log.log("inflating",logLevel);
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater.inflate(R.layout.expandable_view_layout, this);
+        tv = (TextView) this.findViewById(R.id.title_text);
+        bt = (Button) this.findViewById(R.id.expand_button);
+    }
 
-        int contentWidth = getWidth() - paddingLeft - paddingRight;
-        int contentHeight = getHeight() - paddingTop - paddingBottom;
+    @Override
+    public void onMeasure(int width, int height){
+        super.onMeasure(width, height);
+    }
 
-        // Draw the text.
-        canvas.drawText(mExampleString,
-                paddingLeft + (contentWidth - mTextWidth) / 2,
-                paddingTop + (contentHeight + mTextHeight) / 2,
-                mTextPaint);
-
-        // Draw the example drawable on top of the text.
-        if (mExampleDrawable != null) {
-            mExampleDrawable.setBounds(paddingLeft, paddingTop,
-                    paddingLeft + contentWidth, paddingTop + contentHeight);
-            mExampleDrawable.draw(canvas);
+    @Override
+    public void onClick(View v) {
+        log.log("onClick",logLevel);
+        if (this.getLayoutParams().height==aSizeExpanded){
+            setHeight(aSizeUnExpanded);
+            this.setBackgroundColor(Color.RED);
+        }else{
+            setHeight(aSizeExpanded);
+            this.setBackgroundColor(Color.BLUE);
         }
     }
-
-    /**
-     * Gets the example string attribute value.
-     *
-     * @return The example string attribute value.
-     */
-    public String getExampleString() {
-        return mExampleString;
-    }
-
-    /**
-     * Sets the view's example string attribute value. In the example view, this string
-     * is the text to draw.
-     *
-     * @param exampleString The example string attribute value to use.
-     */
-    public void setExampleString(String exampleString) {
-        mExampleString = exampleString;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example color attribute value.
-     *
-     * @return The example color attribute value.
-     */
-    public int getExampleColor() {
-        return mExampleColor;
-    }
-
-    /**
-     * Sets the view's example color attribute value. In the example view, this color
-     * is the font color.
-     *
-     * @param exampleColor The example color attribute value to use.
-     */
-    public void setExampleColor(int exampleColor) {
-        mExampleColor = exampleColor;
-        invalidateTextPaintAndMeasurements();
-    }
-
-
-    /**
-     * Sets the view's example dimension attribute value. In the example view, this dimension
-     * is the font size.
-     *
-     * @param exampleDimension The example dimension attribute value to use.
-     */
-    public void setExampleDimension(float exampleDimension) {
-        mExampleDimension = exampleDimension;
-        invalidateTextPaintAndMeasurements();
-    }
-
 }
