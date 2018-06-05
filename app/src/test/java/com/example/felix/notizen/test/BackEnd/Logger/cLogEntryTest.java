@@ -1,6 +1,6 @@
 package com.example.felix.notizen.test.BackEnd.Logger;
 
-import com.example.felix.notizen.BackEnd.Logger.cLogEntry;
+import com.example.felix.notizen.Utils.Logger.cLogEntry;
 
 import org.junit.After;
 import org.junit.Before;

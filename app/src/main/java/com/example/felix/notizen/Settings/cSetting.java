@@ -3,7 +3,7 @@ package com.example.felix.notizen.Settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
+import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 
 import static android.content.Context.MODE_PRIVATE;
 

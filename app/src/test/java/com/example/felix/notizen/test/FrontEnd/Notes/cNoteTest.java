@@ -1,6 +1,6 @@
 package com.example.felix.notizen.test.FrontEnd.Notes;
 
-import com.example.felix.notizen.FrontEnd.Notes.cNote;
+import com.example.felix.notizen.objects.Notes.cNote;
 
 import org.junit.After;
 import org.junit.Before;

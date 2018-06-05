@@ -14,19 +14,19 @@
         android:id="@id/btn1"
         android:text="btn1"/>
 
-    <com.example.felix.notizen.FrontEnd.views.ExpandableView
+    <com.example.felix.notizen.objects.views.ExpandableView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:Size="cust"
+        app:aSize="cust"
         app:aSizeUnExpanded="200"
         app:aSizeExpanded="400"/>
-    <com.example.felix.notizen.FrontEnd.views.ExpandableView
+    <com.example.felix.notizen.objects.views.ExpandableView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:Size="wrap_content"
+        app:aSize="wrap_content"
         app:aSizeUnExpanded="200"
         app:aSizeExpanded="400"/>
-    <com.example.felix.notizen.FrontEnd.views.ExpandableView
+    <com.example.felix.notizen.objects.views.ExpandableView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:aSizeUnExpanded="200"

@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.example.felix.notizen.BackEnd.JsonManager.cJsonManager;
-import com.example.felix.notizen.BackEnd.JsonManager.cJsonManagerException;
-import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
-import com.example.felix.notizen.BackEnd.Logger.cNoteLoggerException;
-import com.example.felix.notizen.BackEnd.cNoteMaster;
-import com.example.felix.notizen.FrontEnd.Notes.cImageNote;
-import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
+import com.example.felix.notizen.Utils.JsonManager.cJsonManager;
+import com.example.felix.notizen.Utils.JsonManager.cJsonManagerException;
+import com.example.felix.notizen.Utils.Logger.cNoteLogger;
+import com.example.felix.notizen.Utils.Logger.cNoteLoggerException;
+import com.example.felix.notizen.Utils.cNoteMaster;
+import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
 

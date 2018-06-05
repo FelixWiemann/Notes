@@ -1,6 +1,6 @@
 package com.example.felix.notizen.test.FrontEnd;
 
-import com.example.felix.notizen.FrontEnd.cIdObject;
+import com.example.felix.notizen.objects.cIdObject;
 
 import org.junit.After;
 import org.junit.Before;

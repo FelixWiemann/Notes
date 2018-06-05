@@ -1,6 +1,6 @@
 package com.example.felix.notizen.test.FrontEnd.Task;
 
-import com.example.felix.notizen.FrontEnd.Task.cTimedTask;
+import com.example.felix.notizen.objects.Task.cTimedTask;
 
 import org.junit.After;
 import org.junit.Before;

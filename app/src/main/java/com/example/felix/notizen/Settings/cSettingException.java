@@ -1,12 +1,12 @@
 package com.example.felix.notizen.Settings;
 
 
-import com.example.felix.notizen.BackEnd.cBaseException;
+import com.example.felix.notizen.Utils.cBaseException;
 
 /**
  * Exception containing the constants used at exceptions thrown in cSetting
  * derived from cBaseException
- * @see com.example.felix.notizen.BackEnd.cBaseException
+ * @see com.example.felix.notizen.Utils.cBaseException
  * @see com.example.felix.notizen.Settings.cSetting
  */
 public class cSettingException extends cBaseException {

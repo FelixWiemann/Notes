@@ -1,11 +1,10 @@
 package com.example.felix.notizen;
 
-import com.example.felix.notizen.BackEnd.JsonManager.cJsonManager;
-import com.example.felix.notizen.BackEnd.Logger.cNoteLogger;
-import com.example.felix.notizen.BackEnd.Logger.cNoteLoggerException;
-import com.example.felix.notizen.BackEnd.cNoteMaster;
-import com.example.felix.notizen.FrontEnd.Notes.cImageNote;
-import com.example.felix.notizen.FrontEnd.Notes.cTextNote;
+import com.example.felix.notizen.Utils.Logger.cNoteLogger;
+import com.example.felix.notizen.Utils.Logger.cNoteLoggerException;
+import com.example.felix.notizen.Utils.cNoteMaster;
+import com.example.felix.notizen.objects.Notes.cImageNote;
+import com.example.felix.notizen.objects.Notes.cTextNote;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -15,8 +14,6 @@ import java.util.UUID;
  * Created as part of notes in package com.example.felix.notizen
  * by Felix "nepumuk" Wiemann on 04/06/17.
  */
-
-
 
 @SuppressWarnings("unused")
 
