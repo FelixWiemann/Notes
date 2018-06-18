@@ -1,5 +1,6 @@
 package com.example.felix.notizen.objects;
 
+import com.example.felix.notizen.Utils.Logger.cLoggerObject;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 
 import java.util.UUID;
@@ -9,11 +10,8 @@ import java.util.UUID;
  * by Felix "nepumuk" Wiemann on 29/04/17.
  */
 @SuppressWarnings("unused")
-public class cIdObject {
-    /**
-     * logger instance for logging everything
-     */
-    static cNoteLogger logger = cNoteLogger.getInstance();
+public class cIdObject extends cLoggerObject {
+
     /**
      * ID string of current note, used to identify each note
      */
@@ -35,6 +33,7 @@ public class cIdObject {
      * @param mTitle title of object
      */
     public cIdObject(UUID mID, String mTitle) {
+        super();
         logDebug("creating cIdObject");
         this.mID = mID;
         this.mTitle = mTitle;
@@ -99,18 +98,7 @@ public class cIdObject {
         return mID.toString();
     }
 
-    protected void logInfo(String Message){
-        logger.logInfo(Message);
-    }
-    protected void logError(String Message){
-        logger.logError(Message);
-    }
-    protected void logWarning(String Message){
-        logger.logWarning(Message);
-    }
-    protected void logDebug(String Message){
-        logger.logDebug(String.format("%s",Message));
-    }
+
 
 
 
