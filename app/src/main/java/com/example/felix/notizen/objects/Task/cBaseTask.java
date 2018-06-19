@@ -11,6 +11,7 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public abstract class cBaseTask extends cIdObject {
 
+    public static String aTYPE = "cBaseTask";
     /**
      * text of the task
      */

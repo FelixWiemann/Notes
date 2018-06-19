@@ -15,6 +15,8 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class cTimedTask extends cBaseTask {
 
+
+    public static String aTYPE = "cTimedTask";
     /**
      * returns the date when the task is due in ms since January 1, 1970 00:00:00 GMT
      * @see Date#getTime()

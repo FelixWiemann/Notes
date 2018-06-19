@@ -16,7 +16,7 @@ public abstract class cNote extends cJSONObject {
     /**
      * identifier of class
      */
-    public String aTYPE = "cNote";
+    public static String aTYPE = "cNote";
 
     /**
      * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT

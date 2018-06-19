@@ -24,7 +24,7 @@ public class cIdObject extends cLoggerObject {
     /**
      * identifier of class
      */
-    public String aTYPE = "cIdObject";
+    public static String aTYPE = "cIdObject";
 
     /**
      * creates a new object with an id and a title

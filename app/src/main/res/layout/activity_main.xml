@@ -13,24 +13,27 @@
         android:onClick="onClick"
         android:id="@id/btn1"
         android:text="btn1"/>
-
+<!--
     <com.example.felix.notizen.objects.views.ExpandableView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:aSize="cust"
         app:aSizeUnExpanded="200"
-        app:aSizeExpanded="400"/>
+        app:aSizeExpanded="400"
+        android:id="@+id/id1"/>
     <com.example.felix.notizen.objects.views.ExpandableView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:aSize="wrap_content"
         app:aSizeUnExpanded="200"
-        app:aSizeExpanded="400"/>
+        app:aSizeExpanded="400"
+        android:id="@+id/id2"/>
     <com.example.felix.notizen.objects.views.ExpandableView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:aSizeUnExpanded="200"
-        app:aSizeExpanded="400"/>
+        app:aSizeExpanded="400"
+        android:id="@+id/id3"/>-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

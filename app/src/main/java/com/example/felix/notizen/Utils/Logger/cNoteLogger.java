@@ -1,5 +1,7 @@
 package com.example.felix.notizen.Utils.Logger;
 
+import android.util.Log;
+
 import com.example.felix.notizen.Settings.cSetting;
 
 import java.io.File;
@@ -143,6 +145,7 @@ public class cNoteLogger{
     public void log(String message, int level){
         // if current debug level is bigger than level of message; then debug
         // e.g: current debug level = 1; levels 2 and bigger are not stored
+        //Log.d("NOTES-LOGGER",message);
         if (mCurrentDebugLevel >=  level) {
             // add entry to entries
             mLogEntries.add(new cLogEntry(message, level));
@@ -272,6 +275,11 @@ public class cNoteLogger{
             //create if not
             //noinspection ResultOfMethodCallIgnored
             dir.mkdir();
+            try {
+                dir.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             logNone("log dir not available, created dir");
         }else {
             // list all files inside the dir
@@ -325,12 +333,14 @@ public class cNoteLogger{
         Iterator iterator = mLogEntries.iterator();
         FileWriter fr = null;
         try {
-            fr = new FileWriter(mLogFile,true);
-            while (iterator.hasNext()){
-                fr.write(getFormattedLogEntry((cLogEntry)iterator.next()));
+            if (mLogFile != null){
+                fr = new FileWriter(mLogFile,true);
+                while (iterator.hasNext()){
+                    fr.write(getFormattedLogEntry((cLogEntry)iterator.next()));
+                }
+                fr.close();
+                mLogEntries.clear();
             }
-            fr.close();
-            mLogEntries.clear();
         } catch (IOException e) {
             e.printStackTrace();
             throw new cNoteLoggerException("log flush",cNoteLoggerException.aERROR_OPENING_FILE,null);

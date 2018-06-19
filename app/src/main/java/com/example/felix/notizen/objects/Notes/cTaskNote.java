@@ -18,7 +18,7 @@ public class cTaskNote extends cNote {
     /**
      * identifier of class
      */
-    public String aTYPE = "cTaskNote";
+    public static String aTYPE = "cTaskNote";
 
 
     /**

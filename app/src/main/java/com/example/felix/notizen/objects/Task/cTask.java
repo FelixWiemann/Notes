@@ -10,6 +10,8 @@ import java.util.UUID;
  */
 @SuppressWarnings("unused")
 public class cTask extends cBaseTask {
+
+    public static String aTYPE = "cTask";
     /**
      * constructor setting title, text and flag for task completion
      *

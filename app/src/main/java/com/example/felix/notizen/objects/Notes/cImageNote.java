@@ -16,7 +16,7 @@ public class cImageNote extends cNote {
     /**
      * identifier of class
      */
-    public String aTYPE = "cImageNote";
+    public static String aTYPE = "cImageNote";
 
     /**
      * location of the image of the note

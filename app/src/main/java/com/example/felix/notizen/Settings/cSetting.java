@@ -66,7 +66,6 @@ public class cSetting {
         } catch (cSettingException e) {
             throw new cSettingException("cSetting.init",cSettingException.aINIT_SETTINGS_FAILED,e);
         }
-
     }
 
     /**
@@ -78,7 +77,7 @@ public class cSetting {
         try {
             // check for all keys whether they exist, create them if they do not exist
             if (!prefs.contains(aLOG_LOCATION) | bResetExistingSettings) {
-                setSetting(aLOG_LOCATION, aContext.getFilesDir().getPath() + "/logs");
+                setSetting(aLOG_LOCATION, aContext.getExternalFilesDir(null).getPath() + "/logs");
             }
             if (!prefs.contains(aLOGS_TO_KEEP) | bResetExistingSettings) {
                 setSetting(aLOGS_TO_KEEP, 5);
@@ -87,7 +86,7 @@ public class cSetting {
                 setSetting(aLOG_ENTRIES_BEFORE_FLUSH, 10);
             }
             if (!prefs.contains(aJSON_LOCATION) | bResetExistingSettings) {
-                setSetting(aJSON_LOCATION, aContext.getFilesDir().getPath() + "/JSON_DATA.TXT");
+                setSetting(aJSON_LOCATION, aContext.getExternalFilesDir(null).getPath() + "/JSON_DATA.TXT");
             }
             if (!prefs.contains(aAPP_DEBUG_LEVEL) | bResetExistingSettings) {
                 setSetting(aAPP_DEBUG_LEVEL, cNoteLogger.mDebugLevelDebug);

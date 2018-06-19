@@ -12,11 +12,10 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class cTextNote extends cNote {
 
-
     /**
      * identifier of class
      */
-    public String aTYPE = "cTextNote";
+    public static String aTYPE = "cTextNote";
 
     /**
      * message contained in the note
