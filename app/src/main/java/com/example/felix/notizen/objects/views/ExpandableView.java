@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 
 import com.example.felix.notizen.R;
+import com.example.felix.notizen.objects.cIdObject;
 
 /**
  * TODO: document your custom view class.
@@ -33,11 +34,14 @@ public class ExpandableView extends RelativeLayout implements View.OnClickListen
 
     private TextView tv;
     private Button bt;
+    private cViewSelector vS;
 
-    public ExpandableView(Context context) {
+    public ExpandableView(Context context, cIdObject content) {
         super(context);
         log.log("ExpandableView(context)",logLevel);
         init(null, 0);
+        int i = this.indexOfChild(vS);
+        vS = new cViewSelector(context,content);
     }
 
     public ExpandableView(Context context, AttributeSet attrs) {
@@ -70,12 +74,13 @@ public class ExpandableView extends RelativeLayout implements View.OnClickListen
         log.log("inflating layout",logLevel);
         inflateLayout(getContext());
         bt.setOnClickListener(this);
-
+        setHeight(aSizeUnExpanded);
         if (sizeType == EV_SIZE_WRAP_CONTENT){
             setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         }else if(sizeType == EV_SIZE_CUST){
             setHeight(aSizeExpanded);
         }
+
 
         //this.setOnClickListener(this);
     }
@@ -100,6 +105,14 @@ public class ExpandableView extends RelativeLayout implements View.OnClickListen
         mInflater.inflate(R.layout.expandable_view_layout, this);
         tv = (TextView) this.findViewById(R.id.title_text);
         bt = (Button) this.findViewById(R.id.expand_button);
+        vS = (cViewSelector) this.findViewById(R.id.viewSelector);
+    }
+
+    public void setContent(cIdObject content){
+        vS.setContent(content);
+        tv.setText(content.getTitle());
+
+        this.invalidate();
     }
 
     @Override
