@@ -5,11 +5,14 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,10 +21,12 @@ import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.cIdObject;
 
+import static java.lang.String.format;
+
 /**
  * TODO: document your custom view class.
  */
-public class ExpandableView extends RelativeLayout implements View.OnClickListener {
+public class ExpandableView extends LinearLayout implements View.OnClickListener {
 
     private int aSizeUnExpanded = 10;
     private int aSizeExpanded = 60;
@@ -36,13 +41,28 @@ public class ExpandableView extends RelativeLayout implements View.OnClickListen
     private Button bt;
     private cViewSelector vS;
 
-    public ExpandableView(Context context, cIdObject content) {
+    private cExpandableViewAdapter parentAdapter;
+
+    public ExpandableView(Context context){//, cIdObject content) {
+        super(context);
+        log.log("ExpandableView(context)",logLevel);
+        init(null, 0);
+        //int i = this.indexOfChild(vS);
+        //vS = new cViewSelector(context,content);
+        //this.addView(vS,i);
+    }
+    public ExpandableView(Context context, cIdObject content, Adapter parent) {
         super(context);
         log.log("ExpandableView(context)",logLevel);
         init(null, 0);
         int i = this.indexOfChild(vS);
         vS = new cViewSelector(context,content);
+        setContent(content);
+        this.addView(vS,i);
+        parentAdapter = (cExpandableViewAdapter) parent;
+
     }
+
 
     public ExpandableView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -76,7 +96,7 @@ public class ExpandableView extends RelativeLayout implements View.OnClickListen
         bt.setOnClickListener(this);
         setHeight(aSizeUnExpanded);
         if (sizeType == EV_SIZE_WRAP_CONTENT){
-            setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         }else if(sizeType == EV_SIZE_CUST){
             setHeight(aSizeExpanded);
         }
@@ -88,9 +108,11 @@ public class ExpandableView extends RelativeLayout implements View.OnClickListen
     private void setHeight(int newHeight){
         log.log("set height: "+Integer.toString(newHeight),logLevel);
         //measure(ViewGroup.LayoutParams.MATCH_PARENT,newHeight);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,newHeight);
-        this.setLayoutParams(layoutParams);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,newHeight);
+        //setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,newHeight));
+        //this.setLayoutParams(layoutParams);
         requestLayout();
+        this.setMinimumHeight(newHeight);
     }
 
     @Override
@@ -123,6 +145,7 @@ public class ExpandableView extends RelativeLayout implements View.OnClickListen
     @Override
     public void onClick(View v) {
         log.log("onClick",logLevel);
+        Log.d("onclick",Integer.toString(this.getLayoutParams().height));
         if (this.getLayoutParams().height==aSizeExpanded){
             setHeight(aSizeUnExpanded);
             this.setBackgroundColor(Color.RED);
@@ -130,5 +153,6 @@ public class ExpandableView extends RelativeLayout implements View.OnClickListen
             setHeight(aSizeExpanded);
             this.setBackgroundColor(Color.BLUE);
         }
+        //parentAdapter.notifyDataSetChanged();
     }
 }

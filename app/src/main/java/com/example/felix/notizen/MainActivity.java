@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.example.felix.notizen.Utils.JsonManager.cJsonManager;
 import com.example.felix.notizen.Utils.JsonManager.cJsonManagerException;
@@ -17,6 +19,7 @@ import com.example.felix.notizen.Settings.cSettingException;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.cIdObject;
 import com.example.felix.notizen.objects.views.ExpandableView;
+import com.example.felix.notizen.objects.views.cExpandableViewAdapter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private cJsonManager jsonManager;
     private cSetting settings;
     private int n = 0;
+    private ListView lv;
 
 
 
@@ -67,12 +71,17 @@ public class MainActivity extends AppCompatActivity {
         ev.setContent(new cTextNote(UUID.randomUUID(),"textnote","content"));
         ev = (ExpandableView) findViewById(R.id.id3);
         ev.setContent(new cTask(UUID.randomUUID(),"task","cont",false));*/
-        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ExpandableView ex = new ExpandableView(this,new cIdObject("id object"));
-        this.addContentView(ex, layoutParams);
-        ex = new ExpandableView(this,new cTask(UUID.randomUUID() ,"id object","test",false));
-        this.addContentView(ex, layoutParams);
+        lv = (ListView) findViewById(R.id.adapterView);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        cExpandableViewAdapter adapter = new cExpandableViewAdapter();
+        ExpandableView ex = new ExpandableView(this,new cIdObject("id object"),adapter);
+        lv.setAdapter(adapter);
+        adapter.add(ex);
+
+        ex = new ExpandableView(this,new cTask(UUID.randomUUID() ,"task","test",false),adapter);
+        adapter.add(ex);
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -139,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 noteMaster.addNote(textNote);
                 break;
             case R.id.btn2:
-
+                //lv.requestLayout();
                 break;
         }
 
