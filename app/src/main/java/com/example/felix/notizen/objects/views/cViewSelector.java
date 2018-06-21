@@ -17,6 +17,8 @@ import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.cIdObject;
 
+import java.util.Objects;
+
 /**
  * TODO: document your custom view class.
  */
@@ -54,10 +56,10 @@ public class cViewSelector extends LinearLayout {
     }
 
     public void setContent(cIdObject pObject){
-        if (pObject.aTYPE == cIdObject.aTYPE){
+        if (Objects.equals(pObject.aTYPE, cIdObject.aTYPE)){
             inflate( R.layout.testlayout1);
         }
-        else if (pObject.aTYPE == cTask.aTYPE){
+        else if (Objects.equals(pObject.aTYPE, cTask.aTYPE)){
             inflate(R.layout.testlayout2);
         }
         else {

@@ -83,7 +83,7 @@ public class cSetting {
                 setSetting(aLOGS_TO_KEEP, 5);
             }
             if (!prefs.contains(aLOG_ENTRIES_BEFORE_FLUSH) | bResetExistingSettings) {
-                setSetting(aLOG_ENTRIES_BEFORE_FLUSH, 10);
+                setSetting(aLOG_ENTRIES_BEFORE_FLUSH, 1);
             }
             if (!prefs.contains(aJSON_LOCATION) | bResetExistingSettings) {
                 setSetting(aJSON_LOCATION, aContext.getExternalFilesDir(null).getPath() + "/JSON_DATA.TXT");
