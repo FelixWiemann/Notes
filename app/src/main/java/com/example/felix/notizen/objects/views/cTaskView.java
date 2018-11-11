@@ -34,4 +34,9 @@ public class cTaskView extends cAbstractAdditionalView implements abstractionInt
         taskviewCheckBox.setText(task.getText());
     }
 
+    @Override
+    public void setExtended(boolean isExtended) {
+
+    }
+
 }

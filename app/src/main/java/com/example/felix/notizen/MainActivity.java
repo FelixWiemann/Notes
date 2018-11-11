@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             settings.init(this.getApplicationContext());
         } catch (cSettingException e) {
-            // cannot log, as logger instance not ready yet
             e.printStackTrace();
         }
         // settings available, now inflate everything
@@ -58,22 +57,10 @@ public class MainActivity extends AppCompatActivity {
         // init vars
         log = cNoteLogger.getInstance();
         log.init();
-        //String path = this.getApplicationContext().getExternalFilesDir(null).getAbsolutePath();
-        //log.init(path, 100,cNoteLogger.mDebugLevelDebug,1,true);
-        //String path = this.getApplicationContext().getFilesDir().getPath();
-        // init logger with settings from application
         log.logInfo("onCreate");
         jsonManager = cJsonManager.getInstance();
         noteMaster = cNoteMaster.getInstance();
-        /*
-        ExpandableView ev = (ExpandableView) findViewById(R.id.id1);
-        ev.setContent(new cIdObject("title"));
-        ev = (ExpandableView) findViewById(R.id.id2);
-        ev.setContent(new cTextNote(UUID.randomUUID(),"textnote","content"));
-        ev = (ExpandableView) findViewById(R.id.id3);
-        ev.setContent(new cTask(UUID.randomUUID(),"task","cont",false));*/
         lv = (ListView) findViewById(R.id.adapterView);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         cExpandableViewAdapter adapter = new cExpandableViewAdapter();
         ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") , adapter);

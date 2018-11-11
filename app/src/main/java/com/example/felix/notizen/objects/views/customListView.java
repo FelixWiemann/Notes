@@ -2,8 +2,8 @@ package com.example.felix.notizen.objects.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
@@ -24,6 +24,7 @@ public class customListView extends ListView {
         super(context, attrs, defStyleAttr);
     }
 
+    /*@SuppressLint("WrongConstant")
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
@@ -49,6 +50,27 @@ public class customListView extends ListView {
         if (newChildHeight != 0)
             fullHeight = getListPaddingTop() + getListPaddingBottom() + newChildHeight;
 
-        setMeasuredDimension(getMeasuredWidth(), fullHeight);
+       super.onMeasure();
+        setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());
+    }
+*/
+
+    public void setListViewHeightBasedOnChildren() {
+        ListAdapter listAdapter = this.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = MeasureSpec.makeMeasureSpec(this.getWidth(), MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, this);
+            listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        this.getLayoutParams().height = totalHeight + (this.getDividerHeight() * (listAdapter.getCount() - 1));
+        this.requestLayout();
     }
 }

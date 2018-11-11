@@ -30,4 +30,9 @@ public class cNoteView extends cAbstractAdditionalView implements abstractionInt
         mInflater.inflate(R.layout.note_view, this);
         ((TextView)findViewById(R.id.note_view_tv)).setText(note.getTitle());
     }
+
+    @Override
+    public void setExtended(boolean isExtended) {
+
+    }
 }

@@ -8,4 +8,5 @@ import android.util.AttributeSet;
 
 public interface abstractionInterface {
    void initView(AttributeSet attrs, int defStyle);
+   void setExtended(boolean isExtended);
 }
