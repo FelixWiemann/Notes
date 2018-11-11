@@ -46,32 +46,24 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
     private cExpandableViewAdapter parentAdapter;
 
     private cIdObject content;
-    private boolean firstDraw =true;
 
     public ExpandableView(Context context){
         super(context);
-        log.log("ExpandableView(context)",logLevel);
         init(null, 0);
     }
     public ExpandableView(Context context, cIdObject object, Adapter parent) {
         super(context);
-        log.log("ExpandableView(context)",logLevel);
         content = object;
         init(null, 0);
         parentAdapter = (cExpandableViewAdapter) parent;
-
-
     }
     public ExpandableView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        log.log("exView context. attrs",logLevel);
         init(attrs, 0);
-
     }
 
     public ExpandableView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        log.log("exView con, attrs, style",logLevel);
         init(attrs, defStyle);
     }
 
@@ -88,7 +80,7 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
 
         abstractAdditionalView = cAbstractAdditionalViewFactory.getView(getContext(),content);
         ((abstractionInterface)abstractAdditionalView).initView(attrs,defStyle);
-        View v = findViewById(R.id.abstractView);
+        View v = findViewById(R.id.abstractViewWrapper);
         int index = this.indexOfChild(v);
         this.removeView(v);
         this.addView(abstractAdditionalView,index);
@@ -103,32 +95,31 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
     private void setHeight(int newHeight){
         Log.d("height","set height: "+Integer.toString(newHeight));
         getLayoutParams().height = newHeight;
+        //abstractAdditionalView.getLayoutParams().width = getLayoutParams().width-50;
+        //abstractAdditionalView.requestLayout();
         requestLayout();
     }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-    }
-
 
     private void inflateLayout(Context context){
         log.log("inflating",logLevel);
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mInflater.inflate(R.layout.expandable_view_layout, this);
-        tv = (TextView) this.findViewById(R.id.title_text);
         bt = (Button) this.findViewById(R.id.expand_button);
     }
 
-    int count = 1;
+    int count = 0;
 
     @Override
     public void onClick(View v) {
         log.log("onClick",logLevel);
+        int height = getHeight();
+        if (count ==1){
+            setHeight(height/2);
+            count = 0;
+        }else {
+            setHeight(height*2);
+            count = 1;
+        }
         bt.setRotationX((count*180)%360);
-        setHeight((count*200)%400 + 200); // TODO use heights
-        count++;
-        count = count % 100; // prevent overflow
-        ((customListView)this.getParent()).setListViewHeightBasedOnChildren();
     }
 }

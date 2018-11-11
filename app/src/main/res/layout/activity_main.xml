@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
+
     <com.example.felix.notizen.objects.views.customListView
+        android:id="@+id/adapterView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/adapterView">
-    </com.example.felix.notizen.objects.views.customListView>
+        android:layout_height="match_parent"></com.example.felix.notizen.objects.views.customListView>
 
 
 </LinearLayout>

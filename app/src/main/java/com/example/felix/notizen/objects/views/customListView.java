@@ -54,7 +54,7 @@ public class customListView extends ListView {
         setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());
     }
 */
-
+/*
     public void setListViewHeightBasedOnChildren() {
         ListAdapter listAdapter = this.getAdapter();
         if (listAdapter == null) {
@@ -72,5 +72,6 @@ public class customListView extends ListView {
 
         this.getLayoutParams().height = totalHeight + (this.getDividerHeight() * (listAdapter.getCount() - 1));
         this.requestLayout();
-    }
+        this.getParent().requestLayout();
+    }*/
 }
