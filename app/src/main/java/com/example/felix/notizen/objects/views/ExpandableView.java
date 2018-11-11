@@ -39,9 +39,12 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
 
     private TextView tv;
     private Button bt;
-    private cViewSelector vS;
+
+    private cAbstractAdditionalView abstractAdditionalView;
 
     private cExpandableViewAdapter parentAdapter;
+
+    private cIdObject content;
 
     public ExpandableView(Context context){//, cIdObject content) {
         super(context);
@@ -51,15 +54,13 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         //vS = new cViewSelector(context,content);
         //this.addView(vS,i);
     }
-    public ExpandableView(Context context, cIdObject content, Adapter parent) {
+    public ExpandableView(Context context, cIdObject object, Adapter parent) {
         super(context);
         log.log("ExpandableView(context)",logLevel);
+        content = object;
         init(null, 0);
-        int i = this.indexOfChild(vS);
-        vS = new cViewSelector(context,content);
-        setContent(content);
-        this.addView(vS,i);
         parentAdapter = (cExpandableViewAdapter) parent;
+
 
     }
 
@@ -88,6 +89,12 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         aSizeExpanded = a.getInt(R.styleable.ExpandableView_aSizeExpanded,60);
         sizeType = a.getInt(R.styleable.ExpandableView_aSize, 0);
 
+        abstractAdditionalView = cAbstractAdditionalViewFactory.getView(getContext(),content);
+        ((abstractionInterface)abstractAdditionalView).initView(attrs,defStyle);
+        View v = findViewById(R.id.abstractView);
+        int index = this.indexOfChild(v);
+        this.removeView(v);
+        this.addView(abstractAdditionalView,index);
 
         a.recycle();
         // inflate layout
@@ -109,10 +116,16 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         log.log("set height: "+Integer.toString(newHeight),logLevel);
         //measure(ViewGroup.LayoutParams.MATCH_PARENT,newHeight);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,newHeight);
+        customListView root = (customListView) getParent();
+        if (root!=null) {
+
+            ((customListView) getParent()).setLayoutParams(layoutParams);
+            root.measure(root.getMeasuredWidth() ,root.getMeasuredHeight());
+        }
         //setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,newHeight));
         //this.setLayoutParams(layoutParams);
         requestLayout();
-        this.setMinimumHeight(newHeight);
+        //this.setMinimumHeight(newHeight);
     }
 
     @Override
@@ -127,11 +140,9 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         mInflater.inflate(R.layout.expandable_view_layout, this);
         tv = (TextView) this.findViewById(R.id.title_text);
         bt = (Button) this.findViewById(R.id.expand_button);
-        vS = (cViewSelector) this.findViewById(R.id.viewSelector);
     }
 
     public void setContent(cIdObject content){
-        vS.setContent(content);
         tv.setText(content.getTitle());
 
         this.invalidate();

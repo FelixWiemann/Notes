@@ -13,11 +13,11 @@
         android:onClick="onClick"
         android:id="@id/btn1"
         android:text="btn1"/>
-    <ListView
+    <com.example.felix.notizen.objects.views.customListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/adapterView">
-    </ListView>
+    </com.example.felix.notizen.objects.views.customListView>
 <!--
     <com.example.felix.notizen.objects.views.ExpandableView
         android:layout_width="match_parent"

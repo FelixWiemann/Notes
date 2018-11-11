@@ -13,6 +13,7 @@ import com.example.felix.notizen.Utils.JsonManager.cJsonManagerException;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.Utils.Logger.cNoteLoggerException;
 import com.example.felix.notizen.Utils.cNoteMaster;
+import com.example.felix.notizen.objects.Notes.cNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         cExpandableViewAdapter adapter = new cExpandableViewAdapter();
-        ExpandableView ex = new ExpandableView(this,new cIdObject("id object"),adapter);
+        ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") , adapter);
         lv.setAdapter(adapter);
         adapter.add(ex);
 

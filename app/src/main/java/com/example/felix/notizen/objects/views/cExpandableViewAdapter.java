@@ -75,10 +75,10 @@ public class cExpandableViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // Inflate only once
+        // TODO Inflate only once
         if(convertView == null) {
-            LayoutInflater lf = LayoutInflater.from(parent.getContext());
-            convertView = new ExpandableView(parent.getContext());
+            //LayoutInflater lf = LayoutInflater.from(parent.getContext());
+            //convertView = new ExpandableView(parent.getContext());
         }
         return (ExpandableView) getItem(position);
     }
