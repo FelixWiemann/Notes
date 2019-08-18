@@ -1,5 +1,6 @@
-package com.example.felix.notizen.test.FrontEnd;
+package com.example.felix.notizen.objects;
 
+import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.objects.cIdObject;
 
 import org.junit.After;
@@ -19,9 +20,14 @@ public class cIdObjectTest {
 
     private cIdObject object;
 
+    private String idString;
+
     @Before
     public void setUp() throws Exception {
-        object = new cIdObject(UUID.randomUUID(),"test title");
+        UUID id = UUID.randomUUID();
+        idString = id.toString();
+        cNoteLogger.getInstanceWithoutInit().init(System.getProperty("java.io.tmpdir"),1,1,1,true);
+        object = new cIdObject(id,"test title");
     }
 
     @After
@@ -31,7 +37,7 @@ public class cIdObjectTest {
 
     @Test
     public void Constructor() throws Exception {
-        assertEquals("Constructor_ID",object.getID(),"1");
+        assertEquals("Constructor_ID",object.getID(),UUID.fromString(idString));
         assertEquals("Constructor_Title",object.getTitle(),"test title");
     }
 
@@ -41,11 +47,10 @@ public class cIdObjectTest {
         assertEquals("Constructor_Title",object.getTitle(),"new Title");
     }
 
-    @Test
+    @Test(expected = cIdObjectException.class)
     public void setId() throws Exception {
         String ID_string = UUID.randomUUID().toString();
         object.setId(UUID.fromString(ID_string));
-        assertEquals("Constructor_Title",object.getID().toString(),ID_string);
     }
 
     @Test

@@ -34,15 +34,17 @@ public class main {
         logger.logInfo(textNote.aTYPE);
         logger.logInfo(imageNote.aTYPE);
 
+        System.out.print(textNote.toJson());
+
         ArrayList<cTextNote> a = master.getNotesOfType(new cTextNote(null,null,null).aTYPE);
         int l = a.size();
         for (int i = 0;i<l;i++){
-            logger.logInfo(a.get(i).generateJSONString());
+            logger.logInfo(a.get(i).toJson());
         }
 
-        logger.logInfo(textNote.generateJSONString());
+        logger.logInfo(textNote.toJson());
 
-        //cDBMaster master  = cDBMaster.getInstance();
+        //cDBHelper master  = cDBHelper.getInstance();
         //master.insert(textNote);
         //master.insert(imageNote);
         //master.delete(textNote);

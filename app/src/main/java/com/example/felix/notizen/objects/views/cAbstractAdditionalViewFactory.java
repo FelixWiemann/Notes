@@ -3,6 +3,7 @@ package com.example.felix.notizen.objects.views;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.cIdObject;
@@ -23,6 +24,7 @@ public class cAbstractAdditionalViewFactory {
                     return new cTaskView(context, (cTask) object);
             }
         }
+        cNoteLogger.getInstance().logWarning("trying to display Note that cannot be displayed: "+object.getClass().getCanonicalName());
         // TODO return default null view
         return null;
     }

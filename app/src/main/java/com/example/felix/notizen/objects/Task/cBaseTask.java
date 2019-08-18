@@ -1,6 +1,7 @@
 package com.example.felix.notizen.objects.Task;
 
 import com.example.felix.notizen.objects.cIdObject;
+import com.example.felix.notizen.objects.cStorageObject;
 
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
  * by Felix "nepumuk" Wiemann on 14/04/17.
  */
 @SuppressWarnings("unused")
-public abstract class cBaseTask extends cIdObject {
+public abstract class cBaseTask extends cStorageObject {
 
     public static String aTYPE = "cBaseTask";
     /**
@@ -35,6 +36,13 @@ public abstract class cBaseTask extends cIdObject {
         this.mText = mText;
         this.mDone = mDone;
         logDebug("creating cBaseTask");
+    }
+
+    public cBaseTask(UUID pID) {
+        super();
+    }
+
+    public cBaseTask() {
     }
 
     /**

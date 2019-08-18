@@ -1,7 +1,8 @@
 package com.example.felix.notizen.objects.Notes;
 
 import com.example.felix.notizen.Utils.cBaseException;
-import com.example.felix.notizen.objects.cJSONObject;
+import com.example.felix.notizen.objects.cStorageObject;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.UUID;
@@ -11,7 +12,7 @@ import java.util.UUID;
  * base class for Notes
  */
 @SuppressWarnings("unused")
-public abstract class cNote extends cJSONObject {
+public abstract class cNote extends cStorageObject {
 
     /**
      * identifier of class
@@ -27,13 +28,8 @@ public abstract class cNote extends cJSONObject {
      * date of last change, numbers of milliseconds after January 1, 1970 00:00:00 GMT
      * @see Date#getTime()
      */
+    @JsonProperty("lastChangedDate")
     private long mLastChangedDate = -1;
-
-
-    public static final String aJSON_LAST_CHANGE_DATE = "LAST_CHANGE_DATE";
-
-    public static final String aJSON_CREATION_DATE = "CREATION_DATE";
-
 
     /**
      * create new note
@@ -70,6 +66,15 @@ public abstract class cNote extends cJSONObject {
             setLastChangedDate();
         }
         logDebug("created cNote");
+    }
+
+    public cNote(UUID pID) {
+        super();
+
+    }
+
+    public cNote() {
+
     }
 
     /**
@@ -135,27 +140,5 @@ public abstract class cNote extends cJSONObject {
      * especially stored data of the note.
      */
     public abstract void deleteNote();
-
-
-    /*
-     * removed as no need in additional Data. setters used instead
-     * add additional data to this note
-     * pDataBlob may contain any kind of data, determined by type of note
-     * @param pDataBlob contains the Data to add, in case of these classes:</p>
-     *                  cImageNote: string containing location of Image
-     *                  cTextNote: string containing the message of the note
-     *                  cTaskNote: List containing all tasks of the note
-     *
-     */
-    //public abstract void addAdditionalData(Object pDataBlob);
-
-
-    public String getJsonLastChangeDate(){
-        return aJSON_FIELD_SIGN+aJSON_LAST_CHANGE_DATE+aJSON_FIELD_SIGN+aJSON_SEP+aJSON_FIELD_SIGN+getLastChangedDate()+aJSON_FIELD_SIGN;
-    }
-    public String getJsonCreationDate(){
-        return aJSON_FIELD_SIGN+aJSON_CREATION_DATE+aJSON_FIELD_SIGN+aJSON_SEP+aJSON_FIELD_SIGN+getCreationDate()+aJSON_FIELD_SIGN;
-    }
-
 
 }

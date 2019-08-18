@@ -1,4 +1,4 @@
-package com.example.felix.notizen.test.FrontEnd.Task;
+package com.example.felix.notizen.objects.Task;
 
 import com.example.felix.notizen.objects.Task.cBaseTask;
 
@@ -21,6 +21,11 @@ public class cBaseTaskTest {
     @Before
     public void setUp() throws Exception {
         task = new cBaseTask(UUID.randomUUID(),"title","text",false) {
+            @Override
+            public int getVersion() {
+                return 0;
+            }
+
             @Override
             public void deleteTask() {
 

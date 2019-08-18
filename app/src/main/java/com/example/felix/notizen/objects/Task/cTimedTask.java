@@ -54,6 +54,15 @@ public class cTimedTask extends cBaseTask {
         logDebug("creating timed task");
     }
 
+    public cTimedTask(UUID pID) {
+        super();
+
+    }
+
+    public cTimedTask() {
+        super();
+    }
+
     /**
      * used to delete timer referenced in this task
      */
@@ -63,5 +72,10 @@ public class cTimedTask extends cBaseTask {
         // TODO: delete timer
     }
 
+
+    @Override
+    public int getVersion() {
+        return 1;
+    }
 
 }

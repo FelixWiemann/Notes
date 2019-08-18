@@ -27,8 +27,7 @@ public class cNoteLogger{
     /**
      * timestamp format used for logging
      */
-    public static final String aDATE_FORMAT_USED_FOR_LOGGING = "yyyy-mm-dd hh:mm:ss:SSS";
-
+    public static final String aDATE_FORMAT_USED_FOR_LOGGING = "yyyy-MM-dd HH:mm:ss:SSS";
     /**
      * file name to use for logging
      */
@@ -129,6 +128,10 @@ public class cNoteLogger{
         return mGlobalLoggerInstance;
     }
 
+    public static cNoteLogger getInstanceWithoutInit() {
+        return mGlobalLoggerInstance;
+    }
+
     /**
      * private constructor
      */
@@ -224,14 +227,16 @@ public class cNoteLogger{
      * uses settings stored in the Settings of the application
      */
     public void init() {
-        // get settings instance
-        cSetting settings = cSetting.getInstance();
-        // init the logger based on settings
-        init(settings.getSettingString(cSetting.aLOG_LOCATION),
-                settings.getSettingInteger(cSetting.aLOGS_TO_KEEP),
-                settings.getSettingInteger(cSetting.aAPP_DEBUG_LEVEL),
-                settings.getSettingInteger(cSetting.aLOG_ENTRIES_BEFORE_FLUSH),
-                false);
+        if (!isInitialized) {
+            // get settings instance
+            cSetting settings = cSetting.getInstance();
+            // init the logger based on settings
+            init(settings.getSettingString(cSetting.aLOG_LOCATION),
+                    settings.getSettingInteger(cSetting.aLOGS_TO_KEEP),
+                    settings.getSettingInteger(cSetting.aAPP_DEBUG_LEVEL),
+                    settings.getSettingInteger(cSetting.aLOG_ENTRIES_BEFORE_FLUSH),
+                    false);
+        }
     }
 
     /**
@@ -247,7 +252,7 @@ public class cNoteLogger{
             // handle log-files
             handleLogFiles();
             // create file name for current instance
-            String formattedDate = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
+            String formattedDate = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             this.mCurrentLogFileName = logLocation + "/" + aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
             // set log-file
             mLogFile = new File(mCurrentLogFileName);

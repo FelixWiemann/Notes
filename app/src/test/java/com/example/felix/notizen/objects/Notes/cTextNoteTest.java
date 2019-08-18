@@ -1,6 +1,8 @@
-package com.example.felix.notizen.test.FrontEnd.Notes;
+package com.example.felix.notizen.objects.Notes;
 
+import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.objects.Notes.cTextNote;
+import com.example.felix.notizen.objects.StorageUnpackerFactory;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +22,8 @@ public class cTextNoteTest {
 
     @Before
     public void setUp() throws Exception {
-        testNote = new cTextNote(UUID.fromString("id"),"title","message");
+        cNoteLogger.getInstanceWithoutInit().init(System.getProperty("java.io.tmpdir"),1,1,1,true);
+        testNote = new cTextNote(UUID.fromString("968bcf03-df33-4cb3-a2aa-75f591e55a36"),"title","message");
     }
 
     @After
@@ -43,6 +46,16 @@ public class cTextNoteTest {
     public void deleteNote() throws Exception {
 
     }
+    @Test
+    public void testJson() throws Exception{
+        String JSON = testNote.toJson();
+        Object o = StorageUnpackerFactory.getInstance().createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
+        assertEquals(testNote,o);
+        System.out.println(o);
+        System.out.println(testNote);
+    }
 
-
+    @Test
+    public void getVersion() {
+    }
 }

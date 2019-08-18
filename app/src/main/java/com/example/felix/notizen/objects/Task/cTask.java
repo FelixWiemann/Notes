@@ -23,6 +23,16 @@ public class cTask extends cBaseTask {
         super(mId, mTitle, mText, mDone);
     }
 
+
+    public cTask(UUID pID) {
+        super();
+
+    }
+
+    public cTask() {
+        super();
+
+    }
     /**
      * abstract method to implement in each inherited task type.
      * used for special deletion things
@@ -31,5 +41,10 @@ public class cTask extends cBaseTask {
     @Override
     public void deleteTask() {
 
+    }
+
+    @Override
+    public int getVersion() {
+        return 1;
     }
 }

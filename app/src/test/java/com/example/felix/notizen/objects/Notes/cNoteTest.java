@@ -1,9 +1,8 @@
-package com.example.felix.notizen.test.FrontEnd.Notes;
-
-import com.example.felix.notizen.objects.Notes.cNote;
+package com.example.felix.notizen.objects.Notes;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Date;
@@ -21,6 +20,7 @@ import static org.junit.Assert.*;
 @SuppressWarnings("unused")
 // extending test class from cNote, as it is not possible to test abstract classes directly
 // testing on functions in implemented cNoteTest
+@Ignore
 public class cNoteTest extends cNote {
 
     private cNoteTest note;
@@ -32,7 +32,7 @@ public class cNoteTest extends cNote {
      * @param pTitle title of note
      *
      */
-    cNoteTest(String pID, String pTitle) {
+    private cNoteTest(String pID, String pTitle) {
         super(UUID.fromString(pID), pTitle);
     }
 
@@ -112,9 +112,8 @@ public class cNoteTest extends cNote {
 
     }*/
 
-
     @Override
-    public String generateJSONString() {
-        return null;
+    public int getVersion() {
+        return 0;
     }
 }

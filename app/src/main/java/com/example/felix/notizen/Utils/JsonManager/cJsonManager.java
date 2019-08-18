@@ -214,7 +214,7 @@ public class cJsonManager extends cJSONObject  {
                         noteLogger.logDebug("JSON reading TextNotes");
                         reader.beginArray();
                         while (reader.hasNext()){
-                            readTextNote(reader);
+                            //readTextNote(reader);
                         }
                         reader.endArray();
                         break;
@@ -230,10 +230,10 @@ public class cJsonManager extends cJSONObject  {
         } catch (IOException e) {
             cJsonManagerException exception = new cJsonManagerException("JSON Manager read notes",cJsonManagerException.aREAD_NOTES_FAILED,e);
             throw exception;
-        } catch (cJsonManagerException e) {
+        } /*catch (cJsonManagerException e) {
             cJsonManagerException exception = new cJsonManagerException("JSON Manager read notes",cJsonManagerException.aREAD_NOTES_FAILED,e);
             throw exception;
-        }
+        }*/
     }
 
     /**
@@ -241,7 +241,7 @@ public class cJsonManager extends cJSONObject  {
      * @param reader reader to read with
      * @throws cJsonManagerException
      */
-    private void readTextNote(JsonReader reader) throws cJsonManagerException{
+    /*private void readTextNote(JsonReader reader) throws cJsonManagerException{
         try {
             noteLogger.logDebug("JSON begin reading text note");
             // begin text note object
@@ -292,7 +292,7 @@ public class cJsonManager extends cJSONObject  {
             throw ex;
         }
     }
-
+*/
     /**
      *
      * @param reader
@@ -306,7 +306,7 @@ public class cJsonManager extends cJSONObject  {
      * write the JSON-file
      * @throws cJsonManagerException if something goes wrong
      */
-    public void writeJSON() throws cJsonManagerException {
+   /* public void writeJSON() throws cJsonManagerException {
         noteLogger.logDebug("JSON Manager writing JSON");
         String header = "{\n";
         FileOutputStream outputStream;
@@ -327,14 +327,14 @@ public class cJsonManager extends cJSONObject  {
             throw exception;
         }
         noteLogger.logDebug("JSON Manager writing finished");
-    }
+    }*/
 
     /**
      * write all notes
      * @param stream to write in
      * @throws cJsonManagerException if something goes wrong
      */
-    private void write_Notes(OutputStream stream) throws cJsonManagerException {
+    /*private void write_Notes(OutputStream stream) throws cJsonManagerException {
         noteLogger.logDebug("writing notes");
         try {
             String lTypeHeader = aJSON_FIELD_SIGN + "NOTES" + aJSON_FIELD_SIGN + aJSON_SEP;
@@ -351,14 +351,14 @@ public class cJsonManager extends cJSONObject  {
         }
 
 
-    }
+    }*/
 
     /**
      * write all tasks
      * @param stream to write in
      * @throws cJsonManagerException if something goes wrong
      */
-    private void write_Tasks(OutputStream stream) throws cJsonManagerException {
+    /*private void write_Tasks(OutputStream stream) throws cJsonManagerException {
         noteLogger.logDebug("writing tasks");
         try {
             String lTypeHeader = aJSON_FIELD_SIGN + "TASKS" + aJSON_FIELD_SIGN + aJSON_SEP;
@@ -373,14 +373,14 @@ public class cJsonManager extends cJSONObject  {
             throw exception;
         }
     }
-
+*/
     /**
      * writes all objects stored in notes master of the given type in JSON-format in the JSON file
      * @param Type of objects to be stored
      * @param stream of the file.
      * @throws cJsonManagerException if something goes wrong writing the type
      */
-    private void write_Objects_Of_Type(String Type,OutputStream stream) throws cJsonManagerException {
+    /*private void write_Objects_Of_Type(String Type,OutputStream stream) throws cJsonManagerException {
         try {
             // get all Objects of type Type
             ArrayList<cJSONObject> notes;
@@ -410,7 +410,7 @@ public class cJsonManager extends cJSONObject  {
             throw exception;
         }
 
-    }
+    }*/
 
     /**
      *
@@ -419,16 +419,6 @@ public class cJsonManager extends cJSONObject  {
      * @throws IOException
      */
     private void write_JSON_Note(cJSONObject objectToWrite, OutputStream stream) throws IOException {
-        stream.write(objectToWrite.generateJSONString().getBytes());
-    }
-
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String generateJSONString() {
-        return null;
+        stream.write(objectToWrite.toJson().getBytes());
     }
 }

@@ -11,7 +11,6 @@ import com.example.felix.notizen.Utils.cBaseException;
  * by Felix "nepumuk" Wiemann on 10/06/17.
  */
 @SuppressWarnings("unused")
-@Deprecated
 public class cDBMasterException extends cBaseException {
 
     public static final String aSQL_CONNECTION_ALREADY_OPEN = "<SQL CONNECTION IS ALREADY OPEN>";

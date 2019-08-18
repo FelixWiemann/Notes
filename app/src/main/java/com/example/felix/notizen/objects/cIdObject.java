@@ -2,6 +2,9 @@ package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.Utils.Logger.cLoggerObject;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.UUID;
 
@@ -19,12 +22,8 @@ public class cIdObject extends cLoggerObject {
     /**
      * title of the note
      */
+    @JsonProperty("title")
     private String mTitle;
-
-    /**
-     * identifier of class
-     */
-    public static String aTYPE = "cIdObject";
 
     /**
      * creates a new object with an id and a title
@@ -39,6 +38,10 @@ public class cIdObject extends cLoggerObject {
         this.mTitle = mTitle;
     }
 
+    public cIdObject(UUID mID){
+        super();
+    }
+
     /**
      * TODO this constructor to all subclasses
      * creates a new object with an id and a title
@@ -49,6 +52,10 @@ public class cIdObject extends cLoggerObject {
         logDebug("creating cIdObject with uuid");
         this.mTitle = mTitle;
         this.mID = UUID.randomUUID();
+    }
+
+    public cIdObject() {
+
     }
 
     /**
@@ -75,6 +82,11 @@ public class cIdObject extends cLoggerObject {
         }
     }
 
+
+    @JsonSetter("idString")
+    public void setIdString(String id) throws cIdObjectException {
+        setId(UUID.fromString(id));
+    }
     /**
      * gets the id o the note
      * @return id
@@ -93,13 +105,8 @@ public class cIdObject extends cLoggerObject {
         return mTitle;
     }
 
-
     public String getIdString(){
         return mID.toString();
     }
-
-
-
-
 
 }

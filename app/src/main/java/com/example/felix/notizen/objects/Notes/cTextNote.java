@@ -1,5 +1,7 @@
 package com.example.felix.notizen.objects.Notes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 /**
@@ -20,9 +22,19 @@ public class cTextNote extends cNote {
     /**
      * message contained in the note
      */
+    @JsonProperty("message")
     private String mMessage;
 
-    public static final String aJSON_TEXT = "TEXT";
+
+    public cTextNote(UUID pID){
+        super(pID);
+
+    }
+
+    public cTextNote(){
+        super();
+
+    }
 
     /**
      * create new Note with these parameters.
@@ -77,38 +89,8 @@ public class cTextNote extends cNote {
         logDebug("note deleted");
     }
 
-    /*
-     * add additional data to this note
-     * DataBlob may contain any kind of data, determined by type of note
-     *
-     * @param pDataBlob contains the Data to add, in case of these classes:</p>
-     *                 cImageNote: string containing location of Image
-     *
     @Override
-    public void addAdditionalData(Object pDataBlob) {
-        logDebug("adding additional data");
-        try{
-            String message = (String) pDataBlob;
-            setMessage(message);
-            logDebug("added additional data");
-        }
-        catch (Exception e){
-            logError(e.getMessage());
-            //TOD: exception handling and logging
-        }
-    }*/
-
-    @Override
-    public String generateJSONString(){
-        String ID = getJsonID();
-        String Title = getJsonTitle()+aJSON_COMMA+aJSON_NEW_LINE;
-        String CreationDate = getJsonCreationDate()+aJSON_COMMA+aJSON_NEW_LINE;
-        String LastChangeDate = getJsonLastChangeDate()+aJSON_COMMA+aJSON_NEW_LINE;
-        String Text = getJsonText()+aJSON_NEW_LINE;
-        return  aJSON_OBJ_BEGIN+ID+Title+CreationDate+LastChangeDate + Text + aJSON_OBJ_END;
-    }
-
-    private String getJsonText(){
-        return aJSON_FIELD_SIGN+aJSON_TEXT+aJSON_FIELD_SIGN+aJSON_SEP+aJSON_FIELD_SIGN+getMessage()+aJSON_FIELD_SIGN;
+    public int getVersion() {
+        return 1;
     }
 }

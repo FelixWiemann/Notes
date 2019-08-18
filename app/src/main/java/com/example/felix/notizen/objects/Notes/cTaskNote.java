@@ -1,7 +1,10 @@
 package com.example.felix.notizen.objects.Notes;
 
 import com.example.felix.notizen.objects.Task.cBaseTask;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +27,7 @@ public class cTaskNote extends cNote {
     /**
      * list of tasks stored in this note
      */
-    private List<cBaseTask> mTaskList;
+    private List<cBaseTask> mTaskList = new ArrayList<>();
 
 
     /**
@@ -56,6 +59,24 @@ public class cTaskNote extends cNote {
         logDebug("creating new cTaskNote");
         this.setTaskList(pTaskList);
     }
+
+
+    public cTaskNote(UUID pID){
+        super(pID);
+
+    }
+
+    public cTaskNote(){
+        super();
+
+    }
+
+    public cTextNote fromJson(String jsonString) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        cTextNote note = mapper.readValue(jsonString,cTextNote.class);
+        return  note;
+    }
+
 
     /**
      * method from inherited class cNote
@@ -103,6 +124,10 @@ public class cTaskNote extends cNote {
      */
     private void clearTaskList(){
         logDebug("clearing all tasks");
+        if (mTaskList==null){
+            logDebug("already clear");
+            return;
+        }
         // delete each task in mTaskList
         for (cBaseTask task: mTaskList
                 ) {
@@ -136,7 +161,7 @@ public class cTaskNote extends cNote {
     }
 
     @Override
-    public String generateJSONString() {
-        return null;
+    public int getVersion() {
+        return 1;
     }
 }
