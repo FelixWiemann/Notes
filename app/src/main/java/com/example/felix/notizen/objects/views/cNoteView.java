@@ -12,27 +12,31 @@ import com.example.felix.notizen.objects.Notes.cTextNote;
  * Created by Felix on 11.11.2018.
  */
 
-public class cNoteView extends cAbstractAdditionalView implements abstractionInterface {
+public class cNoteView extends cNoteDisplayView {
 
-    private cTextNote note;
+    TextView messageView;
 
     public cNoteView(Context context) {
-        super(context);
-    }
-    public cNoteView(Context context, cTextNote object) {
-        super(context);
-        note = object;
+        super(context,R.layout.note_view);
     }
 
     @Override
-    public void initView(AttributeSet attrs, int defStyle) {
-        LayoutInflater mInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mInflater.inflate(R.layout.note_view, this);
-        ((TextView)findViewById(R.id.note_view_tv)).setText(note.getTitle());
+    public void onExpand() {
+
     }
 
     @Override
-    public void setExtended(boolean isExtended) {
+    public void onShrink() {
 
+    }
+
+    /**
+     * gets called, after the super is initialized.
+     * out your code to initialize the child view in here!
+     */
+    @Override
+    public void onInitialization() {
+        messageView = findViewById(R.id.note_view_tv);
+        messageView.setText("dis is text");
     }
 }

@@ -14,29 +14,28 @@ import com.example.felix.notizen.objects.cIdObject;
  * Created by Felix on 06.10.2018.
  */
 
-public class cTaskView extends cAbstractAdditionalView implements abstractionInterface{
-    private cTask task;
+public class cTaskView extends cNoteDisplayView{
 
     public cTaskView(Context context) {
-        super(context);
-    }
-
-    public cTaskView(Context context, cTask object) {
-        super(context);
-        task = object;
+        super(context, R.layout.task_view);
     }
 
     @Override
-    public void initView(AttributeSet attrs, int defStyle) {
-        LayoutInflater mInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mInflater.inflate(R.layout.task_view, this);
-        CheckBox taskviewCheckBox = (CheckBox) findViewById(R.id.task_view_cb);
-        taskviewCheckBox.setText(task.getText());
+    public void onExpand() {
+
     }
 
     @Override
-    public void setExtended(boolean isExtended) {
+    public void onShrink() {
 
     }
 
+    /**
+     * gets called, after the super is initialized.
+     * out your code to initialize the child view in here!
+     */
+    @Override
+    public void onInitialization() {
+
+    }
 }

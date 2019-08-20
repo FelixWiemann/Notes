@@ -1,33 +1,33 @@
 package com.example.felix.notizen.objects.views;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.example.felix.notizen.R;
-
-public class cAbstractAdditionalView extends LinearLayout {
-
-    public cAbstractAdditionalView(Context context) {
-        super(context);
-        init(null, 0);
-    }
+public class cAbstractAdditionalView extends LinearLayout{
 
     public cAbstractAdditionalView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public cAbstractAdditionalView(Context context, AttributeSet attrs, int defStyle) {
+    public cAbstractAdditionalView(Context context, AttributeSet attrs, int resourceId) {
+        super(context, attrs);
+        init(attrs, 0);
+        inflateChildView(resourceId);
+    }
+
+    public cAbstractAdditionalView(Context context, int resourceId){
+        super(context);
+        inflateChildView(resourceId);
+    }
+
+    public cAbstractAdditionalView(Context context, AttributeSet attrs, int defStyle, int resourceId) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
+        inflateChildView(resourceId);
     }
 
     private void init(AttributeSet attrs, int defStyle) {
@@ -37,8 +37,15 @@ public class cAbstractAdditionalView extends LinearLayout {
         a.recycle();*/
     }
 
+    private void inflateChildView(int resourceId){
+        LayoutInflater mInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert mInflater != null;
+        mInflater.inflate(resourceId, this);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
     }
+
 }

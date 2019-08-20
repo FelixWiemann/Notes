@@ -1,9 +1,6 @@
 package com.example.felix.notizen.objects;
 
-import android.support.annotation.NonNull;
-
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

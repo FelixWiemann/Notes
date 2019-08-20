@@ -18,6 +18,7 @@ import com.example.felix.notizen.Utils.Logger.cNoteLoggerException;
 import com.example.felix.notizen.Utils.cContextManager;
 import com.example.felix.notizen.Utils.cContextManagerException;
 import com.example.felix.notizen.Utils.cNoteMaster;
+import com.example.felix.notizen.objects.Displayable;
 import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.Task.cTask;
@@ -70,12 +71,13 @@ public class MainActivity extends AppCompatActivity {
         log.logInfo("onCreate");
         jsonManager = cJsonManager.getInstance();
         noteMaster = cNoteMaster.getInstance();
-        lv = (ListView) findViewById(R.id.adapterView);
+        lv = findViewById(R.id.adapterView);
         Log.d(TAG, "list view");
         log.logDebug(new cTextNote(UUID.randomUUID() ,"schidel didudel","note").toJson());
         Log.d(TAG, "logged");
         cExpandableViewAdapter adapter = new cExpandableViewAdapter();
-        ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") , adapter);
+        ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") );
+        ex.onFinishInflate();
         lv.setAdapter(adapter);
         adapter.add(ex);
         handler.insert(new cTextNote(UUID.randomUUID() ,"shidel","note"));
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         List<DatabaseStorable> list = handler.read();
         for (DatabaseStorable storable: list) {
             try{
-                adapter.add(new ExpandableView(this, (cIdObject) storable,adapter));
+                adapter.add(new ExpandableView(this, (Displayable) storable));
             }catch (NullPointerException np){
                 log.logError(np.getMessage());
             }
