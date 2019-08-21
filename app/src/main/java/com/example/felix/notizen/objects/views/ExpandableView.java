@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,10 +26,10 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
     private int aSizeUnExpanded = 500;
     private int aSizeExpanded = 600;
     private int sizeType = 0;
-    private final int EV_SIZE_WRAP_CONTENT = 1;
-    private final int EV_SIZE_CUST = 2;
+    private static final int EV_SIZE_WRAP_CONTENT = 1;
+    private static final int EV_SIZE_CUST = 2;
     // set log level of ExpandableView independently of application to reduce log entries while debugging
-    private int logLevel = cNoteLogger.mDebugLevelDebug;
+    private int logLevel = cNoteLogger.DEBUG_LEVEL_DEBUG;
     private cNoteLogger log = cNoteLogger.getInstance();
 
     private TextView tvTitleView;
@@ -68,18 +68,15 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         aSizeUnExpanded = a.getInt(R.styleable.ExpandableView_aSizeUnExpanded, 200);
         aSizeExpanded = a.getInt(R.styleable.ExpandableView_aSizeExpanded,200);
         sizeType = a.getInt(R.styleable.ExpandableView_aSize, 0);
-
         noteDisplayView = cNoteDisplayViewFactory.getView(getContext(),object);
-       // ((cAbstractAdditionalView)noteDisplayView).initView(attrs,defStyle);
-        View v = findViewById(R.id.abstractViewWrapper);
-        int index = this.indexOfChild(v);
-        this.removeView(v);
-        this.addView(noteDisplayView,index);
-
         a.recycle();
         // inflate layout
         log.log("inflating layout",logLevel);
         inflateLayout(getContext());
+        LinearLayout v = findViewById(R.id.abstractViewWrapper);
+        noteDisplayView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        v.addView(noteDisplayView,0);
+        v.invalidate();
         noteDisplayView.postInflate();
         bt.setOnClickListener(this);
 

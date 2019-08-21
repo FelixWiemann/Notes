@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
         ex.onFinishInflate();
         lv.setAdapter(adapter);
         adapter.add(ex);
-        handler.insert(new cTextNote(UUID.randomUUID() ,"shidel","note"));
-        handler.insert(new cImageNote(UUID.randomUUID() ,"image","aadsasd"));
-        handler.insert(new cTask(UUID.randomUUID() ,"task","aadsasd", false));
+        handler.insert(new cTextNote(UUID.randomUUID() ,"title shidel","note"));
+        handler.insert(new cImageNote(UUID.randomUUID() ,"title image","aadsasd"));
+        handler.insert(new cTask(UUID.randomUUID() ,"title task","aadsasd", false));
         List<DatabaseStorable> list = handler.read();
         for (DatabaseStorable storable: list) {
             try{
@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 log.logError(np.getMessage());
             }
         }
-        //ex = new ExpandableView(this,new cTask(UUID.randomUUID() ,"task","test",false),adapter);
-        //adapter.add(ex);
         adapter.notifyDataSetChanged();
         log.logInfo("done creating");
         Log.d(TAG, "done creating");
@@ -137,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //jsonManager.writeJSON();
         noteMaster.clear();
     }
 
@@ -158,21 +155,4 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btn1:
-                n++;
-                String s = String.valueOf(n);
-                cTextNote textNote = new cTextNote(UUID.randomUUID(), "title " + s, "message " + s);
-                noteMaster.addNote(textNote);
-                break;
-            case R.id.btn2:
-                //lv.requestLayout();
-                break;
-        }
-
-    }
-
 }
