@@ -1,5 +1,6 @@
 package com.example.felix.notizen.Utils.Logger;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.felix.notizen.Settings.cSetting;
@@ -7,12 +8,14 @@ import com.example.felix.notizen.Settings.cSetting;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * logger class for logging into a log file
@@ -27,16 +30,16 @@ public class cNoteLogger{
     /**
      * timestamp format used for logging
      */
-    public static final String aDATE_FORMAT_USED_FOR_LOGGING = "yyyy-MM-dd HH:mm:ss:SSS";
+    public static final String DATE_FORMAT_USED_FOR_LOGGING = "yyyy-MM-dd HH:mm:ss:SSS";
     /**
      * file name to use for logging
      */
-    public static final String aLOG_FILE_NAME = "NOTE_APPLICATION_LOG_";
+    public static final String LOG_FILE_NAME = "NOTE_APPLICATION_LOG_";
 
     /**
      * file type used for logging
      */
-    public static final String aLOG_FILE_TYPE = ".log";
+    public static final String LOG_FILE_TYPE = ".log";
 
     /**
      * current debug level of logger
@@ -51,27 +54,27 @@ public class cNoteLogger{
     /**
      * debug level const none
      */
-    public static final int mDebugLevelNone = 0;
+    public static final int DEBUG_LEVEL_NONE = 0;
 
     /**
      * debug level const error
      */
-    public static final int mDebugLevelError = 1;
+    public static final int DEBUG_LEVEL_ERROR = 1;
 
     /**
      * debug level const warning
      */
-    public static final int mDebugLevelWarning = 2;
+    public static final int DEBUG_LEVEL_WARNING = 2;
 
     /**
      * debug level const info
      */
-    public static final int mDebugLevelInfo = 3;
+    public static final int DEBUG_LEVEL_INFO = 3;
 
     /**
      * level debug
      */
-    public static final int mDebugLevelDebug = 4;
+    public static final int DEBUG_LEVEL_DEBUG = 4;
 
     /**
      * available log entries
@@ -93,11 +96,6 @@ public class cNoteLogger{
      */
     private int mEntriesBeforeLogFlush;
 
-    /**
-     * location logger logs to. To be set in init
-     */
-    private String mCurrentLogFileName;
-
     private String mLogFileDir;
 
     /**
@@ -116,6 +114,8 @@ public class cNoteLogger{
      * no other instances inside running application to be created!
      */
     private static final cNoteLogger mGlobalLoggerInstance = new cNoteLogger();
+
+    private static final String LOGGER_TAG = "NOTE_LOGGER";
 
     /**
      * gets the global logger instance.
@@ -136,7 +136,7 @@ public class cNoteLogger{
      * private constructor
      */
     private cNoteLogger() {
-        mLogEntries = new ArrayList<cLogEntry>();
+        mLogEntries = new ArrayList<>();
     }
 
 
@@ -148,7 +148,6 @@ public class cNoteLogger{
     public void log(String message, int level){
         // if current debug level is bigger than level of message; then debug
         // e.g: current debug level = 1; levels 2 and bigger are not stored
-        //Log.d("NOTES-LOGGER",message);
         if (mCurrentDebugLevel >=  level) {
             // add entry to entries
             mLogEntries.add(new cLogEntry(message, level));
@@ -157,7 +156,7 @@ public class cNoteLogger{
                 writeMessagesToFile();
             } catch (cNoteLoggerException e) {
                 cNoteLoggerException ex = new cNoteLoggerException(cNoteLoggerException.aCOULD_NOT_WRITE_TO_FILE
-                        , String.format("Failed to log %s with level %i", message, level)
+                        , String.format(Locale.ENGLISH,"Failed to log %s with level %d", message, level)
                         ,e);
                 ex.printStackTrace();
             }
@@ -170,7 +169,16 @@ public class cNoteLogger{
      * @param message error message
      */
     public void logError(String message){
-        log(message,mDebugLevelError);
+        log(message, DEBUG_LEVEL_ERROR);
+    }
+
+    public void logError(String message, Throwable exception){
+        StringBuilder newMessage = new StringBuilder(message + "\n");
+        newMessage.append("Exception: ").append(exception.getMessage()).append("\n");
+        for (StackTraceElement element:exception.getStackTrace()){
+            newMessage.append(element.toString());
+        }
+        logWarning(newMessage.toString());
     }
 
     /**
@@ -179,7 +187,7 @@ public class cNoteLogger{
      * @param message warning message
      */
     public void logWarning(String message){
-        log(message,mDebugLevelWarning);
+        log(message, DEBUG_LEVEL_WARNING);
     }
 
     /**
@@ -188,7 +196,7 @@ public class cNoteLogger{
      * @param message info message
      */
     public void logInfo(String message){
-        log(message,mDebugLevelInfo);
+        log(message, DEBUG_LEVEL_INFO);
     }
 
     /**
@@ -197,7 +205,7 @@ public class cNoteLogger{
      * @param message debug message
      */
     public void logDebug(String message){
-        log(message,mDebugLevelDebug);
+        log(message, DEBUG_LEVEL_DEBUG);
     }
 
     /**
@@ -206,7 +214,7 @@ public class cNoteLogger{
      * @param message none message
      */
     public void logNone(String message){
-        log(message,mDebugLevelNone);
+        log(message, DEBUG_LEVEL_NONE);
     }
 
     /**
@@ -245,22 +253,25 @@ public class cNoteLogger{
      * @param debugLevel log level to use
      */
     public void init(String logLocation,int maxFiles,int debugLevel,int entriesBeforeFlush, boolean reInit){
-        if (!isInitialized|reInit) {
+        if (!isInitialized||reInit) {
             // save prefs into instance
             mMaxFiles = maxFiles;
             mLogFileDir = logLocation;
             // handle log-files
             handleLogFiles();
             // create file name for current instance
-            String formattedDate = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            this.mCurrentLogFileName = logLocation + "/" + aLOG_FILE_NAME + formattedDate + aLOG_FILE_TYPE;
+            String formattedDate = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.ENGLISH).format(new Date());
+            /**
+             * location logger logs to. To be set in init
+             */
+            String mCurrentLogFileName = logLocation + System.getenv("path.separator") + LOG_FILE_NAME + formattedDate + LOG_FILE_TYPE;
             // set log-file
             mLogFile = new File(mCurrentLogFileName);
             this.mCurrentDebugLevel = debugLevel;
             mEntriesBeforeLogFlush = entriesBeforeFlush;
             // log init finished
             logNone("logger initialized");
-            logNone("debug level: " + String.valueOf(debugLevel));
+            logNone("debug level: " + debugLevel);
             logNone("log-file location: " + logLocation);
             isInitialized = true;
         }
@@ -272,6 +283,7 @@ public class cNoteLogger{
      * handles amount of log files according to maxFiles setting
      * deletes, if too much files
      */
+    @SuppressLint("NewApi")
     private void handleLogFiles() {
         // get dir of log files
         File dir = new File(mLogFileDir);
@@ -281,9 +293,11 @@ public class cNoteLogger{
             //noinspection ResultOfMethodCallIgnored
             dir.mkdir();
             try {
-                dir.createNewFile();
+                if (!dir.createNewFile()){
+                    this.logWarning("Could not create dirs");
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(LOGGER_TAG,Log.getStackTraceString(e));
             }
             logNone("log dir not available, created dir");
         }else {
@@ -297,13 +311,17 @@ public class cNoteLogger{
                 Arrays.sort(files, new Comparator<File>(){
                     public int compare(File f1, File f2)
                     {
-                        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+                        return Long.compare(f1.lastModified(), f2.lastModified());
                     } });
                 // copy the files, that are out of range (first files in the array)
                 File[] ftd = Arrays.copyOf(files,files.length-(mMaxFiles-1));
                 // delete all files in FilesToDelete
                 for (File f:ftd){
-                    f.delete();
+                    try {
+                        Files.delete(f.toPath());
+                    } catch (IOException e) {
+                        this.logError("could not delete file " + f.getName(), e);
+                    }
                 }
             }
         }
@@ -324,26 +342,22 @@ public class cNoteLogger{
         // log level of entry
         int lglvl = logEntry.getLogLevel();
         // format date into given format
-        String formattedDate = (new SimpleDateFormat(aDATE_FORMAT_USED_FOR_LOGGING)).format(d);
+        String formattedDate = (new SimpleDateFormat(DATE_FORMAT_USED_FOR_LOGGING,Locale.ENGLISH)).format(d);
         // build log message
-        String logMessage = String.format("%s - %s: %s\n",formattedDate,mDebugLevelStrings[lglvl],logEntry.getMessage());
-        return logMessage;
+        return String.format("%s - %s: %s %n",formattedDate,mDebugLevelStrings[lglvl],logEntry.getMessage());
     }
 
     /**
      * flush all entries into the file
-     * @throws cNoteLoggerException
+     * @throws cNoteLoggerException if flushing fails
      */
     public void flush() throws cNoteLoggerException {
         Iterator iterator = mLogEntries.iterator();
-        FileWriter fr = null;
-        try {
+        try (FileWriter fr =new FileWriter(mLogFile,true) ) {
             if (mLogFile != null){
-                fr = new FileWriter(mLogFile,true);
                 while (iterator.hasNext()){
                     fr.write(getFormattedLogEntry((cLogEntry)iterator.next()));
                 }
-                fr.close();
                 mLogEntries.clear();
             }
         } catch (IOException e) {
@@ -351,6 +365,5 @@ public class cNoteLogger{
             throw new cNoteLoggerException("log flush",cNoteLoggerException.aERROR_OPENING_FILE,null);
         }
     }
-
 
 }

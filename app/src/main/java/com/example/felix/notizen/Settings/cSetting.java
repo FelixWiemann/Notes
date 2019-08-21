@@ -89,7 +89,7 @@ public class cSetting {
                 setSetting(aJSON_LOCATION, aContext.getExternalFilesDir(null).getPath() + "/JSON_DATA.TXT");
             }
             if (!prefs.contains(aAPP_DEBUG_LEVEL) | bResetExistingSettings) {
-                setSetting(aAPP_DEBUG_LEVEL, cNoteLogger.mDebugLevelDebug);
+                setSetting(aAPP_DEBUG_LEVEL, cNoteLogger.DEBUG_LEVEL_DEBUG);
             }
         }catch (cSettingException ex){
             throw new cSettingException("cSetting.initPrefs",cSettingException.aINIT_PREFS_FAILED,ex);
