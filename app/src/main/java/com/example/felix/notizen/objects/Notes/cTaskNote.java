@@ -54,6 +54,7 @@ public class cTaskNote extends cNote {
      *                      true -> no new creation/last changed date
      * @param pTaskList list of tasks in created note
      */
+    @Deprecated
     public cTaskNote(UUID pID, String pTitle, List<cBaseTask>pTaskList, boolean pExistingNote) {
         super(pID, pTitle, pExistingNote);
         logDebug("creating new cTaskNote");

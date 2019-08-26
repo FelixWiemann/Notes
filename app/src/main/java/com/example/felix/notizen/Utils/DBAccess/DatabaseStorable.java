@@ -11,4 +11,10 @@ public interface DatabaseStorable {
     String getType();
     @JsonIgnore
     String getId();
+
+    @JsonIgnore
+    boolean wasUpdatedSinceLastSave();
+
+    @JsonIgnore
+    void onSave();
 }

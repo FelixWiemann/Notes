@@ -1,10 +1,7 @@
 package com.example.felix.notizen.objects.Notes;
 
-import com.example.felix.notizen.Utils.cBaseException;
 import com.example.felix.notizen.objects.cStorageObject;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -19,17 +16,7 @@ public abstract class cNote extends cStorageObject {
      */
     public static String aTYPE = "cNote";
 
-    /**
-     * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
-     */
-    private long mCreationDate = -1;
-    /**
-     * date of last change, numbers of milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
-     */
-    @JsonProperty("lastChangedDate")
-    private long mLastChangedDate = -1;
+
 
     /**
      * create new note
@@ -56,6 +43,7 @@ public abstract class cNote extends cStorageObject {
      *                      true -> no new creation/last changed date
      *                      false -> new creation/last changed date
      */
+    @Deprecated
     cNote(UUID pID, String pTitle, boolean pExistingNote){
         super(pID,pTitle);
         logDebug("creating preexisting cNote");
@@ -75,63 +63,6 @@ public abstract class cNote extends cStorageObject {
 
     public cNote() {
 
-    }
-
-    /**
-     * sets last changed date to current time in milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
-     */
-    void setLastChangedDate(){
-        logDebug("changing date");
-        mLastChangedDate = (new Date()).getTime();
-    }
-
-    /**
-     * gets last changed date in milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
-     * @return last changed date
-     */
-    protected long getLastChangedDate(){
-        logDebug("returning change date");
-        return mLastChangedDate;
-    }
-
-    /**
-     * gets creation date of the note in milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
-     * @return creation date
-     */
-    protected long getCreationDate(){
-        logDebug("returning creation date");
-        return mCreationDate;
-    }
-
-    /**
-     * set creation date to current time in milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
-     */
-    private void setCreationDate(){
-        logDebug("setting creation date");
-        mCreationDate = (new Date()).getTime();
-    }
-
-    /**
-     *
-     * @param pCreationDate
-     * @throws Exception
-     */
-    public void setCreationDate(long pCreationDate) throws cBaseException {
-        // must be -1 to be set, otherwise it was created before
-        if (mCreationDate == -1){
-            mCreationDate = pCreationDate;
-        }
-        else {
-            throw new cNoteException("cNote setCreationDate",cNoteException.aCREATION_DATE_ALREADY_SET,null);
-        }
-
-    }
-    public void setLastChangeDate(long lastChangeDate) {
-        mLastChangedDate = lastChangeDate;
     }
 
 

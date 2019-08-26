@@ -9,7 +9,7 @@ import com.example.felix.notizen.Utils.cBaseException;
 
 public class cNoteException extends cBaseException {
 
-    static final String aCREATION_DATE_ALREADY_SET = "aCREATION_DATE_ALREADY_SET";
+    public static final String aCREATION_DATE_ALREADY_SET = "aCREATION_DATE_ALREADY_SET";
 
     public cNoteException(String location, String message, cBaseException cause) {
         super(location, message, cause);

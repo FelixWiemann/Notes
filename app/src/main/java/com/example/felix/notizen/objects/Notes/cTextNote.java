@@ -56,6 +56,7 @@ public class cTextNote extends cNote {
      * @param pExistingNote whether is existing node
      * @param pMessage message of cTextNote
      */
+    @Deprecated
     public cTextNote(UUID pID, String pTitle, boolean pExistingNote, String pMessage) {
         super(pID, pTitle, pExistingNote);
         this.mMessage = pMessage;

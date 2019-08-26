@@ -49,6 +49,7 @@ public class cImageNote extends cNote {
      *                      shall be used when loading notes from DB
      * @param pImageLocation location of the image
      */
+    @Deprecated
     public cImageNote(UUID pID, String pTitle,String pImageLocation, boolean pExistingNote) {
         super(pID, pTitle, pExistingNote);
         logDebug("creating existing cImageNote");
