@@ -6,6 +6,5 @@
             <enum name="cust" value="2"/>
         </attr>
         <attr name="aSizeUnExpanded" format="integer"/>
-        <attr name="aSizeExpanded" format="integer"/>
     </declare-styleable>
 </resources>

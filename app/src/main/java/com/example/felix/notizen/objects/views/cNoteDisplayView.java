@@ -50,4 +50,10 @@ public abstract class cNoteDisplayView extends cAbstractAdditionalView{
      * out your code to initialize the child view in here!
      */
     public abstract void onInitialization();
+
+    /**
+     * get the expanded Size based on Note Type or custom implementation
+     * @return size that shall be expanded to
+     */
+    public abstract int getExpandedSize();
 }

@@ -24,7 +24,6 @@ import static java.lang.String.format;
 public class ExpandableView extends LinearLayout implements View.OnClickListener {
 
     private int aSizeUnExpanded = 500;
-    private int aSizeExpanded = 600;
     private int sizeType = 0;
     private static final int EV_SIZE_WRAP_CONTENT = 1;
     private static final int EV_SIZE_CUST = 2;
@@ -66,7 +65,6 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         content = object;
         // load expanded/unexpanded height
         aSizeUnExpanded = a.getInt(R.styleable.ExpandableView_aSizeUnExpanded, 200);
-        aSizeExpanded = a.getInt(R.styleable.ExpandableView_aSizeExpanded,200);
         sizeType = a.getInt(R.styleable.ExpandableView_aSize, 0);
         noteDisplayView = cNoteDisplayViewFactory.getView(getContext(),object);
         a.recycle();
@@ -74,7 +72,7 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         log.log("inflating layout",logLevel);
         inflateLayout(getContext());
         LinearLayout v = findViewById(R.id.abstractViewWrapper);
-        noteDisplayView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        noteDisplayView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, aSizeUnExpanded));
         v.addView(noteDisplayView,0);
         v.invalidate();
         noteDisplayView.postInflate();
@@ -85,7 +83,6 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
     @Override
     public void onFinishInflate(){
         super.onFinishInflate();
-        noteDisplayView.postInflate();
     }
 
     private void setHeight(int newHeight){
@@ -111,13 +108,12 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
     @Override
     public void onClick(View v) {
         log.log("onClick",logLevel);
-        int height = getHeight();
         if (count ==1){
-            setHeight(height/2);
+            setHeight(aSizeUnExpanded);
             count = 0;
             noteDisplayView.onShrink();
         }else {
-            setHeight(height*2);
+            setHeight(noteDisplayView.getExpandedSize());
             count = 1;
             noteDisplayView.onExpand();
         }

@@ -38,4 +38,14 @@ public class cTaskView extends cNoteDisplayView{
     public void onInitialization() {
 
     }
+
+    /**
+     * get the expanded Size based on Note Type or custom implementation
+     *
+     * @return size that shall be expanded to
+     */
+    @Override
+    public int getExpandedSize() {
+        return 350;
+    }
 }
