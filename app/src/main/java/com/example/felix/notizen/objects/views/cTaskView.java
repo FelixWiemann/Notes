@@ -1,20 +1,16 @@
 package com.example.felix.notizen.objects.views;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.Adapter;
-import android.widget.CheckBox;
 
 import com.example.felix.notizen.R;
-import com.example.felix.notizen.objects.Task.cTask;
-import com.example.felix.notizen.objects.cIdObject;
+
+import com.example.felix.notizen.objects.Notes.cTaskNote;
 
 /**
  * Created by Felix on 06.10.2018.
  */
 
-public class cTaskView extends cNoteDisplayView{
+public class cTaskView extends cNoteDisplayView<cTaskNote>{
 
     public cTaskView(Context context) {
         super(context, R.layout.task_view);
@@ -22,7 +18,6 @@ public class cTaskView extends cNoteDisplayView{
 
     @Override
     public void onExpand() {
-
     }
 
     @Override

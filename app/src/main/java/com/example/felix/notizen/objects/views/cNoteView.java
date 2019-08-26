@@ -12,7 +12,7 @@ import com.example.felix.notizen.objects.Notes.cTextNote;
  * Created by Felix on 11.11.2018.
  */
 
-public class cNoteView extends cNoteDisplayView {
+public class cNoteView extends cNoteDisplayView<cTextNote> {
 
     TextView messageView;
 

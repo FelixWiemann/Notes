@@ -2,14 +2,10 @@ package com.example.felix.notizen.objects.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
-import com.example.felix.notizen.R;
-import com.example.felix.notizen.objects.Displayable;
+public abstract class cNoteDisplayView<T> extends cAbstractAdditionalView{
 
-public abstract class cNoteDisplayView extends cAbstractAdditionalView{
-
-    protected Displayable NOTE;
+    T NOTE;
 
     public cNoteDisplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -27,7 +23,7 @@ public abstract class cNoteDisplayView extends cAbstractAdditionalView{
         super(context, attrs, defStyle, resourceId);
     }
 
-    public void setNoteToDisplay(Displayable noteToDisplay){
+    public void setNoteToDisplay(T noteToDisplay){
         this.NOTE = noteToDisplay;
     }
 

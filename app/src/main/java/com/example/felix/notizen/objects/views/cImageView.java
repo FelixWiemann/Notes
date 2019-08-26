@@ -2,10 +2,11 @@ package com.example.felix.notizen.objects.views;
 
 import android.content.Context;
 import android.widget.ImageView;
+import com.example.felix.notizen.objects.Notes.cImageNote;
 
 import com.example.felix.notizen.R;
 
-public class cImageView extends cNoteDisplayView {
+public class cImageView extends cNoteDisplayView<cImageNote> {
 
     public cImageView(Context context) {
         super(context,R.layout.image_view);
