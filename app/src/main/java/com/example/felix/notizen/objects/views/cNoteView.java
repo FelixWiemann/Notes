@@ -37,7 +37,9 @@ public class cNoteView extends cNoteDisplayView<cTextNote> {
     @Override
     public void onInitialization() {
         messageView = findViewById(R.id.note_view_tv);
-        messageView.setText("dis is text");
+        messageView.setText(this.NOTE.getMessage());
+    }
+
     /**
      * get the expanded Size based on Note Type or custom implementation
      *
