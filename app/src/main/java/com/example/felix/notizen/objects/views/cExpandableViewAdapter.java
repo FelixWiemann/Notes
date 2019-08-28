@@ -10,9 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.cIdObject;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Created by Felix on 21.06.2018.
@@ -88,5 +91,14 @@ public class cExpandableViewAdapter extends BaseAdapter {
         list.add(view);
     }
 
-
+    public List<DatabaseStorable> getAllStoreables(){
+        final ArrayList<DatabaseStorable> storables = new ArrayList<>();
+        this.list.forEach(new Consumer<ExpandableView>() {
+            @Override
+            public void accept(ExpandableView expandableView) {
+                storables.add(expandableView.getUnderlyingView().getContent());
+            }
+        });
+        return storables;
+    }
 }

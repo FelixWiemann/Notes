@@ -14,25 +14,29 @@ import java.util.UUID;
 
 public class cNoteDisplayViewFactory {
 
-        cNoteDisplayView toBeCreated;
+    private cNoteDisplayViewFactory(){}
+
     public static cNoteDisplayView getView(Context context, cStorageObject object){
+        cNoteDisplayView toBeCreated = null;
         String message = "NULL OBJECT";
         if (object!=null){
             switch (object.getClass().getCanonicalName()) {
                 case "com.example.felix.notizen.objects.Notes.cTextNote":
                     toBeCreated = new cNoteView(context);
-                    toBeCreated.setNoteToDisplay(object);
-                    return toBeCreated;
+                    break;
                 case "com.example.felix.notizen.objects.Task.cTask":
                     toBeCreated = new cTaskView(context);
-                    toBeCreated.setNoteToDisplay(object);
-                    return toBeCreated;
+                    break;
                 case "com.example.felix.notizen.objects.Notes.cImageNote":
                     toBeCreated = new cImageView(context);
-                    toBeCreated.setNoteToDisplay(object);
-                    return toBeCreated;
+                    break;
+                default:
+                    message = object.getClass().getCanonicalName();
             }
-            message = object.getClass().getCanonicalName();
+            if (toBeCreated != null){
+                toBeCreated.setNoteToDisplay(object);
+                return toBeCreated;
+            }
         }
         cNoteLogger.getInstance().logWarning("trying to display Note that cannot be displayed: "+message);
         toBeCreated = new cNoteView(context);

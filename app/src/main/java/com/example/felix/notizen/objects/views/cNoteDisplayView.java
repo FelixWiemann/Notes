@@ -32,6 +32,10 @@ public abstract class cNoteDisplayView<T extends cStorageObject> extends cAbstra
         onInitialization();
     }
 
+    public String getTitle(){
+        return content.getTitle();
+    }
+
 
     public T getContent(){
         return content;

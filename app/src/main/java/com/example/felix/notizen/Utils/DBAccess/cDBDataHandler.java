@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class cDBDataHandler {
     private cDBHelper aHelper;
@@ -20,23 +21,27 @@ public class cDBDataHandler {
     }
 
     /**
-     * inserts an cIDObject into the DB
+     * inserts an DatabaseStorable into the DB
      * @param object to insert
      */
     public void insert(DatabaseStorable object){
         cNoteLogger.getInstance().logInfo("inserting into DB: " + object.getId());
+        aHelper.insert(storableToContentValues(object));
+    }
+
+
+    private ContentValues storableToContentValues(DatabaseStorable object){
         ContentValues contentValue = new ContentValues( );
         contentValue.put(cDBHelper.aDB_COLUMN_JSONDATA, object.getDataString());
         contentValue.put(cDBHelper.aDB_COLUMN_TYPE, object.getType());
         contentValue.put(cDBHelper.aDB_COLUMN_TYPEVERSION, object.getVersion());
         contentValue.put(cDBHelper.aDB_COLUMN_ID,object.getId());
-        aHelper.insert(contentValue);
+        return contentValue;
     }
-
 
     public List<DatabaseStorable> read(){
         Cursor cursor = aHelper.getAll();
-        List<DatabaseStorable> list = new ArrayList<DatabaseStorable>();
+        ArrayList list = new ArrayList<DatabaseStorable> ();
         if(cursor.moveToFirst()){
             do{
                 String type = cursor.getString(cursor.getColumnIndex(cDBHelper.aDB_COLUMN_TYPE));
@@ -48,7 +53,7 @@ public class cDBDataHandler {
                     storable = StorageUnpackerFactory.getInstance().createFromData(id, type, data, version);
                     list.add(storable);
                 } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | IOException | InstantiationException e) {
-                    e.printStackTrace();
+                    cNoteLogger.getInstance().logError("could not create from DB of type " + type +" with version "+ version, e);
                 }
             }while (cursor.moveToNext());
         }
@@ -56,8 +61,8 @@ public class cDBDataHandler {
     }
 
     /**
-     * delete the object out of the DB
-     * @param object object to delete
+     * deleteAndReinit the object out of the DB
+     * @param object object to deleteAndReinit
      */
     public void delete(cIdObject object){
         cNoteLogger.getInstance().logInfo("deleting " + object.getIdString());
@@ -67,8 +72,20 @@ public class cDBDataHandler {
     }
 
     public void reinitDatabase(){
-        aHelper.delete();
+        aHelper.deleteAndReinit();
+    }
 
+    public void update(DatabaseStorable object){
+        aHelper.update(storableToContentValues(object),cDBHelper.aDB_COLUMN_ID+"='"+object.getId()+"'",null);
+    }
+
+    public void update(List<DatabaseStorable> objects){
+        objects.forEach(new Consumer<DatabaseStorable>() {
+            @Override
+            public void accept(DatabaseStorable databaseStorable) {
+                update(databaseStorable);
+            }
+        });
     }
 
 }

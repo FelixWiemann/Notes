@@ -79,6 +79,7 @@ public class cTextNote extends cNote {
     public void setMessage(String mMessage) {
         logDebug("message set");
         this.mMessage = mMessage;
+        onDataChanged();
     }
 
     /**

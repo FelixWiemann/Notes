@@ -11,12 +11,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
-
 import com.example.felix.notizen.R;
-import com.example.felix.notizen.objects.Displayable;
-
-import static java.lang.String.format;
+import com.example.felix.notizen.Utils.Logger.cNoteLogger;
+import com.example.felix.notizen.objects.cStorageObject;
 
 /**
  * TODO: document your custom view class.
@@ -61,7 +58,6 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.ExpandableView, defStyle, 0);
         log.log("loading params",logLevel);
-        content = object;
         // load expanded/unexpanded height
         aSizeUnExpanded = a.getInt(R.styleable.ExpandableView_aSizeUnExpanded, 200);
         sizeType = a.getInt(R.styleable.ExpandableView_aSize, 0);
@@ -79,11 +75,6 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
 
     }
 
-    @Override
-    public void onFinishInflate(){
-        super.onFinishInflate();
-    }
-
     private void setHeight(int newHeight){
         Log.d("height","set height: "+Integer.toString(newHeight));
         getLayoutParams().height = newHeight;
@@ -99,7 +90,12 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         bt = this.findViewById(R.id.expand_button);
 
         tvTitleView = findViewById(R.id.titleText);
-        tvTitleView.setText(content.getTitle());
+        tvTitleView.setText(noteDisplayView.getTitle());
+    }
+
+
+    public cNoteDisplayView getUnderlyingView(){
+        return noteDisplayView;
     }
 
     int count = 0;

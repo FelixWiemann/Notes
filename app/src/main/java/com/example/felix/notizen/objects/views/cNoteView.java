@@ -1,8 +1,6 @@
 package com.example.felix.notizen.objects.views;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import com.example.felix.notizen.R;
@@ -22,7 +20,7 @@ public class cNoteView extends cNoteDisplayView<cTextNote> {
 
     @Override
     public void onExpand() {
-
+        content.setMessage(content.getMessage()+" updated \n");
     }
 
     @Override
@@ -37,7 +35,7 @@ public class cNoteView extends cNoteDisplayView<cTextNote> {
     @Override
     public void onInitialization() {
         messageView = findViewById(R.id.note_view_tv);
-        messageView.setText(this.NOTE.getMessage());
+        messageView.setText(this.content.getMessage());
     }
 
     /**

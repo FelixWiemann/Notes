@@ -17,9 +17,9 @@ import com.example.felix.notizen.Utils.Logger.cNoteLoggerException;
 import com.example.felix.notizen.Utils.cContextManager;
 import com.example.felix.notizen.Utils.cContextManagerException;
 import com.example.felix.notizen.Utils.cNoteMaster;
-import com.example.felix.notizen.objects.Displayable;
 import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.objects.views.ExpandableView;
 import com.example.felix.notizen.objects.views.cExpandableViewAdapter;
 
@@ -38,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private cNoteMaster noteMaster;
     private cJsonManager jsonManager;
     private cSetting settings;
-    private int n = 0;
-    private ListView lv;
     private String TAG = "MAINACTIVITY";
+    private cExpandableViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,23 +66,20 @@ public class MainActivity extends AppCompatActivity {
         log.init();
         log.logInfo("onCreate");
         jsonManager = cJsonManager.getInstance();
-        noteMaster = cNoteMaster.getInstance();
-        lv = findViewById(R.id.adapterView);
+        ListView lv = findViewById(R.id.adapterView);
         Log.d(TAG, "list view");
         log.logDebug(new cTextNote(UUID.randomUUID() ,"schidel didudel","note").toJson());
         Log.d(TAG, "logged");
-        cExpandableViewAdapter adapter = new cExpandableViewAdapter();
+        adapter = new cExpandableViewAdapter();
         ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") );
-        ex.onFinishInflate();
         lv.setAdapter(adapter);
         adapter.add(ex);
         handler.insert(new cTextNote(UUID.randomUUID() ,"title shidel","this is some long text as I want to see what happens, if I have long text \n \n \n and more\n\n\n and some more lines"));
         handler.insert(new cImageNote(UUID.randomUUID() ,"title image","aadsasd"));
-        //handler.insert(new cTask(UUID.randomUUID() ,"title task","aadsasd", false));
         List<DatabaseStorable> list = handler.read();
         for (DatabaseStorable storable: list) {
             try{
-                adapter.add(new ExpandableView(this, (Displayable) storable));
+                adapter.add(new ExpandableView(this, (cStorageObject) storable));
             }catch (NullPointerException np){
                 log.logError(np.getMessage());
             }
@@ -121,7 +117,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         log.logInfo("onPause");
+        // TODO: loop over everything in the Adapter -> save if necessary
+        new cDBDataHandler().update(adapter.getAllStoreables());
+
         // TODO: remove for production
+        // also make cDBHelper.getInstance() protected!
         File f = new File(cDBHelper.getInstance().getDBPAth());
         Path originalPath = Paths.get(f.getPath());
         log.logDebug("saving Database for debug " + originalPath.toString());
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        noteMaster.clear();
+//        noteMaster.clear();
     }
 
     @Override

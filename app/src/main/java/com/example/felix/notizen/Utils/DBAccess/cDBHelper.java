@@ -54,6 +54,10 @@ public class cDBHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * TODO make protected, after removing the moving of the debug coping of DB
+     * @return
+     */
     public static cDBHelper getInstance(){
         return mMasterInstance;
     }
@@ -67,21 +71,25 @@ public class cDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         // read all entries from DB
-        // delete table
+        // deleteAndReinit table
         // create new table
         // put everything back in again
+    }
+
+    void update(ContentValues values, String whereClause, String[] whereArgs){
+        mDB.update(aDB_TABLE_NAME,values,whereClause, whereArgs);
     }
 
     void delete(String selection, String[] selectionArgs){
         mDB.delete(aDB_TABLE_NAME, selection, selectionArgs);
     }
 
-    void rawSQL(String command, String[] selectionArgs){
+    private void rawSQL(String command, String[] selectionArgs){
         cNoteLogger.getInstance().logWarning("raw SQL on DB: <" + command + ">");
         mDB.execSQL(command);
     }
 
-    void delete(){
+    void deleteAndReinit(){
         rawSQL(SQL_DELETE_ENTRIES, null);
         rawSQL(SQL_CREATE_ENTRIES, null);
     }
