@@ -34,7 +34,6 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
     private TextView tvTitleView;
     private Button bt;
 
-    private Displayable content;
 
     private cNoteDisplayView noteDisplayView;
 
@@ -42,7 +41,7 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         super(context);
         init(null, 0, null);
     }
-    public ExpandableView(Context context, Displayable object) {
+    public ExpandableView(Context context, cStorageObject object) {
         super(context);
         init(null, 0, object);
     }
@@ -56,7 +55,7 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         init(attrs, defStyle, null);
     }
 
-    private void init(AttributeSet attrs, int defStyle, Displayable object) {
+    private void init(AttributeSet attrs, int defStyle, cStorageObject object) {
         log.log("init exView",logLevel);
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(

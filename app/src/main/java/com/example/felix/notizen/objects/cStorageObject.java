@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.UUID;
 
-public abstract class cStorageObject extends cJSONObject implements DatabaseStorable, Displayable {
+public abstract class cStorageObject extends cJSONObject implements DatabaseStorable {
 
     private boolean wasSaved;
 

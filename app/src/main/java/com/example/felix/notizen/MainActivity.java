@@ -3,7 +3,6 @@ package com.example.felix.notizen;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
 
 import com.example.felix.notizen.Settings.cSetting;
@@ -21,8 +20,6 @@ import com.example.felix.notizen.Utils.cNoteMaster;
 import com.example.felix.notizen.objects.Displayable;
 import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
-import com.example.felix.notizen.objects.Task.cTask;
-import com.example.felix.notizen.objects.cIdObject;
 import com.example.felix.notizen.objects.views.ExpandableView;
 import com.example.felix.notizen.objects.views.cExpandableViewAdapter;
 
@@ -80,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
         ex.onFinishInflate();
         lv.setAdapter(adapter);
         adapter.add(ex);
-        handler.insert(new cTextNote(UUID.randomUUID() ,"title shidel","note"));
+        handler.insert(new cTextNote(UUID.randomUUID() ,"title shidel","this is some long text as I want to see what happens, if I have long text \n \n \n and more\n\n\n and some more lines"));
         handler.insert(new cImageNote(UUID.randomUUID() ,"title image","aadsasd"));
-        handler.insert(new cTask(UUID.randomUUID() ,"title task","aadsasd", false));
+        //handler.insert(new cTask(UUID.randomUUID() ,"title task","aadsasd", false));
         List<DatabaseStorable> list = handler.read();
         for (DatabaseStorable storable: list) {
             try{
