@@ -1,8 +1,10 @@
 package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.Utils.cBaseException;
 import com.example.felix.notizen.objects.Notes.cNoteException;
+import com.example.felix.notizen.objects.views.cNoteDisplayView;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
@@ -11,6 +13,7 @@ import java.util.UUID;
 public abstract class cStorageObject extends cJSONObject implements DatabaseStorable {
 
     private boolean wasSaved;
+
 
     public cStorageObject(UUID mID, String mTitle) {
         super(mID, mTitle);
@@ -62,6 +65,15 @@ public abstract class cStorageObject extends cJSONObject implements DatabaseStor
      */
     public void onDataChanged(){
         wasSaved = false;
+        if (callback != null) {
+            callback.update();
+        }
+    }
+
+    @Override
+    public void setTitle(String pTitle){
+        super.setTitle(pTitle);
+        onDataChanged();
     }
 
     /**
@@ -135,4 +147,12 @@ public abstract class cStorageObject extends cJSONObject implements DatabaseStor
         mLastChangedDate = lastChangeDate;
     }
 
+
+    // TODO probably remove and put somewhere display related
+    private OnUpdateCallback callback;
+    public void setOnChangeListener(OnUpdateCallback onChangeListener) {
+        callback = onChangeListener;
+        // make sure callback already knows sth has changed
+        callback.update();
+    }
 }

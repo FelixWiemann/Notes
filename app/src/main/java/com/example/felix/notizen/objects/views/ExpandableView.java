@@ -13,12 +13,13 @@ import android.widget.TextView;
 
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
+import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.objects.cStorageObject;
 
 /**
  * TODO: document your custom view class.
  */
-public class ExpandableView extends LinearLayout implements View.OnClickListener {
+public class ExpandableView extends LinearLayout implements View.OnClickListener, OnUpdateCallback {
 
     private int aSizeUnExpanded = 500;
     private int sizeType = 0;
@@ -62,6 +63,7 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         aSizeUnExpanded = a.getInt(R.styleable.ExpandableView_aSizeUnExpanded, 200);
         sizeType = a.getInt(R.styleable.ExpandableView_aSize, 0);
         noteDisplayView = cNoteDisplayViewFactory.getView(getContext(),object);
+        noteDisplayView.setParentView(this);
         a.recycle();
         // inflate layout
         log.log("inflating layout",logLevel);
@@ -70,7 +72,7 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         noteDisplayView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, aSizeUnExpanded));
         v.addView(noteDisplayView,0);
         v.invalidate();
-        noteDisplayView.postInflate();
+        noteDisplayView.onPostInflate();
         bt.setOnClickListener(this);
 
     }
@@ -113,5 +115,11 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
             noteDisplayView.onExpand();
         }
         bt.setRotationX((count*180)%360);
+    }
+
+    @Override
+    public void update() {
+        // TODO make sure inflateLayout has been called before this runs
+        tvTitleView.setText(noteDisplayView.getTitle());
     }
 }

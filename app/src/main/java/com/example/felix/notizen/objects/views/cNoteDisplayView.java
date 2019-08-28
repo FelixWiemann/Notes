@@ -2,11 +2,27 @@ package com.example.felix.notizen.objects.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+
+import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.objects.cStorageObject;
 
-public abstract class cNoteDisplayView<T extends cStorageObject> extends cAbstractAdditionalView{
+public abstract class cNoteDisplayView<T extends cStorageObject>
+        extends cAbstractAdditionalView implements OnUpdateCallback {
 
+    OnUpdateCallback parentView;
+
+    /**
+     * the content that is being displayed in an instance of cNoteDisplayView.
+     * The Type depends on the type of note to be displayed
+     */
     T content;
+
+    /**
+     * flag that gets set to true, after everything has been properly initialized
+     * this includes a proper layout inflation, setting the content, etc.
+     * everything should now be properly set and there should be no fear for null pointers
+     */
+    private boolean isInitialized = false;
 
     public cNoteDisplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,20 +42,45 @@ public abstract class cNoteDisplayView<T extends cStorageObject> extends cAbstra
 
     public void setNoteToDisplay(T noteToDisplay){
         this.content = noteToDisplay;
+        this.content.setOnChangeListener(this);
     }
 
-    public void postInflate() {
+    public void onPostInflate() {
         onInitialization();
+        isInitialized = true;
     }
 
     public String getTitle(){
         return content.getTitle();
     }
 
+    public void setParentView(OnUpdateCallback parentView){
+        this.parentView = parentView;
+    }
+
 
     public T getContent(){
         return content;
     }
+
+    /**
+     *
+     * @return whether the view is properly initialized
+     */
+    public boolean isInitialized(){
+        return isInitialized;
+    }
+
+    /**
+     * update the parent view to make sure all the latest info is shown
+     */
+    @Override
+    public void update(){
+        if (parentView != null) {
+            parentView.update();
+        }
+    }
+
 
     /**
      * onExpand() gets called, when the view is expanded to it's bigger size
@@ -53,12 +94,16 @@ public abstract class cNoteDisplayView<T extends cStorageObject> extends cAbstra
 
     /**
      * gets called, after the super is initialized.
-     * out your code to initialize the child view in here!
+     * put your code to initialize the child view in here!
+     * this could e.g. be getting all the proper views from the layout and setting the initial valuess
      */
     public abstract void onInitialization();
 
     /**
      * get the expanded Size based on Note Type or custom implementation
+     * e.g. images might need a bigger expansion than only text.
+     * Or you want to expand based on the amount of text that is shown...
+     *
      * @return size that shall be expanded to
      */
     public abstract int getExpandedSize();

@@ -25,7 +25,15 @@ public class cNoteView extends cNoteDisplayView<cTextNote> {
 
     @Override
     public void onShrink() {
+        content.setTitle(content.getTitle() + "new title");
+    }
 
+    @Override
+    public void update(){
+        super.update();
+        if (isInitialized()) {
+            messageView.setText(this.content.getMessage());
+        }
     }
 
     /**

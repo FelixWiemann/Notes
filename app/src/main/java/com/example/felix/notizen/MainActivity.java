@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") );
         lv.setAdapter(adapter);
         adapter.add(ex);
-        handler.insert(new cTextNote(UUID.randomUUID() ,"title shidel","this is some long text as I want to see what happens, if I have long text \n \n \n and more\n\n\n and some more lines"));
+        handler.insert(new cTextNote(UUID.randomUUID() ,"title shidel","some interesting content"));
         handler.insert(new cImageNote(UUID.randomUUID() ,"title image","aadsasd"));
         List<DatabaseStorable> list = handler.read();
         for (DatabaseStorable storable: list) {
