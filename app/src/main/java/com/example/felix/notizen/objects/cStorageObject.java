@@ -80,6 +80,7 @@ public abstract class cStorageObject extends cJSONObject implements DatabaseStor
      * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
      * @see Date#getTime()
      */
+    @JsonProperty("creationDate")
     private long mCreationDate = -1;
     /**
      * date of last change, numbers of milliseconds after January 1, 1970 00:00:00 GMT
