@@ -2,6 +2,7 @@ package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.Utils.Logger.cLoggerObject;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +32,7 @@ public class cIdObject extends cLoggerObject {
      * @param mID id of already existing, stored object
      * @param mTitle title of object
      */
-    public cIdObject(UUID mID, String mTitle) {
+    cIdObject(UUID mID, String mTitle) {
         super();
         logDebug("creating cIdObject");
         this.mID = mID;
@@ -48,13 +49,13 @@ public class cIdObject extends cLoggerObject {
      * a unique UUID is added automatically
      * @param mTitle title of the new object
      */
-    public cIdObject(String mTitle){
+    cIdObject(String mTitle){
         logDebug("creating cIdObject with uuid");
         this.mTitle = mTitle;
         this.mID = UUID.randomUUID();
     }
 
-    public cIdObject() {
+    cIdObject() {
 
     }
 
@@ -72,8 +73,7 @@ public class cIdObject extends cLoggerObject {
      * DO NOT USE THIS FUNCTION. CREATE A NEW OBJECT FROM DB VIA CONSTRUCTOR INSTEAD
      * @param pID new id
      */
-    @Deprecated
-    public void setId(UUID pID) throws cIdObjectException {
+    private void setId(UUID pID) throws cIdObjectException {
         logDebug("setting id");
         if (mID == null){
             mID = pID;
@@ -82,16 +82,15 @@ public class cIdObject extends cLoggerObject {
         }
     }
 
-
     @JsonSetter("idString")
-    public void setIdString(String id) throws cIdObjectException {
+    private void setIdString(String id) throws cIdObjectException {
         setId(UUID.fromString(id));
     }
     /**
      * gets the id o the note
      * @return id
      */
-    public UUID getID(){
+    UUID getID(){
         logDebug("returning ID");
         return mID;
     }
