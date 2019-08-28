@@ -2,10 +2,11 @@ package com.example.felix.notizen.objects.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import com.example.felix.notizen.objects.cStorageObject;
 
-public abstract class cNoteDisplayView<T> extends cAbstractAdditionalView{
+public abstract class cNoteDisplayView<T extends cStorageObject> extends cAbstractAdditionalView{
 
-    T NOTE;
+    T content;
 
     public cNoteDisplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -24,11 +25,16 @@ public abstract class cNoteDisplayView<T> extends cAbstractAdditionalView{
     }
 
     public void setNoteToDisplay(T noteToDisplay){
-        this.NOTE = noteToDisplay;
+        this.content = noteToDisplay;
     }
 
     public void postInflate() {
         onInitialization();
+    }
+
+
+    public T getContent(){
+        return content;
     }
 
     /**
