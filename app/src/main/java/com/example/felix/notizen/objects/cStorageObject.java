@@ -4,7 +4,6 @@ import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.Utils.cBaseException;
 import com.example.felix.notizen.objects.Notes.cNoteException;
-import com.example.felix.notizen.objects.views.cNoteDisplayView;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
@@ -103,7 +102,7 @@ public abstract class cStorageObject extends cJSONObject implements DatabaseStor
      * @see Date#getTime()
      * @return last changed date
      */
-    protected long getLastChangedDate(){
+    public long getLastChangedDate(){
         logDebug("returning change date");
         return mLastChangedDate;
     }
@@ -113,7 +112,7 @@ public abstract class cStorageObject extends cJSONObject implements DatabaseStor
      * @see Date#getTime()
      * @return creation date
      */
-    protected long getCreationDate(){
+    public long getCreationDate(){
         logDebug("returning creation date");
         return mCreationDate;
     }

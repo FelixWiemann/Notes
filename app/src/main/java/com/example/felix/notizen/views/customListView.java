@@ -1,9 +1,7 @@
-package com.example.felix.notizen.objects.views;
+package com.example.felix.notizen.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**

@@ -1,25 +1,28 @@
-package com.example.felix.notizen.objects.views;
+package com.example.felix.notizen.views;
 
 import android.content.Context;
-import android.widget.ImageView;
-import com.example.felix.notizen.objects.Notes.cImageNote;
 
 import com.example.felix.notizen.R;
 
-public class cImageView extends cNoteDisplayView<cImageNote> {
+import com.example.felix.notizen.objects.Notes.cTaskNote;
 
-    public cImageView(Context context) {
-        super(context,R.layout.image_view);
+/**
+ * Created by Felix on 06.10.2018.
+ */
+
+public class cTaskView extends cNoteDisplayView<cTaskNote>{
+
+    public cTaskView(Context context) {
+        super(context, R.layout.task_view);
     }
 
     @Override
     public void onExpand() {
-        ((ImageView) findViewById(R.id.image_view_image)).setImageResource(R.drawable.importance1);
     }
 
     @Override
     public void onShrink() {
-        ((ImageView)findViewById(R.id.image_view_image)).setImageResource(R.drawable.importance2);
+
     }
 
     /**
@@ -28,7 +31,7 @@ public class cImageView extends cNoteDisplayView<cImageNote> {
      */
     @Override
     public void onInitialization() {
-        onShrink();
+
     }
 
     /**
@@ -38,6 +41,6 @@ public class cImageView extends cNoteDisplayView<cImageNote> {
      */
     @Override
     public int getExpandedSize() {
-        return 500;
+        return 350;
     }
 }

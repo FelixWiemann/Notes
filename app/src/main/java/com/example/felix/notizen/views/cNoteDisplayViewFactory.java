@@ -1,4 +1,4 @@
-package com.example.felix.notizen.objects.views;
+package com.example.felix.notizen.views;
 
 import android.content.Context;
 

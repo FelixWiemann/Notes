@@ -20,8 +20,8 @@ import com.example.felix.notizen.Utils.cNoteMaster;
 import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.cStorageObject;
-import com.example.felix.notizen.objects.views.ExpandableView;
-import com.example.felix.notizen.objects.views.cExpandableViewAdapter;
+import com.example.felix.notizen.views.ExpandableView;
+import com.example.felix.notizen.views.cExpandableViewAdapter;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,19 +1,14 @@
-package com.example.felix.notizen.objects.views;
+package com.example.felix.notizen.views;
 
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.objects.cIdObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -48,7 +43,7 @@ public class cExpandableViewAdapter extends BaseAdapter {
     }
 
     /**
-     * Get the row id associated with the specified position in the list.
+     * Get the row id associated with the specified position in the displayed.
      *
      * @param position The position of the item within the adapter's data set whose row id we want.
      * @return The id of the item at the specified position.
@@ -101,4 +96,17 @@ public class cExpandableViewAdapter extends BaseAdapter {
         });
         return storables;
     }
+
+    public void sort(){
+        list.sort(new Comparator<ExpandableView>() {
+            @Override
+            public int compare(ExpandableView expandableView, ExpandableView t1) {
+                return 0;
+            }
+        });
+    }
+    public void filter(){
+
+    }
+
 }
