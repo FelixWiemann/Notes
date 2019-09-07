@@ -64,6 +64,13 @@ public abstract class cStorageObject extends cJSONObject implements DatabaseStor
      */
     public void onDataChanged(){
         wasSaved = false;
+        updateData();
+    }
+
+    /**
+     * update all depending listeners
+     */
+    public void updateData(){
         if (callback != null) {
             callback.update();
         }

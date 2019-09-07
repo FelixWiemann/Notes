@@ -20,8 +20,8 @@ import com.example.felix.notizen.Utils.cNoteMaster;
 import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.cStorageObject;
-import com.example.felix.notizen.views.ExpandableView;
 import com.example.felix.notizen.views.cExpandableViewAdapter;
+import com.example.felix.notizen.views.viewsort.FilterBasedOnClass;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,15 +71,15 @@ public class MainActivity extends AppCompatActivity {
         log.logDebug(new cTextNote(UUID.randomUUID() ,"schidel didudel","note").toJson());
         Log.d(TAG, "logged");
         adapter = new cExpandableViewAdapter();
-        ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") );
+        //ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") );
         lv.setAdapter(adapter);
-        adapter.add(ex);
-        handler.insert(new cTextNote(UUID.randomUUID() ,"title shidel","some interesting content"));
+        adapter.add(new cTextNote(UUID.randomUUID() ,"text note","note"));
+        handler.insert(new cTextNote(UUID.randomUUID() ,"new title","some interesting content"));
         handler.insert(new cImageNote(UUID.randomUUID() ,"title image","aadsasd"));
         List<DatabaseStorable> list = handler.read();
         for (DatabaseStorable storable: list) {
             try{
-                adapter.add(new ExpandableView(this, (cStorageObject) storable));
+                adapter.add((cStorageObject) storable);
             }catch (NullPointerException np){
                 log.logError(np.getMessage());
             }
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         log.logInfo("onPause");
         // TODO: loop over everything in the Adapter -> save if necessary
-        new cDBDataHandler().update(adapter.getAllStoreables());
+        new cDBDataHandler().update(adapter.getAllObjects());
 
         // TODO: remove for production
         // also make cDBHelper.getInstance() protected!

@@ -6,11 +6,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cStorageObject;
+import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Created by Felix on 21.06.2018.
@@ -18,7 +18,9 @@ import java.util.function.Consumer;
 
 public class cExpandableViewAdapter extends BaseAdapter {
 
-    ArrayList<ExpandableView> list = new ArrayList<>();
+    private ArrayList<DatabaseStorable> displayed = new ArrayList<>();
+
+    private ArrayList<DatabaseStorable> currentlyHidden = new ArrayList<>();
 
     /**
      * How many items are in the data set represented by this Adapter.
@@ -27,7 +29,8 @@ public class cExpandableViewAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return list.size();
+        return displayed.size();
+        //return list.size();
     }
 
     /**
@@ -39,7 +42,8 @@ public class cExpandableViewAdapter extends BaseAdapter {
      */
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return displayed.get(position);
+        //return list.get(position);
     }
 
     /**
@@ -50,7 +54,7 @@ public class cExpandableViewAdapter extends BaseAdapter {
      */
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     /**
@@ -73,40 +77,91 @@ public class cExpandableViewAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        // TODO Inflate only once
-        if(convertView == null) {
-            //LayoutInflater lf = LayoutInflater.from(parent.getContext());
-            //convertView = new ExpandableView(parent.getContext());
+        cStorageObject objectToDisplay = (cStorageObject)getItem(position);
+        // if view is already created, just update the data
+        if(convertView == null || currentlyHidden.contains((DatabaseStorable) getItem(position))) {
+            // otherwise create a new view and return that
+            return new ExpandableView(parent.getContext(),objectToDisplay);
+        }else {
+            objectToDisplay.updateData();
+            return (ExpandableView) getItem(position);
         }
-        return (ExpandableView) getItem(position);
     }
 
-    public void add(ExpandableView view){
-        list.add(view);
+    /**
+     * permanently removes a Storable from the adapter
+     * @param object
+     */
+    public void remove(DatabaseStorable object){
+        displayed.remove(object);
     }
 
-    public List<DatabaseStorable> getAllStoreables(){
-        final ArrayList<DatabaseStorable> storables = new ArrayList<>();
-        this.list.forEach(new Consumer<ExpandableView>() {
-            @Override
-            public void accept(ExpandableView expandableView) {
-                storables.add(expandableView.getUnderlyingView().getContent());
-            }
-        });
-        return storables;
+    /**
+     * add an object to the adapter to be displayed
+     * @param object
+     */
+    public void add(DatabaseStorable object){
+        displayed.add(object);
+        super.notifyDataSetChanged();
     }
 
+    /**
+     * adds all items from the list to the adapter
+     * @param list
+     */
+    public void add(List<DatabaseStorable> list){
+        displayed.addAll(list);
+        super.notifyDataSetChanged();
+    }
+
+    /**
+     * returns a List of all objects currently stored in the adapter, also the hidden ones!     *
+     * @return
+     */
+    public ArrayList<DatabaseStorable> getAllObjects(){
+        ArrayList<DatabaseStorable> allObjects = new ArrayList<>();
+        allObjects.addAll(displayed);
+        allObjects.addAll(currentlyHidden);
+        return allObjects;
+    }
+
+
+    /**
+     *
+     */
     public void sort(){
-        list.sort(new Comparator<ExpandableView>() {
-            @Override
-            public int compare(ExpandableView expandableView, ExpandableView t1) {
-                return 0;
-            }
-        });
+        super.notifyDataSetChanged();
     }
-    public void filter(){
 
+    /**
+     * filters the data based on the given filter
+     * List view listening to the adapter will be updated afterwards.
+     *
+     * the filtered out objects will not be discarded, with the FilterShowAll, all could be shown again.
+     * @param filter
+     */
+    public void filter(ViewFilter filter){
+        ArrayList <DatabaseStorable> tempShow = new ArrayList<>();
+        ArrayList <DatabaseStorable> tempHide = new ArrayList<>();
+
+        for (DatabaseStorable storable: displayed) {
+            if (filter.filter(storable)){
+                tempShow.add(storable);
+            }else{
+                tempHide.add(storable);
+            }
+        }
+        for (DatabaseStorable storable:currentlyHidden){
+            if (filter.filter(storable)){
+                tempShow.add(storable);
+            }else{
+                tempHide.add(storable);
+            }
+        }
+        currentlyHidden = tempHide;
+        displayed = tempShow;
+
+        super.notifyDataSetChanged();
     }
 
 }
