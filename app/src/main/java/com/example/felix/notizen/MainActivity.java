@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         log.logInfo("done creating");
         Log.d(TAG, "done creating");
+        adapter.filter(new FilterBasedOnClass(cTextNote.class));
 
     }
 
