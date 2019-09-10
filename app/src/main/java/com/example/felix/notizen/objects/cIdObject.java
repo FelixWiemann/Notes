@@ -73,7 +73,7 @@ public class cIdObject extends cLoggerObject {
      * DO NOT USE THIS FUNCTION. CREATE A NEW OBJECT FROM DB VIA CONSTRUCTOR INSTEAD
      * @param pID new id
      */
-    private void setId(UUID pID) throws cIdObjectException {
+    protected void setId(UUID pID) throws cIdObjectException {
         logDebug("setting id");
         if (mID == null){
             mID = pID;

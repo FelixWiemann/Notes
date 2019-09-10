@@ -4,23 +4,43 @@ import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.Utils.cBaseException;
 import com.example.felix.notizen.objects.Notes.cNoteException;
+import com.example.felix.notizen.views.viewsort.SortAble;
+import com.example.felix.notizen.views.viewsort.SortCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.UUID;
 
-public abstract class cStorageObject extends cJSONObject implements DatabaseStorable {
+public abstract class cStorageObject extends cSortableObject implements DatabaseStorable {
 
     private boolean wasSaved;
 
 
     public cStorageObject(UUID mID, String mTitle) {
         super(mID, mTitle);
+        initSortables();
     }
 
     public cStorageObject() {
         super();
+        initSortables();
         wasSaved = false;
+    }
+
+    private void initSortables(){
+        this.addSortable(SortCategory.TITLE, new SortAble<String>() {
+            @Override
+            public String getData() {
+                return getTitle();
+            }
+        });
+
+        this.addSortable(SortCategory.CREATION_TIME, new SortAble<Long>() {
+            @Override
+            public Long getData() {
+                return getCreationDate();
+            }
+        });
     }
 
     @Override

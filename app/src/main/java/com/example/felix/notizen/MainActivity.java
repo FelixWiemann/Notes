@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // init vars
         log = cNoteLogger.getInstance();
-        log.init();
+        log.initAppl();
         log.logInfo("onCreate");
         jsonManager = cJsonManager.getInstance();
         ListView lv = findViewById(R.id.adapterView);

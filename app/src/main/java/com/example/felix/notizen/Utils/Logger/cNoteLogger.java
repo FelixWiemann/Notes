@@ -124,7 +124,7 @@ public class cNoteLogger{
      * @return global logger instance
      */
     public static cNoteLogger getInstance() {
-        mGlobalLoggerInstance.init();
+        //mGlobalLoggerInstance.initAppl();
         return mGlobalLoggerInstance;
     }
 
@@ -137,6 +137,7 @@ public class cNoteLogger{
      */
     private cNoteLogger() {
         mLogEntries = new ArrayList<>();
+        // TODO Change logger implementation to be seperated from the context -> Settings.
     }
 
 
@@ -234,7 +235,7 @@ public class cNoteLogger{
      * init the logger with log file location and debug level
      * uses settings stored in the Settings of the application
      */
-    public void init() {
+    public void initAppl() {
         if (!isInitialized) {
             // get settings instance
             cSetting settings = cSetting.getInstance();
@@ -252,7 +253,7 @@ public class cNoteLogger{
      * @param logLocation location to store log file
      * @param debugLevel log level to use
      */
-    public void init(String logLocation,int maxFiles,int debugLevel,int entriesBeforeFlush, boolean reInit){
+    public cNoteLogger init(String logLocation,int maxFiles,int debugLevel,int entriesBeforeFlush, boolean reInit){
         if (!isInitialized||reInit) {
             // save prefs into instance
             mMaxFiles = maxFiles;
@@ -275,6 +276,7 @@ public class cNoteLogger{
             logNone("log-file location: " + logLocation);
             isInitialized = true;
         }
+        return this;
     }
 
     /**

@@ -10,6 +10,7 @@ import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -22,6 +23,10 @@ public class cExpandableViewAdapter extends BaseAdapter {
 
     private ArrayList<DatabaseStorable> currentlyHidden = new ArrayList<>();
 
+    private Comparator<DatabaseStorable> currentComparator;
+
+    private ViewFilter currentFilter;
+
     /**
      * How many items are in the data set represented by this Adapter.
      *
@@ -30,7 +35,6 @@ public class cExpandableViewAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         return displayed.size();
-        //return list.size();
     }
 
     /**
@@ -43,7 +47,6 @@ public class cExpandableViewAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         return displayed.get(position);
-        //return list.get(position);
     }
 
     /**
@@ -118,7 +121,7 @@ public class cExpandableViewAdapter extends BaseAdapter {
      * returns a List of all objects currently stored in the adapter, also the hidden ones!     *
      * @return
      */
-    public ArrayList<DatabaseStorable> getAllObjects(){
+    public List<DatabaseStorable> getAllObjects(){
         ArrayList<DatabaseStorable> allObjects = new ArrayList<>();
         allObjects.addAll(displayed);
         allObjects.addAll(currentlyHidden);
@@ -126,11 +129,14 @@ public class cExpandableViewAdapter extends BaseAdapter {
     }
 
 
-    /**
-     *
-     */
     public void sort(){
-        super.notifyDataSetChanged();
+        this.displayed.sort(currentComparator);
+        this.notifyDataSetChanged();
+    }
+
+    public void sort(Comparator<DatabaseStorable> sortBy){
+        currentComparator = sortBy;
+        sort();
     }
 
     /**
@@ -141,18 +147,23 @@ public class cExpandableViewAdapter extends BaseAdapter {
      * @param filter
      */
     public void filter(ViewFilter filter){
+        currentFilter = filter;
+        filter();
+    }
+
+    public void filter(){
         ArrayList <DatabaseStorable> tempShow = new ArrayList<>();
         ArrayList <DatabaseStorable> tempHide = new ArrayList<>();
 
         for (DatabaseStorable storable: displayed) {
-            if (filter.filter(storable)){
+            if (currentFilter.filter(storable)){
                 tempShow.add(storable);
             }else{
                 tempHide.add(storable);
             }
         }
         for (DatabaseStorable storable:currentlyHidden){
-            if (filter.filter(storable)){
+            if (currentFilter.filter(storable)){
                 tempShow.add(storable);
             }else{
                 tempHide.add(storable);
