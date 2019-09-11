@@ -258,8 +258,6 @@ public class cNoteLogger{
             // save prefs into instance
             mMaxFiles = maxFiles;
             mLogFileDir = logLocation;
-            // handle log-files
-            handleLogFiles();
             // create file name for current instance
             String formattedDate = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.ENGLISH).format(new Date());
             /**
@@ -268,6 +266,8 @@ public class cNoteLogger{
             String mCurrentLogFileName = logLocation + System.getenv("path.separator") + LOG_FILE_NAME + formattedDate + LOG_FILE_TYPE;
             // set log-file
             mLogFile = new File(mCurrentLogFileName);
+            // handle log-files
+            handleLogFiles();
             this.mCurrentDebugLevel = debugLevel;
             mEntriesBeforeLogFlush = entriesBeforeFlush;
             // log init finished
@@ -356,12 +356,10 @@ public class cNoteLogger{
     public void flush() throws cNoteLoggerException {
         Iterator iterator = mLogEntries.iterator();
         try (FileWriter fr =new FileWriter(mLogFile,true) ) {
-            if (mLogFile != null){
-                while (iterator.hasNext()){
-                    fr.write(getFormattedLogEntry((cLogEntry)iterator.next()));
-                }
-                mLogEntries.clear();
+            while (iterator.hasNext()){
+                fr.write(getFormattedLogEntry((cLogEntry)iterator.next()));
             }
+            mLogEntries.clear();
         } catch (IOException e) {
             e.printStackTrace();
             throw new cNoteLoggerException("log flush",cNoteLoggerException.aERROR_OPENING_FILE,null);
