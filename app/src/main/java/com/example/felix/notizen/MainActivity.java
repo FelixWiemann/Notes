@@ -21,6 +21,7 @@ import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.cExpandableViewAdapter;
+import com.example.felix.notizen.views.customListView;
 import com.example.felix.notizen.views.viewsort.FilterBasedOnClass;
 
 import java.io.File;
@@ -66,28 +67,29 @@ public class MainActivity extends AppCompatActivity {
         log.initAppl();
         log.logInfo("onCreate");
         jsonManager = cJsonManager.getInstance();
-        ListView lv = findViewById(R.id.adapterView);
+        customListView lv = findViewById(R.id.adapterView);
+        lv.init();
+        adapter = (cExpandableViewAdapter) lv.getAdapter();
         Log.d(TAG, "list view");
         log.logDebug(new cTextNote(UUID.randomUUID() ,"schidel didudel","note").toJson());
         Log.d(TAG, "logged");
-        adapter = new cExpandableViewAdapter();
+        //adapter = new cExpandableViewAdapter();
         //ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") );
-        lv.setAdapter(adapter);
-        adapter.add(new cTextNote(UUID.randomUUID() ,"text note","note"));
+        //lv.setAdapter(adapter);
+        lv.add(new cTextNote(UUID.randomUUID() ,"text note","note"));
         handler.insert(new cTextNote(UUID.randomUUID() ,"new title","some interesting content"));
         handler.insert(new cImageNote(UUID.randomUUID() ,"title image","aadsasd"));
         List<DatabaseStorable> list = handler.read();
         for (DatabaseStorable storable: list) {
             try{
-                adapter.add((cStorageObject) storable);
+                lv.add((cStorageObject) storable);
             }catch (NullPointerException np){
                 log.logError(np.getMessage());
             }
         }
-        adapter.notifyDataSetChanged();
+        lv.filter(new FilterBasedOnClass(cTextNote.class));
         log.logInfo("done creating");
         Log.d(TAG, "done creating");
-        adapter.filter(new FilterBasedOnClass(cTextNote.class));
 
     }
 
