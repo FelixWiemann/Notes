@@ -45,7 +45,7 @@ public class cExpandableViewAdapter extends BaseAdapter {
      * @return The data at the specified position.
      */
     @Override
-    public Object getItem(int position) {
+    public DatabaseStorable getItem(int position) {
         return displayed.get(position);
     }
 
@@ -87,7 +87,7 @@ public class cExpandableViewAdapter extends BaseAdapter {
             return new ExpandableView(parent.getContext(),objectToDisplay);
         }else {
             objectToDisplay.updateData();
-            return (ExpandableView) getItem(position);
+            return convertView;
         }
     }
 

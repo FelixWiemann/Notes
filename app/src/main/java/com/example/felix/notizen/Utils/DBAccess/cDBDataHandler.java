@@ -64,10 +64,10 @@ public class cDBDataHandler {
      * deleteAndReinit the object out of the DB
      * @param object object to deleteAndReinit
      */
-    public void delete(cIdObject object){
-        cNoteLogger.getInstance().logInfo("deleting " + object.getIdString());
+    public void delete(DatabaseStorable object){
+        cNoteLogger.getInstance().logInfo("deleting " + object.getId());
         String selection = cDBHelper.aDB_COLUMN_ID + " LIKE ?";
-        String[] selectionArgs = {object.getIdString()};
+        String[] selectionArgs = {object.getId()};
         aHelper.delete(selection,selectionArgs);
     }
 
