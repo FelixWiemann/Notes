@@ -19,7 +19,7 @@ import com.example.felix.notizen.objects.cStorageObject;
 /**
  * TODO: document your custom view class.
  */
-public class ExpandableView extends LinearLayout implements View.OnClickListener, OnUpdateCallback {
+public class ExpandableView extends LinearLayout implements OnUpdateCallback {
 
     private int aSizeUnExpanded = 500;
     private int sizeType = 0;
@@ -73,9 +73,25 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
         v.addView(noteDisplayView,0);
         v.invalidate();
         noteDisplayView.onPostInflate();
-        bt.setOnClickListener(this);
+        bt.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                log.log("onClick",logLevel);
+                if (count ==1){
+                    setHeight(aSizeUnExpanded);
+                    count = 0;
+                    noteDisplayView.onShrink();
+                }else {
+                    setHeight(noteDisplayView.getExpandedSize());
+                    count = 1;
+                    noteDisplayView.onExpand();
+                }
+                bt.setRotationX((count*180)%360);
+            }
+        });
 
     }
+
 
     private void setHeight(int newHeight){
         Log.d("height","set height: "+Integer.toString(newHeight));
@@ -101,21 +117,6 @@ public class ExpandableView extends LinearLayout implements View.OnClickListener
     }
 
     int count = 0;
-
-    @Override
-    public void onClick(View v) {
-        log.log("onClick",logLevel);
-        if (count ==1){
-            setHeight(aSizeUnExpanded);
-            count = 0;
-            noteDisplayView.onShrink();
-        }else {
-            setHeight(noteDisplayView.getExpandedSize());
-            count = 1;
-            noteDisplayView.onExpand();
-        }
-        bt.setRotationX((count*180)%360);
-    }
 
     @Override
     public void update() {
