@@ -3,7 +3,6 @@ package com.example.felix.notizen;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ListView;
 
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
@@ -22,7 +21,7 @@ import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.cExpandableViewAdapter;
 import com.example.felix.notizen.views.customListView;
-import com.example.felix.notizen.views.viewsort.FilterBasedOnClass;
+import com.example.felix.notizen.views.viewsort.FilterShowAll;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private cNoteMaster noteMaster;
     private cJsonManager jsonManager;
     private cSetting settings;
-    private String TAG = "MAINACTIVITY";
+    private static final String TAG = "MAINACTIVITY";
     private cExpandableViewAdapter adapter;
+
+    // TODO move data handling to a ViewModel connected to the Database via LiveData
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +74,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "list view");
         log.logDebug(new cTextNote(UUID.randomUUID() ,"schidel didudel","note").toJson());
         Log.d(TAG, "logged");
-        //adapter = new cExpandableViewAdapter();
-        //ExpandableView ex = new ExpandableView(this, new cTextNote(UUID.randomUUID() ,"text note","note") );
-        //lv.setAdapter(adapter);
         lv.add(new cTextNote(UUID.randomUUID() ,"text note","note"));
         handler.insert(new cTextNote(UUID.randomUUID() ,"new title","some interesting content"));
         handler.insert(new cImageNote(UUID.randomUUID() ,"title image","aadsasd"));
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 log.logError(np.getMessage());
             }
         }
-        lv.filter(new FilterBasedOnClass(cTextNote.class));
+        lv.filter(new FilterShowAll());
         log.logInfo("done creating");
         Log.d(TAG, "done creating");
 
@@ -135,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        noteMaster.clear();
     }
 
     @Override
