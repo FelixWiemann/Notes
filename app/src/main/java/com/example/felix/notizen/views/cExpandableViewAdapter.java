@@ -81,7 +81,25 @@ public class cExpandableViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         cStorageObject objectToDisplay = (cStorageObject)getItem(position);
         // if view is already created, just update the data
-        if(convertView == null || currentlyHidden.contains((DatabaseStorable) getItem(position))) {
+        boolean createNewView = false;
+
+        if(convertView == null){
+            // if it is null, definitely create a new one
+            createNewView = true;
+        }else{
+            if (convertView instanceof ExpandableView){
+                // if the objects are not the same, they might have been deleted, create a new view
+                createNewView = !((ExpandableView) convertView).getObject().equals(objectToDisplay);
+            }else  {
+                // if it's not an Expandable view, create a new view
+                createNewView = true;
+            }
+        }
+        // if it is in hidden compartement,
+        if (currentlyHidden.contains(getItem(position))){
+            //createNewView = true;
+        }
+        if (createNewView){
             SwipableView newView = new SwipableView(parent.getContext());
             // otherwise create a new view and return that
             newView.setMainView(new ExpandableView(parent.getContext(),objectToDisplay));
@@ -98,6 +116,7 @@ public class cExpandableViewAdapter extends BaseAdapter {
      */
     public void remove(DatabaseStorable object){
         displayed.remove(object);
+        //currentlyHidden.remove(object);
     }
 
     /**

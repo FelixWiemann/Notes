@@ -65,10 +65,7 @@ public class cDBDataHandler {
      * @param object object to deleteAndReinit
      */
     public void delete(DatabaseStorable object){
-        cNoteLogger.getInstance().logInfo("deleting " + object.getId());
-        String selection = cDBHelper.aDB_COLUMN_ID + " LIKE ?";
-        String[] selectionArgs = {object.getId()};
-        aHelper.delete(selection,selectionArgs);
+        delete(object.getId());
     }
 
     public void reinitDatabase(){
@@ -88,4 +85,10 @@ public class cDBDataHandler {
         });
     }
 
+    public void delete(String objectId) {
+        cNoteLogger.getInstance().logInfo("deleting " + objectId);
+        String selection = cDBHelper.aDB_COLUMN_ID + " LIKE ?";
+        String[] selectionArgs = {objectId};
+        aHelper.delete(selection,selectionArgs);
+    }
 }

@@ -21,6 +21,7 @@ import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.cExpandableViewAdapter;
 import com.example.felix.notizen.views.customListView;
+import com.example.felix.notizen.views.viewsort.FilterHideAll;
 import com.example.felix.notizen.views.viewsort.FilterShowAll;
 
 import java.io.File;

@@ -65,6 +65,10 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         return noteDisplayView.content.getId();
     }
 
+    public cStorageObject getObject(){
+        return noteDisplayView.content;
+    }
+
     private void init(AttributeSet attrs, int defStyle, cStorageObject object) {
         log.log("init exView",logLevel);
         // Load attributes
