@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * Created by Felix on 21.06.2018.
  */
-
 public class cExpandableViewAdapter extends BaseAdapter {
 
     private ArrayList<DatabaseStorable> displayed = new ArrayList<>();
@@ -83,8 +82,10 @@ public class cExpandableViewAdapter extends BaseAdapter {
         cStorageObject objectToDisplay = (cStorageObject)getItem(position);
         // if view is already created, just update the data
         if(convertView == null || currentlyHidden.contains((DatabaseStorable) getItem(position))) {
+            SwipableView newView = new SwipableView(parent.getContext());
             // otherwise create a new view and return that
-            return new ExpandableView(parent.getContext(),objectToDisplay);
+            newView.setMainView(new ExpandableView(parent.getContext(),objectToDisplay));
+            return newView;
         }else {
             objectToDisplay.updateData();
             return convertView;

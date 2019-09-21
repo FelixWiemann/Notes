@@ -17,7 +17,11 @@ import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.objects.cStorageObject;
 
 /**
- * TODO: document your custom view class.
+ * ExpandableView can be expanded and made smaller again by the press of a button.
+ * It holds an underlying view for displaying content.
+ *
+ * The button and a title is being shown.
+ * on pressing the button, the underlying view is notified of the size change.
  */
 public class ExpandableView extends LinearLayout implements OnUpdateCallback {
 
@@ -51,6 +55,14 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
     public ExpandableView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle, null);
+    }
+
+    /**
+     * get the ID of the object that is being displayed in this view
+     * @return String id of the object
+     */
+    public String getObjectId(){
+        return noteDisplayView.content.getId();
     }
 
     private void init(AttributeSet attrs, int defStyle, cStorageObject object) {
@@ -109,11 +121,6 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
 
         tvTitleView = findViewById(R.id.titleText);
         tvTitleView.setText(noteDisplayView.getTitle());
-    }
-
-
-    public cNoteDisplayView getUnderlyingView(){
-        return noteDisplayView;
     }
 
     int count = 0;

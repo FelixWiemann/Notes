@@ -6,4 +6,5 @@
     <color name="colorAccentGreen">#8EA604</color>
     <color name="colorAccentYellow">#E6C229</color>
     <color name="colorGrey">#98a3aa</color>
+    <color name="colorDeleteBackground">#94FF0000</color>
 </resources>

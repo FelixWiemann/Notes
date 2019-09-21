@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
@@ -19,6 +20,8 @@ import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 
 public class customListView extends ListView {
+
+    private static final String ANIM_X_VAR = "mainX";
 
     private cExpandableViewAdapter adapter = new cExpandableViewAdapter();
 
@@ -56,6 +59,12 @@ public class customListView extends ListView {
             final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
 
                 @Override
+                public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY){
+                    //customListView.this.onScroll(e1, e2, distanceX, distanceY);
+                    return false;
+                }
+
+                @Override
                 public boolean onDown(MotionEvent motionEvent) {
                     return customListView.this.onDown(motionEvent);
                 }
@@ -63,6 +72,7 @@ public class customListView extends ListView {
                 @Override
                 public void onLongPress(MotionEvent motionEvent) {
                     customListView.this.onLongPress(motionEvent);
+
 
                 }
 
@@ -80,19 +90,22 @@ public class customListView extends ListView {
 
     }
 
-    private final int REL_SWIPE_MIN_DISTANCE = (int)(120.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
-    private final int REL_SWIPE_MAX_OFF_PATH = (int)(250.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
+    private final int REL_FLING_MIN_DISTANCE = (int)(120.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
+    private final int REL_FLING_MAX_OFF_PATH = (int)(250.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
+    private final int REL_FLING_THRESHOLD_VELOCITY = (int)(100.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
+    private final int REL_SWIPE_MIN_DISTANCE = (int)(1.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
+    private final int REL_SWIPE_MAX_DISTANCE = (int)(200.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
     private final int REL_SWIPE_THRESHOLD_VELOCITY = (int)(200.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
 
     private View currentlyAnimated = null;
     private float xBeforeAnimated;
 
     private boolean onDown(MotionEvent motionEvent){
-        final View currentReturn;
+        SwipableView currentReturn;
         if (currentlyAnimated != null && currentlyAnimated != getChildViewAtMotionEventPosition(motionEvent)){
-            currentReturn = currentlyAnimated;
+            currentReturn = (SwipableView) currentlyAnimated;
             currentlyAnimated = null;
-            ObjectAnimator animation = ObjectAnimator.ofFloat(currentReturn,"translationX", (0f));
+            ObjectAnimator animation = ObjectAnimator.ofFloat(currentReturn,ANIM_X_VAR, (0f));
             animation.setDuration(200);
             animation.start();
 
@@ -104,23 +117,44 @@ public class customListView extends ListView {
         // TODO open context menu -> actions delete, edit, etc.
     }
 
+    private void onScroll(MotionEvent e1, MotionEvent e2, float distx, float disty){
+        int direction = 0;
+
+        if(Math.abs(e1.getX() - e2.getX()) > REL_SWIPE_MIN_DISTANCE) {
+            direction = 1;
+        }
+        if (e1.getX()-e2.getX() > REL_SWIPE_MAX_DISTANCE){
+            direction = 0;
+        }
+
+        currentlyAnimated = getChildViewAtMotionEventPosition(e1);
+        if (currentlyAnimated !=null){
+            xBeforeAnimated = currentlyAnimated.getTranslationX();
+            ObjectAnimator animation = ObjectAnimator.ofFloat(currentlyAnimated,ANIM_X_VAR, (e1.getX() - e2.getX())*direction);
+            animation.setDuration(100);
+            animation.start();
+        }
+
+    }
+
     private boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        if (Math.abs(e1.getY() - e2.getY()) > REL_SWIPE_MAX_OFF_PATH)
+        if (Math.abs(e1.getY() - e2.getY()) > REL_FLING_MAX_OFF_PATH)
             return false;
 
         int direction = 0;
 
-        if(e1.getX() - e2.getX() > REL_SWIPE_MIN_DISTANCE &&
-                Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
+        if(e1.getX() - e2.getX() > REL_FLING_MIN_DISTANCE &&
+                Math.abs(velocityX) > REL_FLING_THRESHOLD_VELOCITY) {
             direction = -1;
-        }  else if (e2.getX() - e1.getX() > REL_SWIPE_MIN_DISTANCE &&
-                Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
+        }  else if (e2.getX() - e1.getX() > REL_FLING_MIN_DISTANCE &&
+                Math.abs(velocityX) > REL_FLING_THRESHOLD_VELOCITY) {
             direction = 1;
         }
-        currentlyAnimated = getChildViewAtMotionEventPosition(e1);
+        currentlyAnimated = (SwipableView)getChildViewAtMotionEventPosition(e1);
         if (currentlyAnimated !=null){
             xBeforeAnimated = currentlyAnimated.getTranslationX();
-            ObjectAnimator animation = ObjectAnimator.ofFloat(currentlyAnimated,"translationX", 130f*direction);
+            ObjectAnimator animation = ObjectAnimator.ofFloat(currentlyAnimated,ANIM_X_VAR, 130f*direction);
+            //ObjectAnimator animation = ObjectAnimator.ofFloat(currentlyAnimated,"translationX", 130f*direction);
             animation.setDuration(400);
             animation.start();
         }
