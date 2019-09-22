@@ -1,8 +1,11 @@
 package com.example.felix.notizen;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
@@ -87,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         lv.filter(new FilterShowAll());
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, edit_note.class);
+                startActivity(intent);
+            }
+        });
+
         log.logInfo("done creating");
         Log.d(TAG, "done creating");
 

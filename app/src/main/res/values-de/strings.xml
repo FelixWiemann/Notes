@@ -22,4 +22,5 @@
     <string name="toolbar_menu_create_note_save">Speichern</string>
     <string name="bt_retake_pic">erneut aufnehmen</string>
     <string name="bt_cancel_pic">Abbrechen</string>
+    <string name="btSave">speichern</string>
 </resources>

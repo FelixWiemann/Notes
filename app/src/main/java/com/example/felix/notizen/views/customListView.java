@@ -2,16 +2,18 @@ package com.example.felix.notizen.views;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
+import com.example.felix.notizen.edit_note;
+import com.example.felix.notizen.objects.Notes.cTextNote;
+import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 /**
@@ -113,8 +115,11 @@ public class customListView extends ListView {
         return false;
     }
 
-    private void onLongPress(MotionEvent motionEvent) {
-        // TODO open context menu -> actions delete, edit, etc.
+    private void onLongPress(MotionEvent event) {
+        DatabaseStorable object = adapter.getItem(pointToPosition((int)event.getX(),(int)event.getY()));
+        Intent intent = new Intent(getContext(), edit_note.class);
+        intent = StoragePackerFactory.addToIntent(intent, object);
+        getContext().startActivity(intent);
     }
 
     private void onScroll(MotionEvent e1, MotionEvent e2, float distx, float disty){
