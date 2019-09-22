@@ -4,8 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
-import com.example.felix.notizen.objects.StorageUnpackerFactory;
-import com.example.felix.notizen.objects.cIdObject;
+import com.example.felix.notizen.objects.StoragePackerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -50,7 +49,7 @@ public class cDBDataHandler {
                 int version = cursor.getInt(cursor.getColumnIndex(cDBHelper.aDB_COLUMN_TYPEVERSION));
                 DatabaseStorable storable = null;
                 try {
-                    storable = StorageUnpackerFactory.getInstance().createFromData(id, type, data, version);
+                    storable = StoragePackerFactory.createFromData(id, type, data, version);
                     list.add(storable);
                 } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | IOException | InstantiationException e) {
                     cNoteLogger.getInstance().logError("could not create from DB of type " + type +" with version "+ version, e);

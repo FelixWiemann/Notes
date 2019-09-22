@@ -1,7 +1,7 @@
 package com.example.felix.notizen.objects.Task;
 
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
-import com.example.felix.notizen.objects.StorageUnpackerFactory;
+import com.example.felix.notizen.objects.StoragePackerFactory;
 
 import org.junit.After;
 import org.junit.Before;
@@ -36,7 +36,7 @@ public class cTaskTest {
     @Test
     public void testJson() throws Exception{
         String JSON = testTask.toJson();
-        Object o = StorageUnpackerFactory.getInstance().createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
+        Object o = StoragePackerFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
         assertEquals(testTask,o);
         System.out.println(o);
         System.out.println(testTask);
