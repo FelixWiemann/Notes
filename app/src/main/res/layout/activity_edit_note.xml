@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".edit_note">
+    tools:context=".EditNoteActivity">
 
     <EditText
         android:id="@+id/etTitle"
@@ -14,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="27dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="27dp"
         android:layout_marginTop="32dp"
         tools:layout_editor_absoluteX="40dp"
         tools:layout_editor_absoluteY="46dp" />
@@ -29,21 +28,14 @@
         android:layout_marginEnd="11dp"
         android:text="@string/btSave" />
 
-    <EditText
-        android:id="@+id/etMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="536dp"
-        android:layout_above="@+id/btSave"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragementHolder"
+        android:layout_marginEnd="27dp"
+        android:layout_marginStart="27dp"
         android:layout_below="@+id/etTitle"
-        android:layout_marginBottom="27dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="9dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:textAlignment="viewStart"
-        android:scrollHorizontally="false" />
+        android:orientation="horizontal" />
+
 
 </RelativeLayout>

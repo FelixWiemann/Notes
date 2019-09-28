@@ -5,7 +5,7 @@
     <application
         android:icon="@mipmap/ic_launcher_note_v1_0"
         android:label="@string/app_name">
-        <activity android:name=".edit_note"
+        <activity android:name=".EditNoteActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

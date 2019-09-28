@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
-import com.example.felix.notizen.edit_note;
-import com.example.felix.notizen.objects.Notes.cTextNote;
+import com.example.felix.notizen.EditNoteActivity;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
@@ -117,7 +116,7 @@ public class customListView extends ListView {
 
     private void onLongPress(MotionEvent event) {
         DatabaseStorable object = adapter.getItem(pointToPosition((int)event.getX(),(int)event.getY()));
-        Intent intent = new Intent(getContext(), edit_note.class);
+        Intent intent = new Intent(getContext(), EditNoteActivity.class);
         intent = StoragePackerFactory.addToIntent(intent, object);
         getContext().startActivity(intent);
     }

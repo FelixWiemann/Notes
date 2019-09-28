@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
@@ -21,14 +22,15 @@ import com.example.felix.notizen.Utils.cContextManagerException;
 import com.example.felix.notizen.Utils.cNoteMaster;
 import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
+import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.cExpandableViewAdapter;
 import com.example.felix.notizen.views.customListView;
-import com.example.felix.notizen.views.viewsort.FilterHideAll;
 import com.example.felix.notizen.views.viewsort.FilterShowAll;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,7 +47,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAINACTIVITY";
     private cExpandableViewAdapter adapter;
 
-    // TODO move data handling to a ViewModel connected to the Database via LiveData
+    /*
+     *TODO
+     * move data handling to a ViewModel connected to the Database via LiveData
+     * live data will probably need a map of data with uuid:note
+     * makes it possible to update single entries + update the db accordingly
+     *
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,14 +103,36 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, edit_note.class);
-                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
+                startActivityForResult(intent,1);
             }
         });
 
         log.logInfo("done creating");
         Log.d(TAG, "done creating");
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult: got result");
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                try {
+                    DatabaseStorable storable = StoragePackerFactory.storableFromIntent(data);
+                    Toast.makeText(this, storable.getDataString(),Toast.LENGTH_LONG).show();
+                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | IOException | InvocationTargetException | ClassNotFoundException e) {
+                    Log.e(TAG, "onActivityResult: ", e);
+                }
+                // TODO handle the data given back in the intent (update data)
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+
+                // Do something with the contact here (bigger example below)
+            }
+        }
     }
 
     @Override
