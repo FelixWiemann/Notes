@@ -16,10 +16,15 @@ import java.util.UUID;
  */
 public class StoragePackerFactory {
 
-    public static final String INTENT_NAME_NOTE_ID = "INTENT_NAME_NOTE_ID";
-    public static final String INTENT_NAME_NOTE_DATA = "INTENT_NAME_NOTE_DATA";
-    public static final String INTENT_NAME_NOTE_TYPE = "INTENT_NAME_NOTE_TYPE";
-    public static final String INTENT_NAME_NOTE_VERSION = "INTENT_NAME_NOTE_VERSION";
+    /**
+     * don't instantiate
+     */
+    private StoragePackerFactory(){};
+
+    private static final String INTENT_NAME_NOTE_ID = "INTENT_NAME_NOTE_ID";
+    private static final String INTENT_NAME_NOTE_DATA = "INTENT_NAME_NOTE_DATA";
+    private static final String INTENT_NAME_NOTE_TYPE = "INTENT_NAME_NOTE_TYPE";
+    private static final String INTENT_NAME_NOTE_VERSION = "INTENT_NAME_NOTE_VERSION";
 
     /**
      * creates a storable from the given information

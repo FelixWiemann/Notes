@@ -18,9 +18,9 @@ import com.example.felix.notizen.views.viewsort.ViewFilter;
 /**
  * Created by Felix on 21.06.2018.
  */
-
-
 public class customListView extends ListView {
+
+    private OnLongPressListener onLongPressListener;
 
     private static final String ANIM_X_VAR = "mainX";
 
@@ -115,10 +115,10 @@ public class customListView extends ListView {
     }
 
     private void onLongPress(MotionEvent event) {
-        DatabaseStorable object = adapter.getItem(pointToPosition((int)event.getX(),(int)event.getY()));
-        Intent intent = new Intent(getContext(), EditNoteActivity.class);
-        intent = StoragePackerFactory.addToIntent(intent, object);
-        getContext().startActivity(intent);
+        if (onLongPressListener!=null){
+            onLongPressListener.onLongPress(adapter.getItem(pointToPosition((int)event.getX(),(int)event.getY())));
+        }
+
     }
 
     private void onScroll(MotionEvent e1, MotionEvent e2, float distx, float disty){
@@ -180,5 +180,9 @@ public class customListView extends ListView {
 
     public void filter(ViewFilter filter) {
         adapter.filter(filter);
+    }
+
+    public void setOnLongPressListener(OnLongPressListener onLongPressListener) {
+        this.onLongPressListener = onLongPressListener;
     }
 }

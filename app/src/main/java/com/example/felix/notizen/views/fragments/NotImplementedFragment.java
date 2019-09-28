@@ -18,7 +18,7 @@ public class NotImplementedFragment extends NoteDisplayFragment {
     }
 
     @Override
-    protected void onUpdateData(DatabaseStorable updatedData) {
+    protected void updateUI(DatabaseStorable updatedData) {
 
     }
 }

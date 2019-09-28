@@ -24,6 +24,7 @@ import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.objects.cStorageObject;
+import com.example.felix.notizen.views.OnLongPressListener;
 import com.example.felix.notizen.views.cExpandableViewAdapter;
 import com.example.felix.notizen.views.customListView;
 import com.example.felix.notizen.views.viewsort.FilterShowAll;
@@ -98,19 +99,31 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         lv.filter(new FilterShowAll());
-
+        lv.setOnLongPressListener(new OnLongPressListener() {
+            @Override
+            public void onLongPress(DatabaseStorable databaseStorable) {
+                callEditNoteActivityForResult(databaseStorable);
+            }
+        });
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
-                startActivityForResult(intent,1);
+                callEditNoteActivityForResult();
             }
         });
-
         log.logInfo("done creating");
         Log.d(TAG, "done creating");
 
+    }
+
+    private void callEditNoteActivityForResult(){
+        callEditNoteActivityForResult(null);
+    }
+    private void callEditNoteActivityForResult(DatabaseStorable storable){
+        Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
+        intent = StoragePackerFactory.addToIntent(intent, storable);
+        startActivityForResult(intent,1);
     }
 
     @Override

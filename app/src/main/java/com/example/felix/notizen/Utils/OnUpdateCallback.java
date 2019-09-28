@@ -9,7 +9,7 @@ public interface OnUpdateCallback {
     void update();
 
     /*
-     * maybe a new method update(<Data>) will be necessary if updating all the date costs too much time
+     * maybe a new method update(<Data>) will be necessary if updatingUI all the date costs too much time
      * this then should handle where the update will be needed
      */
 }
