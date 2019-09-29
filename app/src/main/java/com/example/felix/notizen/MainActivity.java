@@ -13,8 +13,6 @@ import android.view.View;
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.Utils.JsonManager.cJsonManager;
-import com.example.felix.notizen.Utils.JsonManager.cJsonManagerException;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.Utils.Logger.cNoteLoggerException;
 import com.example.felix.notizen.Utils.NoteViewModel;
@@ -36,7 +34,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private cNoteLogger log;
-    private cJsonManager jsonManager;
     private cSetting settings;
     private static final String TAG = "MAINACTIVITY";
     private cExpandableViewAdapter adapter;
@@ -65,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         log = cNoteLogger.getInstance();
         log.initAppl();
         log.logInfo("onCreate");
-        jsonManager = cJsonManager.getInstance();
         customListView lv = findViewById(R.id.adapterView);
         lv.init();
         adapter = (cExpandableViewAdapter) lv.getAdapter();
@@ -136,11 +132,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         log.logInfo("onStart");
-        try {
-            jsonManager.read_JSON();
-        } catch (cJsonManagerException e) {
-            e.logException();
-        }
     }
 
     @Override
