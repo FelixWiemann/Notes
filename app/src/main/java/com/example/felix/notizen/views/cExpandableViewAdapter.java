@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.cStorageObject;
+import com.example.felix.notizen.views.viewsort.FilterShowAll;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class cExpandableViewAdapter extends BaseAdapter {
     private Comparator<DatabaseStorable> currentComparator;
 
     private ViewFilter currentFilter;
+
+    public OnListItemInPositionClickListener onClickListenerLeft = null;
+    public OnListItemInPositionClickListener onClickListenerRight = null;
 
     /**
      * How many items are in the data set represented by this Adapter.
@@ -78,7 +82,7 @@ public class cExpandableViewAdapter extends BaseAdapter {
      * @return A View corresponding to the data at the specified position.
      */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         cStorageObject objectToDisplay = (cStorageObject)getItem(position);
         // if view is already created, just update the data
         boolean createNewView = false;
@@ -101,6 +105,22 @@ public class cExpandableViewAdapter extends BaseAdapter {
         }
         if (createNewView){
             SwipableView newView = new SwipableView(parent.getContext());
+            // set on click for deletion
+            newView.setOnClickListeners(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onClickListenerLeft!=null){
+                        onClickListenerLeft.onClick(position);
+                    }
+                }
+            }, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onClickListenerRight!=null){
+                        onClickListenerRight.onClick(position);
+                    }
+                }
+            });
             // otherwise create a new view and return that
             newView.setMainView(new ExpandableView(parent.getContext(),objectToDisplay));
             return newView;
@@ -116,7 +136,7 @@ public class cExpandableViewAdapter extends BaseAdapter {
      */
     public void remove(DatabaseStorable object){
         displayed.remove(object);
-        //currentlyHidden.remove(object);
+        currentlyHidden.remove(object);
     }
 
     /**
@@ -135,6 +155,13 @@ public class cExpandableViewAdapter extends BaseAdapter {
     public void add(List<DatabaseStorable> list){
         displayed.addAll(list);
         super.notifyDataSetChanged();
+    }
+
+    public void replace(List <DatabaseStorable> list){
+        displayed.clear();
+        currentlyHidden.clear();
+        displayed.addAll(list);
+        filter();
     }
 
     /**
@@ -171,7 +198,16 @@ public class cExpandableViewAdapter extends BaseAdapter {
         filter();
     }
 
+    /**
+     * filter with the previously set filter in filter(ViewFilter)
+     * if no filter is selected, FilterShowAll is applied
+     */
     public void filter(){
+
+        if (currentFilter == null){
+            currentFilter = new FilterShowAll();
+        }
+
         ArrayList <DatabaseStorable> tempShow = new ArrayList<>();
         ArrayList <DatabaseStorable> tempHide = new ArrayList<>();
 

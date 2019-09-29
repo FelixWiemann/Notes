@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.felix.notizen.R;
-import com.example.felix.notizen.Utils.DBAccess.cDBDataHandler;
 
 /**
  * SwipableView wraps the main view that shall be shown to the user.
@@ -75,17 +74,11 @@ public class SwipableView extends RelativeLayout {
 
         BackgroundRight.setVisibility(INVISIBLE);
         BackgroundLeft.setVisibility(INVISIBLE);
+    }
 
-        // set on click for deletion
-        BackgroundLeft.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //new cDBDataHandler().delete(((ExpandableView)MainView).getObjectId());
-                customListView parent = (customListView) getParent();
-                parent.remove(((ExpandableView)MainView).getObject());
-            }
-        });
-
+    public void setOnClickListeners(OnClickListener left, OnClickListener right){
+        BackgroundLeft.setOnClickListener(left);
+        BackgroundRight.setOnClickListener(right);
     }
 
     /**

@@ -1,60 +1,46 @@
 package com.example.felix.notizen;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.Utils.DBAccess.cDBDataHandler;
-import com.example.felix.notizen.Utils.DBAccess.cDBHelper;
 import com.example.felix.notizen.Utils.JsonManager.cJsonManager;
 import com.example.felix.notizen.Utils.JsonManager.cJsonManagerException;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.Utils.Logger.cNoteLoggerException;
+import com.example.felix.notizen.Utils.NoteViewModel;
 import com.example.felix.notizen.Utils.cContextManager;
 import com.example.felix.notizen.Utils.cContextManagerException;
-import com.example.felix.notizen.Utils.cNoteMaster;
-import com.example.felix.notizen.objects.Notes.cImageNote;
-import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.StoragePackerFactory;
-import com.example.felix.notizen.objects.cStorageObject;
+import com.example.felix.notizen.views.OnListItemInPositionClickListener;
 import com.example.felix.notizen.views.OnLongPressListener;
 import com.example.felix.notizen.views.cExpandableViewAdapter;
 import com.example.felix.notizen.views.customListView;
 import com.example.felix.notizen.views.viewsort.FilterShowAll;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
     private cNoteLogger log;
-    private cNoteMaster noteMaster;
     private cJsonManager jsonManager;
     private cSetting settings;
     private static final String TAG = "MAINACTIVITY";
     private cExpandableViewAdapter adapter;
-
-    /*
-     *TODO
-     * move data handling to a ViewModel connected to the Database via LiveData
-     * live data will probably need a map of data with uuid:note
-     * makes it possible to update single entries + update the db accordingly
-     *
-     */
+    private NoteViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +58,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (cContextManagerException e) {
             e.printStackTrace();
         }
-        cDBDataHandler handler = new cDBDataHandler();
-        handler.reinitDatabase();
-        // settings available, now inflate everything
+        model = ViewModelProviders.of(this).get(NoteViewModel.class);
+
         setContentView(R.layout.activity_main);
         // init vars
         log = cNoteLogger.getInstance();
@@ -84,20 +69,25 @@ public class MainActivity extends AppCompatActivity {
         customListView lv = findViewById(R.id.adapterView);
         lv.init();
         adapter = (cExpandableViewAdapter) lv.getAdapter();
-        Log.d(TAG, "list view");
-        log.logDebug(new cTextNote(UUID.randomUUID() ,"schidel didudel","note").toJson());
-        Log.d(TAG, "logged");
-        lv.add(new cTextNote(UUID.randomUUID() ,"text note","note"));
-        handler.insert(new cTextNote(UUID.randomUUID() ,"new title","some interesting content"));
-        handler.insert(new cImageNote(UUID.randomUUID() ,"title image","aadsasd"));
-        List<DatabaseStorable> list = handler.read();
-        for (DatabaseStorable storable: list) {
-            try{
-                lv.add((cStorageObject) storable);
-            }catch (NullPointerException np){
-                log.logError(np.getMessage());
+        adapter.onClickListenerLeft = new OnListItemInPositionClickListener() {
+            @Override
+            public void onClick(int position) {
+                model.deleteData(adapter.getItem(position));
             }
-        }
+        };
+        // update list view adapter on changes of the view model
+        model.observeForEver(new Observer<HashMap<String, DatabaseStorable>>() {
+            @Override
+            public void onChanged(@Nullable HashMap<String, DatabaseStorable> map) {
+                List<DatabaseStorable> list = new ArrayList<>();
+                for (String key: map.keySet()) {
+                    list.add(map.get(key));
+                }
+                adapter.replace(list);
+                adapter.notifyDataSetChanged();
+                Log.d(TAG, "onChanged: adapter updated");
+            }
+        });
         lv.filter(new FilterShowAll());
         lv.setOnLongPressListener(new OnLongPressListener() {
             @Override
@@ -114,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         });
         log.logInfo("done creating");
         Log.d(TAG, "done creating");
-
     }
 
     private void callEditNoteActivityForResult(){
@@ -135,15 +124,10 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 try {
                     DatabaseStorable storable = StoragePackerFactory.storableFromIntent(data);
-                    Toast.makeText(this, storable.getDataString(),Toast.LENGTH_LONG).show();
+                    model.updateOrCreate(storable);
                 } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | IOException | InvocationTargetException | ClassNotFoundException e) {
                     Log.e(TAG, "onActivityResult: ", e);
                 }
-                // TODO handle the data given back in the intent (update data)
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-
-                // Do something with the contact here (bigger example below)
             }
         }
     }
@@ -174,22 +158,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        log.logInfo("onPause");
-        // TODO: loop over everything in the Adapter -> save if necessary
-        new cDBDataHandler().update(adapter.getAllObjects());
-
-        // TODO: remove for production
-        // also make cDBHelper.getInstance() protected!
-        File f = new File(cDBHelper.getInstance().getDBPAth());
-        Path originalPath = Paths.get(f.getPath());
-        log.logDebug("saving Database for debug " + originalPath.toString());
-        log.logDebug("to " + this.getApplicationContext().getExternalFilesDir("TEST").getAbsolutePath());
-        Path copied = Paths.get(this.getApplicationContext().getExternalFilesDir("TEST").getAbsolutePath() + "/file.db");
-        try {
-            Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

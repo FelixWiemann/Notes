@@ -82,7 +82,7 @@ public class cImageNote extends cNote {
      * @return image location
      */
     public String getImageLocation() {
-        logError("returning image location");
+//        logError("returning image location");
         return mImageLocation;
     }
 

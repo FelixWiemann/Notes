@@ -356,9 +356,9 @@ public class cNoteLogger{
     public void flush() throws cNoteLoggerException {
         Iterator iterator = mLogEntries.iterator();
         try (FileWriter fr =new FileWriter(mLogFile,true) ) {
-            while (iterator.hasNext()){
+            /*while (iterator.hasNext()){
                 fr.write(getFormattedLogEntry((cLogEntry)iterator.next()));
-            }
+            }*/
             mLogEntries.clear();
         } catch (IOException e) {
             e.printStackTrace();

@@ -2,17 +2,15 @@ package com.example.felix.notizen.views;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.Logger.cNoteLogger;
-import com.example.felix.notizen.EditNoteActivity;
-import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 /**
