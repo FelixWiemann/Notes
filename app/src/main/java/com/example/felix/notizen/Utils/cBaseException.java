@@ -1,9 +1,9 @@
 package com.example.felix.notizen.Utils;
 
+import android.util.Log;
+
 import java.util.Date;
 import java.util.HashMap;
-
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 
 /**
  * basic exception for exception handling inside note - application
@@ -37,12 +37,10 @@ public abstract class cBaseException extends Exception {
     private Exception mCause;
     private long mTimeStamp;
     // logger instance
-    cNoteLogger log;
 
     // constructor
     public cBaseException(String location, String message, Exception cause){
         super(message);
-        log = cNoteLogger.getInstance();
         this.mCause = cause;
         this.mTimeStamp= (new Date()).getTime();
         this.mLocation = location;
@@ -84,18 +82,6 @@ public abstract class cBaseException extends Exception {
         output += indent + aEND_ADDITIONAL_DATA_TAG;
         // return output
         return output;
-    }
-
-    /**
-     * log the exception
-     */
-    public void logException() {
-        // generate StackTrace
-        String trace = this.StackTraceToString(aIndent+aIndent + aIndent);
-        // add to additional data
-        this.addAdditionalData(StackTrace_Key,trace);
-        // log by logging the output
-        log.logError(exceptionOutput(aIndent));
     }
 
     /**

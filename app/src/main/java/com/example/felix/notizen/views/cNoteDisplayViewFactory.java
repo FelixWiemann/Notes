@@ -1,8 +1,8 @@
 package com.example.felix.notizen.views;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.cStorageObject;
 
@@ -13,6 +13,8 @@ import java.util.UUID;
  */
 
 public class cNoteDisplayViewFactory {
+
+    private static final String TAG = "Display View Factory";
 
     private cNoteDisplayViewFactory(){}
 
@@ -38,7 +40,7 @@ public class cNoteDisplayViewFactory {
                 return toBeCreated;
             }
         }
-        cNoteLogger.getInstance().logWarning("trying to display Note that cannot be displayed: "+message);
+        Log.w(TAG, "trying to display Note that cannot be displayed: "+message);
         toBeCreated = new cNoteView(context);
         toBeCreated.setNoteToDisplay(new cTextNote(UUID.randomUUID(),"ERROR","sth. went Wrong"));
         return toBeCreated;

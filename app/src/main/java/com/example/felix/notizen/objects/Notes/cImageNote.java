@@ -1,6 +1,8 @@
 package com.example.felix.notizen.objects.Notes;
 
 
+import android.util.Log;
+
 import java.util.UUID;
 
 /**
@@ -13,6 +15,7 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class cImageNote extends cNote {
 
+    private static final String TAG = "ImageNote";
     /**
      * identifier of class
      */
@@ -92,7 +95,7 @@ public class cImageNote extends cNote {
      * @param pImageLocation new location of the image
      */
     private void setImageLocation(String pImageLocation) {
-        logError("setting image location");
+        Log.e(TAG, "setting image location");
         // delete current image if available
         deleteImageAtStorageLocation();
         // change image location
@@ -106,7 +109,7 @@ public class cImageNote extends cNote {
      * handles deletion of the current image
      */
     private void deleteImageAtStorageLocation(){
-        logError("deleting image at storage location");
+        Log.e(TAG, "deleting image at storage location");
         //throw new Exception("not yet implemeted");
         // TODO: handle deletion
         // validate, file exists, delete if exists

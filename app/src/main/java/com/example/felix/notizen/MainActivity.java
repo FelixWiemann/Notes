@@ -13,8 +13,6 @@ import android.view.View;
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
-import com.example.felix.notizen.Utils.Logger.cNoteLoggerException;
 import com.example.felix.notizen.Utils.NoteViewModel;
 import com.example.felix.notizen.Utils.cContextManager;
 import com.example.felix.notizen.Utils.cContextManagerException;
@@ -33,7 +31,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private cNoteLogger log;
     private cSetting settings;
     private static final String TAG = "MAINACTIVITY";
     private cExpandableViewAdapter adapter;
@@ -59,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         // init vars
-        log = cNoteLogger.getInstance();
-        log.initAppl();
-        log.logInfo("onCreate");
+        Log.i(TAG, "onCreate");
         customListView lv = findViewById(R.id.adapterView);
         lv.init();
         adapter = (cExpandableViewAdapter) lv.getAdapter();
@@ -98,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 callEditNoteActivityForResult();
             }
         });
-        log.logInfo("done creating");
         Log.d(TAG, "done creating");
     }
 
@@ -131,19 +125,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        log.logInfo("onStart");
+        Log.d(TAG, "onStart");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        log.logInfo("onRestart");
+        Log.d(TAG, "onRestart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        log.logInfo("onResume");
+        Log.d(TAG, "onResume");
     }
 
     @Override
@@ -154,18 +148,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        log.logInfo("onStop");
+        Log.d(TAG, "onStop");
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        log.logInfo("onDestroy");
-        try {
-            log.flush();
-        } catch (cNoteLoggerException e) {
-            e.printStackTrace();
-        }
+        Log.d(TAG, "onDestroy");
     }
 }

@@ -2,8 +2,8 @@ package com.example.felix.notizen.Utils.DBAccess;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 
 import java.io.IOException;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class cDBDataHandler {
+    private static final String TAG = "DB DataHandler";
     private cDBHelper aHelper;
 
     public cDBDataHandler(){
@@ -24,7 +25,7 @@ public class cDBDataHandler {
      * @param object to insert
      */
     public void insert(DatabaseStorable object){
-        cNoteLogger.getInstance().logInfo("inserting into DB: " + object.getId());
+        Log.d(TAG, "insert: "+ object.getId());
         aHelper.insert(storableToContentValues(object));
     }
 
@@ -52,7 +53,7 @@ public class cDBDataHandler {
                     storable = StoragePackerFactory.createFromData(id, type, data, version);
                     list.add(storable);
                 } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | IOException | InstantiationException e) {
-                    cNoteLogger.getInstance().logError("could not create from DB of type " + type +" with version "+ version, e);
+                    Log.e(TAG, "could not create from DB of type " + type +" with version "+ version, e);
                 }
             }while (cursor.moveToNext());
         }
@@ -85,7 +86,7 @@ public class cDBDataHandler {
     }
 
     public void delete(String objectId) {
-        cNoteLogger.getInstance().logInfo("deleting " + objectId);
+        Log.i(TAG, "deleting " + objectId);
         String selection = cDBHelper.aDB_COLUMN_ID + " LIKE ?";
         String[] selectionArgs = {objectId};
         aHelper.delete(selection,selectionArgs);

@@ -3,6 +3,7 @@ package com.example.felix.notizen.views;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 /**
@@ -18,6 +18,7 @@ import com.example.felix.notizen.views.viewsort.ViewFilter;
  */
 public class customListView extends ListView {
 
+    private static final String TAG = "customListView";
     private OnLongPressListener onLongPressListener;
 
     private static final String ANIM_X_VAR = "mainX";
@@ -52,7 +53,7 @@ public class customListView extends ListView {
     public void init(){
         this.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         this.setAdapter(adapter);
-        cNoteLogger.getInstance().logInfo("customListView init");
+        Log.i(TAG, "customListView init");
 
         this.setOnTouchListener(new OnTouchListener() {
             final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {

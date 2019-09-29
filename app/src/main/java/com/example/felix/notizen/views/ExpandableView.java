@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.felix.notizen.R;
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.objects.cStorageObject;
 
@@ -29,9 +28,6 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
     private int sizeType = 0;
     private static final int EV_SIZE_WRAP_CONTENT = 1;
     private static final int EV_SIZE_CUST = 2;
-    // set log level of ExpandableView independently of application to reduce log entries while debugging
-    private int logLevel = cNoteLogger.DEBUG_LEVEL_DEBUG;
-    private cNoteLogger log = cNoteLogger.getInstance();
 
     private TextView tvTitleView;
     private Button bt;
@@ -70,11 +66,10 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
     }
 
     private void init(AttributeSet attrs, int defStyle, cStorageObject object) {
-        log.log("init exView",logLevel);
+
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.ExpandableView, defStyle, 0);
-        log.log("loading params",logLevel);
         // load expanded/unexpanded height
         aSizeUnExpanded = a.getInt(R.styleable.ExpandableView_aSizeUnExpanded, 200);
         sizeType = a.getInt(R.styleable.ExpandableView_aSize, 0);
@@ -82,7 +77,6 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         noteDisplayView.setParentView(this);
         a.recycle();
         // inflate layout
-        log.log("inflating layout",logLevel);
         inflateLayout(getContext());
         LinearLayout v = findViewById(R.id.abstractViewWrapper);
         noteDisplayView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, aSizeUnExpanded));
@@ -92,7 +86,6 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         bt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                log.log("onClick",logLevel);
                 if (count ==1){
                     setHeight(aSizeUnExpanded);
                     count = 0;
@@ -118,7 +111,6 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
     }
 
     private void inflateLayout(Context context){
-        log.log("inflating",logLevel);
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mInflater.inflate(R.layout.expandable_view_layout, this);
         bt = this.findViewById(R.id.expand_button);

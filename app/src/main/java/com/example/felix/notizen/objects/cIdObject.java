@@ -1,11 +1,8 @@
 package com.example.felix.notizen.objects;
 
-import com.example.felix.notizen.Utils.Logger.cLoggerObject;
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.felix.notizen.Utils.cLoggerObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.UUID;
 

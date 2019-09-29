@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.util.Log;
 
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.Utils.cContextManager;
 
 /**
@@ -29,14 +29,13 @@ public class cDBHelper extends SQLiteOpenHelper {
 
     private static final int aDB_VERSION = 2;
 
-    private cNoteLogger mLogger = cNoteLogger.getInstance();
     private static final String aDB_Name = "Notes.db";
     private static final String aDB_TABLE_NAME = "entries";
     static final String aDB_COLUMN_ID = "ID";
     static final String aDB_COLUMN_TYPE = "Type";
     static final String aDB_COLUMN_JSONDATA = "DATA";
     static final String aDB_COLUMN_TYPEVERSION = "Version";
-
+    private static final String TAG = "DB Helper" ;
 
 
     private static cDBHelper mMasterInstance = new cDBHelper(cContextManager.getInstance().getContext(), aDB_Name, null, aDB_VERSION);
@@ -44,8 +43,8 @@ public class cDBHelper extends SQLiteOpenHelper {
 
     private cDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        mLogger.logInfo("creating DB Master");
-        mLogger.logDebug(Environment.getExternalStorageDirectory().getPath());
+        Log.i(TAG, "creating DB Master");
+        Log.d(TAG, "cDBHelper: " + Environment.getExternalStorageDirectory().getPath());
         init();
     }
 
@@ -64,7 +63,7 @@ public class cDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        cNoteLogger.getInstance().logDebug("Database Created");
+        Log.d(TAG, "Database Created");
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
     }
 
@@ -85,7 +84,7 @@ public class cDBHelper extends SQLiteOpenHelper {
     }
 
     private void rawSQL(String command, String[] selectionArgs){
-        cNoteLogger.getInstance().logWarning("raw SQL on DB: <" + command + ">");
+        Log.w(TAG, "raw SQL on DB: <" + command + ">");
         mDB.execSQL(command);
     }
 
@@ -125,7 +124,7 @@ public class cDBHelper extends SQLiteOpenHelper {
      * closes the DB-connection
      */
     public void closeDB(){
-        mLogger.logInfo("closing DB");
+        Log.i(TAG, "closing DB");
         mDB.close();
         mDB = null;
     }
