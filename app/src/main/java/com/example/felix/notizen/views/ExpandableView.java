@@ -91,7 +91,12 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
                     count = 0;
                     noteDisplayView.onShrink();
                 }else {
-                    setHeight(noteDisplayView.getExpandedSize());
+                    int ex =noteDisplayView.getExpandedSize();
+                    if (aSizeUnExpanded > ex) {
+                        setHeight(ex);
+                    }else{
+                        setHeight(noteDisplayView.getExpandedSize());
+                    }
                     count = 1;
                     noteDisplayView.onExpand();
                 }
@@ -103,10 +108,8 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
 
 
     private void setHeight(int newHeight){
-        Log.d("height","set height: "+Integer.toString(newHeight));
+        Log.d("height","set height: "+ newHeight);
         getLayoutParams().height = newHeight;
-        //noteDisplayView.getLayoutParams().width = getLayoutParams().width-50;
-        //noteDisplayView.requestLayout();
         requestLayout();
     }
 

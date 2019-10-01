@@ -20,12 +20,10 @@ public class cNoteView extends cNoteDisplayView<cTextNote> {
 
     @Override
     public void onExpand() {
-        content.setMessage(content.getMessage()+" updated \n");
     }
 
     @Override
     public void onShrink() {
-        content.setTitle(content.getTitle() + "new title");
     }
 
     @Override
@@ -53,6 +51,7 @@ public class cNoteView extends cNoteDisplayView<cTextNote> {
      */
     @Override
     public int getExpandedSize() {
-        return 350;
+        // min size = 200
+        return messageView.getLineCount() * 20 + 200;
     }
 }
