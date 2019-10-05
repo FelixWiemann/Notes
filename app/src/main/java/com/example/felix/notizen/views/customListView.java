@@ -1,6 +1,8 @@
 package com.example.felix.notizen.views;
 
 import android.animation.ObjectAnimator;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.Utils.NoteViewModel;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 /**
@@ -24,6 +27,8 @@ public class customListView extends ListView {
     private static final String ANIM_X_VAR = "mainX";
 
     private cExpandableViewAdapter adapter = new cExpandableViewAdapter();
+
+    private NoteListViewHeaderView headerView;
 
     public customListView(Context context) {
         super(context);
@@ -54,6 +59,8 @@ public class customListView extends ListView {
         this.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         this.setAdapter(adapter);
         Log.i(TAG, "customListView init");
+        headerView = new NoteListViewHeaderView(this.getContext());
+        this.addHeaderView(headerView);
 
         this.setOnTouchListener(new OnTouchListener() {
             final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
@@ -183,5 +190,9 @@ public class customListView extends ListView {
 
     public void setOnLongPressListener(OnLongPressListener onLongPressListener) {
         this.onLongPressListener = onLongPressListener;
+    }
+
+    public void update(int size) {
+        headerView.update(size);
     }
 }

@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.HeaderViewListAdapter;
 
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAINACTIVITY";
     private cExpandableViewAdapter adapter;
     private NoteViewModel model;
+    private customListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +47,20 @@ public class MainActivity extends AppCompatActivity {
         try {
             settings.init(this.getApplicationContext());
         } catch (cSettingException e) {
-            e.printStackTrace();
+            Log.e(TAG, "onCreate: error during settings setup", e);
         }
         try {
             cContextManager.getInstance().setUp(this.getApplicationContext());
         } catch (cContextManagerException e) {
-            e.printStackTrace();
+            Log.e(TAG, "onCreate: error during context setup", e);
         }
         model = ViewModelProviders.of(this).get(NoteViewModel.class);
-
         setContentView(R.layout.activity_main);
         // init vars
         Log.i(TAG, "onCreate");
-        customListView lv = findViewById(R.id.adapterView);
-        lv.init();
-        adapter = (cExpandableViewAdapter) lv.getAdapter();
+        lv = findViewById(R.id.adapterView);
+        // since we have a header view, we get a HeaderViewListAdapter from which we need the wrapped adapter
+        adapter = (cExpandableViewAdapter)((HeaderViewListAdapter)lv.getAdapter()).getWrappedAdapter();
         adapter.onClickListenerLeft = new OnListItemInPositionClickListener() {
             @Override
             public void onClick(int position) {
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.replace(list);
                 adapter.notifyDataSetChanged();
                 Log.d(TAG, "onChanged: adapter updated");
+                lv.update(list.size());
             }
         });
         lv.filter(new FilterShowAll());
@@ -96,9 +98,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "done creating");
     }
 
+    /**
+     * calles the edit note activity with a null-note and thus creating a new one
+     */
     private void callEditNoteActivityForResult(){
         callEditNoteActivityForResult(null);
     }
+
+    /**
+     * calls the edit note activity with the given note for editing purposes
+     * @param storable note to be edited
+     */
     private void callEditNoteActivityForResult(DatabaseStorable storable){
         Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
         intent = StoragePackerFactory.addToIntent(intent, storable);
@@ -120,41 +130,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop");
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy");
     }
 }

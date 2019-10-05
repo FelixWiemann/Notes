@@ -10,17 +10,14 @@
     <string name="TitleCreateNewCategory">Erstelle neue Kategorie</string>
     <string name="FGM_Change_Cat_Title">Wähle Kategorie</string>
 
-    <string name="LT_nue_ItemLongClick">InitListViewNotes longitemclick</string>
-    <string name="LT_nue_onActRes_AddNote">onActivityResADDNote</string>
-    <string name="LT_nue_onActRes_EditNote">onActivityResChangeNote</string>
     <string name="action_reply">Antworten</string>
     <string name="action_share">Teilen</string>
-    <string name="note__notification_placeholder_text_template">Du sagtest %1$s</string>
-    <string name="note__notification_title_template">Notiz: %1$s</string>
     <string name="title_activity_act_new_photo_note">Neue Photo Notiz</string>
     <string name="toolbar_menu_create_note_cancel">Abbrechen</string>
     <string name="toolbar_menu_create_note_save">Speichern</string>
     <string name="bt_retake_pic">erneut aufnehmen</string>
     <string name="bt_cancel_pic">Abbrechen</string>
     <string name="btSave">speichern</string>
+    <string name="notes">%d Notizen</string>
+    <string name="list_view_header_text">Notizen</string>
 </resources>
