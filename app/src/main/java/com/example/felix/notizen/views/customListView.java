@@ -1,8 +1,6 @@
 package com.example.felix.notizen.views;
 
 import android.animation.ObjectAnimator;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.Utils.NoteViewModel;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 /**
@@ -61,7 +58,7 @@ public class customListView extends ListView {
         Log.i(TAG, "customListView init");
         headerView = new NoteListViewHeaderView(this.getContext());
         this.addHeaderView(headerView);
-
+        // swipe handling should be done by the view and not the list view
         this.setOnTouchListener(new OnTouchListener() {
             final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
 
@@ -122,7 +119,8 @@ public class customListView extends ListView {
 
     private void onLongPress(MotionEvent event) {
         if (onLongPressListener!=null){
-            onLongPressListener.onLongPress(adapter.getItem(pointToPosition((int)event.getX(),(int)event.getY())));
+            // decide if it can be handled by the list view item itself, therefore no need to worry about header views...
+            onLongPressListener.onLongPress(adapter.getItem(pointToPosition((int)event.getX(),(int)event.getY())-getHeaderViewsCount()));
         }
 
     }
@@ -148,6 +146,10 @@ public class customListView extends ListView {
     }
 
     private boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        // if position is a header view, don't swipe
+        if (this.pointToPosition((int)e1.getX(),(int)e1.getY())<getHeaderViewsCount()){
+            return false;
+        }
         if (Math.abs(e1.getY() - e2.getY()) > REL_FLING_MAX_OFF_PATH)
             return false;
 
@@ -155,7 +157,8 @@ public class customListView extends ListView {
 
         if(e1.getX() - e2.getX() > REL_FLING_MIN_DISTANCE &&
                 Math.abs(velocityX) > REL_FLING_THRESHOLD_VELOCITY) {
-            direction = -1;
+            // to allow swipe to the left, set direction to -1
+            direction = 0;
         }  else if (e2.getX() - e1.getX() > REL_FLING_MIN_DISTANCE &&
                 Math.abs(velocityX) > REL_FLING_THRESHOLD_VELOCITY) {
             direction = 1;
@@ -164,13 +167,18 @@ public class customListView extends ListView {
         if (currentlyAnimated !=null){
             xBeforeAnimated = currentlyAnimated.getTranslationX();
             ObjectAnimator animation = ObjectAnimator.ofFloat(currentlyAnimated,ANIM_X_VAR, 130f*direction);
-            //ObjectAnimator animation = ObjectAnimator.ofFloat(currentlyAnimated,"translationX", 130f*direction);
             animation.setDuration(400);
             animation.start();
         }
         return false;
     }
 
+    /**
+     * gets the view that is being pointed at by the motion event
+     * does not work with header viewss
+     * @param event
+     * @return
+     */
     private View getChildViewAtMotionEventPosition(MotionEvent event){
         if (event == null){
             return null;
