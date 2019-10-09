@@ -2,6 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="15dp"
+    android:layout_marginStart="25dp"
+    android:layout_marginTop="10dp"
     android:orientation="horizontal">
 
     <Button
@@ -11,18 +14,24 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="end"
-        android:text="V" />
-
+        android:background="@mipmap/ic_expand" />
 
     <LinearLayout
         android:id="@+id/abstractViewWrapper"
         android:layout_width="407dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="41dp"
+        android:layout_below="@+id/titleText"
+        android:layout_alignStart="@+id/titleText"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
+        <!-- for layout preview remove comment
+            <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:text="@string/test_string" />
+        -->
     </LinearLayout>
 
     <TextView
@@ -31,8 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
+        android:text="@string/test_string"
+        android:layout_toStartOf="@id/expand_button"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 </RelativeLayout>
