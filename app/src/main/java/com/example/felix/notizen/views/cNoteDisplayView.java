@@ -1,6 +1,7 @@
 package com.example.felix.notizen.views;
 
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.util.AttributeSet;
 
 import com.example.felix.notizen.Utils.OnUpdateCallback;
@@ -75,6 +76,7 @@ public abstract class cNoteDisplayView<T extends cStorageObject>
      * update the parent view to make sure all the latest info is shown
      */
     @Override
+    @CallSuper
     public void update(){
         if (parentView != null) {
             parentView.update();
@@ -99,12 +101,4 @@ public abstract class cNoteDisplayView<T extends cStorageObject>
      */
     public abstract void onInitialization();
 
-    /**
-     * get the expanded Size based on Note Type or custom implementation
-     * e.g. images might need a bigger expansion than only text.
-     * Or you want to expand based on the amount of text that is shown...
-     *
-     * @return size that shall be expanded to
-     */
-    public abstract int getExpandedSize();
 }

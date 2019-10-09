@@ -54,7 +54,7 @@ public class EditNoteActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (data == null){
-            data = new cTextNote(UUID.randomUUID(),"new note", "new message");
+            data = new cTextNote(UUID.randomUUID(),"" , "");
         }
         mViewModel = ViewModelProviders.of(this).get(EditNoteViewModel.class);
         mViewModel.setNote(data);

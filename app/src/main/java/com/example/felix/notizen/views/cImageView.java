@@ -31,13 +31,4 @@ public class cImageView extends cNoteDisplayView<cImageNote> {
         onShrink();
     }
 
-    /**
-     * get the expanded Size based on Note Type or custom implementation
-     *
-     * @return size that shall be expanded to
-     */
-    @Override
-    public int getExpandedSize() {
-        return 500;
-    }
 }
