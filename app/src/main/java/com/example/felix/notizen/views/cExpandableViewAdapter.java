@@ -91,9 +91,10 @@ public class cExpandableViewAdapter extends BaseAdapter {
             // if it is null, definitely create a new one
             createNewView = true;
         }else{
-            if (convertView instanceof ExpandableView){
+            if (convertView instanceof SwipableView
+                    &&((SwipableView) convertView).MainView instanceof ExpandableView){
                 // if the objects are not the same, they might have been deleted, create a new view
-                createNewView = !((ExpandableView) convertView).getObject().equals(objectToDisplay);
+                createNewView = !((ExpandableView)((SwipableView) convertView).MainView).getObject().equals(objectToDisplay);
             }else  {
                 // if it's not an Expandable view, create a new view
                 createNewView = true;
