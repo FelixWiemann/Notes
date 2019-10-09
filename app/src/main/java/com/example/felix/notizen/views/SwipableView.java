@@ -28,7 +28,7 @@ public class SwipableView extends RelativeLayout {
     /**
      * main view to be wrapped
      */
-    private View MainView;
+    protected View MainView;
 
     public SwipableView(Context context) {
         super(context);
