@@ -1,25 +1,20 @@
 package com.example.felix.notizen.objects;
 
+import android.support.annotation.NonNull;
+
+import com.example.felix.notizen.Utils.cLoggerObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.UUID;
-
 /**
  * JSON Object for basic JSON Handling
+ *
+ * TODO document annotations for JSON (jackson)
  */
-public abstract class cJSONObject extends cIdObject {
+public abstract class cJSONObject extends cLoggerObject {
 
-    public cJSONObject(UUID mID, String mTitle) {
-        super(mID, mTitle);
-    }
-
-    public cJSONObject(String mTitle) {
-        super(mTitle);
-    }
-
-    public cJSONObject() {
+    cJSONObject() {
         super();
     }
 
@@ -30,6 +25,7 @@ public abstract class cJSONObject extends cIdObject {
         return node.toString();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return this.toJson();
@@ -40,9 +36,6 @@ public abstract class cJSONObject extends cIdObject {
         if (this.getClass() != that.getClass()){
             return false;
         }
-        if (this.toJson().equalsIgnoreCase(((cJSONObject)that).toJson())){
-            return true;
-        }
-        return false;
+        return this.toJson().equalsIgnoreCase(((cJSONObject) that).toJson());
     }
 }

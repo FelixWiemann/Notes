@@ -6,7 +6,7 @@ import com.example.felix.notizen.views.viewsort.SortCategory;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class cSortableObject extends cJSONObject {
+public class cSortableObject extends cIdObject {
 
     HashMap<SortCategory, SortAble<?>> sortAbleHashMap = new HashMap<>();
 

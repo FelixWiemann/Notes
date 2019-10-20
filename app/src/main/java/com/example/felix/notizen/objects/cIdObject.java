@@ -2,7 +2,6 @@ package com.example.felix.notizen.objects;
 
 import android.util.Log;
 
-import com.example.felix.notizen.Utils.cLoggerObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -13,7 +12,7 @@ import java.util.UUID;
  * by Felix "nepumuk" Wiemann on 29/04/17.
  */
 @SuppressWarnings("unused")
-public class cIdObject extends cLoggerObject {
+public class cIdObject extends cJSONObject {
 
     /**
      * ID string of current note, used to identify each note

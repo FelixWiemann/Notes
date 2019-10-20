@@ -9,6 +9,8 @@ import org.junit.Test;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created as part of notes in package com.example.felix.notizen.test.FrontEnd
@@ -64,6 +66,14 @@ public class cIdObjectTest  extends AndroidTest {
         assertEquals("Constructor_Title",object.getTitle(),testTitle);
     }
 
+    @Test
+    public void testJson(){
+        String json = object.toJson();
+        assertTrue(json.contains(testTitle));
+        assertTrue(json.contains(idString));
+        assertEquals(object, new cIdObject(UUID.fromString(idString), testTitle));
+        assertNotEquals(object, new cIdObject(UUID.randomUUID(), testTitle));
+    }
 
 
 }
