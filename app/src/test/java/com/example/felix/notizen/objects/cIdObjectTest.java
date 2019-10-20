@@ -1,7 +1,7 @@
 package com.example.felix.notizen.objects;
 
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.objects.cIdObject;
+import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * by Felix "nepumuk" Wiemann on 29/04/17.
  */
 @SuppressWarnings("unused")
-public class cIdObjectTest {
+public class cIdObjectTest  extends AndroidTest {
 
     private cIdObject object;
 
@@ -24,9 +24,9 @@ public class cIdObjectTest {
 
     @Before
     public void setUp() throws Exception {
+        super.setUp();
         UUID id = UUID.randomUUID();
         idString = id.toString();
-        cNoteLogger.getInstanceWithoutInit().init(System.getProperty("java.io.tmpdir"),1,1,1,true);
         object = new cIdObject(id,"test title");
     }
 

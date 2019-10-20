@@ -1,6 +1,7 @@
 package com.example.felix.notizen.objects.Task;
 
 import com.example.felix.notizen.objects.Task.cBaseTask;
+import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,12 +15,13 @@ import static org.junit.Assert.*;
  * Created as part of notes in package com.example.felix.notizen.test.FrontEnd.Task
  * by Felix "nepumuk" Wiemann on 22/04/17.
  */
-public class cBaseTaskTest {
+public class cBaseTaskTest  extends AndroidTest {
 
     private cBaseTask task;
 
     @Before
     public void setUp() throws Exception {
+        super.setUp();
         task = new cBaseTask(UUID.randomUUID(),"title","text",false) {
             @Override
             public int getVersion() {

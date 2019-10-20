@@ -2,13 +2,15 @@ package com.example.felix.notizen.views.viewsort;
 
 import com.example.felix.notizen.objects.Notes.cImageNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
+import com.example.felix.notizen.testutils.AndroidTest;
+
 import org.junit.Test;
 
 import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-public class SortProviderTest {
+public class SortProviderTest extends AndroidTest{
 
     @Test
     public void testSortByTitleAscending(){

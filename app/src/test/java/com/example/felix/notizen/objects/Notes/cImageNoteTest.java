@@ -1,7 +1,7 @@
 package com.example.felix.notizen.objects.Notes;
 
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,13 +11,13 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-public class cImageNoteTest {
+public class cImageNoteTest extends AndroidTest {
 
     cImageNote testNote;
 
     @Before
     public void setUp() throws Exception {
-        cNoteLogger.getInstanceWithoutInit().init(System.getProperty("java.io.tmpdir"),1,1,1,true);
+        super.setUp();
         testNote = new cImageNote(UUID.randomUUID(),"image title","/image/location");
     }
 
@@ -43,7 +43,5 @@ public class cImageNoteTest {
         String JSON = testNote.toJson();
         Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
         assertEquals(testNote,o);
-        System.out.println(o);
-        System.out.println(testNote);
     }
 }

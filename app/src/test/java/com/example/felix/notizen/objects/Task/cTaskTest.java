@@ -1,7 +1,7 @@
 package com.example.felix.notizen.objects.Task;
 
-import com.example.felix.notizen.Utils.Logger.cNoteLogger;
 import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,13 +11,13 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-public class cTaskTest {
+public class cTaskTest  extends AndroidTest {
 
     cTask testTask;
 
     @Before
     public void setUp() throws Exception {
-        cNoteLogger.getInstanceWithoutInit().init(System.getProperty("java.io.tmpdir"),1,1,1,true);
+        super.setUp();
         testTask = new cTask(UUID.randomUUID(),"title", "text", false);
     }
 
@@ -38,7 +38,5 @@ public class cTaskTest {
         String JSON = testTask.toJson();
         Object o = StoragePackerFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
         assertEquals(testTask,o);
-        System.out.println(o);
-        System.out.println(testTask);
     }
 }
