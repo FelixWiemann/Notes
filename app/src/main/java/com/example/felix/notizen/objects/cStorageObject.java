@@ -1,5 +1,7 @@
 package com.example.felix.notizen.objects;
 
+import android.util.Log;
+
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.Utils.cBaseException;
@@ -11,8 +13,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * object handling storing of objects
+ * also handles state of the object (has it been saved since last data change?)
+ */
 public abstract class cStorageObject extends cIdObject implements DatabaseStorable {
 
+    /**
+     * if it has been saved since last edit
+     * true if yes, false otherwise
+     */
     private boolean wasSaved;
 
 
@@ -44,9 +54,7 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
     }
 
     @Override
-    public int getVersion() {
-        return 0;
-    }
+    public abstract int getVersion();
 
     @Override
     public String getDataString() {
@@ -120,7 +128,7 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
      * @see Date#getTime()
      */
     public void setLastChangedDate(){
-        logDebug("changing date");
+        // TODO do I need to onDataChanged here as well?
         mLastChangedDate = (new Date()).getTime();
     }
 
@@ -130,7 +138,6 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
      * @return last changed date
      */
     public long getLastChangedDate(){
-        logDebug("returning change date");
         return mLastChangedDate;
     }
 
@@ -140,7 +147,6 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
      * @return creation date
      */
     public long getCreationDate(){
-        logDebug("returning creation date");
         return mCreationDate;
     }
 
@@ -149,7 +155,6 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
      * @see Date#getTime()
      */
     protected void setCreationDate(){
-        logDebug("setting creation date");
         mCreationDate = (new Date()).getTime();
         onDataChanged();
     }
@@ -170,6 +175,12 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
         }
 
     }
+
+    /**
+     * TODO what do I need this for?
+     * JSON Setter?
+     * @param lastChangeDate
+     */
     public void setLastChangeDate(long lastChangeDate) {
         mLastChangedDate = lastChangeDate;
     }
@@ -177,6 +188,11 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
 
     // TODO probably remove and put somewhere display related
     private OnUpdateCallback callback;
+
+    /**
+     * set the listener for updates and immediately informs him of the current state
+     * @param onChangeListener new listener
+     */
     public void setOnChangeListener(OnUpdateCallback onChangeListener) {
         callback = onChangeListener;
         // make sure callback already knows sth has changed
