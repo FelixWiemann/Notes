@@ -1,6 +1,5 @@
 package com.example.felix.notizen.objects;
 
-import com.example.felix.notizen.objects.cIdObject;
 import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.After;
@@ -9,7 +8,7 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created as part of notes in package com.example.felix.notizen.test.FrontEnd
@@ -21,30 +20,32 @@ public class cIdObjectTest  extends AndroidTest {
     private cIdObject object;
 
     private String idString;
+    private String testTitle = "test title";
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         UUID id = UUID.randomUUID();
         idString = id.toString();
-        object = new cIdObject(id,"test title");
+        object = new cIdObject(id,testTitle);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
 
     }
 
     @Test
-    public void Constructor() throws Exception {
+    public void Constructor() {
         assertEquals("Constructor_ID",object.getID(),UUID.fromString(idString));
-        assertEquals("Constructor_Title",object.getTitle(),"test title");
+        assertEquals("Constructor_Title",object.getTitle(),testTitle);
     }
 
     @Test
-    public void setTitle() throws Exception {
-        object.setTitle("new Title");
-        assertEquals("Constructor_Title",object.getTitle(),"new Title");
+    public void setTitle() {
+        String newTitle = "new title";
+        object.setTitle(newTitle);
+        assertEquals("Constructor_Title",object.getTitle(),newTitle);
     }
 
     @Test(expected = cIdObjectException.class)
@@ -54,13 +55,15 @@ public class cIdObjectTest  extends AndroidTest {
     }
 
     @Test
-    public void getID() throws Exception {
-        // already tested in constructor
+    public void getID() {
+        assertEquals("ID",UUID.fromString(idString),object.getID());
     }
 
     @Test
-    public void getTitle() throws Exception {
-        // already tested in constructor
+    public void getTitle() {
+        assertEquals("Constructor_Title",object.getTitle(),testTitle);
     }
+
+
 
 }

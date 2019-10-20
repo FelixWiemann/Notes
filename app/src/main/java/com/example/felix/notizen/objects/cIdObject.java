@@ -1,5 +1,7 @@
 package com.example.felix.notizen.objects;
 
+import android.util.Log;
+
 import com.example.felix.notizen.Utils.cLoggerObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -23,6 +25,8 @@ public class cIdObject extends cLoggerObject {
     @JsonProperty("title")
     private String mTitle;
 
+    private static final String TAG = cIdObject.class.getSimpleName();
+
     /**
      * creates a new object with an id and a title
      * this constructor is only to be used for restoring objects from stored object representations
@@ -31,7 +35,7 @@ public class cIdObject extends cLoggerObject {
      */
     cIdObject(UUID mID, String mTitle) {
         super();
-        logDebug("creating cIdObject");
+        Log.d(TAG, "creating cIdObject");
         this.mID = mID;
         this.mTitle = mTitle;
     }
@@ -47,7 +51,7 @@ public class cIdObject extends cLoggerObject {
      * @param mTitle title of the new object
      */
     cIdObject(String mTitle){
-        logDebug("creating cIdObject with uuid");
+        Log.d(TAG, "creating cIdObject with uuid");
         this.mTitle = mTitle;
         this.mID = UUID.randomUUID();
     }
@@ -61,7 +65,7 @@ public class cIdObject extends cLoggerObject {
      * @param pTitle new title
      */
     public void setTitle(String pTitle){
-        logDebug("setting title");
+        Log.d(TAG, "setting title");
         mTitle = pTitle;
     }
 
@@ -71,7 +75,7 @@ public class cIdObject extends cLoggerObject {
      * @param pID new id
      */
     protected void setId(UUID pID) throws cIdObjectException {
-        logDebug("setting id");
+        Log.d(TAG, "setting id");
         if (mID == null){
             mID = pID;
         }else{
@@ -88,7 +92,7 @@ public class cIdObject extends cLoggerObject {
      * @return id
      */
     UUID getID(){
-        logDebug("returning ID");
+        Log.d(TAG, "returning ID");
         return mID;
     }
 
@@ -97,7 +101,7 @@ public class cIdObject extends cLoggerObject {
      * @return title
      */
     public String getTitle(){
-        logDebug("returning title");
+        Log.d(TAG, "returning title");
         return mTitle;
     }
 

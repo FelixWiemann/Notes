@@ -1,18 +1,14 @@
 package com.example.felix.notizen.objects;
 
-import android.util.Log;
-
-import java.io.IOException;
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.UUID;
+
 /**
  * JSON Object for basic JSON Handling
  */
-
 public abstract class cJSONObject extends cIdObject {
 
     public cJSONObject(UUID mID, String mTitle) {
@@ -25,9 +21,7 @@ public abstract class cJSONObject extends cIdObject {
 
     public cJSONObject() {
         super();
-
     }
-
 
     @JsonIgnore
     public String toJson(){

@@ -16,8 +16,6 @@ public abstract class cNote extends cStorageObject {
      */
     public static String aTYPE = "cNote";
 
-
-
     /**
      * create new note
      * @param pID id of note
