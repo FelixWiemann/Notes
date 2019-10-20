@@ -12,7 +12,7 @@ import java.util.UUID;
  * by Felix "nepumuk" Wiemann on 29/04/17.
  */
 @SuppressWarnings("unused")
-public class cIdObject extends cJSONObject {
+public class cIdObject extends cSortableObject {
 
     /**
      * ID string of current note, used to identify each note

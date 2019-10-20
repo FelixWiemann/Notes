@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.UUID;
 
-public abstract class cStorageObject extends cSortableObject implements DatabaseStorable {
+public abstract class cStorageObject extends cIdObject implements DatabaseStorable {
 
     private boolean wasSaved;
 
