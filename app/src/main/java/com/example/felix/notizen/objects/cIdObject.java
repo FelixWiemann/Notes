@@ -39,8 +39,14 @@ public class cIdObject extends cSortableObject {
         this.mTitle = mTitle;
     }
 
+    /**
+     * constructor to be run on creating a JSON object
+     * -> TODO Should be moved to somewhere else?!?
+     * @param mID
+     */
     public cIdObject(UUID mID){
         super();
+        System.out.println("constructor on JSON");
     }
 
     /**

@@ -3,9 +3,9 @@ package com.example.felix.notizen.objects;
 import android.content.Intent;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
@@ -19,7 +19,7 @@ public class StoragePackerFactory {
     /**
      * don't instantiate
      */
-    private StoragePackerFactory(){};
+    private StoragePackerFactory(){}
 
     private static final String INTENT_NAME_NOTE_ID = "INTENT_NAME_NOTE_ID";
     private static final String INTENT_NAME_NOTE_DATA = "INTENT_NAME_NOTE_DATA";
@@ -39,15 +39,19 @@ public class StoragePackerFactory {
      * @throws IllegalAccessException the data where not accessible
      * @throws InvocationTargetException and
      * @throws InstantiationException some
-     * @throws IOException other exceptions
+     * @throws AssertionError if there was an issue with the
      */
-    public static DatabaseStorable createFromData(String ID, String Type, String Data, int Version) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+    public static DatabaseStorable createFromData(String ID, String Type, String Data, int Version) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException{
         Class<?> clazz = Class.forName(Type);
         Constructor<?> ctor = clazz.getConstructor(UUID.class);
         DatabaseStorable object = (DatabaseStorable) ctor.newInstance(UUID.fromString(ID));
 
         ObjectMapper mapper = new ObjectMapper();
-        object = mapper.readValue(Data, mapper.getTypeFactory().constructType(object.getClass()));
+        try {
+            object = mapper.readValue(Data, mapper.getTypeFactory().constructType(object.getClass()));
+        } catch (JsonProcessingException e) {
+            throw new AssertionError("if we get this error, the data in the database is corrupt or we did not properly transform versions of stored data on upgrade",e);
+        }
         return object;
     }
 
@@ -78,9 +82,8 @@ public class StoragePackerFactory {
      * @throws IllegalAccessException the data where not accessible
      * @throws InvocationTargetException and
      * @throws InstantiationException some
-     * @throws IOException other exceptions
      */
-    public static DatabaseStorable storableFromIntent(Intent intent) throws NoSuchMethodException, IllegalAccessException, InstantiationException, IOException, InvocationTargetException, ClassNotFoundException {
+    public static DatabaseStorable storableFromIntent(Intent intent) throws NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException, ClassNotFoundException {
         if (intent == null){
             return null;
         }

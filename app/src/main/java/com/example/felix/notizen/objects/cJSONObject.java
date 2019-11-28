@@ -33,6 +33,11 @@ public abstract class cJSONObject extends cLoggerObject {
 
     @Override
     public boolean equals(Object that) {
+
+        if (that == null){
+            return false;
+        }
+
         if (this.getClass() != that.getClass()){
             return false;
         }

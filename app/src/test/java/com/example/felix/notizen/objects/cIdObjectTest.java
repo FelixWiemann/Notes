@@ -39,6 +39,7 @@ public class cIdObjectTest  extends AndroidTest {
 
     @Test
     public void Constructor() {
+        System.out.println(object.toJson());
         assertEquals("Constructor_ID",object.getID(),UUID.fromString(idString));
         assertEquals("Constructor_Title",object.getTitle(),testTitle);
     }

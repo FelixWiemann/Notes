@@ -1,6 +1,7 @@
 package com.example.felix.notizen.views;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.felix.notizen.R;
@@ -31,6 +32,8 @@ public class cNoteView extends cNoteDisplayView<cTextNote> {
         super.update();
         if (isInitialized()) {
             messageView.setText(this.content.getMessage());
+            //Log.d("noteview", "update: " + messageView.getTotalPaddingEnd() + " - " + content.getTitle());
+
         }
     }
 

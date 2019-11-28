@@ -138,6 +138,9 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
      * inverts the shrinking state
      */
     private void invertShrink(){
+        if (currentState==ExpandState.FIRSTINFLATE){
+            currentState = ExpandState.FIRSTINFLATE;
+        }
         if (currentState == ExpandState.EXPANDED){
             setHeight(aSizeUnExpanded);
             currentState = ExpandState.SHRINKED;

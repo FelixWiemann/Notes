@@ -13,6 +13,7 @@ import org.powermock.api.mockito.PowerMockito;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyString;
 
 public class cStorageObjectTest extends AndroidTest {
 
@@ -80,7 +81,8 @@ public class cStorageObjectTest extends AndroidTest {
     @Test
     public void setTitle() {
         cStorageObjectImpl testImpl = Mockito.spy(object);
-        object.setTitle("new title");
+       // Mockito.when(testImpl.setTitle(anyString())).thenCallRealMethod();
+        testImpl.setTitle("new title");
         Mockito.verify(testImpl, Mockito.times(1)).updateData();
         assertFalse(object.wasUpdatedSinceLastSave());
         assertEquals("new title", object.getTitle());

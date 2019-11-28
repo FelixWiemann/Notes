@@ -1,0 +1,93 @@
+package com.example.felix.notizen.objects;
+
+import android.content.Intent;
+
+import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.Notes.cTaskNote;
+import com.example.felix.notizen.objects.Notes.cTextNote;
+import com.example.felix.notizen.testutils.AndroidTest;
+
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
+
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.matches;
+
+public class StoragePackerFactoryTest extends AndroidTest {
+
+
+    @Test(expected = ClassNotFoundException.class)
+    public void createFromData_expectClassNotFound() throws Exception {
+         StoragePackerFactory.createFromData("","","",1);
+    }
+    @Test(expected = NoSuchMethodException.class)
+    public void createFromData_expectNoSuchMethod() throws Exception {
+        StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.StoragePackerFactory","",1);
+    }
+
+    @Test(expected = ClassCastException.class)
+    public void createFromData_expectNoDatabaseStorable() throws Exception {
+        StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.cIdObject","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void createFromData_expectAssertionError() throws Exception {
+        StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.Notes.cTaskNote","{\"titleas\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
+    }
+
+    @Test()
+    public void createFromData() throws Exception {
+        cTaskNote note = (cTaskNote) StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.Notes.cTaskNote","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
+        assertEquals(note.getTitle(), "test title");
+        assertEquals(note.getIdString(),"2563c779-7e46-4003-927b-1ff36077b285");
+    }
+
+
+    @Test
+    public void addToIntent() throws Exception {
+        Intent prevIntent = new Intent("");
+        StoragePackerFactory.addToIntent(prevIntent,null);
+
+        Mockito.verify(prevIntent,Mockito.never()).putExtra(anyString(),anyString());
+
+        prevIntent = new Intent();
+        cTextNote note = new cTextNote(UUID.fromString("2563c779-7e46-4003-927b-1ff36077b285"),"title","message");
+        System.out.println(note);
+        StoragePackerFactory.addToIntent(prevIntent,note);
+        Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_ID"),anyString());
+        Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_DATA"),anyString());
+        Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_TYPE"),anyString());
+        Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_VERSION"),anyInt());
+
+
+
+    }
+
+    @Test
+    public void storableFromIntent() throws Exception {
+
+
+        Intent prevIntent = new Intent();
+        Mockito.when(prevIntent.hasExtra(matches("INTENT_NAME_NOTE_ID"))).thenReturn(true);
+        Mockito.when(prevIntent.getStringExtra(matches("INTENT_NAME_NOTE_ID"))).thenReturn("2563c779-7e46-4003-927b-1ff36077b285");
+        Mockito.when(prevIntent.getStringExtra(matches("INTENT_NAME_NOTE_DATA"))).thenReturn("{\"message\":\"message\",\"title\":\"title\",\"creationDate\":1571766729534,\"lastChangedDate\":1571766729534,\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}");
+        Mockito.when(prevIntent.getStringExtra(matches("INTENT_NAME_NOTE_TYPE"))).thenReturn(cTextNote.class.getCanonicalName());
+        Mockito.when(prevIntent.getIntExtra(matches("INTENT_NAME_NOTE_VERSION"),anyInt())).thenReturn(1);
+        cTextNote note = new cTextNote(UUID.fromString("2563c779-7e46-4003-927b-1ff36077b285"),"title","message");
+        // fails due to creation and last change time...
+        assertEquals(note.toJson(),StoragePackerFactory.storableFromIntent(prevIntent).toString());
+        Mockito.when(prevIntent.hasExtra(matches("INTENT_NAME_NOTE_ID"))).thenReturn(false);
+        assertNull(StoragePackerFactory.storableFromIntent(prevIntent));
+        assertNull(StoragePackerFactory.storableFromIntent(null));
+
+        fail();
+    }
+}

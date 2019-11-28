@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     DatabaseStorable storable = StoragePackerFactory.storableFromIntent(data);
                     model.updateOrCreate(storable);
-                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | IOException | InvocationTargetException | ClassNotFoundException e) {
+                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
                     Log.e(TAG, "onActivityResult: ", e);
                 }
             }

@@ -49,7 +49,7 @@ public class EditNoteActivity extends AppCompatActivity {
         Intent intent = getIntent();
         try {
             data = StoragePackerFactory.storableFromIntent(intent);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | IOException | InvocationTargetException | ClassNotFoundException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
             // TODO log error
             e.printStackTrace();
         }

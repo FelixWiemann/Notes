@@ -15,11 +15,6 @@ import java.util.UUID;
 public class cTextNote extends cNote {
 
     /**
-     * identifier of class
-     */
-    public static String aTYPE = "cTextNote";
-
-    /**
      * message contained in the note
      */
     @JsonProperty("message")
