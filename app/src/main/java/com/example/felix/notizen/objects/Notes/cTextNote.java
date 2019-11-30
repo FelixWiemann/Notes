@@ -1,5 +1,7 @@
 package com.example.felix.notizen.objects.Notes;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
@@ -14,6 +16,7 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class cTextNote extends cNote {
 
+    private static final String TEXT_NOTE_LOG_TAG = "cTextNote";
     /**
      * message contained in the note
      */
@@ -23,12 +26,10 @@ public class cTextNote extends cNote {
 
     public cTextNote(UUID pID){
         super(pID);
-
     }
 
     public cTextNote(){
         super();
-
     }
 
     /**
@@ -41,21 +42,7 @@ public class cTextNote extends cNote {
     public cTextNote(UUID pID, String pTitle, String pMessage) {
         super(pID, pTitle);
         this.mMessage = pMessage;
-        logDebug("cTextNote created");
-    }
-
-    /**
-     * create new Note
-     *  @param pID           id of Note
-     * @param pTitle        title of note
-     * @param pExistingNote whether is existing node
-     * @param pMessage message of cTextNote
-     */
-    @Deprecated
-    public cTextNote(UUID pID, String pTitle, boolean pExistingNote, String pMessage) {
-        super(pID, pTitle, pExistingNote);
-        this.mMessage = pMessage;
-        logDebug("cTextNote created");
+        Log.d(TEXT_NOTE_LOG_TAG,"cTextNote created");
     }
 
     /**
@@ -63,7 +50,7 @@ public class cTextNote extends cNote {
      * @return message of the note
      */
     public String getMessage() {
-        logDebug("message returned");
+        Log.d(TEXT_NOTE_LOG_TAG,"message returned");
         return mMessage;
     }
 
@@ -72,7 +59,7 @@ public class cTextNote extends cNote {
      * @param mMessage new message to use
      */
     public void setMessage(String mMessage) {
-        logDebug("message set");
+        Log.d(TEXT_NOTE_LOG_TAG,"message set");
         this.mMessage = mMessage;
         onDataChanged();
     }
@@ -83,7 +70,8 @@ public class cTextNote extends cNote {
      */
     @Override
     public void deleteNote() {
-        logDebug("note deleted");
+        // doesn't need to do anything, the only data is stored as text in DB
+        Log.d(TEXT_NOTE_LOG_TAG,"note deleted");
     }
 
     @Override

@@ -32,11 +32,6 @@ public class cIdObjectTest  extends AndroidTest {
         object = new cIdObject(id,testTitle);
     }
 
-    @After
-    public void tearDown() {
-
-    }
-
     @Test
     public void Constructor() {
         System.out.println(object.toJson());

@@ -19,13 +19,6 @@ import java.util.UUID;
  */
 public abstract class cStorageObject extends cIdObject implements DatabaseStorable {
 
-    /**
-     * if it has been saved since last edit
-     * true if yes, false otherwise
-     */
-    private boolean wasSaved;
-
-
     public cStorageObject(UUID mID, String mTitle) {
         super(mID, mTitle);
         initSortables();
@@ -34,7 +27,6 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
     public cStorageObject() {
         super();
         initSortables();
-        wasSaved = false;
     }
 
     private void initSortables(){
@@ -72,16 +64,6 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
     }
 
     @Override
-    public boolean wasUpdatedSinceLastSave() {
-        return wasSaved;
-    }
-
-    @Override
-    public void onSave() {
-        wasSaved = true;
-    }
-
-    @Override
     public String getTitle() {
         return super.getTitle();
     }
@@ -91,7 +73,6 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
      * e.g. due to changes by the user
      */
     public void onDataChanged(){
-        wasSaved = false;
         updateData();
     }
 

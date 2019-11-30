@@ -1,5 +1,6 @@
 package com.example.felix.notizen.objects.Notes;
 
+import com.example.felix.notizen.Utils.NotYetImplementedException;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
@@ -43,16 +44,28 @@ public class cTextNoteTest  extends AndroidTest {
 
     @Test
     public void deleteNote() throws Exception {
-
+        //  no need to verify anything, as nothing needs to be done from note side
+        testNote.deleteNote();
     }
     @Test
     public void testJson() throws Exception{
         String JSON = testNote.toJson();
         Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
         assertEquals(testNote,o);
+        // TODO
+        //  make sure all expected components are stored in JSON
+        //  comparing these doesn't really makes sense regarding the data.
+        //  it only makes sure the storage packer knows what to do...
+        throw new NotYetImplementedException("See TODO");
     }
 
     @Test
     public void getVersion() {
+        // if this fails, don't forget:
+        // - create data-migration
+        // - update database
+        // - ...
+        // - update test at last
+        assertEquals(testNote.getVersion(),1);
     }
 }

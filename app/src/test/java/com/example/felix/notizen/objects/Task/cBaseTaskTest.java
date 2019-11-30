@@ -1,15 +1,15 @@
 package com.example.felix.notizen.objects.Task;
 
-import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.testutils.AndroidTest;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created as part of notes in package com.example.felix.notizen.test.FrontEnd.Task
@@ -33,29 +33,22 @@ public class cBaseTaskTest  extends AndroidTest {
 
             }
         };
-        assertEquals("setup is done",task.isDone(),false);
-        assertEquals("setup get text",task.getText(),"text");
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
     }
 
     @Test
     public void isDone() throws Exception {
-        // tested in setup
+        assertFalse("setup is done", task.isDone());
     }
 
     @Test
     public void setDone() throws Exception {
         task.setDone(true);
-        assertEquals("set done",task.isDone(),true);
+        assertTrue("set done", task.isDone());
     }
 
     @Test
     public void getText() throws Exception {
-        // tested in setup
+        assertEquals("setup get text",task.getText(),"text");
     }
 
     @Test

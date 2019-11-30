@@ -34,9 +34,4 @@ public interface DatabaseStorable {
     @JsonIgnore
     String getId();
 
-    @JsonIgnore
-    boolean wasUpdatedSinceLastSave();
-
-    @JsonIgnore
-    void onSave();
 }

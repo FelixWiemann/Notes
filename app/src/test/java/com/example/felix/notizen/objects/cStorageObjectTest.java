@@ -6,15 +6,19 @@ import com.example.felix.notizen.views.viewsort.SortCategory;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
+import org.mockito.MockitoAnnotations;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.powermock.api.mockito.PowerMockito.spy;
 
+
+@PrepareForTest({cStorageObjectTest.cStorageObjectImpl.class})
 public class cStorageObjectTest extends AndroidTest {
 
     private cStorageObjectImpl object;
@@ -22,8 +26,10 @@ public class cStorageObjectTest extends AndroidTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        object = new cStorageObjectImpl();
+        MockitoAnnotations.initMocks(this);
+        object = spy(new cStorageObjectImpl());
         object.setTitle("testtitle");
+
     }
 
     @Test
@@ -35,6 +41,7 @@ public class cStorageObjectTest extends AndroidTest {
 
     @Test
     public void getDataString() {
+        object = new cStorageObjectImpl();
         assertEquals(object.getDataString(),object.toJson());
     }
 
@@ -49,16 +56,6 @@ public class cStorageObjectTest extends AndroidTest {
     }
 
     @Test
-    public void wasUpdatedSinceLastSave() {
-        // TODO
-    }
-
-    @Test
-    public void onSave() {
-        // TODO
-    }
-
-    @Test
     public void getTitle() {
         assertEquals(object.getTitle(), "testtitle");
     }
@@ -68,7 +65,6 @@ public class cStorageObjectTest extends AndroidTest {
         cStorageObjectImpl testImpl = Mockito.spy(object);
         testImpl.onDataChanged();
         Mockito.verify(testImpl, Mockito.times(1)).updateData();
-        assertFalse(object.wasUpdatedSinceLastSave());
     }
 
     @Test
@@ -84,18 +80,20 @@ public class cStorageObjectTest extends AndroidTest {
        // Mockito.when(testImpl.setTitle(anyString())).thenCallRealMethod();
         testImpl.setTitle("new title");
         Mockito.verify(testImpl, Mockito.times(1)).updateData();
-        assertFalse(object.wasUpdatedSinceLastSave());
-        assertEquals("new title", object.getTitle());
+        assertEquals("new title", testImpl.getTitle());
     }
 
     @Test
     public void testJson(){
+        object = new cStorageObjectImpl();
         String json = object.toJson();
         assertTrue(json.contains("creationDate"));
         assertTrue(json.contains("lastChangedDate"));
     }
 
-    private class cStorageObjectImpl extends  cStorageObject{
+
+
+    class cStorageObjectImpl extends  cStorageObject{
         cStorageObjectImpl(){
             super(UUID.randomUUID(),"");
         }
@@ -103,6 +101,10 @@ public class cStorageObjectTest extends AndroidTest {
         @Override
         public int getVersion() {
             return 1;
+        }
+        @Test
+        public void test(){
+
         }
     };
 }

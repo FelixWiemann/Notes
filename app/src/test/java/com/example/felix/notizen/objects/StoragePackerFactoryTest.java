@@ -73,8 +73,6 @@ public class StoragePackerFactoryTest extends AndroidTest {
 
     @Test
     public void storableFromIntent() throws Exception {
-
-
         Intent prevIntent = new Intent();
         Mockito.when(prevIntent.hasExtra(matches("INTENT_NAME_NOTE_ID"))).thenReturn(true);
         Mockito.when(prevIntent.getStringExtra(matches("INTENT_NAME_NOTE_ID"))).thenReturn("2563c779-7e46-4003-927b-1ff36077b285");
@@ -82,12 +80,14 @@ public class StoragePackerFactoryTest extends AndroidTest {
         Mockito.when(prevIntent.getStringExtra(matches("INTENT_NAME_NOTE_TYPE"))).thenReturn(cTextNote.class.getCanonicalName());
         Mockito.when(prevIntent.getIntExtra(matches("INTENT_NAME_NOTE_VERSION"),anyInt())).thenReturn(1);
         cTextNote note = new cTextNote(UUID.fromString("2563c779-7e46-4003-927b-1ff36077b285"),"title","message");
-        // fails due to creation and last change time...
-        assertEquals(note.toJson(),StoragePackerFactory.storableFromIntent(prevIntent).toString());
+        DatabaseStorable unpacked = StoragePackerFactory.storableFromIntent(prevIntent);
+        assertEquals(unpacked.getClass().getCanonicalName(), cTextNote.class.getCanonicalName());
+        cTextNote tnote = (cTextNote) unpacked;
+        assertEquals(tnote.getMessage(),note.getMessage());
+        assertEquals(tnote.getTitle(), note.getTitle());
+        assertEquals(tnote.getIdString(), note.getIdString());
         Mockito.when(prevIntent.hasExtra(matches("INTENT_NAME_NOTE_ID"))).thenReturn(false);
         assertNull(StoragePackerFactory.storableFromIntent(prevIntent));
         assertNull(StoragePackerFactory.storableFromIntent(null));
-
-        fail();
     }
 }
