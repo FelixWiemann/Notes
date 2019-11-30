@@ -1,5 +1,6 @@
 package com.example.felix.notizen.objects.Task;
 
+import com.example.felix.notizen.Utils.DateStrategy;
 import com.example.felix.notizen.Utils.NotYetImplementedException;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
@@ -34,7 +35,7 @@ public class cTimedTaskTest extends AndroidTest {
 
     @Test
     public void setTaskDueDate() {
-        long now = new Date().getTime();
+        long now = DateStrategy.getCurrentTime();
         testTask.setTaskDueDate(now);
         assertEquals("setTaskDueDate",testTask.getTaskDueDate(),now);
     }

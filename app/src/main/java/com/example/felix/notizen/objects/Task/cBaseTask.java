@@ -1,9 +1,15 @@
 package com.example.felix.notizen.objects.Task;
 
-import com.example.felix.notizen.objects.cIdObject;
+import android.util.Log;
+
+import com.example.felix.notizen.Utils.DateStrategy;
 import com.example.felix.notizen.objects.cStorageObject;
+import com.example.felix.notizen.views.viewsort.SortAble;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
+
+import static com.example.felix.notizen.views.viewsort.SortCategory.TASK_DONE_TIME;
 
 /**
  * Created as part of notes in package ${PACKAGE_NAME}
@@ -12,7 +18,9 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public abstract class cBaseTask extends cStorageObject {
 
+    public static final String BASE_TASK_LOG_TAG = "BaseTask";
     public static String aTYPE = "cBaseTask";
+
     /**
      * text of the task
      */
@@ -25,6 +33,13 @@ public abstract class cBaseTask extends cStorageObject {
     private boolean mDone;
 
     /**
+     * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
+     * @see DateStrategy#getCurrentTime()
+     */
+    @JsonProperty("taskCompleteDate")
+    private long mTaskCompleteDate = -1;
+
+    /**
      * constructor setting title, text and flag for task completion
      * @param mId id of the task
      * @param mTitle title of the new task
@@ -35,11 +50,20 @@ public abstract class cBaseTask extends cStorageObject {
         super(mId,mTitle);
         this.mText = mText;
         this.mDone = mDone;
-        logDebug("creating cBaseTask");
+        setCreationDate();
+        setLastChangedDate();
+        this.addSortable(TASK_DONE_TIME, new SortAble<Long>() {
+            @Override
+            public Long getData() {
+                return mTaskCompleteDate;
+            }
+        });
+        Log.d(BASE_TASK_LOG_TAG,"creating cBaseTask");
     }
 
     public cBaseTask(UUID pID) {
         super();
+        // TODO does nothing with the UUID?
     }
 
     public cBaseTask() {
@@ -50,7 +74,7 @@ public abstract class cBaseTask extends cStorageObject {
      * @return true, if task is complete, false if not
      */
     public boolean isDone() {
-        logDebug("is task done?");
+        Log.d(BASE_TASK_LOG_TAG,"is task done?");
         return mDone;
     }
 
@@ -59,8 +83,14 @@ public abstract class cBaseTask extends cStorageObject {
      * @param mDone true if task is complete, false if not
      */
     public void setDone(boolean mDone) {
-        logDebug("setting task done");
+        Log.d(BASE_TASK_LOG_TAG,"setting task done");
+        setLastChangedDate();
         this.mDone = mDone;
+        if (mDone){
+            mTaskCompleteDate = DateStrategy.getCurrentTime();
+        }else{
+            mTaskCompleteDate = -1;
+        }
     }
 
     /**
@@ -68,7 +98,7 @@ public abstract class cBaseTask extends cStorageObject {
      * @return text of the task
      */
     public String getText() {
-        logDebug("getting task text");
+        Log.d(BASE_TASK_LOG_TAG,"getting task text");
         return mText;
     }
 
@@ -77,8 +107,13 @@ public abstract class cBaseTask extends cStorageObject {
      * @param mText new text of task
      */
     public void setText(String mText) {
-        logDebug("setting task text");
+        Log.d(BASE_TASK_LOG_TAG,"setting task text");
+        setLastChangedDate();
         this.mText = mText;
+    }
+
+    public long getTaskCOmpleteDate(){
+        return mTaskCompleteDate;
     }
 
 
@@ -88,6 +123,5 @@ public abstract class cBaseTask extends cStorageObject {
      * e.g. timed task: delete timer service associated with it
      */
     public abstract void deleteTask();
-
 
 }

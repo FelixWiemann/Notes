@@ -1,5 +1,7 @@
 package com.example.felix.notizen.objects.Task;
 
+import com.example.felix.notizen.Utils.DateStrategy;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -19,7 +21,7 @@ public class cTimedTask extends cBaseTask {
     public static String aTYPE = "cTimedTask";
     /**
      * returns the date when the task is due in ms since January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      * @return due date
      */
     public long getTaskDueDate() {
@@ -29,7 +31,7 @@ public class cTimedTask extends cBaseTask {
 
     /**
      * sets date when the task is due in ms since January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      * @param mTaskDueDate new task due date
      */
     public void setTaskDueDate(long mTaskDueDate) {
@@ -39,7 +41,7 @@ public class cTimedTask extends cBaseTask {
 
     /**
      * task due date in ms since January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      */
     private long mTaskDueDate;
 

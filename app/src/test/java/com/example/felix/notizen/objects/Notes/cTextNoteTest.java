@@ -1,6 +1,5 @@
 package com.example.felix.notizen.objects.Notes;
 
-import com.example.felix.notizen.Utils.NotYetImplementedException;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
@@ -10,7 +9,8 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created as part of notes in package com.example.felix.notizen.test
@@ -52,11 +52,12 @@ public class cTextNoteTest  extends AndroidTest {
         String JSON = testNote.toJson();
         Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
         assertEquals(testNote,o);
-        // TODO
-        //  make sure all expected components are stored in JSON
-        //  comparing these doesn't really makes sense regarding the data.
-        //  it only makes sure the storage packer knows what to do...
-        throw new NotYetImplementedException("See TODO");
+        System.out.println(JSON);
+        assertTrue(JSON.contains("message\":"));
+        assertTrue(JSON.contains("title\":"));
+        assertTrue(JSON.contains("lastChangedDate\":"));
+        assertTrue(JSON.contains("creationDate\":"));
+        assertTrue(JSON.contains("idString\":"));
     }
 
     @Test

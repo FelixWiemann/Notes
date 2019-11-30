@@ -3,6 +3,7 @@ package com.example.felix.notizen.objects;
 import android.util.Log;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.Utils.DateStrategy;
 import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.Utils.cBaseException;
 import com.example.felix.notizen.objects.Notes.cNoteException;
@@ -93,29 +94,29 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
 
     /**
      * date of creation, numbers of milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      */
     @JsonProperty("creationDate")
     private long mCreationDate = -1;
     /**
      * date of last change, numbers of milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      */
     @JsonProperty("lastChangedDate")
     private long mLastChangedDate = -1;
 
     /**
      * sets last changed date to current time in milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      */
     public void setLastChangedDate(){
         // TODO do I need to onDataChanged here as well?
-        mLastChangedDate = (new Date()).getTime();
+        mLastChangedDate = DateStrategy.getCurrentTime();
     }
 
     /**
      * gets last changed date in milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      * @return last changed date
      */
     public long getLastChangedDate(){
@@ -124,7 +125,7 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
 
     /**
      * gets creation date of the note in milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      * @return creation date
      */
     public long getCreationDate(){
@@ -133,10 +134,10 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
 
     /**
      * set creation date to current time in milliseconds after January 1, 1970 00:00:00 GMT
-     * @see Date#getTime()
+     * @see DateStrategy#getCurrentTime()
      */
     protected void setCreationDate(){
-        mCreationDate = (new Date()).getTime();
+        mCreationDate = DateStrategy.getCurrentTime();
         onDataChanged();
     }
 

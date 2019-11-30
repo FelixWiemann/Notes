@@ -56,7 +56,7 @@ public abstract class cNote extends cStorageObject {
 
     public cNote(UUID pID) {
         super();
-
+        // TODO does nothing with the UUID?
     }
 
     public cNote() {

@@ -42,7 +42,7 @@ public abstract class cBaseException extends Exception {
     public cBaseException(String location, String message, Exception cause){
         super(message);
         this.mCause = cause;
-        this.mTimeStamp= (new Date()).getTime();
+        this.mTimeStamp = DateStrategy.getCurrentTime();
         this.mLocation = location;
     }
 

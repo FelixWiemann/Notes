@@ -1,6 +1,7 @@
 package com.example.felix.notizen.objects.Task;
 
 import com.example.felix.notizen.testutils.AndroidTest;
+import com.example.felix.notizen.views.viewsort.SortCategory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -60,6 +62,36 @@ public class cBaseTaskTest  extends AndroidTest {
     @Test
     public void deleteTask() throws Exception {
         // shall be overwritten by each implementation, nothing to test here
+    }
+
+    @Test
+    public void toJson(){
+        String json = task.toJson();
+        System.out.println(json);
+        assertTrue(json.contains("title\":"));
+        assertTrue(json.contains("text\":"));
+        assertTrue(json.contains("done\":"));
+        assertTrue(json.contains("taskCompleteDate\":"));
+    }
+
+    @Test
+    public void completeDate() throws InterruptedException {
+        task.setDone(true);
+        long lastchangedate = task.getLastChangedDate();
+        assertTrue(lastchangedate!=-1);
+        assertTrue(task.getTaskCOmpleteDate() != -1);
+        // make sure we are not running through it too fast, otherwise test might fail
+        Thread.sleep(100);
+        task.setDone(false);
+        System.out.println(lastchangedate + " - " + task.getLastChangedDate());
+        assertTrue(lastchangedate<task.getLastChangedDate());
+        assertEquals(task.getTaskCOmpleteDate(), -1);
+    }
+
+
+    @Test
+    public void sortingOnTaskComplete(){
+        assertEquals( task.getSortable(SortCategory.TASK_DONE_TIME), task.getTaskCOmpleteDate());
     }
 
 }
