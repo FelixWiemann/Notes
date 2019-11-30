@@ -6,9 +6,11 @@
     tools:context=".views.fragments.NoteDisplayFragment">
 
     <EditText
+        android:id="@+id/ndf_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="top"
         android:hint="@string/ndf_note_text_hint"
-        android:id="@+id/ndf_tv" />
+        android:textAlignment="viewStart" />
 
 </FrameLayout>

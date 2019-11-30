@@ -22,14 +22,21 @@
         android:layout_marginEnd="27dp"
         android:layout_marginStart="27dp"
         android:orientation="horizontal" />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/fragementHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btSave"
+        android:layout_below="@+id/fragementHeader"
         android:layout_marginEnd="27dp"
         android:layout_marginStart="27dp"
-        android:layout_below="@+id/fragementHeader"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal" />
+
+    <!-- TODO  make save button float on top of keyboard -->
+
 
 
 </RelativeLayout>
