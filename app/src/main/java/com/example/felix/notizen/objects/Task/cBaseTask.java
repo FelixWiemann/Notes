@@ -5,7 +5,9 @@ import android.util.Log;
 import com.example.felix.notizen.Utils.DateStrategy;
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.viewsort.SortAble;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.UUID;
 
@@ -16,6 +18,7 @@ import static com.example.felix.notizen.views.viewsort.SortCategory.TASK_DONE_TI
  * by Felix "nepumuk" Wiemann on 14/04/17.
  */
 @SuppressWarnings("unused")
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "className")
 public abstract class cBaseTask extends cStorageObject {
 
     public static final String BASE_TASK_LOG_TAG = "BaseTask";
@@ -24,12 +27,14 @@ public abstract class cBaseTask extends cStorageObject {
     /**
      * text of the task
      */
+    @JsonProperty("Text")
     private String mText;
     /**
      * flag whether task is marked as done
      * true -> task done
      * false -> task open
      */
+    @JsonProperty("Done")
     private boolean mDone;
 
     /**
@@ -73,6 +78,7 @@ public abstract class cBaseTask extends cStorageObject {
      * returns the flag of task completion
      * @return true, if task is complete, false if not
      */
+    @JsonIgnore
     public boolean isDone() {
         Log.d(BASE_TASK_LOG_TAG,"is task done?");
         return mDone;
@@ -97,6 +103,7 @@ public abstract class cBaseTask extends cStorageObject {
      * returns the text of the task
      * @return text of the task
      */
+    @JsonIgnore
     public String getText() {
         Log.d(BASE_TASK_LOG_TAG,"getting task text");
         return mText;
@@ -112,6 +119,7 @@ public abstract class cBaseTask extends cStorageObject {
         this.mText = mText;
     }
 
+    @JsonIgnore
     public long getTaskCOmpleteDate(){
         return mTaskCompleteDate;
     }

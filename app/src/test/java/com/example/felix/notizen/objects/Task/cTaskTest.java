@@ -4,16 +4,13 @@ import com.example.felix.notizen.Utils.NotYetImplementedException;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-@Ignore("Not Yet Implemented")
 public class cTaskTest  extends AndroidTest {
 
     private cTask testTask;
@@ -22,16 +19,19 @@ public class cTaskTest  extends AndroidTest {
     public void setUp() throws Exception {
         super.setUp();
         testTask = new cTask(UUID.randomUUID(),"title", "text", false);
+        new cTask();
+        new cTask(UUID.randomUUID());
     }
 
     @Test
     public void deleteTask() {
-        throw new NotYetImplementedException();
+        testTask.deleteTask();
+        // nothing is happening nothing to check for
     }
 
     @Test
     public void getVersion() {
-        throw new NotYetImplementedException();
+        assertEquals(testTask.getVersion(), 1);
     }
 
     @Test
@@ -39,10 +39,5 @@ public class cTaskTest  extends AndroidTest {
         String JSON = testTask.toJson();
         Object o = StoragePackerFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
         assertEquals(testTask,o);
-        // TODO
-        //  make sure all expected components are stored in JSON
-        //  comparing these doesn't really makes sense regarding the data.
-        //  it only makes sure the storage packer knows what to do...
-        throw new NotYetImplementedException("See TODO");
     }
 }

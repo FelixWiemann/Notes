@@ -3,6 +3,7 @@ package com.example.felix.notizen.objects.Notes;
 import com.example.felix.notizen.Utils.NotYetImplementedException;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.objects.Task.cBaseTask;
+import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Before;
@@ -14,7 +15,6 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
-@Ignore("Not Yet Implemented")
 public class cTaskNoteTest  extends AndroidTest {
 
     cTaskNote testNote;
@@ -23,6 +23,7 @@ public class cTaskNoteTest  extends AndroidTest {
     public void setUp() throws Exception {
         super.setUp();
         testNote = new cTaskNote(UUID.randomUUID(),"task note",new ArrayList<cBaseTask>());
+        testNote.addTask(new cTask(UUID.randomUUID(),"title task", "text task", false ));
     }
 
     @Test
@@ -32,6 +33,12 @@ public class cTaskNoteTest  extends AndroidTest {
 
     @Test
     public void deleteNote() {
+        // note deletion
+        testNote.deleteNote();
+
+        // empty task note deletion
+        testNote.deleteNote();
+
         throw new NotYetImplementedException();
     }
 
@@ -52,13 +59,13 @@ public class cTaskNoteTest  extends AndroidTest {
 
     @Test
     public void getVersion() {
-
-        throw new NotYetImplementedException();
+        assertEquals(1, testNote.getVersion());
     }
 
     @Test
     public void testJson() throws Exception{
         String JSON = testNote.toJson();
+        System.out.println(JSON);
         Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
         assertEquals(testNote,o);
         // TODO

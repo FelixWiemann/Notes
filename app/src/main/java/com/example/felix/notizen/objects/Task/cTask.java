@@ -25,13 +25,11 @@ public class cTask extends cBaseTask {
 
 
     public cTask(UUID pID) {
-        super();
-
+        super(pID);
     }
 
     public cTask() {
         super();
-
     }
     /**
      * abstract method to implement in each inherited task type.

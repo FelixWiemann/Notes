@@ -69,8 +69,8 @@ public class cBaseTaskTest  extends AndroidTest {
         String json = task.toJson();
         System.out.println(json);
         assertTrue(json.contains("title\":"));
-        assertTrue(json.contains("text\":"));
-        assertTrue(json.contains("done\":"));
+        assertTrue(json.contains("Text\":"));
+        assertTrue(json.contains("Done\":"));
         assertTrue(json.contains("taskCompleteDate\":"));
     }
 

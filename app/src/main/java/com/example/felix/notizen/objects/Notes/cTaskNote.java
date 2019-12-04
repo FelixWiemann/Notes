@@ -1,6 +1,10 @@
 package com.example.felix.notizen.objects.Notes;
 
+import android.util.Log;
+
 import com.example.felix.notizen.objects.Task.cBaseTask;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -18,6 +22,7 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class cTaskNote extends cNote {
 
+    public static final String TASK_NOTE_LOG_TAG = "TaskNote";
     /**
      * identifier of class
      */
@@ -27,6 +32,7 @@ public class cTaskNote extends cNote {
     /**
      * list of tasks stored in this note
      */
+    @JsonProperty("TaskList")
     private List<cBaseTask> mTaskList = new ArrayList<>();
 
 
@@ -39,7 +45,7 @@ public class cTaskNote extends cNote {
      */
     public cTaskNote(UUID pID, String pTitle, List<cBaseTask>pTaskList) {
         super(pID, pTitle);
-        logDebug("creating new cTaskNote");
+        Log.d(TASK_NOTE_LOG_TAG,"creating new cTaskNote");
         this.setTaskList(pTaskList);
     }
 
@@ -57,7 +63,7 @@ public class cTaskNote extends cNote {
     @Deprecated
     public cTaskNote(UUID pID, String pTitle, List<cBaseTask>pTaskList, boolean pExistingNote) {
         super(pID, pTitle, pExistingNote);
-        logDebug("creating new cTaskNote");
+        Log.d(TASK_NOTE_LOG_TAG,"creating new cTaskNote");
         this.setTaskList(pTaskList);
     }
 
@@ -72,20 +78,13 @@ public class cTaskNote extends cNote {
 
     }
 
-    public cTextNote fromJson(String jsonString) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        cTextNote note = mapper.readValue(jsonString,cTextNote.class);
-        return  note;
-    }
-
-
     /**
      * method from inherited class cNote
      * used for safe deleting data in this note
      */
     @Override
     public void deleteNote() {
-        logDebug("deleting note");
+        Log.d(TASK_NOTE_LOG_TAG,"deleting note");
         clearTaskList();
     }
 
@@ -106,7 +105,7 @@ public class cTaskNote extends cNote {
      * @param taskToAdd task that shall be added
      */
     public void addTask(cBaseTask taskToAdd){
-        logDebug("adding task to note");
+        Log.d(TASK_NOTE_LOG_TAG,"adding task to note");
         mTaskList.add(taskToAdd);
     }
 
@@ -116,7 +115,7 @@ public class cTaskNote extends cNote {
      * @return task that is stored at position pPos
      */
     public cBaseTask getTaskAtPos(int pPos){
-        logDebug("returning task at pos " +String.valueOf(pPos));
+        Log.d(TASK_NOTE_LOG_TAG,"returning task at pos " +String.valueOf(pPos));
         return mTaskList.get(pPos);
     }
 
@@ -124,9 +123,9 @@ public class cTaskNote extends cNote {
      * clears all tasks stored in task list
      */
     private void clearTaskList(){
-        logDebug("clearing all tasks");
+        Log.d(TASK_NOTE_LOG_TAG,"clearing all tasks");
         if (mTaskList==null){
-            logDebug("already clear");
+            Log.d(TASK_NOTE_LOG_TAG,"already clear");
             return;
         }
         // delete each task in mTaskList
@@ -136,7 +135,7 @@ public class cTaskNote extends cNote {
         }
         // clear the list
         mTaskList.clear();
-        logDebug("tasks cleared");
+        Log.d(TASK_NOTE_LOG_TAG,"tasks cleared");
     }
 
 
@@ -144,8 +143,9 @@ public class cTaskNote extends cNote {
      * return the entire list of tasks inside the note
      * @return list of all tasks stored in this note
      */
+    @JsonIgnore
     public List<cBaseTask> getTaskList() {
-        logDebug("returning task list");
+        Log.d(TASK_NOTE_LOG_TAG,"returning task list");
         return mTaskList;
     }
 
@@ -154,7 +154,7 @@ public class cTaskNote extends cNote {
      * @param pTaskList new task list
      */
     private void setTaskList(List<cBaseTask> pTaskList) {
-        logDebug("setting task list, clearing current first");
+        Log.d(TASK_NOTE_LOG_TAG,"setting task list, clearing current first");
         // clear all tasks currently inside list
         clearTaskList();
         // set tasklist
