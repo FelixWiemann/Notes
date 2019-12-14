@@ -15,7 +15,7 @@ import com.example.felix.notizen.R;
  *
  * TODO abstract the swipable view to be used in with other swipe actions as well
  */
-public class SwipableView extends RelativeLayout {
+public class SwipableView extends RelativeLayout{
 
     /**
      * background view on the left
@@ -28,7 +28,7 @@ public class SwipableView extends RelativeLayout {
     /**
      * main view to be wrapped
      */
-    protected View MainView;
+    public View MainView;
 
     public SwipableView(Context context) {
         super(context);
@@ -119,5 +119,4 @@ public class SwipableView extends RelativeLayout {
             BackgroundLeft.setVisibility(INVISIBLE);
         }
     }
-
 }

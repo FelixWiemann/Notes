@@ -29,6 +29,9 @@ public class cNoteDisplayViewFactory {
                 case "com.example.felix.notizen.objects.Task.cTask":
                     toBeCreated = new cTaskView(context);
                     break;
+                case "com.example.felix.notizen.objects.Notes.cTaskNote":
+                    toBeCreated = new cTaskNoteView(context);
+                    break;
                 case "com.example.felix.notizen.objects.Notes.cImageNote":
                     toBeCreated = new cImageView(context);
                     break;

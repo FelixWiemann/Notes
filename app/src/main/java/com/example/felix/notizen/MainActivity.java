@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.HeaderViewListAdapter;
+import android.widget.Toast;
 
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
@@ -17,26 +18,31 @@ import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.NoteViewModel;
 import com.example.felix.notizen.Utils.cContextManager;
 import com.example.felix.notizen.Utils.cContextManagerException;
+import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.Task.cBaseTask;
+import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.views.OnListItemInPositionClickListener;
 import com.example.felix.notizen.views.OnLongPressListener;
-import com.example.felix.notizen.views.cExpandableViewAdapter;
-import com.example.felix.notizen.views.customListView;
+import com.example.felix.notizen.views.SwipableListView;
+import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 import com.example.felix.notizen.views.viewsort.FilterShowAll;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
     private cSetting settings;
     private static final String TAG = "MAINACTIVITY";
-    private cExpandableViewAdapter adapter;
+    private cSwipableViewAdapter adapter;
     private NoteViewModel model;
-    private customListView lv;
+    private SwipableListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate");
         lv = findViewById(R.id.adapterView);
         // since we have a header view, we get a HeaderViewListAdapter from which we need the wrapped adapter
-        adapter = (cExpandableViewAdapter)((HeaderViewListAdapter)lv.getAdapter()).getWrappedAdapter();
+        adapter = (cSwipableViewAdapter)((HeaderViewListAdapter)lv.getAdapter()).getWrappedAdapter();
         adapter.onClickListenerLeft = new OnListItemInPositionClickListener() {
             @Override
             public void onClick(int position) {
@@ -72,8 +78,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable HashMap<String, DatabaseStorable> map) {
                 List<DatabaseStorable> list = new ArrayList<>();
-                for (String key: map.keySet()) {
-                    list.add(map.get(key));
+                if (map == null){
+                    return;
+                }
+                // TODO got a concurrent modification exception. analyze and make sure it does not happen again
+                //  seems to have to do with some kind of timing
+                for (Map.Entry<String, DatabaseStorable> set: map.entrySet()) {
+                    list.add(set.getValue());
                 }
                 adapter.replace(list);
                 adapter.notifyDataSetChanged();
@@ -89,14 +100,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab_text_note);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 callEditNoteActivityForResult();
             }
         });
+        fab = findViewById(R.id.fab_add_notes);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO show/hide other FABs
+                Toast.makeText(MainActivity.this, "show others",Toast.LENGTH_SHORT).show();
+            }
+        });
+        fab = findViewById(R.id.fab_task_note);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO create task notes
+                ArrayList<cBaseTask> list = new ArrayList();
+                list.add(new cTask(UUID.randomUUID(),"test task 1","no need to be worried", false));
+                list.add(new cTask(UUID.randomUUID(),"test task 2","no need to be worried", false));
+                list.add(new cTask(UUID.randomUUID(),"test task 3","no need to be worried", false));
+                cTaskNote testNote = new cTaskNote(UUID.randomUUID(),"task note test hardcoded",list);
+                model.updateOrCreate(testNote);
+                Toast.makeText(MainActivity.this, "create task note",Toast.LENGTH_SHORT).show();
+            }
+        });
         Log.d(TAG, "done creating");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        model.getData().getValue().values().forEach(new Consumer<DatabaseStorable>() {
+            @Override
+            public void accept(DatabaseStorable storable) {
+                if (storable instanceof cTaskNote) model.updateData(storable);
+            }
+        });
     }
 
     /**

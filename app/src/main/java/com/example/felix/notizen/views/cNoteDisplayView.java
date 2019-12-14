@@ -83,7 +83,6 @@ public abstract class cNoteDisplayView<T extends cStorageObject>
         }
     }
 
-
     /**
      * onExpand() gets called, when the view is expanded to it's bigger size
      */
@@ -100,5 +99,11 @@ public abstract class cNoteDisplayView<T extends cStorageObject>
      * this could e.g. be getting all the proper views from the layout and setting the initial valuess
      */
     public abstract void onInitialization();
+
+
+    @Override
+    public void requestNewLayout(int newExpandedSize) {
+        parentView.requestNewLayout(newExpandedSize);
+    }
 
 }

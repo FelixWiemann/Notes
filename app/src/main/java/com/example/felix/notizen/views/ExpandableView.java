@@ -49,7 +49,7 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
     }
 
     private int aSizeUnExpanded = 200;
-    private int aSizeExpanded = 300;
+    private int aSizeExpanded = 650;
     private int sizeType = 0;
     private static final int EV_SIZE_WRAP_CONTENT = 1;
     private static final int EV_SIZE_CUST = 2;
@@ -68,9 +68,9 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         super(context);
         init(null, 0, null);
     }
-    public ExpandableView(Context context, cStorageObject object) {
+    public ExpandableView(Context context, cNoteDisplayView view) {
         super(context);
-        init(null, 0, object);
+        init(null, 0, view);
     }
     public ExpandableView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -94,17 +94,14 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         return noteDisplayView.content;
     }
 
-    private void init(AttributeSet attrs, int defStyle, cStorageObject object) {
+    private void init(AttributeSet attrs, int defStyle, cNoteDisplayView newView) {
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.ExpandableView, defStyle, 0);
         // load expanded/unexpanded height
-        aSizeUnExpanded = a.getInt(R.styleable.ExpandableView_aSizeUnExpanded, 200);
+        aSizeUnExpanded = a.getInt(R.styleable.ExpandableView_aSizeUnExpanded, aSizeUnExpanded);
         sizeType = a.getInt(R.styleable.ExpandableView_aSize, 0);
         a.recycle();
-        noteDisplayView = cNoteDisplayViewFactory.getView(getContext(),object);
-        noteDisplayView.setParentView(this);
-        noteDisplayView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         // get the max size
         this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -122,16 +119,23 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         });
         // inflate layout
         inflateLayout(getContext());
-        LinearLayout v = findViewById(R.id.abstractViewWrapper);
-        v.addView(noteDisplayView,0);
-        v.invalidate();
-        noteDisplayView.onPostInflate();
+        setContentView(newView);
         bt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 invertShrink();
             }
         });
+    }
+
+    public void setContentView(cNoteDisplayView newView){
+        noteDisplayView = newView;
+        noteDisplayView.setParentView(this);
+        noteDisplayView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout v = findViewById(R.id.abstractViewWrapper);
+        v.addView(noteDisplayView,0);
+        v.invalidate();
+        noteDisplayView.onPostInflate();
     }
 
     /**
@@ -169,13 +173,20 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         mInflater.inflate(R.layout.expandable_view_layout, this);
         bt = this.findViewById(R.id.expand_button);
         tvTitleView = findViewById(R.id.titleText);
-        tvTitleView.setText(noteDisplayView.getTitle());
     }
 
     @Override
     public void update() {
         if (tvTitleView != null) {
             tvTitleView.setText(noteDisplayView.getTitle());
+        }
+    }
+
+    @Override
+    public void requestNewLayout(int newExpandedSize) {
+        aSizeExpanded = newExpandedSize;
+        if (currentState==ExpandState.FIRSTINFLATE){
+            currentState = ExpandState.SHRINKED;
         }
     }
 }

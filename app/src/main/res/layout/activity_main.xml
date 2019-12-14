@@ -7,18 +7,42 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <com.example.felix.notizen.views.customListView
+    <com.example.felix.notizen.views.SwipableListView
         android:id="@+id/adapterView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_add_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:src="@drawable/common_google_signin_btn_icon_dark_disabled"
         android:layout_margin="16dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_text_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fab_add_notes"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/common_google_signin_btn_icon_dark_disabled" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_task_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fab_text_note"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/common_google_signin_btn_icon_dark_disabled" />
 
 </RelativeLayout>

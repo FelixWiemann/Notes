@@ -8,54 +8,42 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.views.viewsort.ViewFilter;
+import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 
 /**
  * Created by Felix on 21.06.2018.
  */
-public class customListView extends ListView {
+public class SwipableListView extends SortableListView {
 
-    private static final String TAG = "customListView";
+    private static final String TAG = "SwipableListView";
     private OnLongPressListener onLongPressListener;
 
     private static final String ANIM_X_VAR = "mainX";
 
-    private cExpandableViewAdapter adapter = new cExpandableViewAdapter();
-
+    // TODO header is adapter responsibility
     private NoteListViewHeaderView headerView;
 
-    public customListView(Context context) {
+    public SwipableListView(Context context) {
         super(context);
         init();
     }
 
-    public customListView(Context context, AttributeSet attrs) {
+    public SwipableListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public customListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SwipableListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    public void add(DatabaseStorable storable){
-        adapter.add(storable);
-        adapter.notifyDataSetChanged();
-    }
-
-    public void remove(DatabaseStorable storable){
-        adapter.remove(storable);
-        adapter.notifyDataSetChanged();
-    }
-
     public void init(){
         this.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+        adapter = new cSwipableViewAdapter();
         this.setAdapter(adapter);
-        Log.i(TAG, "customListView init");
+        Log.i(TAG, "SwipableListView init");
         headerView = new NoteListViewHeaderView(this.getContext());
         this.addHeaderView(headerView);
         // swipe handling should be done by the view and not the list view
@@ -70,19 +58,22 @@ public class customListView extends ListView {
 
                 @Override
                 public boolean onDown(MotionEvent motionEvent) {
-                    return customListView.this.onDown(motionEvent);
+                    return SwipableListView.this.onDown(motionEvent);
                 }
 
                 @Override
                 public void onLongPress(MotionEvent motionEvent) {
-                    customListView.this.onLongPress(motionEvent);
+                    SwipableListView.this.onLongPress(motionEvent);
 
 
                 }
 
                 @Override
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                    return customListView.this.onFling(e1,e2,velocityX,velocityY);
+                    if (e1 == null || e2 == null){
+                        return false;
+                    }
+                    return SwipableListView.this.onFling(e1,e2,velocityX,velocityY);
                 }
             });
 
@@ -91,7 +82,6 @@ public class customListView extends ListView {
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         });
-
     }
 
     private final int REL_FLING_MIN_DISTANCE = (int)(120.0f * getResources().getDisplayMetrics().densityDpi / 160.0f + 0.5);
@@ -147,7 +137,7 @@ public class customListView extends ListView {
 
     private boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         // if position is a header view, don't swipe
-        if (this.pointToPosition((int)e1.getX(),(int)e1.getY())<getHeaderViewsCount()){
+        if (this.pointToPosition((int) e1.getX(), (int) e1.getY()) < getHeaderViewsCount()) {
             return false;
         }
         if (Math.abs(e1.getY() - e2.getY()) > REL_FLING_MAX_OFF_PATH)
@@ -155,45 +145,28 @@ public class customListView extends ListView {
 
         int direction = 0;
 
-        if(e1.getX() - e2.getX() > REL_FLING_MIN_DISTANCE &&
+        if (e1.getX() - e2.getX() > REL_FLING_MIN_DISTANCE &&
                 Math.abs(velocityX) > REL_FLING_THRESHOLD_VELOCITY) {
             // to allow swipe to the left, set direction to -1
             direction = 0;
-        }  else if (e2.getX() - e1.getX() > REL_FLING_MIN_DISTANCE &&
+        } else if (e2.getX() - e1.getX() > REL_FLING_MIN_DISTANCE &&
                 Math.abs(velocityX) > REL_FLING_THRESHOLD_VELOCITY) {
             direction = 1;
         }
-        currentlyAnimated = (SwipableView)getChildViewAtMotionEventPosition(e1);
-        if (currentlyAnimated !=null){
+        currentlyAnimated = getChildViewAtMotionEventPosition(e1);
+        if (currentlyAnimated != null) {
             xBeforeAnimated = currentlyAnimated.getTranslationX();
-            ObjectAnimator animation = ObjectAnimator.ofFloat(currentlyAnimated,ANIM_X_VAR, 130f*direction);
+            ObjectAnimator animation = ObjectAnimator.ofFloat(currentlyAnimated, ANIM_X_VAR, 130f * direction);
             animation.setDuration(400);
             animation.start();
         }
         return false;
     }
 
-    /**
-     * gets the view that is being pointed at by the motion event
-     * does not work with header viewss
-     * @param event
-     * @return
-     */
-    private View getChildViewAtMotionEventPosition(MotionEvent event){
-        if (event == null){
-            return null;
-        }
-        return this.getChildAt(this.pointToPosition((int)event.getX(),(int)event.getY()));
-    }
-
     @Override
     public boolean performClick(){
         onDown(null);
         return super.performClick();
-    }
-
-    public void filter(ViewFilter filter) {
-        adapter.filter(filter);
     }
 
     public void setOnLongPressListener(OnLongPressListener onLongPressListener) {
