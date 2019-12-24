@@ -81,11 +81,14 @@ public class MainActivity extends AppCompatActivity {
                 if (map == null){
                     return;
                 }
-                // TODO got a concurrent modification exception. analyze and make sure it does not happen again
-                //  seems to have to do with some kind of timing
-                for (Map.Entry<String, DatabaseStorable> set: map.entrySet()) {
-                    list.add(set.getValue());
+                // synchronized to avoid concurrent modification exceptions
+                // TODO observer if still happening
+                synchronized (this){
+                    for (Map.Entry<String, DatabaseStorable> set: map.entrySet()) {
+                        list.add(set.getValue());
+                    }
                 }
+
                 adapter.replace(list);
                 adapter.notifyDataSetChanged();
                 Log.d(TAG, "onChanged: adapter updated");
@@ -135,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        // TODO update view model data on click
         model.getData().getValue().values().forEach(new Consumer<DatabaseStorable>() {
             @Override
             public void accept(DatabaseStorable storable) {

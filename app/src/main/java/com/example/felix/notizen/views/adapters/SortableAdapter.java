@@ -234,5 +234,6 @@ public class SortableAdapter extends BaseAdapter {
         clear();
         addAll(list);
         filter();
+        sort();
     }
 }

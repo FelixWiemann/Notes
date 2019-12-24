@@ -11,16 +11,29 @@ import com.example.felix.notizen.Utils.DBAccess.cDBDataHandler;
 
 import java.util.HashMap;
 
-
+/**
+ * View Model that contains all views stored in the database
+ * on creation of an instance, all data will be loaded
+ */
 public class NoteViewModel extends ViewModel {
     private static final String TAG = "NoteViewModel";
+
+    /**
+     * life data content
+     */
     private MutableLiveData<HashMap<String, DatabaseStorable>> data;
     private HashMap<String, DatabaseStorable> dataMap;
 
+    /**
+     * creates an instance of view model containing data stored in the database
+     * the data will be fetched asynchronously as a part of the creation process
+     *
+     * a Map with no data in it will be already added before fetching, so no null pointer here
+     */
     public NoteViewModel(){
         Log.d(TAG, "NoteViewModel: creating");
         data = new MutableLiveData<>();
-        dataMap = new HashMap<String, DatabaseStorable>();
+        dataMap = new HashMap<>();
         data.setValue(dataMap);
         // do an async read of the DB
         new Thread(new Runnable() {
@@ -28,8 +41,8 @@ public class NoteViewModel extends ViewModel {
             public void run() {
                 for (DatabaseStorable storable: new cDBDataHandler().read()) {
                     dataMap.put(storable.getId(),storable);
-                    data.postValue(dataMap);
                 }
+                data.postValue(dataMap);
                 Log.d(TAG, "run: runner finished");
             }
         }).start();
