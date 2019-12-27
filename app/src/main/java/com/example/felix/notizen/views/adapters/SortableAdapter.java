@@ -13,6 +13,7 @@ import com.example.felix.notizen.views.viewsort.FilterShowAll;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,6 +25,15 @@ public class SortableAdapter extends BaseAdapter {
     private ArrayList<DatabaseStorable> currentlyHidden = new ArrayList<>();
     private Comparator<DatabaseStorable> currentComparator;
     private ViewFilter currentFilter;
+
+
+    @Override
+    public int getItemViewType(int position){
+        // ignore view item type fixed scrolling and deleting issues;
+        // TODO however should probably return the correct type number?
+        return IGNORE_ITEM_VIEW_TYPE;
+    }
+
 
     /**
      * How many items are in the data set represented by this Adapter.
@@ -63,7 +73,8 @@ public class SortableAdapter extends BaseAdapter {
      * sort the data based on the currently set comparator
      */
     public void sort(){
-        this.displayed.sort(currentComparator);
+        if (currentComparator == null) return;
+        Collections.sort(displayed, currentComparator);
         this.notifyDataSetChanged();
     }
 
@@ -122,11 +133,10 @@ public class SortableAdapter extends BaseAdapter {
     }
 
     /**
-     * clears the adapter from all it's content
+     * clears the adapter from all it's content,
+     * filters and sorting stays the same
      */
     public void clear(){
-        clearFilter();
-        clearSort();
         currentlyHidden.clear();
         displayed.clear();
         super.notifyDataSetChanged();
@@ -228,6 +238,7 @@ public class SortableAdapter extends BaseAdapter {
 
     /**
      * clears the adapter and sets the given list of items
+     * sorts and filters according to the currently set sorting mechanism and filter
      * @param list
      */
     public void replace(List <DatabaseStorable> list){

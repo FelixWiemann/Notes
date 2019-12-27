@@ -27,6 +27,7 @@ import com.example.felix.notizen.views.OnLongPressListener;
 import com.example.felix.notizen.views.SwipableListView;
 import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 import com.example.felix.notizen.views.viewsort.FilterShowAll;
+import com.example.felix.notizen.views.viewsort.SortProvider;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -93,9 +94,13 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
                 Log.d(TAG, "onChanged: adapter updated");
                 lv.update(list.size());
+                // sort and filter new data based on current settings
+                adapter.filter();
+                adapter.sort();
             }
         });
         lv.filter(new FilterShowAll());
+        lv.sort(SortProvider.SortByType);
         lv.setOnLongPressListener(new OnLongPressListener() {
             @Override
             public void onLongPress(DatabaseStorable databaseStorable) {

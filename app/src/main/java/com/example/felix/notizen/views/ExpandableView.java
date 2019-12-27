@@ -128,6 +128,10 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         });
     }
 
+    /**
+     * set the new content view of the expandable view
+     * @param newView
+     */
     public void setContentView(cNoteDisplayView newView){
         noteDisplayView = newView;
         noteDisplayView.setParentView(this);

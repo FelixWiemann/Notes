@@ -40,5 +40,5 @@ dependencies {
     testImplementation "org.powermock:powermock-module-junit4:1.7.3"
     testImplementation "org.powermock:powermock-api-mockito2:1.7.3"
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0.pr1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
 }

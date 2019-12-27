@@ -38,16 +38,12 @@ public class cSwipableViewAdapter extends ExpandableViewAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ExpandableView v;
-        // TODO updating view does not work for changed types
         SwipableView newView;
         if (convertView instanceof SwipableView) {
             // let the lower adapter handle creation of the main view
             newView = (SwipableView) convertView;
-            if (((SwipableView) convertView).MainView instanceof ExpandableView){
-                newView.MainView =  super.getView(position, convertView, parent);
-            }else {
-                newView.MainView = super.getView(position, ((SwipableView) convertView).MainView, parent);
-            }
+            newView.MainView = super.getView(position, ((SwipableView) convertView).MainView, parent);
+            // make sure the data is up to date
             ((ExpandableView) newView.MainView).getObject().updateData();
         }else {
             // did not get a swipable, create one with from the view created by super

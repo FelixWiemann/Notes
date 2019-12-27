@@ -1,5 +1,6 @@
 package com.example.felix.notizen.views.viewsort;
 
+import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.cSortableObject;
 
 import java.util.Comparator;
@@ -32,6 +33,13 @@ public class SortProvider {
                 return -1;
             }
             return ((String)t2.getSortable(SortCategory.TITLE)).compareToIgnoreCase(((String)t1.getSortable(SortCategory.TITLE)));
+        }
+    };
+
+    public static final Comparator<DatabaseStorable> SortByType = new Comparator<DatabaseStorable>() {
+        @Override
+        public int compare(DatabaseStorable cSortableObject, DatabaseStorable t1) {
+            return cSortableObject.getClass().getCanonicalName().compareTo(t1.getClass().getCanonicalName());
         }
     };
 

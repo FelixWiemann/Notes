@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cSortableObject;
 import com.example.felix.notizen.views.adapters.SortableAdapter;
 import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 import com.example.felix.notizen.views.viewsort.ViewFilter;
