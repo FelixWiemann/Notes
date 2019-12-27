@@ -28,10 +28,6 @@ public class StoragePackerFactoryTest extends AndroidTest {
     public void createFromData_expectClassNotFound() throws Exception {
          StoragePackerFactory.createFromData("","","",1);
     }
-    @Test(expected = NoSuchMethodException.class)
-    public void createFromData_expectNoSuchMethod() throws Exception {
-        StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.StoragePackerFactory","",1);
-    }
 
     @Test(expected = ClassCastException.class)
     public void createFromData_expectNoDatabaseStorable() throws Exception {
@@ -66,9 +62,6 @@ public class StoragePackerFactoryTest extends AndroidTest {
         Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_DATA"),anyString());
         Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_TYPE"),anyString());
         Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_VERSION"),anyInt());
-
-
-
     }
 
     @Test

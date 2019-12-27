@@ -14,7 +14,7 @@ public class cLoggerObject {
      */
     @Deprecated
     public void logDebug(String Message){
-        Log.d(TAG, "logDebug: " + Message);;
+        Log.d(TAG, "logDebug: " + Message);
     }
 
 }

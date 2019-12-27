@@ -23,15 +23,6 @@ public class cTextNote extends cNote {
     @JsonProperty("message")
     private String mMessage;
 
-
-    public cTextNote(UUID pID){
-        super(pID);
-    }
-
-    public cTextNote(){
-        super();
-    }
-
     /**
      * create new Note with these parameters.
      *
@@ -44,6 +35,14 @@ public class cTextNote extends cNote {
         this.mMessage = pMessage;
         Log.d(TEXT_NOTE_LOG_TAG,"cTextNote created");
     }
+
+    /**
+     * default constructor needed for JACKSON JSON
+     */
+    public cTextNote(){
+
+    }
+
 
     /**
      * gets the message of the note

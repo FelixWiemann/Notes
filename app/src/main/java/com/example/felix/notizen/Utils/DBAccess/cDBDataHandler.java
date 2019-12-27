@@ -52,7 +52,7 @@ public class cDBDataHandler {
                 try {
                     storable = StoragePackerFactory.createFromData(id, type, data, version);
                     list.add(storable);
-                } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+                } catch (ClassNotFoundException e) {
                     Log.e(TAG, "could not create from DB of type " + type +" with version "+ version, e);
                 }
             }while (cursor.moveToNext());

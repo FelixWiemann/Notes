@@ -1,6 +1,7 @@
 package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.Utils.OnUpdateCallback;
+import com.example.felix.notizen.objects.Notes.cNoteException;
 import com.example.felix.notizen.testutils.AndroidTest;
 import com.example.felix.notizen.views.viewsort.SortCategory;
 
@@ -91,8 +92,6 @@ public class cStorageObjectTest extends AndroidTest {
         assertTrue(json.contains("lastChangedDate"));
     }
 
-
-
     class cStorageObjectImpl extends  cStorageObject{
         cStorageObjectImpl(){
             super(UUID.randomUUID(),"");
@@ -106,5 +105,5 @@ public class cStorageObjectTest extends AndroidTest {
         public void test(){
 
         }
-    };
+    }
 }

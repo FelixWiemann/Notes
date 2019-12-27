@@ -1,5 +1,6 @@
 package com.example.felix.notizen.objects.Notes;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.felix.notizen.objects.Task.cBaseTask;
@@ -50,31 +51,9 @@ public class cTaskNote extends cNote {
     }
 
     /**
-     * create new note
-     * able to determine whether it is a previously stored note, to not change creation date and
-     * last modified date
-     *
-     * @param pID           id of Note
-     * @param pTitle        title of note
-     * @param pExistingNote whether is existing node
-     *                      true -> no new creation/last changed date
-     * @param pTaskList list of tasks in created note
+     * constructors needed for JACKSON JSON
      */
-    @Deprecated
-    public cTaskNote(UUID pID, String pTitle, List<cBaseTask>pTaskList, boolean pExistingNote) {
-        super(pID, pTitle, pExistingNote);
-        Log.d(TASK_NOTE_LOG_TAG,"creating new cTaskNote");
-        this.setTaskList(pTaskList);
-    }
-
-
-    public cTaskNote(UUID pID){
-        super(pID);
-
-    }
-
     public cTaskNote(){
-        super();
 
     }
 
@@ -87,18 +66,6 @@ public class cTaskNote extends cNote {
         Log.d(TASK_NOTE_LOG_TAG,"deleting note");
         clearTaskList();
     }
-
-    /*
-     * add additional data to this note
-     * inherited by cNote
-     *
-     * @param pDataBlob of type List<cBaseTask> containing task list
-     *
-    @Override
-    public void addAdditionalData(Object pDataBlob) {
-        logDebug("adding additional data");
-        // tod handle adding data
-    }*/
 
     /**
      * adds a task to notes task list
@@ -115,7 +82,7 @@ public class cTaskNote extends cNote {
      * @return task that is stored at position pPos
      */
     public cBaseTask getTaskAtPos(int pPos){
-        Log.d(TASK_NOTE_LOG_TAG,"returning task at pos " +String.valueOf(pPos));
+        Log.d(TASK_NOTE_LOG_TAG,"returning task at pos " + pPos);
         return mTaskList.get(pPos);
     }
 
@@ -124,7 +91,7 @@ public class cTaskNote extends cNote {
      */
     private void clearTaskList(){
         Log.d(TASK_NOTE_LOG_TAG,"clearing all tasks");
-        if (mTaskList==null){
+        if (mTaskList.size()==0){
             Log.d(TASK_NOTE_LOG_TAG,"already clear");
             return;
         }
@@ -153,7 +120,7 @@ public class cTaskNote extends cNote {
      * set the task list to the given one
      * @param pTaskList new task list
      */
-    private void setTaskList(List<cBaseTask> pTaskList) {
+    private void setTaskList(@NonNull List<cBaseTask> pTaskList) {
         Log.d(TASK_NOTE_LOG_TAG,"setting task list, clearing current first");
         // clear all tasks currently inside list
         clearTaskList();

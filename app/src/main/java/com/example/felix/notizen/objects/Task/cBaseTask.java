@@ -21,7 +21,7 @@ import static com.example.felix.notizen.views.viewsort.SortCategory.TASK_DONE_TI
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "className")
 public abstract class cBaseTask extends cStorageObject {
 
-    public static final String BASE_TASK_LOG_TAG = "BaseTask";
+    private static final String BASE_TASK_LOG_TAG = "BaseTask";
     public static String aTYPE = "cBaseTask";
 
     /**
@@ -66,11 +66,9 @@ public abstract class cBaseTask extends cStorageObject {
         Log.d(BASE_TASK_LOG_TAG,"creating cBaseTask");
     }
 
-    public cBaseTask(UUID pID) {
-        super();
-        // TODO does nothing with the UUID?
-    }
-
+    /**
+     * needed for deserialization by JACKSON
+     */
     public cBaseTask() {
     }
 

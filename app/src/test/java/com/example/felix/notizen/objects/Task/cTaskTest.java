@@ -1,6 +1,5 @@
 package com.example.felix.notizen.objects.Task;
 
-import com.example.felix.notizen.Utils.NotYetImplementedException;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
@@ -20,7 +19,6 @@ public class cTaskTest  extends AndroidTest {
         super.setUp();
         testTask = new cTask(UUID.randomUUID(),"title", "text", false);
         new cTask();
-        new cTask(UUID.randomUUID());
     }
 
     @Test

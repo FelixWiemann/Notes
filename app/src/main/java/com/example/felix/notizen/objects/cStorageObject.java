@@ -1,17 +1,12 @@
 package com.example.felix.notizen.objects;
 
-import android.util.Log;
-
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.DateStrategy;
 import com.example.felix.notizen.Utils.OnUpdateCallback;
-import com.example.felix.notizen.Utils.cBaseException;
-import com.example.felix.notizen.objects.Notes.cNoteException;
 import com.example.felix.notizen.views.viewsort.SortAble;
 import com.example.felix.notizen.views.viewsort.SortCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -23,11 +18,19 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
     public cStorageObject(UUID mID, String mTitle) {
         super(mID, mTitle);
         initSortables();
+
+        // set creation and last changed dates
+        setCreationDate();
+        setLastChangedDate();
     }
 
     public cStorageObject() {
         super();
         initSortables();
+
+        // set creation and last changed dates
+        setCreationDate();
+        setLastChangedDate();
     }
 
     private void initSortables(){
@@ -73,7 +76,7 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
      * to be called, if the data in your implementation have been changed.
      * e.g. due to changes by the user
      */
-    public void onDataChanged(){
+    protected void onDataChanged(){
         updateData();
     }
 
@@ -141,33 +144,6 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
         onDataChanged();
     }
 
-    /**
-     *
-     * @param pCreationDate
-     * @throws Exception
-     */
-    public void setCreationDate(long pCreationDate) throws cBaseException {
-        // must be -1 to be set, otherwise it was created before
-        if (mCreationDate == -1){
-            mCreationDate = pCreationDate;
-            onDataChanged();
-        }
-        else {
-            throw new cNoteException("cNote setCreationDate",cNoteException.aCREATION_DATE_ALREADY_SET,null);
-        }
-
-    }
-
-    /**
-     * TODO what do I need this for?
-     * JSON Setter?
-     * @param lastChangeDate
-     */
-    public void setLastChangeDate(long lastChangeDate) {
-        mLastChangedDate = lastChangeDate;
-    }
-
-
     // TODO probably remove and put somewhere display related
     private OnUpdateCallback callback;
 
@@ -178,6 +154,6 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
     public void setOnChangeListener(OnUpdateCallback onChangeListener) {
         callback = onChangeListener;
         // make sure callback already knows sth has changed
-        callback.update();
+        updateData();
     }
 }

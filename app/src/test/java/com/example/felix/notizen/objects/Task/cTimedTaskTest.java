@@ -1,23 +1,17 @@
 package com.example.felix.notizen.objects.Task;
 
 import com.example.felix.notizen.Utils.DateStrategy;
-import com.example.felix.notizen.Utils.NotYetImplementedException;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
-
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-
-@Ignore("Not Yet Implemented")
 public class cTimedTaskTest extends AndroidTest {
 
     private cTimedTask testTask;
@@ -30,7 +24,9 @@ public class cTimedTaskTest extends AndroidTest {
 
     @Test
     public void getTaskDueDate() {
-        throw new NotYetImplementedException();
+        long taskDueDate = 111111;
+        testTask.setTaskDueDate(taskDueDate);
+        assertEquals(taskDueDate, testTask.getTaskDueDate());
     }
 
     @Test
@@ -42,12 +38,13 @@ public class cTimedTaskTest extends AndroidTest {
 
     @Test
     public void deleteTask() {
-        throw new NotYetImplementedException();
+        testTask.deleteTask();
+        // TODO write test for fully implemented
     }
 
     @Test
     public void getVersion() {
-        throw new NotYetImplementedException();
+        assertEquals(1, testTask.getVersion());
     }
 
     @Test
@@ -55,10 +52,10 @@ public class cTimedTaskTest extends AndroidTest {
         String JSON = testTask.toJson();
         Object o = StoragePackerFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
         assertEquals(testTask,o);
+        assertTrue(JSON.contains("taskDueDate\":"));
         // TODO
         //  make sure all expected components are stored in JSON
         //  comparing these doesn't really makes sense regarding the data.
         //  it only makes sure the storage packer knows what to do...
-        throw new NotYetImplementedException("See TODO");
     }
 }

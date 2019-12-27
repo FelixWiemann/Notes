@@ -1,6 +1,9 @@
 package com.example.felix.notizen.objects.Task;
 
+import android.util.Log;
+
 import com.example.felix.notizen.Utils.DateStrategy;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.UUID;
@@ -19,13 +22,16 @@ public class cTimedTask extends cBaseTask {
 
 
     public static String aTYPE = "cTimedTask";
+
+    private final static String LOG_TAG = "TIMED_TASK";
+
     /**
      * returns the date when the task is due in ms since January 1, 1970 00:00:00 GMT
      * @see DateStrategy#getCurrentTime()
      * @return due date
      */
     public long getTaskDueDate() {
-        logDebug("getting task due date");
+        Log.d(LOG_TAG,"getting task due date");
         return mTaskDueDate;
     }
 
@@ -35,7 +41,7 @@ public class cTimedTask extends cBaseTask {
      * @param mTaskDueDate new task due date
      */
     public void setTaskDueDate(long mTaskDueDate) {
-        logDebug("setting task due date");
+        Log.d(LOG_TAG,"setting task due date");
         this.mTaskDueDate = mTaskDueDate;
     }
 
@@ -43,6 +49,7 @@ public class cTimedTask extends cBaseTask {
      * task due date in ms since January 1, 1970 00:00:00 GMT
      * @see DateStrategy#getCurrentTime()
      */
+    @JsonProperty("taskDueDate")
     private long mTaskDueDate;
 
     /**
@@ -53,14 +60,12 @@ public class cTimedTask extends cBaseTask {
      */
     public cTimedTask(UUID mId, String mTitle, String mText, boolean mDone) {
         super(mId,mTitle, mText, mDone);
-        logDebug("creating timed task");
+        Log.d(LOG_TAG,"creating timed task");
     }
 
-    public cTimedTask(UUID pID) {
-        super();
-
-    }
-
+    /**
+     * needed for deserialization by JACKSON
+     */
     public cTimedTask() {
         super();
     }
@@ -70,7 +75,7 @@ public class cTimedTask extends cBaseTask {
      */
     @Override
     public void deleteTask() {
-        logDebug("deleting timed task");
+        Log.d(LOG_TAG,"deleting timed task");
         // TODO: delete timer
     }
 

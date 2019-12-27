@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,8 @@ public class EditNoteActivity extends AppCompatActivity {
 
     private DatabaseStorable data;
 
+    private static final String LOG_TAG = "EDIT_NOTE_ACTIVITY";
+
     private EditNoteViewModel mViewModel;
 
     @Override
@@ -49,9 +52,8 @@ public class EditNoteActivity extends AppCompatActivity {
         Intent intent = getIntent();
         try {
             data = StoragePackerFactory.storableFromIntent(intent);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-            // TODO log error
-            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            Log.e(LOG_TAG, "exception unpacking data" ,e);
         }
         if (data == null){
             data = new cTextNote(UUID.randomUUID(),"" , "");

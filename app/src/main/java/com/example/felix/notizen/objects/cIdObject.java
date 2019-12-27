@@ -8,8 +8,12 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.UUID;
 
 /**
- * Created as part of notes in package com.example.felix.notizen.FrontEnd
- * by Felix "nepumuk" Wiemann on 29/04/17.
+ * Id object handles identities of all data objects.
+ * it contains a @see UUID as a unique identifier.
+ *
+ * It also handles the title of each object.
+ * -> TODO maybe move to TitledObject?
+ *
  */
 @SuppressWarnings("unused")
 public class cIdObject extends cSortableObject {
@@ -40,30 +44,9 @@ public class cIdObject extends cSortableObject {
     }
 
     /**
-     * constructor to be run on creating a JSON object
-     * -> TODO Should be moved to somewhere else?!?
-     * @param mID
+     * Default Constructor for deserialization witch JACKSON
      */
-    public cIdObject(UUID mID){
-        super();
-        System.out.println("constructor on JSON");
-    }
-
-    /**
-     * TODO this constructor to all subclasses
-     * creates a new object with an id and a title
-     * a unique UUID is added automatically
-     * @param mTitle title of the new object
-     */
-    cIdObject(String mTitle){
-        Log.d(TAG, "creating cIdObject with uuid");
-        this.mTitle = mTitle;
-        this.mID = UUID.randomUUID();
-    }
-
-    cIdObject() {
-
-    }
+    cIdObject() {}
 
     /**
      * sets the title of the note

@@ -1,8 +1,5 @@
 package com.example.felix.notizen.Utils;
 
-import android.util.Log;
-
-import java.util.Date;
 import java.util.HashMap;
 
 /**

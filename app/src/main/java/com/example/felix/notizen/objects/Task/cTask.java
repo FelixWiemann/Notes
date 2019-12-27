@@ -23,14 +23,14 @@ public class cTask extends cBaseTask {
         super(mId, mTitle, mText, mDone);
     }
 
-
-    public cTask(UUID pID) {
-        super(pID);
-    }
-
+    /**
+     * needed for deserialization by JACKSON
+     */
     public cTask() {
         super();
     }
+
+
     /**
      * abstract method to implement in each inherited task type.
      * used for special deletion things

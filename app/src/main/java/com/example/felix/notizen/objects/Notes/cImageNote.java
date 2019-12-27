@@ -3,6 +3,8 @@ package com.example.felix.notizen.objects.Notes;
 
 import android.util.Log;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 /**
@@ -15,7 +17,7 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class cImageNote extends cNote {
 
-    private static final String TAG = "ImageNote";
+    private static final String LOG_TAG = "ImageNote";
     /**
      * identifier of class
      */
@@ -24,9 +26,8 @@ public class cImageNote extends cNote {
     /**
      * location of the image of the note
      */
+    @JsonProperty("imageLocation")
     private String mImageLocation;
-
-    private final String aJSON_IMAGE_LOCATION = "IMAGE_LOCATION";
 
     /**
      * create new Note
@@ -37,37 +38,15 @@ public class cImageNote extends cNote {
      */
     public cImageNote(UUID pID, String pTitle, String pImageLocation) {
         super(pID, pTitle);
-        logDebug("creating cImageNote");
+        Log.d(LOG_TAG,"creating cImageNote");
         // assign image location
         setImageLocation(pImageLocation);
     }
 
     /**
-     * create new Note able to contain an image
-     *
-     * @param pID           id of Note
-     * @param pTitle        title of note
-     * @param pExistingNote whether is existing node
-     *                      true -> no new creation/last changed date
-     *                      shall be used when loading notes from DB
-     * @param pImageLocation location of the image
+     * default constructor used for deserialization from JACKSON
      */
-    @Deprecated
-    public cImageNote(UUID pID, String pTitle,String pImageLocation, boolean pExistingNote) {
-        super(pID, pTitle, pExistingNote);
-        logDebug("creating existing cImageNote");
-        // assign image location
-        setImageLocation(pImageLocation);
-    }
-
-    public cImageNote(UUID pID) {
-        super();
-
-    }
-
-    public cImageNote() {
-
-    }
+    public cImageNote() {}
 
     /**
      * handles deletion of image referenced inside instance of cImageNote
@@ -75,7 +54,7 @@ public class cImageNote extends cNote {
      */
     @Override
     public void deleteNote() {
-        logDebug("deleting image note");
+        Log.d(LOG_TAG,"deleting image note");
         // delete image file
         deleteImageAtStorageLocation();
     }
@@ -94,8 +73,8 @@ public class cImageNote extends cNote {
      * sets the image location of the note
      * @param pImageLocation new location of the image
      */
-    private void setImageLocation(String pImageLocation) {
-        Log.e(TAG, "setting image location");
+    public void setImageLocation(String pImageLocation) {
+        Log.e(LOG_TAG, "setting image location");
         // delete current image if available
         deleteImageAtStorageLocation();
         // change image location
@@ -109,7 +88,7 @@ public class cImageNote extends cNote {
      * handles deletion of the current image
      */
     private void deleteImageAtStorageLocation(){
-        Log.e(TAG, "deleting image at storage location");
+        Log.e(LOG_TAG, "deleting image at storage location");
         //throw new Exception("not yet implemeted");
         // TODO: handle deletion
         // validate, file exists, delete if exists
