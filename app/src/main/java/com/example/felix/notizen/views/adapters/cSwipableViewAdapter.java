@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.felix.notizen.views.ExpandableView;
-import com.example.felix.notizen.views.ExpandableViewAdapter;
 import com.example.felix.notizen.views.OnListItemInPositionClickListener;
 import com.example.felix.notizen.views.SwipableView;
 

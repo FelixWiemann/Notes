@@ -20,4 +20,6 @@
     <string name="btSave">speichern</string>
     <string name="notes">%d Notizen</string>
     <string name="list_view_header_text">Notizen</string>
+    <string name="edit_note_title_hint">Titel der Neuen Notiz</string>
+    <string name="ndf_note_text_hint">Text der Notiz</string>
 </resources>

@@ -126,6 +126,7 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
                 invertShrink();
             }
         });
+        noteDisplayView.content.updateData();
     }
 
     /**

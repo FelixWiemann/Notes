@@ -33,7 +33,6 @@ public class cNoteView extends cNoteDisplayView<cTextNote> {
         if (isInitialized()) {
             messageView.setText(this.content.getMessage());
             //Log.d("noteview", "update: " + messageView.getTotalPaddingEnd() + " - " + content.getTitle());
-
         }
     }
 

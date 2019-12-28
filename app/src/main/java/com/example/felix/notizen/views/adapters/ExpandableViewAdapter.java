@@ -1,11 +1,13 @@
-package com.example.felix.notizen.views;
+package com.example.felix.notizen.views.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.felix.notizen.objects.cStorageObject;
+import com.example.felix.notizen.views.ExpandableView;
 import com.example.felix.notizen.views.adapters.SortableAdapter;
+import com.example.felix.notizen.views.cNoteDisplayViewFactory;
 
 public class ExpandableViewAdapter extends SortableAdapter {
     /**
@@ -46,7 +48,7 @@ public class ExpandableViewAdapter extends SortableAdapter {
         }
         if (createNewView){
             // todo let view handling be done by sortable adapter
-            return new ExpandableView(parent.getContext(),cNoteDisplayViewFactory.getView(parent.getContext(),objectToDisplay));
+            return new ExpandableView(parent.getContext(), cNoteDisplayViewFactory.getView(parent.getContext(),objectToDisplay));
         }else {
             objectToDisplay.updateData();
             return convertView;

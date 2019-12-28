@@ -23,7 +23,7 @@
     <string name="btSave">save</string>
     <string name="list_view_header_text">notes</string>
     <string name="notes">%d notes</string>
-    <string name="test_string" translatable="false">test</string>
+    <string name="test_string" translatable="false">DEBUG NEEDS TO BE DELETED</string>
     <string name="edit_note_title_hint">enter the title of your new note</string>
     <string name="ndf_note_text_hint">enter the text of your note</string>
 
