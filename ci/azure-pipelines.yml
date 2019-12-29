@@ -18,4 +18,4 @@ steps:
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: yes
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'build test'
+    tasks: 'clean build test'
