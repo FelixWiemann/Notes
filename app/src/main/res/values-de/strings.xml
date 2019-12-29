@@ -22,4 +22,8 @@
     <string name="list_view_header_text">Notizen</string>
     <string name="edit_note_title_hint">Titel der Neuen Notiz</string>
     <string name="ndf_note_text_hint">Text der Notiz</string>
+    <string name="cancel_exit">abbrechen</string>
+    <string name="unchanged_data">Seit dem letzten Speichern wurden die Daten geändert, wie weiter?</string>
+    <string name="save_and_exit">speichern</string>
+    <string name="discard_exit">Verwerfen</string>
 </resources>

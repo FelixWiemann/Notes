@@ -132,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         fabSpawner.addFabToSpawn(fab);
+        // TODO add fab for new types
+        //  e.g. camera
         Log.d(TAG, "done creating");
     }
 

@@ -26,5 +26,9 @@
     <string name="test_string" translatable="false">DEBUG NEEDS TO BE DELETED</string>
     <string name="edit_note_title_hint">enter the title of your new note</string>
     <string name="ndf_note_text_hint">enter the text of your note</string>
+    <string name="unchanged_data">Data has been changed without a save, what do you want to do?</string>
+    <string name="cancel_exit">cancel</string>
+    <string name="save_and_exit">save</string>
+    <string name="discard_exit">discard</string>
 
 </resources>
