@@ -26,10 +26,10 @@ import com.example.felix.notizen.views.OnListItemInPositionClickListener;
 import com.example.felix.notizen.views.OnLongPressListener;
 import com.example.felix.notizen.views.SwipableListView;
 import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
+import com.example.felix.notizen.views.fabs.FabSpawnerFab;
 import com.example.felix.notizen.views.viewsort.FilterShowAll;
 import com.example.felix.notizen.views.viewsort.SortProvider;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,21 +108,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab_text_note);
+        FabSpawnerFab fabSpawner = findViewById(R.id.fab_add_notes);
+        FloatingActionButton fab =  findViewById(R.id.fab_text_note);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 callEditNoteActivityForResult();
             }
         });
-        fab = findViewById(R.id.fab_add_notes);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO show/hide other FABs
-                Toast.makeText(MainActivity.this, "show others",Toast.LENGTH_SHORT).show();
-            }
-        });
+        fabSpawner.addFabToSpawn(fab);
         fab = findViewById(R.id.fab_task_note);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "create task note",Toast.LENGTH_SHORT).show();
             }
         });
+        fabSpawner.addFabToSpawn(fab);
         Log.d(TAG, "done creating");
     }
 

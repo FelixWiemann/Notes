@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.ExpandableView;
-import com.example.felix.notizen.views.adapters.SortableAdapter;
 import com.example.felix.notizen.views.cNoteDisplayViewFactory;
 
 public class ExpandableViewAdapter extends SortableAdapter {
