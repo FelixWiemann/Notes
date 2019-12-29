@@ -17,6 +17,5 @@ steps:
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: yes
-    codeCoverageToolOption: 'jaCoCo' 
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'build test'
