@@ -1,11 +1,11 @@
 package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.testutils.AndroidTest;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 public class cJSONObjectTest extends AndroidTest {
@@ -33,6 +33,9 @@ public class cJSONObjectTest extends AndroidTest {
     }
 
     private class cJSONObjectImpl extends cJSONObject{
+        @JsonProperty("testProp")
+        private String testProperty = "testproperty";
+
         cJSONObjectImpl() {
         }
     }

@@ -2,7 +2,6 @@ package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.testutils.AndroidTest;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +33,6 @@ public class cIdObjectTest  extends AndroidTest {
 
     @Test
     public void Constructor() {
-        System.out.println(object.toJson());
         assertEquals("Constructor_ID",object.getID(),UUID.fromString(idString));
         assertEquals("Constructor_Title",object.getTitle(),testTitle);
     }

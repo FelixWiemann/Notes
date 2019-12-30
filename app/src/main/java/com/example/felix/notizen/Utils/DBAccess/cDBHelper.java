@@ -38,7 +38,7 @@ public class cDBHelper extends SQLiteOpenHelper {
     private static final String TAG = "DB Helper" ;
 
 
-    private static cDBHelper mMasterInstance = new cDBHelper(cContextManager.getInstance().getContext(), aDB_Name, null, aDB_VERSION);
+    private static cDBHelper mMasterInstance = null;
     private static SQLiteDatabase mDB;
 
     private cDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -58,6 +58,11 @@ public class cDBHelper extends SQLiteOpenHelper {
      * @return
      */
     public static cDBHelper getInstance(){
+
+        if (mMasterInstance == null){
+            mMasterInstance = new cDBHelper(cContextManager.getInstance().getContext(), aDB_Name, null, aDB_VERSION);
+        }
+
         return mMasterInstance;
     }
 

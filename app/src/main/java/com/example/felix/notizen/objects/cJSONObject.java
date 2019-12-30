@@ -2,7 +2,6 @@ package com.example.felix.notizen.objects;
 
 import android.support.annotation.NonNull;
 
-import com.example.felix.notizen.Utils.cLoggerObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  * TODO document annotations for JSON (jackson)
  */
-public abstract class cJSONObject extends cLoggerObject {
+public abstract class cJSONObject {
 
     cJSONObject() {
         super();

@@ -31,6 +31,7 @@ import com.example.felix.notizen.views.viewsort.FilterShowAll;
 import com.example.felix.notizen.views.viewsort.SortProvider;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,24 +80,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable HashMap<String, DatabaseStorable> map) {
                 List<DatabaseStorable> list = new ArrayList<>();
-                if (map == null){
-                    return;
-                }
-                // synchronized to avoid concurrent modification exceptions
-                // TODO observer if still happening
-                synchronized (this){
-                    for (Map.Entry<String, DatabaseStorable> set: map.entrySet()) {
+                try {
+                    if (map == null) {
+                        return;
+                    }
+
+                    // Concurrent Modification Exception happened again, added additional logging
+                    for (Map.Entry<String, DatabaseStorable> set : map.entrySet()) {
                         list.add(set.getValue());
                     }
-                }
 
-                adapter.replace(list);
-                adapter.notifyDataSetChanged();
-                Log.d(TAG, "onChanged: adapter updated");
-                lv.update(list.size());
-                // sort and filter new data based on current settings
-                adapter.filter();
-                adapter.sort();
+                    adapter.replace(list);
+                    adapter.notifyDataSetChanged();
+                    Log.d(TAG, "onChanged: adapter updated");
+                    lv.update(list.size());
+                    // sort and filter new data based on current settings
+                    adapter.filter();
+                    adapter.sort();
+                } catch (ConcurrentModificationException ex){
+                    Log.e(TAG, "onChanged: got a concurrentmodex", ex);
+                    Log.e(TAG, "map data: " + map );
+                    Log.e(TAG, "list data: " + list);
+                    Log.e(TAG, "is fetching " + model.isCurrentlyFetchingDataFromDB());
+                    throw new RuntimeException("fail");
+                }
             }
         });
         lv.filter(new FilterShowAll());

@@ -9,14 +9,11 @@ import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.matches;
@@ -56,7 +53,6 @@ public class StoragePackerFactoryTest extends AndroidTest {
 
         prevIntent = new Intent();
         cTextNote note = new cTextNote(UUID.fromString("2563c779-7e46-4003-927b-1ff36077b285"),"title","message");
-        System.out.println(note);
         StoragePackerFactory.addToIntent(prevIntent,note);
         Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_ID"),anyString());
         Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_DATA"),anyString());

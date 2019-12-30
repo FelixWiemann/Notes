@@ -74,7 +74,6 @@ public class cTaskNoteTest  extends AndroidTest {
     public void testJson() throws Exception{
         // ! this test doesn't like the mocks, don't use mocks here...
         String JSON = testNote.toJson();
-        System.out.println(JSON);
         Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
         assertEquals(testNote,o);
         assertTrue(JSON.contains("TaskList\":"));

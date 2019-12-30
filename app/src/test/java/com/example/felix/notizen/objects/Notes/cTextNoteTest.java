@@ -52,7 +52,6 @@ public class cTextNoteTest  extends AndroidTest {
         String JSON = testNote.toJson();
         Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
         assertEquals(testNote,o);
-        System.out.println(JSON);
         assertTrue(JSON.contains("message\":"));
         assertTrue(JSON.contains("title\":"));
         assertTrue(JSON.contains("lastChangedDate\":"));

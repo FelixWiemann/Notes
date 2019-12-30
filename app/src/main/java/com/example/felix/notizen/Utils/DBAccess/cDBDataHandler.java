@@ -6,8 +6,6 @@ import android.util.Log;
 
 import com.example.felix.notizen.objects.StoragePackerFactory;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -68,7 +66,7 @@ public class cDBDataHandler {
         delete(object.getId());
     }
 
-    public void reinitDatabase(){
+    public void reInitDatabase(){
         aHelper.deleteAndReinit();
     }
 

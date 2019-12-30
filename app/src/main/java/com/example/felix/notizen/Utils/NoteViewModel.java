@@ -25,64 +25,152 @@ public class NoteViewModel extends ViewModel {
     private HashMap<String, DatabaseStorable> dataMap;
 
     /**
+     * thread for fetching the data from the Database
+     */
+    private Thread dataFetcher;
+
+    /**
      * creates an instance of view model containing data stored in the database
      * the data will be fetched asynchronously as a part of the creation process
-     *
+     * <p>
      * a Map with no data in it will be already added before fetching, so no null pointer here
      */
-    public NoteViewModel(){
+    public NoteViewModel() {
+        super();
         Log.d(TAG, "NoteViewModel: creating");
-        data = new MutableLiveData<>();
+        data = helper.getLiveData();
         dataMap = new HashMap<>();
         data.setValue(dataMap);
         // do an async read of the DB
-        new Thread(new Runnable() {
+        dataFetcher = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (DatabaseStorable storable: new cDBDataHandler().read()) {
-                    dataMap.put(storable.getId(),storable);
-                }
-                data.postValue(dataMap);
-                Log.d(TAG, "run: runner finished");
+                readFromDatabase();
             }
-        }).start();
+        });
+        dataFetcher.start();
     }
 
+    /**
+     * checks whether the data fetcher is executing
+     * @return whether the thread is alive
+     */
+    public boolean isCurrentlyFetchingDataFromDB(){
+        return dataFetcher.isAlive();
+    }
+
+    /**
+     * waits until the thread execution is done.
+     * Use cautiously, all main thread activity will be paused.
+     */
+    public void waitForFetchToFinish() throws InterruptedException {
+        dataFetcher.join();
+    }
+
+    /**
+     * reads from the database and sets the values into the MutableLiveData
+     */
+    private void readFromDatabase(){
+        for (DatabaseStorable storable : helper.getDBHandler().read()) {
+            dataMap.put(storable.getId(), storable);
+        }
+        data.postValue(dataMap);
+    }
+
+    /**
+     * gets the data from the NoteViewModel
+     * @return data
+     */
     public MutableLiveData<HashMap<String, DatabaseStorable>> getData(){
         return data;
     }
 
-    public void updateOrCreate(DatabaseStorable storable){
-        if (dataMap.containsKey(storable.getId())){
+    /**
+     *
+     * update or create a storable stored in the ViewModel
+     * will also update the Database for persistence
+     *
+     * it will be updated, if already in the database
+     * or created if not existent
+     *
+     * @param storable to be updated or created
+     */
+    public void updateOrCreate(DatabaseStorable storable) {
+        if (dataMap.containsKey(storable.getId())) {
             updateData(storable);
-        }else {
+        } else {
             createData(storable);
         }
     }
 
-    public void updateData(DatabaseStorable storable){
+    /**
+     * updates an entry in the ViewModel
+     * will also update the entry of the Database for persistence
+     *
+     * @param storable to be updated
+     */
+    public void updateData(DatabaseStorable storable) {
         dataMap.put(storable.getId(), storable);
         data.setValue(dataMap);
-        new cDBDataHandler().update(storable);
+        helper.getDBHandler().update(storable);
     }
 
-    public void deleteData(final DatabaseStorable storable){
+    /**
+     * deletes an entry in the ViewModel
+     * will also delete the entry from Database
+     *
+     * @param storable to be deleted
+     */
+    public void deleteData(final DatabaseStorable storable) {
         dataMap.remove(storable.getId());
         data.setValue(dataMap);
-        new cDBDataHandler().delete(storable);
+        helper.getDBHandler().delete(storable);
     }
 
-    public void createData(final DatabaseStorable storable){
+
+    /**
+     * creates an entry in the ViewModel
+     * will also create an entry the Database for persistence
+     *
+     * @param storable to be stored
+     */
+    public void createData(final DatabaseStorable storable) {
         dataMap.put(storable.getId(), storable);
         data.setValue(dataMap);
-        new cDBDataHandler().insert(storable);
+        helper.getDBHandler().insert(storable);
     }
 
-    public void observe(LifecycleOwner owner, Observer observer){
+    /**
+     * add an observer for the data
+     *
+     * @param owner of the lifecycle
+     * @param observer to be notified of changes
+     */
+    public void observe(LifecycleOwner owner, Observer observer) {
         data.observe(owner, observer);
     }
 
-    public void observeForEver(Observer observer){
+    /**
+     * add an observer for the data forever
+     *
+     * @param observer to be notified of changes
+     */
+    public void observeForEver(Observer observer) {
         data.observeForever(observer);
     }
+
+    /**
+     * helper class to be able to swap new calls to mocks for testing
+     */
+    static class helper{
+
+        static cDBDataHandler getDBHandler() {
+            return new cDBDataHandler();
+        }
+
+        static MutableLiveData<HashMap<String, DatabaseStorable>> getLiveData() {
+            return new MutableLiveData<>();
+        }
+    }
+
 }
