@@ -197,9 +197,12 @@ public class SortableAdapterTest {
         // when
         adapterUnderTest.clear();
         // then
+        verify(adapterUnderTest, times(1)).notifyDataSetChanged();
+        clearInvocations(adapterUnderTest);
         // next sorting shouldn't do anything
         adapterUnderTest.sort();
-        verify(adapterUnderTest, never()).notifyDataSetChanged();
+        verify(adapterUnderTest,never()).notifyDataSetChanged();
+
     }
 
     @Test
