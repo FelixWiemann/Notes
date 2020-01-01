@@ -4,7 +4,7 @@ import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 
 import java.util.Objects;
 
-public class FilterBasedOnClass implements ViewFilter {
+public class FilterBasedOnClass extends ViewFilter {
 
     private Class clazz;
 

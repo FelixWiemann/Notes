@@ -21,11 +21,17 @@ import java.util.List;
  * Adapter which allows sorting and filtering of it's content
  */
 public class SortableAdapter extends BaseAdapter {
-    private ArrayList<DatabaseStorable> displayed = new ArrayList<>();
-    private ArrayList<DatabaseStorable> currentlyHidden = new ArrayList<>();
+
+    private ArrayList<DatabaseStorable> displayed;
+    private ArrayList<DatabaseStorable> currentlyHidden;
     private Comparator<DatabaseStorable> currentComparator;
     private ViewFilter currentFilter;
 
+
+    public SortableAdapter(){
+        displayed = new ArrayList<>();
+        currentlyHidden = new ArrayList<>();
+    }
 
     @Override
     public int getItemViewType(int position){
@@ -36,7 +42,9 @@ public class SortableAdapter extends BaseAdapter {
 
 
     /**
-     * How many items are in the data set represented by this Adapter.
+     * How many items are in the data set represented by this Adapter that are visible
+     *
+     * hidden items due to filtering will not be added to this count!
      *
      * @return Count of items.
      */
@@ -75,7 +83,7 @@ public class SortableAdapter extends BaseAdapter {
     public void sort(){
         if (currentComparator == null) return;
         Collections.sort(displayed, currentComparator);
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     /**
@@ -112,20 +120,9 @@ public class SortableAdapter extends BaseAdapter {
         ArrayList<DatabaseStorable> tempShow = new ArrayList<>();
         ArrayList<DatabaseStorable> tempHide = new ArrayList<>();
 
-        for (DatabaseStorable storable: displayed) {
-            if (currentFilter.filter(storable)){
-                tempShow.add(storable);
-            }else{
-                tempHide.add(storable);
-            }
-        }
-        for (DatabaseStorable storable:currentlyHidden){
-            if (currentFilter.filter(storable)){
-                tempShow.add(storable);
-            }else{
-                tempHide.add(storable);
-            }
-        }
+        currentFilter.filter(displayed, tempShow, tempHide);
+        currentFilter.filter(currentlyHidden, tempShow, tempHide);
+
         currentlyHidden = tempHide;
         displayed = tempShow;
 
@@ -139,7 +136,7 @@ public class SortableAdapter extends BaseAdapter {
     public void clear(){
         currentlyHidden.clear();
         displayed.clear();
-        super.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
     /**
      * adds all items from the list to the adapter
@@ -147,15 +144,18 @@ public class SortableAdapter extends BaseAdapter {
      */
     public void addAll(List<DatabaseStorable> toAdd){
         displayed.addAll(toAdd);
-        super.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
     /**
      * add an object to the adapter to be displayed
-     * @param toAdd
+     *
+     * will not be filtered or sorted afterwards!
+     *
+     * @param toAdd storable that is to be added
      */
     public void add(DatabaseStorable toAdd){
         displayed.add(toAdd);
-        super.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     /**
@@ -163,6 +163,7 @@ public class SortableAdapter extends BaseAdapter {
      */
     public void clearFilter(){
         currentFilter = null;
+        filter();
     }
 
     /**

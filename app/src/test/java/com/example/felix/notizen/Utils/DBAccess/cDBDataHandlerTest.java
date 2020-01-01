@@ -3,6 +3,7 @@ package com.example.felix.notizen.Utils.DBAccess;
 import android.content.ContentValues;
 
 import com.example.felix.notizen.testutils.AndroidTest;
+import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -171,37 +172,6 @@ public class cDBDataHandlerTest extends AndroidTest {
     private String[] isNullStringArray() {
         mockingProgress().getArgumentMatcherStorage().reportMatcher(Null.NULL);
         return new String[]{};
-    }
-
-    /**
-     * Database Storable test implementation
-     */
-    class DataBaseStorableTestImpl implements DatabaseStorable{
-
-        static final String DATA_STRING = "DATA STRING";
-        static final String DATA_TYPE = "TYPE STRING";
-        static final String DATA_ID = "ID STRING";
-        static final int VERSION_NO = 5423;
-
-        @Override
-        public int getVersion() {
-            return VERSION_NO;
-        }
-
-        @Override
-        public String getDataString() {
-            return DATA_STRING;
-        }
-
-        @Override
-        public String getType() {
-            return DATA_TYPE;
-        }
-
-        @Override
-        public String getId() {
-            return DATA_ID;
-        }
     }
 
 

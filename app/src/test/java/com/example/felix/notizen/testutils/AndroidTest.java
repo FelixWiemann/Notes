@@ -6,7 +6,6 @@ import android.support.annotation.CallSuper;
 import android.util.Log;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -39,5 +38,4 @@ public abstract class AndroidTest {
         PowerMockito.whenNew(Intent.class).withNoArguments().thenReturn(mockedIntent);
         PowerMockito.whenNew(Intent.class).withAnyArguments().thenReturn(mock(Intent.class));
     }
-
 }
