@@ -27,7 +27,6 @@
         android:id="@+id/fragementHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btSave"
         android:layout_below="@+id/fragementHeader"
         android:layout_marginEnd="27dp"
         android:layout_marginStart="27dp"

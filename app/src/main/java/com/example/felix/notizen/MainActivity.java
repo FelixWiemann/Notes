@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO create task notes
-                ArrayList<cBaseTask> list = new ArrayList();
+                ArrayList<cBaseTask> list = new ArrayList<>();
                 list.add(new cTask(UUID.randomUUID(),"test task 1","no need to be worried", false));
                 list.add(new cTask(UUID.randomUUID(),"test task 2","no need to be worried", false));
                 list.add(new cTask(UUID.randomUUID(),"test task 3","no need to be worried", false));

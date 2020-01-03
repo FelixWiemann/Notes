@@ -25,10 +25,11 @@ public class SortableAdapter extends BaseAdapter {
     private ArrayList<DatabaseStorable> displayed;
     private ArrayList<DatabaseStorable> currentlyHidden;
     private Comparator<DatabaseStorable> currentComparator;
-    private ViewFilter currentFilter;
+    private ViewFilter<DatabaseStorable> currentFilter;
 
 
     public SortableAdapter(){
+        super();
         displayed = new ArrayList<>();
         currentlyHidden = new ArrayList<>();
     }
@@ -102,7 +103,7 @@ public class SortableAdapter extends BaseAdapter {
      * the filtered out objects will not be discarded, with the FilterShowAll, all could be shown again.
      * @param filter
      */
-    public void filter(ViewFilter filter){
+    public void filter(ViewFilter<DatabaseStorable> filter){
         currentFilter = filter;
         filter();
     }

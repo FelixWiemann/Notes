@@ -1,6 +1,7 @@
 package com.example.felix.notizen.views.viewsort;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.cSortableObject;
 
 import java.util.Comparator;
@@ -40,6 +41,13 @@ public class SortProvider {
         @Override
         public int compare(DatabaseStorable cSortableObject, DatabaseStorable t1) {
             return cSortableObject.getClass().getCanonicalName().compareTo(t1.getClass().getCanonicalName());
+        }
+    };
+
+    public static final Comparator<cBaseTask> SortTasksDone = new Comparator<cBaseTask>() {
+        @Override
+        public int compare(cBaseTask t1, cBaseTask t2) {
+            return Boolean.compare(t1.isDone(), t2.isDone());
         }
     };
 

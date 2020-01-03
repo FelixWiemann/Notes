@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * filter class that can be used to filter items
  */
-public abstract class ViewFilter {
+public abstract class ViewFilter <T extends DatabaseStorable>{
     /**
      * return true, if the object needs to be displayed, false otherwise
      * default behaviour is to show all existing ones.
@@ -16,7 +16,7 @@ public abstract class ViewFilter {
      * @param toFilter Object that shall be decided
      * @return true, if it should be shown, false if filtered out
      */
-    public abstract boolean filter(DatabaseStorable toFilter);
+    public abstract boolean filter(T toFilter);
 
     /**
      * filter a list into the given lists, display and hide.
@@ -28,8 +28,8 @@ public abstract class ViewFilter {
      * @param keep items that passed the filter
      * @param discard items that where filtered out
      */
-    public void filter(List<DatabaseStorable> toFilter, List<DatabaseStorable> keep, List<DatabaseStorable> discard){
-        for (DatabaseStorable storable: toFilter) {
+    public void filter(List<T> toFilter, List<T> keep, List<T> discard){
+        for (T storable: toFilter) {
             if (filter(storable)){
                 keep.add(storable);
             }else{

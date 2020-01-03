@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="top"
-        android:hint="@string/ndf_note_text_hint" />
+        android:hint="@string/ndf_note_text_hint"
+        android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textWebEmailAddress|textPersonName|textCapSentences|textAutoComplete|textImeMultiLine|textCapWords"
+        android:importantForAutofill="no" />
 
 </FrameLayout>

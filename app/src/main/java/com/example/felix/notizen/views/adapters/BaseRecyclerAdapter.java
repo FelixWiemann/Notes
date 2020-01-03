@@ -1,5 +1,6 @@
 package com.example.felix.notizen.views.adapters;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,17 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<ViewHolderInterface<T>> {
+public class BaseRecyclerAdapter<T extends DatabaseStorable> extends RecyclerView.Adapter<ViewHolderInterface<T>> {
 
     private static final String TAG = "RECYCLER_ADAPTER";
-    private List<T> itemList;
+    protected ArrayList<T> itemList;
 
     public BaseRecyclerAdapter(List<T> itemList) {
         super();
-        this.itemList = itemList;
+        this.itemList = new ArrayList<>();
+        this.itemList.addAll(itemList);
     }
 
     @NonNull
@@ -47,11 +52,55 @@ public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<ViewHolderInter
         return ViewHolderFactory.getTypeForClass(itemList.get(position).getClass());
     }
 
-    public List<T> getItemList(){
+    @CallSuper
+    public ArrayList<T> getAllObjects(){
         return itemList;
     }
 
-    public void setItemList(List<T> newList){
-        itemList = newList;
+    @CallSuper
+    public void replace(List<T> newList){
+        clear();
+        addAll(newList);
     }
+
+    /**
+     * adds all items from the list to the adapter
+     * @param toAdd list of items to Add
+     */
+    public void addAll(List<T> toAdd){
+        itemList.addAll(toAdd);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * add an object to the adapter to be displayed
+     *
+     * will not be filtered or sorted afterwards!
+     *
+     * @param toAdd storable that is to be added
+     */
+    public void add(T toAdd){
+        itemList.add(toAdd);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * clears the adapter from all it's content,
+     * filters and sorting stays the same
+     */
+    @CallSuper
+    public void clear(){
+        itemList.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * permanently removes a Storable from the adapter
+     * @param object
+     */
+    @CallSuper
+    public void remove(T object){
+        itemList.remove(object);
+    }
+
 }

@@ -3,9 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/task_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>

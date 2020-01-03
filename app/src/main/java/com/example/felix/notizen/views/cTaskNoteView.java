@@ -10,7 +10,8 @@ import android.widget.FrameLayout;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
-import com.example.felix.notizen.views.adapters.BaseRecyclerAdapter;
+import com.example.felix.notizen.views.adapters.SortableRecyclerAdapter;
+import com.example.felix.notizen.views.viewsort.FilterHideDone;
 
 /**
  * Created by Felix on 11.11.2018.
@@ -20,7 +21,7 @@ public class cTaskNoteView extends cNoteDisplayView<cTaskNote> {
 
     RecyclerView noteViewContainer;
 
-    BaseRecyclerAdapter<cBaseTask> adapter;
+    SortableRecyclerAdapter<cBaseTask> adapter;
 
     NestedScrollView view;
 
@@ -54,7 +55,8 @@ public class cTaskNoteView extends cNoteDisplayView<cTaskNote> {
     public void onInitialization() {
         noteViewContainer = findViewById(R.id.lvContentHolder);
         view = findViewById(R.id.NestedScrollView);
-        adapter = new BaseRecyclerAdapter<>(content.getTaskList());
+        adapter = new SortableRecyclerAdapter<>(content.getTaskList());
+        adapter.filter(new FilterHideDone());
         noteViewContainer.setAdapter(adapter);
         noteViewContainer.setLayoutManager(new LinearLayoutManager(getContext()));
         updateData();
@@ -64,7 +66,7 @@ public class cTaskNoteView extends cNoteDisplayView<cTaskNote> {
      * first clears all views and then adds all tasks of the content
      */
     private void updateData(){
-        adapter.setItemList(content.getTaskList());
+        adapter.replace(content.getTaskList());
         adapter.notifyDataSetChanged();
         if (adapter.getItemCount()>1) {
             requestNewLayout(adapter.getItemCount() * 120 + 75);
