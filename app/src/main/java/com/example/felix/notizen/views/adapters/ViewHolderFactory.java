@@ -25,10 +25,16 @@ public class ViewHolderFactory {
 
     private static ViewHolderFactory instance;
 
-    protected HashMap<Integer , Class<? extends ViewHolderInterface>> typeToViewHolder;
-    protected HashMap<Class<? extends DatabaseStorable>, Integer > classToType;
+    private HashMap<Integer , Class<? extends ViewHolderInterface>> typeToViewHolder;
+    private HashMap<Class<? extends DatabaseStorable>, Integer > classToType;
 
-    public ViewHolderFactory() {
+    /**
+     * a type unknown to the factory is represented by this constant
+     */
+    public static final int UNKNOWN_TYPE = -1;
+
+    private ViewHolderFactory() {
+        super();
         typeToViewHolder = new HashMap<>();
         classToType = new HashMap<>();
     }
@@ -52,19 +58,19 @@ public class ViewHolderFactory {
     /**
      * get a view holder based on the given type
      *
-     * @param type
-     * @param view
-     * @return
+     * @param type ID of the ViewHolder to be returned
+     * @param view that shall be used for creation of ViewHolder
+     * @return created ViewHolder
      * @throws InstantiationException
      * @throws IllegalAccessException
      * @throws NoSuchMethodException
      * @throws InvocationTargetException
      */
-    protected ViewHolderInterface getViewHolder(Integer type, View view) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    private ViewHolderInterface getViewHolder(Integer type, View view) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         if (typeToViewHolder.containsKey(type) ) {
             return Objects.requireNonNull(typeToViewHolder.get(type)).getConstructor(View.class).newInstance(view);
         }
-        throw new IllegalArgumentException("Could not create ViewHolder for that type");
+        throw new IllegalArgumentException("Unknown Type ID given");
     }
 
     /**
@@ -77,7 +83,7 @@ public class ViewHolderFactory {
      * @param objectType class of the object, that will be represented by the view
      * @param ViewHolderClass class of the view holder that will be holding the references to the view
      */
-    protected void registerNewViewHolder(Integer type, Class<? extends DatabaseStorable> objectType, Class<? extends ViewHolderInterface> ViewHolderClass){
+    private void registerNewViewHolder(Integer type, Class<? extends DatabaseStorable> objectType, Class<? extends ViewHolderInterface> ViewHolderClass){
         if (typeToViewHolder.containsKey(type)){
             throw new IllegalArgumentException("Already Contains this key");
         }
@@ -87,7 +93,8 @@ public class ViewHolderFactory {
 
     /**
      * get the viewHolderType based on the class that we are requesting a new ViewHolder for
-     *
+     * <br>
+     * <br>
      * in case that specific type has no view holder, we try the superclass
      *
      * @param clazz class of the item we want a view for
@@ -96,7 +103,7 @@ public class ViewHolderFactory {
     protected Integer getType(Class clazz){
         // we have nothing for object.class
         if (clazz == Object.class){
-            return -1;
+            return UNKNOWN_TYPE;
         }
         if (classToType.containsKey(clazz)){
             return classToType.get(clazz);
@@ -128,6 +135,11 @@ public class ViewHolderFactory {
 
     /**
      * gets the type of the view (resource ID) to be represented based on the given class
+     * <br/>
+     * <br/>
+     * in case that specific type has no view holder, the superclass of the given class is tried.
+     * <br/>
+     * this will be done recursively until {@link Object} is reached, then {@link ViewHolderFactory#UNKNOWN_TYPE} will be returned
      *
      * @param clazz the view shall represent
      * @return id (resource ID) of the view representing the given class

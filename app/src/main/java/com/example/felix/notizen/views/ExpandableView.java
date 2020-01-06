@@ -87,11 +87,11 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
      * @return String id of the object
      */
     public String getObjectId(){
-        return noteDisplayView.content.getId();
+        return noteDisplayView.getContent().getId();
     }
 
     public cStorageObject getObject(){
-        return noteDisplayView.content;
+        return noteDisplayView.getContent();
     }
 
     private void init(AttributeSet attrs, int defStyle, cNoteDisplayView newView) {
@@ -126,7 +126,7 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
                 invertShrink();
             }
         });
-        noteDisplayView.content.updateData();
+        noteDisplayView.getContent().updateData();
     }
 
     /**

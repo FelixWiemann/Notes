@@ -43,7 +43,7 @@ public class cTaskView extends cNoteDisplayView<cTask>{
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                cTaskView.this.content.setDone(b);
+                cTaskView.this.getContent().setDone(b);
             }
         });
     }
@@ -53,9 +53,9 @@ public class cTaskView extends cNoteDisplayView<cTask>{
     public void update(){
         super.update();
         if (isInitialized()) {
-            titleView.setText(content.getTitle());
-            messageView.setText(content.getText());
-            checkBox.setChecked(content.isDone());
+            titleView.setText(getContent().getTitle());
+            messageView.setText(getContent().getText());
+            checkBox.setChecked(getContent().isDone());
         }
     }
 

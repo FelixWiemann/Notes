@@ -16,7 +16,7 @@ public abstract class cNoteDisplayView<T extends cStorageObject>
      * the content that is being displayed in an instance of cNoteDisplayView.
      * The Type depends on the type of note to be displayed
      */
-    T content;
+    private T content;
 
     /**
      * flag that gets set to true, after everything has been properly initialized

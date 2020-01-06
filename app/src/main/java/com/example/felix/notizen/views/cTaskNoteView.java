@@ -55,7 +55,7 @@ public class cTaskNoteView extends cNoteDisplayView<cTaskNote> {
     public void onInitialization() {
         noteViewContainer = findViewById(R.id.lvContentHolder);
         view = findViewById(R.id.NestedScrollView);
-        adapter = new SortableRecyclerAdapter<>(content.getTaskList());
+        adapter = new SortableRecyclerAdapter<>(getContent().getTaskList());
         adapter.filter(new FilterHideDone());
         noteViewContainer.setAdapter(adapter);
         noteViewContainer.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -66,7 +66,7 @@ public class cTaskNoteView extends cNoteDisplayView<cTaskNote> {
      * first clears all views and then adds all tasks of the content
      */
     private void updateData(){
-        adapter.replace(content.getTaskList());
+        adapter.replace(getContent().getTaskList());
         adapter.notifyDataSetChanged();
         if (adapter.getItemCount()>1) {
             requestNewLayout(adapter.getItemCount() * 120 + 75);

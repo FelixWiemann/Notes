@@ -38,10 +38,23 @@ public class NoteDisplayFragmentFactory {
         if (storableToFragment.containsKey(storableType)) {
             return storableToFragment.get(storableType).newInstance();
         }
+        Class superClazz = storableType.getSuperclass();
+        if (superClazz != Object.class){
+            return getFragmentForStorableType(superClazz);
+        }
         return null;
     }
 
 
+    /**
+     * generates a NoteDisplayFragment suitable for the given DatabaseStorable
+     * <br/>
+     * <br/>
+     * will try the super class, if for the given DatabaseStorable a Fragment cannot be created
+     *
+     * @param noteType storable for which a Fragment needs to be created
+     * @return generated Fragment
+     */
     public static NoteDisplayFragment generateFragment(DatabaseStorable noteType){
         if (factory == null){
             factory = new NoteDisplayFragmentFactory();
