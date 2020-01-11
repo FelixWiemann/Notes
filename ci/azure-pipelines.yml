@@ -16,21 +16,23 @@ steps:
     workingDirectory: ''
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
-    publishJUnitResults: yes
+    publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'clean build jacocoTestReport'
+    codeCoverageToolOption: 'JaCoCo'
+    tasks: 'clean build'
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
-    mergeTestResults: true
-    failTaskOnFailedTests: true
+#- task: PublishTestResults@2
+#  inputs:
+#    testResultsFormat: 'JUnit'
+#    testResultsFiles: '**/TEST-*.xml'
+#    mergeTestResults: true
+#    failTaskOnFailedTests: true
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/reports/jacoco/**/*report.xml'
+#- task: PublishCodeCoverageResults@1
+#  inputs:
+#    codeCoverageTool: 'JaCoCo'
+#    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/reports/jacoco/**/*report.xml'
+
 
 #- task: PublishBuildArtifacts@1
 #  inputs:
