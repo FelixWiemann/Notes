@@ -8,7 +8,6 @@ import static org.junit.Assert.fail;
 public class CItest {
 
     @Test
-    @Ignore
     public void test(){
         fail("want to test whether CI Azure fails");
     }
