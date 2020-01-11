@@ -27,6 +27,11 @@ steps:
     mergeTestResults: true
     failTaskOnFailedTests: true
 
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/reports/jacoco/**/*report.xml'
+
 #- task: PublishBuildArtifacts@1
 #  inputs:
 #    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
