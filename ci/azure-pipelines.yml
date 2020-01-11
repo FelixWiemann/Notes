@@ -18,7 +18,8 @@ steps:
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: yes
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'clean build test'
+    tasks: 'clean build jacocoTestReport'
+
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
