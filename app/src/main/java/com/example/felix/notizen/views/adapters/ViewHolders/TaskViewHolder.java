@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Task.cBaseTask;
-import com.example.felix.notizen.views.adapters.ViewHolderInterface;
 
 public class TaskViewHolder extends ViewHolderInterface<cBaseTask>{
 

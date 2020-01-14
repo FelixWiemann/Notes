@@ -1,4 +1,4 @@
-package com.example.felix.notizen.views.adapters;
+package com.example.felix.notizen.views.adapters.ViewHolders;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

@@ -1,11 +1,10 @@
-package com.example.felix.notizen.views.adapters;
+package com.example.felix.notizen.views.adapters.ViewHolders;
 
 import android.view.View;
 
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.Task.cBaseTask;
-import com.example.felix.notizen.views.adapters.ViewHolders.TaskViewHolder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;

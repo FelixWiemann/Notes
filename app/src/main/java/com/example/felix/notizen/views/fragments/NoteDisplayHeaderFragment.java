@@ -20,6 +20,7 @@ public class NoteDisplayHeaderFragment extends NoteDisplayFragment<cStorageObjec
 
 
     public NoteDisplayHeaderFragment() {
+        super();
         // Required empty public constructor
     }
 

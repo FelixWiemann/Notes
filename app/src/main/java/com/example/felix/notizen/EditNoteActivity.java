@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,15 +19,17 @@ import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.views.fragments.EditNoteViewModel;
+import com.example.felix.notizen.views.fragments.FabProvider;
 import com.example.felix.notizen.views.fragments.NoteDisplayFragment;
 import com.example.felix.notizen.views.fragments.NoteDisplayFragmentFactory;
 import com.example.felix.notizen.views.fragments.NoteDisplayHeaderFragment;
+import com.example.felix.notizen.views.fragments.RequiresFabFragment;
 import com.example.felix.notizen.views.fragments.SaveDataFragment;
 import com.example.felix.notizen.views.fragments.SaveDataFragmentListener;
 
 import java.util.UUID;
 
-public class EditNoteActivity extends AppCompatActivity implements SaveDataFragmentListener {
+public class EditNoteActivity extends AppCompatActivity implements SaveDataFragmentListener, FabProvider {
 
     /**
      * original data that was sent to this activity,
@@ -41,7 +45,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
     /**
      * view model containing the data displayed in this activity
      */
-    private EditNoteViewModel mViewModel;
+    private EditNoteViewModel<DatabaseStorable> mViewModel;
 
     /**
      * state if the content has been changed
@@ -67,10 +71,14 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         NoteDisplayFragment headerFragment = new NoteDisplayHeaderFragment();
-        fragmentTransaction.add(R.id.fragementHeader, headerFragment);
+        fragmentTransaction.add(R.id.fragmentHeader, headerFragment);
         NoteDisplayFragment fragmentContent = NoteDisplayFragmentFactory.generateFragment(mViewModel.getValue());
         fragmentTransaction.add(R.id.fragementHolder, fragmentContent);
         fragmentTransaction.commit();
+        if (fabToBeProvided == null){
+            fabToBeProvided = findViewById(R.id.provided_fab);
+            fabToBeProvided.hide();
+        }
     }
 
     /**
@@ -90,9 +98,9 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         originalData = data.getDataString();
         mViewModel = ViewModelProviders.of(this).get(EditNoteViewModel.class);
         mViewModel.setNote(data);
-        mViewModel.observe(this, new Observer() {
+        mViewModel.observe(this, new Observer<DatabaseStorable>() {
             @Override
-            public void onChanged(@Nullable Object o) {
+            public void onChanged(@Nullable DatabaseStorable o) {
                 wasChanged = true;
             }
         });
@@ -128,6 +136,14 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         super.onBackPressed();
     }
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if(fragment instanceof RequiresFabFragment) {
+            ((RequiresFabFragment) fragment).registerFabProvider(this);
+        }
+    }
+
 
     @Override
     public void discardAndExit() {
@@ -142,5 +158,12 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
     @Override
     public void cancelExit() {
         // do nothing, as cancel was called
+    }
+
+    FloatingActionButton fabToBeProvided;
+
+    @Override
+    public FloatingActionButton getFab() {
+        return fabToBeProvided;
     }
 }

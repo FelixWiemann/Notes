@@ -5,10 +5,12 @@ import android.view.View;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.views.adapters.ViewHolders.TaskViewHolder;
+import com.example.felix.notizen.views.adapters.ViewHolders.ViewHolderFactory;
+import com.example.felix.notizen.views.adapters.ViewHolders.ViewHolderInterface;
 
 import org.junit.Test;
 
-import static com.example.felix.notizen.views.adapters.ViewHolderFactory.UNKNOWN_TYPE;
+import static com.example.felix.notizen.views.adapters.ViewHolders.ViewHolderFactory.UNKNOWN_TYPE;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.mock;

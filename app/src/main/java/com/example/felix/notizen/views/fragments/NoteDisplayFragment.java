@@ -16,7 +16,7 @@ import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
  * abstract fragment implementation that shall be used as base fragment for all fragments
  * displaying any kind of notes
  *
- * extends Fragment and holds a ViewModel of a single note of the displayed note type.
+ * extends Fragment and holds a taskViewModel of a single note of the displayed note type.
  * the view model is of type EditNoteViewModel<T> where T is the same as in NoteDisplayFragment.
  * @param <T> extending DatabaseStorable representing the type of the displayfragment
  */

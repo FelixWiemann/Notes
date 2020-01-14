@@ -6,10 +6,9 @@ import android.util.Log;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,19 +19,18 @@ import java.util.UUID;
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
  */
-@SuppressWarnings("unused")
 public class cTaskNote extends cNote {
 
     public static final String TASK_NOTE_LOG_TAG = "TaskNote";
-    /**
-     * identifier of class
-     */
-    public static String aTYPE = "cTaskNote";
-
 
     /**
      * list of tasks stored in this note
      */
+    // TODO should be a List of UUIDs, if one specific task is needed,
+    //  an appropriate call to a factory of sorts should be done
+    //  new JSON will be needed
+    //  in current state more complex interactions (delete, update, etc.) are only in a ugly way possible
+
     @JsonProperty("TaskList")
     private List<cBaseTask> mTaskList = new ArrayList<>();
 
@@ -53,8 +51,8 @@ public class cTaskNote extends cNote {
     /**
      * constructors needed for JACKSON JSON
      */
-    public cTaskNote(){
-
+    public cTaskNote() {
+        super();
     }
 
     /**
@@ -81,7 +79,7 @@ public class cTaskNote extends cNote {
      * @param pPos position of the task that shall be returned
      * @return task that is stored at position pPos
      */
-    public cBaseTask getTaskAtPos(int pPos){
+    cBaseTask getTaskAtPos(int pPos){
         Log.d(TASK_NOTE_LOG_TAG,"returning task at pos " + pPos);
         return mTaskList.get(pPos);
     }
@@ -131,5 +129,22 @@ public class cTaskNote extends cNote {
     @Override
     public int getVersion() {
         return 1;
+    }
+
+    /**
+     * updates the given task
+     * @param updatedData date to be updated
+     */
+    // TODO
+    //  Make clean; don't loop over everything
+    //  incorporate into moving from TaskList -> TaskMap or some other representation?
+    public void updateTask(cBaseTask updatedData) {
+        HashMap<String, cBaseTask> taskMap = new HashMap<>();
+        for (cBaseTask task:mTaskList){
+            taskMap.put(task.getIdString(), task);
+        }
+        taskMap.put(updatedData.getIdString(),updatedData);
+        this.setTaskList(new ArrayList<>(taskMap.values()));
+
     }
 }

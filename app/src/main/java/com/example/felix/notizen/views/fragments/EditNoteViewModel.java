@@ -18,8 +18,8 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
 
     private MutableLiveData<T> note = new MutableLiveData<>();
 
-    public void setNote(DatabaseStorable note) {
-        this.note.setValue((T)note);
+    public void setNote(T note) {
+        this.note.setValue(note);
     }
 
     /**
@@ -32,10 +32,10 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
 
     /**
      * utility function to wrap MutableLiveData.observe
-     * @param owner
-     * @param observer
+     * @param owner of the lifecycle
+     * @param observer observing changes
      */
-    public void observe(LifecycleOwner owner, Observer observer){
+    public void observe(LifecycleOwner owner, Observer<T> observer){
         note.observe(owner, observer);
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,16 +10,16 @@
         android:id="@+id/btSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
         android:layout_marginBottom="18dp"
-        android:layout_marginEnd="11dp"
         android:text="@string/btSave" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragementHeader"
+        android:id="@+id/fragmentHeader"
         android:layout_marginEnd="27dp"
         android:layout_marginStart="27dp"
         android:orientation="horizontal" />
@@ -27,15 +28,22 @@
         android:id="@+id/fragementHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/fragementHeader"
+        android:layout_below="@+id/fragmentHeader"
         android:layout_marginEnd="27dp"
         android:layout_marginStart="27dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal" />
 
-    <!-- TODO  make save button float on top of keyboard -->
-
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/provided_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:clickable="true"
+        app:srcCompat="@mipmap/ic_launcher" />
 
 </RelativeLayout>
