@@ -1,22 +1,14 @@
 package com.example.felix.notizen.objects.Notes;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
 /**
- *
- *
- *
- * Created as part of notes in package ${PACKAGE_NAME}
- * by Felix "nepumuk" Wiemann on 13/04/17.
+ * a Text Note is a traditional note containing only a title and a message
  */
-@SuppressWarnings("unused")
 public class cTextNote extends cNote {
 
-    private static final String TEXT_NOTE_LOG_TAG = "cTextNote";
     /**
      * message contained in the note
      */
@@ -33,14 +25,13 @@ public class cTextNote extends cNote {
     public cTextNote(UUID pID, String pTitle, String pMessage) {
         super(pID, pTitle);
         this.mMessage = pMessage;
-        Log.d(TEXT_NOTE_LOG_TAG,"cTextNote created");
     }
 
     /**
      * default constructor needed for JACKSON JSON
      */
-    public cTextNote(){
-
+    public cTextNote() {
+        super();
     }
 
 
@@ -49,7 +40,6 @@ public class cTextNote extends cNote {
      * @return message of the note
      */
     public String getMessage() {
-        Log.d(TEXT_NOTE_LOG_TAG,"message returned");
         return mMessage;
     }
 
@@ -58,7 +48,6 @@ public class cTextNote extends cNote {
      * @param mMessage new message to use
      */
     public void setMessage(String mMessage) {
-        Log.d(TEXT_NOTE_LOG_TAG,"message set");
         this.mMessage = mMessage;
         onDataChanged();
     }
@@ -70,7 +59,6 @@ public class cTextNote extends cNote {
     @Override
     public void deleteNote() {
         // doesn't need to do anything, the only data is stored as text in DB
-        Log.d(TEXT_NOTE_LOG_TAG,"note deleted");
     }
 
     @Override

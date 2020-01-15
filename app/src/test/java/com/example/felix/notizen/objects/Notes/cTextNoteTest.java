@@ -3,7 +3,6 @@ package com.example.felix.notizen.objects.Notes;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,46 +16,70 @@ import static org.junit.Assert.assertTrue;
  * by Felix "nepumuk" Wiemann on 22/04/17.
  */
 public class cTextNoteTest  extends AndroidTest {
-    cTextNote testNote;
+
+    private final String message = "MESSAGE";
+
+    private cTextNote testNote;
 
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        testNote = new cTextNote(UUID.fromString("968bcf03-df33-4cb3-a2aa-75f591e55a36"),"title","message");
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
+        String title = "title";
+        String uuidString = "968bcf03-df33-4cb3-a2aa-75f591e55a36";
+        testNote = new cTextNote(UUID.fromString(uuidString), title,message);
     }
 
     @Test
-    public void getMessage() throws Exception {
-        assertEquals("message",testNote.getMessage());
+    public void getMessage(){
+        // given
+        // when
+        String got = testNote.getMessage();
+        // then
+        assertEquals(message,got);
     }
 
     @Test
-    public void setMessage() throws Exception {
-        testNote.setMessage("new message");
-        assertEquals("new message",testNote.getMessage());
+    public void setMessage() {
+        // given
+        String newMessage = "new message";
+        // when
+        testNote.setMessage(newMessage);
+        // then
+        String message = testNote.getMessage();
+        assertEquals(newMessage, message);
     }
 
     @Test
-    public void deleteNote() throws Exception {
-        //  no need to verify anything, as nothing needs to be done from note side
+    public void deleteNote() {
+        // given
+        // when
         testNote.deleteNote();
+        // then
+        // no need to verify anything, as nothing needs to be done from note side
     }
+
     @Test
-    public void testJson() throws Exception{
+    public void testJson(){
+        // given
+        // when
         String JSON = testNote.toJson();
-        Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
-        assertEquals(testNote,o);
+        // then
         assertTrue(JSON.contains("message\":"));
         assertTrue(JSON.contains("title\":"));
         assertTrue(JSON.contains("lastChangedDate\":"));
         assertTrue(JSON.contains("creationDate\":"));
         assertTrue(JSON.contains("idString\":"));
+    }
+
+    @Test
+    public void testUnpackJSON() throws Exception{
+        // given
+        String JSON = testNote.toJson();
+        // when
+        Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
+        // then
+        assertEquals(testNote,o);
     }
 
     @Test

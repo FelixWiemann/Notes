@@ -47,6 +47,12 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
                 return getCreationDate();
             }
         });
+        this.addSortable(SortCategory.LAST_CHANGE_TIME, new SortAble<Long>() {
+            @Override
+            public Long getData() {
+                return getLastChangedDate();
+            }
+        });
     }
 
     @Override

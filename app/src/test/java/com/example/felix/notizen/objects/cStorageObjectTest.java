@@ -1,7 +1,6 @@
 package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.Utils.OnUpdateCallback;
-import com.example.felix.notizen.objects.Notes.cNoteException;
 import com.example.felix.notizen.testutils.AndroidTest;
 import com.example.felix.notizen.views.viewsort.SortCategory;
 

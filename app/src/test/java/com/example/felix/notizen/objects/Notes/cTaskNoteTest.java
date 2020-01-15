@@ -14,49 +14,68 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.spy;
 
 public class cTaskNoteTest  extends AndroidTest {
 
-    cTaskNote testNote;
+    private cTaskNote testNote;
 
-    cTask mockedTask;
+    private cTask mockedTask;
+    private cTask task1;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        testNote = new cTaskNote(UUID.randomUUID(),"task note",new ArrayList<cBaseTask>());
-        testNote.addTask(new cTask(UUID.randomUUID(),"title task", "text task", false ));
+        cTaskNote test = new cTaskNote(UUID.randomUUID(),"task note",new ArrayList<cBaseTask>());
+        testNote = spy(test);
+        task1 = new cTask(UUID.randomUUID(),"title task", "text task", false );
+        testNote.addTask(task1);
         testNote.addTask(new cTask(UUID.randomUUID(),"test task 2", "text task", false ));
         mockedTask = mock(cTask.class);
     }
 
     @Test
     public void deleteNote() {
+        // given
         testNote.addTask(mockedTask);
-        // note deletion
+        // when
         testNote.deleteNote();
-        Mockito.verify(mockedTask,Mockito.atLeastOnce()).deleteTask();
-
+        // then
+        verify(mockedTask,Mockito.atLeastOnce()).deleteTask();
         assertEquals(0,testNote.getTaskList().size());
 
-        // empty task note deletion
-        testNote.deleteNote();
-
-        //throw new NotYetImplementedException();
     }
+    @Test
+    public void deleteEmptyNote() {
+        // given
+        testNote.deleteNote();
+        // when
+        testNote.deleteNote();
+        // then
+        // no exception or anything
+    }
+
 
     @Test
     public void addTask() {
+        // given
         cTask mockedTask2 = mock(cTask.class);
-        // add and test if it is in the task list
+        // when
         testNote.addTask(mockedTask2);
+        // then
         assertTrue(testNote.getTaskList().contains(mockedTask2));
+        verify(testNote,atLeastOnce()).updateData();
     }
 
     @Test
     public void getTaskAtPos() {
+        // given
+        // when
         testNote.addTask(mockedTask);
+        // then
         assertEquals(mockedTask,testNote.getTaskAtPos(2));
     }
 
@@ -67,21 +86,71 @@ public class cTaskNoteTest  extends AndroidTest {
 
     @Test
     public void getVersion() {
-        assertEquals(1, testNote.getVersion());
+        // given
+        int expected = 1;
+        // when
+        int actual = testNote.getVersion();
+        // then
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void testJson() throws Exception{
-        // ! this test doesn't like the mocks, don't use mocks here...
+    public void testJson() {
+        // given
+        // Jackson's toJSON doesn't like mocks, therefore a new note needed to be created
+        testNote = new cTaskNote(UUID.randomUUID(),"task note",new ArrayList<cBaseTask>());
+        testNote.addTask(task1);
+        testNote.addTask(new cTask(UUID.randomUUID(),"test task 2", "text task", false ));
+        // when
         String JSON = testNote.toJson();
-        Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
-        assertEquals(testNote,o);
+        // then
         assertTrue(JSON.contains("TaskList\":"));
         assertTrue(JSON.contains(testNote.getTaskAtPos(0).getIdString()));
         assertTrue(JSON.contains(testNote.getTaskAtPos(1).getIdString()));
         assertTrue(JSON.contains(testNote.getTaskAtPos(0).getText()));
         assertTrue(JSON.contains(testNote.getTaskAtPos(0).getTitle()));
-        assertTrue(JSON.contains(Long.toString(testNote.getTaskAtPos(0).getTaskCOmpleteDate())));
-
+        assertTrue(JSON.contains(Long.toString(testNote.getTaskAtPos(0).getTaskCompleteDate())));
     }
+
+    @Test
+    public void testCreationFromJSON() throws ClassNotFoundException {
+        // given
+        // Jackson's toJSON doesn't like mocks, therefore a new note needed to be created
+        testNote = new cTaskNote(UUID.randomUUID(),"task note",new ArrayList<cBaseTask>());
+        String JSON = testNote.toJson();
+        // when
+        Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
+        // then
+        assertEquals(testNote,o);
+    }
+
+
+    @Test
+    public void testUpdateTask() throws ClassNotFoundException {
+        // given
+        testNote.deleteNote();
+        // create a new object, otherwise by updating the task object will also update it in the list inside of the note to test
+        testNote.addTask((cBaseTask) StoragePackerFactory.createFromData(task1.getId(),task1.getType(),task1.toJson(),task1.getVersion()));
+        task1.setDone(true);
+        // when
+        testNote.updateTask(task1);
+        // then
+        assertTrue(testNote.getTaskAtPos(0).isDone());
+        verify(testNote,atLeastOnce()).updateData();
+    }
+
+    @Test
+    public void testDeleteTask(){
+        // given
+        int expectedSize = 1;
+        // when
+        testNote.deleteTask(task1);
+        // then
+        assertEquals(expectedSize, testNote.getTaskList().size());
+        verify(testNote,atLeastOnce()).updateData();
+    }
+
+
+
+
 }

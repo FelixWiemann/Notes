@@ -21,7 +21,7 @@ import java.util.UUID;
  */
 public class cTaskNote extends cNote {
 
-    public static final String TASK_NOTE_LOG_TAG = "TaskNote";
+    private static final String TASK_NOTE_LOG_TAG = "TaskNote";
 
     /**
      * list of tasks stored in this note
@@ -44,7 +44,6 @@ public class cTaskNote extends cNote {
      */
     public cTaskNote(UUID pID, String pTitle, List<cBaseTask>pTaskList) {
         super(pID, pTitle);
-        Log.d(TASK_NOTE_LOG_TAG,"creating new cTaskNote");
         this.setTaskList(pTaskList);
     }
 
@@ -61,7 +60,6 @@ public class cTaskNote extends cNote {
      */
     @Override
     public void deleteNote() {
-        Log.d(TASK_NOTE_LOG_TAG,"deleting note");
         clearTaskList();
     }
 
@@ -70,8 +68,8 @@ public class cTaskNote extends cNote {
      * @param taskToAdd task that shall be added
      */
     public void addTask(cBaseTask taskToAdd){
-        Log.d(TASK_NOTE_LOG_TAG,"adding task to note");
         mTaskList.add(taskToAdd);
+        this.updateData();
     }
 
     /**
@@ -80,7 +78,6 @@ public class cTaskNote extends cNote {
      * @return task that is stored at position pPos
      */
     cBaseTask getTaskAtPos(int pPos){
-        Log.d(TASK_NOTE_LOG_TAG,"returning task at pos " + pPos);
         return mTaskList.get(pPos);
     }
 
@@ -88,9 +85,7 @@ public class cTaskNote extends cNote {
      * clears all tasks stored in task list
      */
     private void clearTaskList(){
-        Log.d(TASK_NOTE_LOG_TAG,"clearing all tasks");
         if (mTaskList.size()==0){
-            Log.d(TASK_NOTE_LOG_TAG,"already clear");
             return;
         }
         // delete each task in mTaskList
@@ -100,6 +95,7 @@ public class cTaskNote extends cNote {
         }
         // clear the list
         mTaskList.clear();
+        this.updateData();
         Log.d(TASK_NOTE_LOG_TAG,"tasks cleared");
     }
 
@@ -110,7 +106,6 @@ public class cTaskNote extends cNote {
      */
     @JsonIgnore
     public List<cBaseTask> getTaskList() {
-        Log.d(TASK_NOTE_LOG_TAG,"returning task list");
         return mTaskList;
     }
 
@@ -119,11 +114,11 @@ public class cTaskNote extends cNote {
      * @param pTaskList new task list
      */
     private void setTaskList(@NonNull List<cBaseTask> pTaskList) {
-        Log.d(TASK_NOTE_LOG_TAG,"setting task list, clearing current first");
         // clear all tasks currently inside list
         clearTaskList();
         // set tasklist
         this.mTaskList = pTaskList;
+        this.updateData();
     }
 
     @Override
@@ -145,6 +140,22 @@ public class cTaskNote extends cNote {
         }
         taskMap.put(updatedData.getIdString(),updatedData);
         this.setTaskList(new ArrayList<>(taskMap.values()));
-
     }
+    /**
+     * deletes the given task from this note
+     * @param toDelete date to be deleted
+     */
+    // TODO
+    //  Make clean; don't loop over everything
+    //  incorporate into moving from TaskList -> TaskMap or some other representation?
+    public void deleteTask(cBaseTask toDelete) {
+        HashMap<String, cBaseTask> taskMap = new HashMap<>();
+        for (cBaseTask task:mTaskList){
+            taskMap.put(task.getIdString(), task);
+        }
+        taskMap.remove(toDelete.getIdString());
+        toDelete.deleteTask();
+        this.setTaskList(new ArrayList<>(taskMap.values()));
+    }
+
 }

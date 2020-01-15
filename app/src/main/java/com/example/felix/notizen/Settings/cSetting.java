@@ -115,10 +115,7 @@ public class cSetting {
             prefEditor.putLong(key,(Long) value);
         }
         else{
-            cSettingException ex = new cSettingException("cSetting.setSettingValue",cSettingException.aSETTING_VALUE_FAILED,null);
-            ex.addAdditionalData(aKEY_TAG,key);
-            ex.addAdditionalData(aVALUE_TAG,value.toString());
-            throw ex;
+            throw new cSettingException("cSetting.setSettingValue",cSettingException.aSETTING_VALUE_FAILED,null);
         }
         // apply changes
         prefEditor.apply();

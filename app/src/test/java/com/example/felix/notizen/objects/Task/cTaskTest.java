@@ -23,19 +23,30 @@ public class cTaskTest  extends AndroidTest {
 
     @Test
     public void deleteTask() {
+        // given
+        // when
         testTask.deleteTask();
+        // then
         // nothing is happening nothing to check for
     }
 
     @Test
     public void getVersion() {
-        assertEquals(testTask.getVersion(), 1);
+        // given
+        int expected = 1;
+        // when
+        int actual = testTask.getVersion();
+        // then
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void testJson() throws Exception{
+    public void testJsonPacking() throws Exception{
+        // given
         String JSON = testTask.toJson();
+        // when
         Object o = StoragePackerFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
+        // then
         assertEquals(testTask,o);
     }
 }

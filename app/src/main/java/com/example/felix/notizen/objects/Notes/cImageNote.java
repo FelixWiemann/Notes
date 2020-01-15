@@ -1,8 +1,6 @@
 package com.example.felix.notizen.objects.Notes;
 
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
@@ -38,7 +36,6 @@ public class cImageNote extends cNote {
      */
     public cImageNote(UUID pID, String pTitle, String pImageLocation) {
         super(pID, pTitle);
-        Log.d(LOG_TAG,"creating cImageNote");
         // assign image location
         setImageLocation(pImageLocation);
     }
@@ -54,7 +51,6 @@ public class cImageNote extends cNote {
      */
     @Override
     public void deleteNote() {
-        Log.d(LOG_TAG,"deleting image note");
         // delete image file
         deleteImageAtStorageLocation();
     }
@@ -74,7 +70,6 @@ public class cImageNote extends cNote {
      * @param pImageLocation new location of the image
      */
     public void setImageLocation(String pImageLocation) {
-        Log.e(LOG_TAG, "setting image location");
         // delete current image if available
         deleteImageAtStorageLocation();
         // change image location
@@ -88,7 +83,6 @@ public class cImageNote extends cNote {
      * handles deletion of the current image
      */
     private void deleteImageAtStorageLocation(){
-        Log.e(LOG_TAG, "deleting image at storage location");
         //throw new Exception("not yet implemeted");
         // TODO: handle deletion
         // validate, file exists, delete if exists

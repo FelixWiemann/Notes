@@ -12,11 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class StoragePackerFactory {
 
-    /**
-     * don't instantiate
-     */
-    private StoragePackerFactory(){}
-
     private static final String INTENT_NAME_NOTE_ID = "INTENT_NAME_NOTE_ID";
     private static final String INTENT_NAME_NOTE_DATA = "INTENT_NAME_NOTE_DATA";
     private static final String INTENT_NAME_NOTE_TYPE = "INTENT_NAME_NOTE_TYPE";

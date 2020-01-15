@@ -1,7 +1,5 @@
 package com.example.felix.notizen.objects;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -15,7 +13,6 @@ import java.util.UUID;
  * -> TODO maybe move to TitledObject?
  *
  */
-@SuppressWarnings("unused")
 public class cIdObject extends cSortableObject {
 
     /**
@@ -38,7 +35,6 @@ public class cIdObject extends cSortableObject {
      */
     cIdObject(UUID mID, String mTitle) {
         super();
-        Log.d(TAG, "creating cIdObject");
         this.mID = mID;
         this.mTitle = mTitle;
     }
@@ -46,14 +42,15 @@ public class cIdObject extends cSortableObject {
     /**
      * Default Constructor for deserialization witch JACKSON
      */
-    cIdObject() {}
+    cIdObject() {
+        super();
+    }
 
     /**
      * sets the title of the note
      * @param pTitle new title
      */
     public void setTitle(String pTitle){
-        Log.d(TAG, "setting title");
         mTitle = pTitle;
     }
 
@@ -62,17 +59,20 @@ public class cIdObject extends cSortableObject {
      * DO NOT USE THIS FUNCTION. CREATE A NEW OBJECT FROM DB VIA CONSTRUCTOR INSTEAD
      * @param pID new id
      */
-    protected void setId(UUID pID) throws cIdObjectException {
-        Log.d(TAG, "setting id");
+    protected void setId(UUID pID) {
         if (mID == null){
             mID = pID;
         }else{
-            throw new cIdObjectException(String.format("object %s %s.setId()",mID.toString(),this.getClass().getSimpleName()),cIdObjectException.aID_ALREADY_SET_EXCEPTION,null);
+            throw new IllegalStateException("ID was already set to " + mID.toString() + " when setting ID " + pID.toString());
         }
     }
 
+    /**
+     * setter for JSON of ID String
+     * @param id representation of UUID
+     */
     @JsonSetter("idString")
-    private void setIdString(String id) throws cIdObjectException {
+    private void setIdString(String id) {
         setId(UUID.fromString(id));
     }
     /**
@@ -80,7 +80,6 @@ public class cIdObject extends cSortableObject {
      * @return id
      */
     UUID getID(){
-        Log.d(TAG, "returning ID");
         return mID;
     }
 
@@ -89,7 +88,6 @@ public class cIdObject extends cSortableObject {
      * @return title
      */
     public String getTitle(){
-        Log.d(TAG, "returning title");
         return mTitle;
     }
 

@@ -11,18 +11,17 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.UUID;
 
+import static com.example.felix.notizen.views.viewsort.SortCategory.TASK_DONE_STATE;
 import static com.example.felix.notizen.views.viewsort.SortCategory.TASK_DONE_TIME;
 
 /**
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
  */
-@SuppressWarnings("unused")
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "className")
 public abstract class cBaseTask extends cStorageObject {
 
     private static final String BASE_TASK_LOG_TAG = "BaseTask";
-    public static String aTYPE = "cBaseTask";
 
     /**
      * text of the task
@@ -51,7 +50,7 @@ public abstract class cBaseTask extends cStorageObject {
      * @param mText text of the new task
      * @param mDone flag if task is done or not
      */
-    public cBaseTask(UUID mId, String mTitle, String mText, boolean mDone){
+    public cBaseTask(UUID mId, String mTitle, String mText, final boolean mDone){
         super(mId,mTitle);
         this.mText = mText;
         this.mDone = mDone;
@@ -63,13 +62,19 @@ public abstract class cBaseTask extends cStorageObject {
                 return mTaskCompleteDate;
             }
         });
-        Log.d(BASE_TASK_LOG_TAG,"creating cBaseTask");
+        this.addSortable(TASK_DONE_STATE, new SortAble<Boolean>() {
+            @Override
+            public Boolean getData() {
+                return mDone;
+            }
+        });
     }
 
     /**
      * needed for deserialization by JACKSON
      */
     public cBaseTask() {
+        super();
     }
 
     /**
@@ -84,13 +89,13 @@ public abstract class cBaseTask extends cStorageObject {
 
     /**
      * sets the flag of task completion
-     * @param mDone true if task is complete, false if not
+     * @param done true if task is complete, false if not
      */
-    public void setDone(boolean mDone) {
+    public void setDone(boolean done) {
         Log.d(BASE_TASK_LOG_TAG,"setting task done");
         setLastChangedDate();
-        this.mDone = mDone;
-        if (mDone){
+        this.mDone = done;
+        if (done){
             mTaskCompleteDate = DateStrategy.getCurrentTime();
         }else{
             mTaskCompleteDate = -1;
@@ -103,7 +108,6 @@ public abstract class cBaseTask extends cStorageObject {
      */
     @JsonIgnore
     public String getText() {
-        Log.d(BASE_TASK_LOG_TAG,"getting task text");
         return mText;
     }
 
@@ -112,13 +116,12 @@ public abstract class cBaseTask extends cStorageObject {
      * @param mText new text of task
      */
     public void setText(String mText) {
-        Log.d(BASE_TASK_LOG_TAG,"setting task text");
         setLastChangedDate();
         this.mText = mText;
     }
 
     @JsonIgnore
-    public long getTaskCOmpleteDate(){
+    public long getTaskCompleteDate(){
         return mTaskCompleteDate;
     }
 

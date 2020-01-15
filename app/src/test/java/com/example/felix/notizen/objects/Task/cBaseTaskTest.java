@@ -20,10 +20,13 @@ public class cBaseTaskTest  extends AndroidTest {
 
     private cBaseTask task;
 
+    private String title = "title";
+    private String text = "text";
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        task = new cBaseTask(UUID.randomUUID(),"title","text",false) {
+        task = new cBaseTask(UUID.randomUUID(), title, text,false) {
             @Override
             public int getVersion() {
                 return 0;
@@ -37,35 +40,65 @@ public class cBaseTaskTest  extends AndroidTest {
     }
 
     @Test
-    public void isDone() throws Exception {
-        assertFalse("setup is done", task.isDone());
+    public void isDone() {
+        // given
+        // when
+        boolean done = task.isDone();
+        // then
+        assertFalse(done);
     }
 
     @Test
-    public void setDone() throws Exception {
+    public void setDoneTrue() {
+        // given
+        // when
         task.setDone(true);
-        assertTrue("set done", task.isDone());
+        // then
+        assertTrue(task.isDone());
+    }
+    @Test
+    public void setDoneFalse() {
+        // given
+        task.setDone(true);
+        // when
+        task.setDone(false);
+        // then
+        assertFalse(task.isDone());
     }
 
     @Test
-    public void getText() throws Exception {
-        assertEquals("setup get text",task.getText(),"text");
+    public void getText() {
+        // given
+        // when
+        String got = task.getText();
+        // then
+        assertEquals(got, this.text);
     }
 
     @Test
-    public void setText() throws Exception {
-        task.setText("new text");
-        assertEquals("set text",task.getText(),"new text");
+    public void setText() {
+        // given
+        String newText = "new text";
+        // when
+        task.setText(newText);
+        // then
+        assertEquals(newText,task.getText());
     }
 
     @Test
-    public void deleteTask() throws Exception {
+    public void deleteTask() {
+        // given
+        // when
+        // then
         // shall be overwritten by each implementation, nothing to test here
     }
 
     @Test
     public void toJson(){
+        // given
+        // when
         String json = task.toJson();
+        // then
         assertTrue(json.contains("title\":"));
         assertTrue(json.contains("Text\":"));
         assertTrue(json.contains("Done\":"));
@@ -74,21 +107,40 @@ public class cBaseTaskTest  extends AndroidTest {
 
     @Test
     public void completeDate() throws InterruptedException {
+        // given
         task.setDone(true);
-        long lastchangedate = task.getLastChangedDate();
-        assertTrue(lastchangedate!=-1);
-        assertTrue(task.getTaskCOmpleteDate() != -1);
+        long lastChangeDate = task.getLastChangedDate();
+        assertTrue(lastChangeDate !=-1);
+        assertTrue(task.getTaskCompleteDate() != -1);
+
         // make sure we are not running through it too fast, otherwise test might fail
         Thread.sleep(100);
+        // when
         task.setDone(false);
-        assertTrue(lastchangedate<task.getLastChangedDate());
-        assertEquals(task.getTaskCOmpleteDate(), -1);
+        // then
+        assertTrue(lastChangeDate <task.getLastChangedDate());
+        assertEquals(task.getTaskCompleteDate(), -1);
     }
 
 
     @Test
     public void sortingOnTaskComplete(){
-        assertEquals( task.getSortable(SortCategory.TASK_DONE_TIME), task.getTaskCOmpleteDate());
+        // given
+        long taskCompleteDate = task.getTaskCompleteDate();
+        // when
+        Object sortable = task.getSortable(SortCategory.TASK_DONE_TIME);
+        // then
+        assertEquals(sortable, taskCompleteDate);
+    }
+
+    @Test
+    public void sortingOnTaskDone(){
+        // given
+        boolean taskDone = task.isDone();
+        // when
+        Object sortable = task.getSortable(SortCategory.TASK_DONE_STATE);
+        // then
+        assertEquals(sortable, taskDone);
     }
 
 }

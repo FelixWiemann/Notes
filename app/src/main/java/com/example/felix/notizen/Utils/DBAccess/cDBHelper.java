@@ -11,8 +11,6 @@ import android.util.Log;
 import com.example.felix.notizen.Utils.cContextManager;
 
 /**
- * NOT IN USE ANYMORE
- * DECIDED AGAINST DB USAGE; BUT JSON FILE
  *
  * SQL Manager Contract for main table
  * ID              |Type

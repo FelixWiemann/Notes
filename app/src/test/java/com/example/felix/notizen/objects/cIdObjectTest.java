@@ -44,7 +44,7 @@ public class cIdObjectTest  extends AndroidTest {
         assertEquals("Constructor_Title",object.getTitle(),newTitle);
     }
 
-    @Test(expected = cIdObjectException.class)
+    @Test(expected = IllegalStateException.class)
     public void setId() throws Exception {
         String ID_string = UUID.randomUUID().toString();
         object.setId(UUID.fromString(ID_string));
