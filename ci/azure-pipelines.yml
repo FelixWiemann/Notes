@@ -23,5 +23,7 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/JaCoCoReports/**/**.xml'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/JaCoCoReports/*Debug*/**.xml'
+    pathToSources: '$(System.DefaultWorkingDirectory)/app/src/main/java'
+    reportDirectory: '$(System.DefaultWorkingDirectory)./app/build/JaCoCoReports/*Debug*/html/'
 
