@@ -20,22 +20,8 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'clean build jacocoTestReport'
 
-#- task: PublishTestResults@2
-#  inputs:
-#    testResultsFormat: 'JUnit'
-#    testResultsFiles: '**/TEST-*.xml'
-#    mergeTestResults: true
-#    failTaskOnFailedTests: true
-
-#- task: PublishCodeCoverageResults@1
-#  inputs:
-#    codeCoverageTool: 'JaCoCo'
-#    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/reports/jacoco/**/*report.xml'
-
-
-#- task: PublishBuildArtifacts@1
-#  inputs:
-#    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#    ArtifactName: 'drop'
-#    publishLocation: 'Container'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/JaCoCoReports/**/**.xml'
 
