@@ -27,3 +27,6 @@ steps:
     pathToSources: '$(System.DefaultWorkingDirectory)/app/src/main/java'
     reportDirectory: '$(System.DefaultWorkingDirectory)./app/build/JaCoCoReports/*Debug*/html/'
 
+- template: androidBuildAndPublishTestTemplate.yml
+  parameters:
+    BUILD_TYPE: 'Release'
