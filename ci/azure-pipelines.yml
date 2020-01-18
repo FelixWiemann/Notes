@@ -17,10 +17,4 @@ jobs:
         parameters:
           BUILD_TYPE: 'Debug'
 
-  - job: RELEASE
-    steps:
-        - template: androidBuildAndPublishTestTemplate.yml
-          parameters:
-            BUILD_TYPE: 'Release'
-
 
