@@ -17,14 +17,24 @@ import android.view.ViewGroup;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
+import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.views.adapters.SortableRecyclerAdapter;
 import com.example.felix.notizen.views.viewsort.SortProvider;
+
+import java.util.UUID;
 
 
 public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements RequiresFabFragment {
 
     private static final String TAG = "TaskNoteFragment";
+    /**
+     * task has been created, but not yet added to the taskNote
+     */
     private static final int INVALID_INDEX = -1;
+    /**
+     * task has been added, but was not called for editing by click on it but by creation
+     */
+    private static final int NOT_YET_INDEXED = -2;
     RecyclerView taskHolder;
     SortableRecyclerAdapter<cBaseTask> adapter;
     FabProvider fabProvider;
@@ -80,8 +90,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
             if (down != null && down.equals(childview)){
                 currentEditedNoteIndex = view.getChildAdapterPosition(childview);
                 cBaseTask task = adapter.getItem(currentEditedNoteIndex);
-                taskViewModel.setNote(task);
-                callEditTaskFragment();
+                callEditTaskFragment(task);
             }
             down = null;
         }
@@ -133,6 +142,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         if (updated == null) return;
         cTaskNote data = mViewModel.getValue();
         if (currentEditedNoteIndex == INVALID_INDEX){
+            currentEditedNoteIndex = NOT_YET_INDEXED;
             data.addTask(updated);
         }else {
             data.updateTask(updated);
@@ -140,7 +150,8 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         mViewModel.setNote(data);
     }
 
-    private void callEditTaskFragment(){
+    private void callEditTaskFragment(cBaseTask taskToEdit){
+        taskViewModel.setNote(taskToEdit);
         CreateTaskDialogFragment fragment = new CreateTaskDialogFragment();
         fragment.show(getFragmentManager(), "CREATE_TASK");
     }
@@ -155,7 +166,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
             @Override
             public void onClick(View v) {
                 currentEditedNoteIndex = INVALID_INDEX;
-                callEditTaskFragment();
+                callEditTaskFragment(new cTask(UUID.randomUUID(),"","",false));
             }
         });
     }

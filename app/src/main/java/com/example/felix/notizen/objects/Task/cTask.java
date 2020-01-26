@@ -26,7 +26,7 @@ public class cTask extends cBaseTask {
     /**
      * needed for deserialization by JACKSON
      */
-    public cTask() {
+    private cTask() {
         super();
     }
 
