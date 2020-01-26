@@ -31,6 +31,10 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
     EditNoteViewModel<cBaseTask> taskViewModel;
 
 
+    // todo move to onTouchListener?
+    View down = null;
+
+
     private int currentEditedNoteIndex;
 
     public TaskNoteFragment(){
@@ -50,49 +54,41 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
         taskHolder = v.findViewById(R.id.task_holder);
         taskHolder.setLayoutManager(new LinearLayoutManager(getContext()));
-        // TODO
-        //  create custom OnItemTouchListener to provide more actions easily to the child view
-        //  actions: swipe -> for swipable view
-        //  this would also clean up the code significantly
-        taskHolder.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            View down;
+        taskHolder.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                View underEvent = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-                if (motionEvent.getAction()==MotionEvent.ACTION_DOWN){
-                    down = underEvent;
-                }
-                // TODO Clean up!
-                if (motionEvent.getAction()==MotionEvent.ACTION_UP){
-                    if (down == null) {
-                        return false;
-                    }
-                    if (down.equals(underEvent)){
-                        onTouchEvent(recyclerView, motionEvent);
-                    }
-                    down = null;
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-                if (child==null) return;
-                currentEditedNoteIndex = recyclerView.getChildAdapterPosition(child);
-                cBaseTask task = adapter.getItem(currentEditedNoteIndex);
-                taskViewModel.setNote(task);
-                callEditTaskFragment();
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
+            public boolean onTouch(View v, MotionEvent event) {
+                return TaskNoteFragment.this.onTouch(v, event);
             }
         });
         return v;
     }
+
+    /**
+     * handles the on touch event on the recycler view
+     * @param v
+     * @param event
+     * @return
+     */
+    private boolean onTouch(View v, MotionEvent event){
+        RecyclerView view = (RecyclerView) v;
+        View childview = view.findChildViewUnder(event.getX(), event.getY());
+        int action = event.getAction();
+        if (action == MotionEvent.ACTION_DOWN){
+            down = childview;
+        }
+        if (action == MotionEvent.ACTION_UP){
+            if (down != null && down.equals(childview)){
+                currentEditedNoteIndex = view.getChildAdapterPosition(childview);
+                cBaseTask task = adapter.getItem(currentEditedNoteIndex);
+                taskViewModel.setNote(task);
+                callEditTaskFragment();
+            }
+            down = null;
+        }
+        // handle the click on the view
+        return v.performClick();
+    }
+
 
     /**
      * will be called after the activity has been created and the fragment has been added.
@@ -128,6 +124,11 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         });
     }
 
+
+    /**
+     * update the displayed task note with the given task
+     * @param updated
+     */
     private void updateTask(cBaseTask updated){
         if (updated == null) return;
         cTaskNote data = mViewModel.getValue();
