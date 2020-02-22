@@ -2,9 +2,10 @@ package com.example.felix.notizen.views.adapters;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
-import com.example.felix.notizen.views.viewsort.FilterHideAll;
-import com.example.felix.notizen.views.viewsort.FilterShowAll;
-import com.example.felix.notizen.views.viewsort.ViewFilter;
+import com.example.felix.notizen.objects.filtersort.FilterHideAll;
+import com.example.felix.notizen.objects.filtersort.FilterShowAll;
+import com.example.felix.notizen.objects.filtersort.SortProvider;
+import com.example.felix.notizen.objects.filtersort.ViewFilter;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doNothing;
@@ -59,21 +61,16 @@ public class SortableRecyclerAdapterTest {
         s2 = new DataBaseStorableTestImpl();
     }
 
-
-    @Ignore ("TODO ")
     @Test
     public void sort() {
         // given
+        adapterUnderTest.add(s1);
+        adapterUnderTest.add(s2);
         // when
+        adapterUnderTest.sort(SortProvider.SortByType);
         // then
-    }
-
-    @Ignore ("TODO ")
-    @Test
-    public void sort1() {
-        // given
-        // when
-        // then
+        verify(adapterUnderTest, times(1)).sort();
+        verify(adapterUnderTest, atLeastOnce()).notifyDataSetChanged();
     }
 
     @Test

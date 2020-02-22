@@ -3,8 +3,8 @@ package com.example.felix.notizen.objects;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.Utils.DateStrategy;
 import com.example.felix.notizen.Utils.OnUpdateCallback;
-import com.example.felix.notizen.views.viewsort.SortAble;
-import com.example.felix.notizen.views.viewsort.SortCategory;
+import com.example.felix.notizen.objects.filtersort.SortAble;
+import com.example.felix.notizen.objects.filtersort.SortCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;

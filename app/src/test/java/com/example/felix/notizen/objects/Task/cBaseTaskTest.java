@@ -1,7 +1,7 @@
 package com.example.felix.notizen.objects.Task;
 
 import com.example.felix.notizen.testutils.AndroidTest;
-import com.example.felix.notizen.views.viewsort.SortCategory;
+import com.example.felix.notizen.objects.filtersort.SortCategory;
 
 import org.junit.Before;
 import org.junit.Test;

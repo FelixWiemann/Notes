@@ -1,4 +1,4 @@
-package com.example.felix.notizen.views.viewsort;
+package com.example.felix.notizen.objects.filtersort;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;

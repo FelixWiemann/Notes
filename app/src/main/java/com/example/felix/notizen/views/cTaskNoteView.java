@@ -11,7 +11,7 @@ import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.views.adapters.SortableRecyclerAdapter;
-import com.example.felix.notizen.views.viewsort.FilterHideDone;
+import com.example.felix.notizen.objects.filtersort.FilterHideDone;
 
 /**
  * Created by Felix on 11.11.2018.

@@ -19,7 +19,7 @@ import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.views.adapters.SortableRecyclerAdapter;
-import com.example.felix.notizen.views.viewsort.SortProvider;
+import com.example.felix.notizen.objects.filtersort.SortProvider;
 
 import java.util.UUID;
 

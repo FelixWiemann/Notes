@@ -4,15 +4,15 @@ import android.util.Log;
 
 import com.example.felix.notizen.Utils.DateStrategy;
 import com.example.felix.notizen.objects.cStorageObject;
-import com.example.felix.notizen.views.viewsort.SortAble;
+import com.example.felix.notizen.objects.filtersort.SortAble;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.UUID;
 
-import static com.example.felix.notizen.views.viewsort.SortCategory.TASK_DONE_STATE;
-import static com.example.felix.notizen.views.viewsort.SortCategory.TASK_DONE_TIME;
+import static com.example.felix.notizen.objects.filtersort.SortCategory.TASK_DONE_STATE;
+import static com.example.felix.notizen.objects.filtersort.SortCategory.TASK_DONE_TIME;
 
 /**
  * Created as part of notes in package ${PACKAGE_NAME}

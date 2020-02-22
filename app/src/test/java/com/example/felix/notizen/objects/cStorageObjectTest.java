@@ -2,7 +2,7 @@ package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.Utils.OnUpdateCallback;
 import com.example.felix.notizen.testutils.AndroidTest;
-import com.example.felix.notizen.views.viewsort.SortCategory;
+import com.example.felix.notizen.objects.filtersort.SortCategory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,21 +22,31 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 public class cStorageObjectTest extends AndroidTest {
 
     private cStorageObjectImpl object;
+    private final String newTitle = "testtitle";
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        object = spy(new cStorageObjectImpl());
-        object.setTitle("testtitle");
+        object = new cStorageObjectImpl();
+        object.setTitle(newTitle);
 
     }
 
     @Test
     public void initSortables(){
-
-        assertNotNull(object.getSortable(SortCategory.TITLE));
-        assertNotNull(object.getSortable(SortCategory.CREATION_TIME));
+        // given
+        String title;
+        long creationTime;
+        long lastChangeTime;
+        // when
+        title =  object.getSortable(SortCategory.TITLE);
+        creationTime = object.getSortable(SortCategory.CREATION_TIME);
+        lastChangeTime = object.getSortable(SortCategory.LAST_CHANGE_TIME);
+        // then
+        assertEquals(object.getTitle(), title);
+        assertEquals(object.getCreationDate(), creationTime);
+        assertEquals(object.getLastChangedDate(), lastChangeTime);
     }
 
     @Test
@@ -57,7 +67,7 @@ public class cStorageObjectTest extends AndroidTest {
 
     @Test
     public void getTitle() {
-        assertEquals(object.getTitle(), "testtitle");
+        assertEquals(object.getTitle(), newTitle);
     }
 
     @Test

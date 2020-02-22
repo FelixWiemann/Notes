@@ -1,8 +1,8 @@
 package com.example.felix.notizen.views.adapters;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.views.viewsort.FilterShowAll;
-import com.example.felix.notizen.views.viewsort.ViewFilter;
+import com.example.felix.notizen.objects.filtersort.FilterShowAll;
+import com.example.felix.notizen.objects.filtersort.ViewFilter;
 
 import java.util.ArrayList;
 import java.util.Collections;

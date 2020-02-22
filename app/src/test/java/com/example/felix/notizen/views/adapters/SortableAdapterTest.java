@@ -2,9 +2,9 @@ package com.example.felix.notizen.views.adapters;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
-import com.example.felix.notizen.views.viewsort.FilterHideAll;
-import com.example.felix.notizen.views.viewsort.FilterShowAll;
-import com.example.felix.notizen.views.viewsort.ViewFilter;
+import com.example.felix.notizen.objects.filtersort.FilterHideAll;
+import com.example.felix.notizen.objects.filtersort.FilterShowAll;
+import com.example.felix.notizen.objects.filtersort.ViewFilter;
 
 import org.junit.Before;
 import org.junit.Ignore;

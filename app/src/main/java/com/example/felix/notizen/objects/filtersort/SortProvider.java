@@ -1,4 +1,4 @@
-package com.example.felix.notizen.views.viewsort;
+package com.example.felix.notizen.objects.filtersort;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.Task.cBaseTask;
@@ -20,7 +20,7 @@ public class SortProvider {
             if (t2 == null){
                 return 1;
             }
-            return ((String)t1.getSortable(SortCategory.TITLE)).compareToIgnoreCase(((String)t2.getSortable(SortCategory.TITLE)));
+            return (t1.getSortable(SortCategory.TITLE)).compareToIgnoreCase((t2.getSortable(SortCategory.TITLE)));
         }
     };
 
@@ -33,7 +33,7 @@ public class SortProvider {
             if (t2 == null){
                 return -1;
             }
-            return ((String)t2.getSortable(SortCategory.TITLE)).compareToIgnoreCase(((String)t1.getSortable(SortCategory.TITLE)));
+            return (t2.getSortable(SortCategory.TITLE)).compareToIgnoreCase((t1.getSortable(SortCategory.TITLE)));
         }
     };
 

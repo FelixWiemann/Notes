@@ -1,7 +1,7 @@
 package com.example.felix.notizen.objects;
 
-import com.example.felix.notizen.views.viewsort.SortAble;
-import com.example.felix.notizen.views.viewsort.SortCategory;
+import com.example.felix.notizen.objects.filtersort.SortAble;
+import com.example.felix.notizen.objects.filtersort.SortCategory;
 
 import org.junit.Before;
 import org.junit.Test;

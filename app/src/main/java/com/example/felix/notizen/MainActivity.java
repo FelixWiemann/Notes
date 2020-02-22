@@ -27,8 +27,8 @@ import com.example.felix.notizen.views.OnLongPressListener;
 import com.example.felix.notizen.views.SwipableListView;
 import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 import com.example.felix.notizen.views.fabs.FabSpawnerFab;
-import com.example.felix.notizen.views.viewsort.FilterShowAll;
-import com.example.felix.notizen.views.viewsort.SortProvider;
+import com.example.felix.notizen.objects.filtersort.FilterShowAll;
+import com.example.felix.notizen.objects.filtersort.SortProvider;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
