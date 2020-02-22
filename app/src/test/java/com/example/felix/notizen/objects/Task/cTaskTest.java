@@ -18,7 +18,6 @@ public class cTaskTest  extends AndroidTest {
     public void setUp() throws Exception {
         super.setUp();
         testTask = new cTask(UUID.randomUUID(),"title", "text", false);
-        new cTask();
     }
 
     @Test
