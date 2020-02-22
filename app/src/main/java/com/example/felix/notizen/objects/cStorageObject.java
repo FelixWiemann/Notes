@@ -151,6 +151,7 @@ public abstract class cStorageObject extends cIdObject implements DatabaseStorab
     }
 
     // TODO probably remove and put somewhere display related
+    //  Update: can be removed once everything is done in view holders needed for recycler view...
     private OnUpdateCallback callback;
 
     /**
