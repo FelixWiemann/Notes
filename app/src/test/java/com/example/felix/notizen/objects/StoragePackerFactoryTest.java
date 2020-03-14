@@ -21,17 +21,17 @@ import static org.mockito.ArgumentMatchers.matches;
 public class StoragePackerFactoryTest extends AndroidTest {
 
 
-    @Test(expected = ClassNotFoundException.class)
+    @Test(expected = UnpackingDataException.class)
     public void createFromData_expectClassNotFound() throws Exception {
          StoragePackerFactory.createFromData("","","",1);
     }
 
-    @Test(expected = ClassCastException.class)
+    @Test(expected = UnpackingDataError.class)
     public void createFromData_expectNoDatabaseStorable() throws Exception {
         StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.cIdObject","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = UnpackingDataError.class)
     public void createFromData_expectAssertionError() throws Exception {
         StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.Notes.cTaskNote","{\"titleas\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
     }

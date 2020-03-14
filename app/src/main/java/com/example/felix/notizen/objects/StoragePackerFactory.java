@@ -43,6 +43,8 @@ public class StoragePackerFactory {
             // TODO better exception handling
             //  wrong data was given in both cases of the exception...
             throw new UnpackingDataException(ex);
+        } catch (ClassCastException ex){
+            throw new UnpackingDataError("Wrong Class Type", ex);
         }
 
     }

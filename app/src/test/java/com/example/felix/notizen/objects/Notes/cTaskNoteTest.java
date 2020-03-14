@@ -3,6 +3,7 @@ package com.example.felix.notizen.objects.Notes;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
+import com.example.felix.notizen.objects.UnpackingDataException;
 import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Before;
@@ -113,7 +114,7 @@ public class cTaskNoteTest  extends AndroidTest {
     }
 
     @Test
-    public void testCreationFromJSON() throws ClassNotFoundException {
+    public void testCreationFromJSON() throws UnpackingDataException {
         // given
         // Jackson's toJSON doesn't like mocks, therefore a new note needed to be created
         testNote = new cTaskNote(UUID.randomUUID(),"task note",new ArrayList<cBaseTask>());
@@ -126,7 +127,7 @@ public class cTaskNoteTest  extends AndroidTest {
 
 
     @Test
-    public void testUpdateTask() throws ClassNotFoundException {
+    public void testUpdateTask() throws UnpackingDataException {
         // given
         testNote.deleteNote();
         // create a new object, otherwise by updating the task object will also update it in the list inside of the note to test
