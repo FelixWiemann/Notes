@@ -19,6 +19,7 @@ import com.example.felix.notizen.Utils.NoteViewModel;
 import com.example.felix.notizen.Utils.cContextManager;
 import com.example.felix.notizen.Utils.cContextManagerException;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
+import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private cSwipableViewAdapter adapter;
     private NoteViewModel model;
     private SwipableListView lv;
+
+    public static final int REQUEST_EDIT_NOTE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
         fabSpawner.addFabToSpawn(fab);
         // TODO add fab for new types
         //  e.g. camera
+
+        DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(getIntent());
+        if (fromIntent != null) callEditNoteActivityForResult(fromIntent);
         Log.d(TAG, "done creating");
     }
 
@@ -161,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
      * calles the edit note activity with a null-note and thus creating a new one
      */
     private void callEditNoteActivityForResult(){
+        // TODO I don't like this creating a text note implicitly...
         callEditNoteActivityForResult(null);
     }
 
@@ -171,14 +178,14 @@ public class MainActivity extends AppCompatActivity {
     private void callEditNoteActivityForResult(DatabaseStorable storable){
         Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
         intent = StoragePackerFactory.addToIntent(intent, storable);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent,REQUEST_EDIT_NOTE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "onActivityResult: got result");
         // Check which request we're responding to
-        if (requestCode == 1) {
+        if (requestCode == REQUEST_EDIT_NOTE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 try {
@@ -188,6 +195,30 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "onActivityResult: ", e);
                 }
             }
+        }
+    }
+
+    private static class IntentHandler{
+        static DatabaseStorable StorableFromIntent(Intent intent){
+            switch (intent.getAction()){
+                case Intent.ACTION_SEND:
+                    return handleMimeType(intent);
+                default:
+                    // intent doesn't have data
+                    return null;
+            }
+        }
+
+        private static DatabaseStorable handleMimeType(Intent intent){
+            final String MIME_TYPE = intent.getType();
+            if (MIME_TYPE == null) return null;
+            if (MIME_TYPE.startsWith("text/")){
+                String text = intent.hasExtra(Intent.EXTRA_TEXT) ? intent.getStringExtra(Intent.EXTRA_TEXT) : "retrieving data failed";
+                String title = intent.hasExtra(Intent.EXTRA_TITLE) ? intent.getStringExtra(Intent.EXTRA_TITLE) : "enter title";
+                return new cTextNote(UUID.randomUUID(), title, text);
+            }
+            // TODO
+            return null;
         }
     }
 }
