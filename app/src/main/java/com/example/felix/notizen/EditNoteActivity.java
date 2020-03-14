@@ -18,6 +18,7 @@ import android.widget.Button;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.UnpackingDataException;
 import com.example.felix.notizen.views.fragments.EditNoteViewModel;
 import com.example.felix.notizen.views.fragments.FabProvider;
 import com.example.felix.notizen.views.fragments.NoteDisplayFragment;
@@ -89,8 +90,9 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         DatabaseStorable data = null;
         try {
             data = StoragePackerFactory.storableFromIntent(intent);
-        } catch (ClassNotFoundException e) {
-            Log.e(LOG_TAG, "exception unpacking data" ,e);
+        } catch (UnpackingDataException e) {
+            // TODO handle packing error
+            Log.e(LOG_TAG, "loadData: ", e);
         }
         if (data == null){
             data = new cTextNote(UUID.randomUUID(),"" , "");
@@ -166,4 +168,5 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
     public FloatingActionButton getFab() {
         return fabToBeProvided;
     }
+
 }

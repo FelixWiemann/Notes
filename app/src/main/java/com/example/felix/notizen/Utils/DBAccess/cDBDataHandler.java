@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.UnpackingDataException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class cDBDataHandler {
                 try {
                     storable = StoragePackerFactory.createFromData(id, type, data, version);
                     list.add(storable);
-                } catch (ClassNotFoundException e) {
+                } catch (UnpackingDataException e) {
                     Log.e(TAG, "could not create from DB of type " + type +" with version "+ version, e);
                 }
             }while (cursor.moveToNext());

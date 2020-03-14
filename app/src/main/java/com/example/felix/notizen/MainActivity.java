@@ -22,6 +22,7 @@ import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.StoragePackerFactory;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
+import com.example.felix.notizen.objects.UnpackingDataException;
 import com.example.felix.notizen.views.OnListItemInPositionClickListener;
 import com.example.felix.notizen.views.OnLongPressListener;
 import com.example.felix.notizen.views.SwipableListView;
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     DatabaseStorable storable = StoragePackerFactory.storableFromIntent(data);
                     model.updateOrCreate(storable);
-                } catch (ClassNotFoundException e) {
+                } catch (UnpackingDataException e) {
                     Log.e(TAG, "onActivityResult: ", e);
                 }
             }

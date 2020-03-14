@@ -25,19 +25,26 @@ public class StoragePackerFactory {
      * @param Data json data to be read and put into the new storable
      * @param Version version number of the current data. used for migrating between different versions of the object
      * @return DatabaseStorable object that has been created from the given data
-     * @throws ClassNotFoundException the given type is not valid
-     * @throws AssertionError if there was an issue with the
+     * @throws UnpackingDataException the given type is not valid
+     * @throws UnpackingDataError if there was an issue with the
      */
-    public static DatabaseStorable createFromData(String ID, String Type, String Data, int Version) throws ClassNotFoundException {
-        Class<?> clazz = Class.forName(Type);
-        DatabaseStorable object;
-        ObjectMapper mapper = new ObjectMapper();
+    public static DatabaseStorable createFromData(String ID, String Type, String Data, int Version) throws UnpackingDataException {
         try {
-            object = mapper.readValue(Data, mapper.getTypeFactory().constructType(clazz));
-        } catch (JsonProcessingException e) {
-            throw new AssertionError("if we get this error, the data in the database is corrupt or we did not properly transform versions of stored data on upgrade",e);
+            Class<?> clazz = Class.forName(Type);
+            DatabaseStorable object;
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                object = mapper.readValue(Data, mapper.getTypeFactory().constructType(clazz));
+            } catch (JsonProcessingException e) {
+                throw new UnpackingDataError("he data in the database is corrupt or we did not properly transform versions of stored data on upgrade",e);
+            }
+            return object;
+        }catch (ClassNotFoundException ex){
+            // TODO better exception handling
+            //  wrong data was given in both cases of the exception...
+            throw new UnpackingDataException(ex);
         }
-        return object;
+
     }
 
     /**
@@ -62,9 +69,10 @@ public class StoragePackerFactory {
      *
      * @param intent containing the storable
      * @return storable created from intent
-     * @throws ClassNotFoundException the given type is not valid
+     * @throws UnpackingDataException the given type is not valid
+     * @throws UnpackingDataError if there was an issue with the
      */
-    public static DatabaseStorable storableFromIntent(Intent intent) throws ClassNotFoundException {
+    public static DatabaseStorable storableFromIntent(Intent intent) throws UnpackingDataException {
         if (intent == null){
             return null;
         }
