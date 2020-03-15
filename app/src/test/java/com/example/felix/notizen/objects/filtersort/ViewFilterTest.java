@@ -1,5 +1,7 @@
 package com.example.felix.notizen.objects.filtersort;
 
+import android.support.annotation.NonNull;
+
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
 
@@ -20,13 +22,13 @@ public class ViewFilterTest {
     public void setUp(){
         none = new ViewFilter() {
             @Override
-            public boolean filter(DatabaseStorable toFilter) {
+            public boolean filter(@NonNull DatabaseStorable toFilter) {
                 return false;
             }
         };
         all = new ViewFilter() {
             @Override
-            public boolean filter(DatabaseStorable toFilter) {
+            public boolean filter(@NonNull DatabaseStorable toFilter) {
                 return true;
             }
         };

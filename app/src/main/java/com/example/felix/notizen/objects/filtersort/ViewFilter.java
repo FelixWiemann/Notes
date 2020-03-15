@@ -1,5 +1,7 @@
 package com.example.felix.notizen.objects.filtersort;
 
+import android.support.annotation.NonNull;
+
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public abstract class ViewFilter <T extends DatabaseStorable>{
      * @param toFilter Object that shall be decided
      * @return true, if it should be shown, false if filtered out
      */
-    public abstract boolean filter(T toFilter);
+    public abstract boolean filter(@NonNull T toFilter);
 
     /**
      * filter a list into the given lists, display and hide.
