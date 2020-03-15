@@ -13,7 +13,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
 
@@ -31,12 +35,8 @@ public class BaseRecyclerAdapterTest {
     public void setUp(){
         s1 = new DataBaseStorableTestImpl();
         s2 = new DataBaseStorableTestImpl();
-
         adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<DatabaseStorable>()));
-
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
-
-
     }
 
     @Ignore("TODO ")
@@ -45,6 +45,9 @@ public class BaseRecyclerAdapterTest {
         // given
         // when
         // then
+        int actualCount = adapterUnderTest.getItemCount();
+        //assertEquals(expectedCount, actualCount);
+        verify(adapterUnderTest,times(actualCount)).notifyDataSetChanged();
     }
 
     @Test
@@ -59,12 +62,21 @@ public class BaseRecyclerAdapterTest {
         // then
         int actualCount = adapterUnderTest.getItemCount();
         assertEquals(expectedCount, actualCount);
+        verify(adapterUnderTest,times(actualCount)).notifyDataSetChanged();
     }
 
 
     @Test
     public void getCount() {
-        // I assume that list.add() works...
+        // I assume that list.size() works...
+        adapterUnderTest.getItemCount();
+    }
+
+    @Test
+    public void getItem() {
+        adapterUnderTest.add(s1);
+        // I assume that list.get() works...
+        adapterUnderTest.getItem(0);
     }
 
     @Test
@@ -72,19 +84,21 @@ public class BaseRecyclerAdapterTest {
         // given
         adapterUnderTest.add(s1);
         adapterUnderTest.add(s2);
+        clearInvocations(adapterUnderTest);
         // when
         adapterUnderTest.clear();
         // then
         assertEquals(0, adapterUnderTest.getAllObjects().size());
+        verify(adapterUnderTest,times(1)).notifyDataSetChanged();
     }
 
-    @Ignore("basically just testing the call to the factory, test factory instead!")
     @Test
     public void getItemViewType() {
         // given
         int result;
+        adapterUnderTest.add(s1);
         // when
-        result = adapterUnderTest.getItemViewType(1);
+        result = adapterUnderTest.getItemViewType(0);
         // then
         assertEquals(-1, result);
     }
