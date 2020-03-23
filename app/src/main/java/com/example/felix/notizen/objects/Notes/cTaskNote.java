@@ -3,9 +3,10 @@ package com.example.felix.notizen.objects.Notes;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.example.felix.notizen.objects.Task.cBaseTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;

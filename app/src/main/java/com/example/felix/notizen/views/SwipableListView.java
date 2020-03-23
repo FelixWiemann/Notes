@@ -19,7 +19,6 @@ public class SwipableListView extends SortableListView {
     private static final String TAG = "SwipableListView";
     private OnLongPressListener onLongPressListener;
 
-    private static final String ANIM_X_VAR = "mainX";
 
     // TODO header is adapter responsibility
     private NoteListViewHeaderView headerView;
@@ -93,6 +92,8 @@ public class SwipableListView extends SortableListView {
 
     private View currentlyAnimated = null;
     private float xBeforeAnimated;
+
+    private static final String ANIM_X_VAR = "mainX";
 
     private boolean onDown(MotionEvent motionEvent){
         SwipableView currentReturn;

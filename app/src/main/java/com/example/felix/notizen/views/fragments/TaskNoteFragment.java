@@ -18,8 +18,9 @@ import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
-import com.example.felix.notizen.views.adapters.SortableRecyclerAdapter;
 import com.example.felix.notizen.objects.filtersort.SortProvider;
+import com.example.felix.notizen.views.NotesRecyclerView;
+import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import java.util.UUID;
 
@@ -35,8 +36,8 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
      * task has been added, but was not called for editing by click on it but by creation
      */
     private static final int NOT_YET_INDEXED = -2;
-    RecyclerView taskHolder;
-    SortableRecyclerAdapter<cBaseTask> adapter;
+    NotesRecyclerView taskHolder;
+    SwipableRecyclerAdapter<cBaseTask> adapter;
     FabProvider fabProvider;
     EditNoteViewModel<cBaseTask> taskViewModel;
 
@@ -64,12 +65,13 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
         taskHolder = v.findViewById(R.id.task_holder);
         taskHolder.setLayoutManager(new LinearLayoutManager(getContext()));
-        taskHolder.setOnTouchListener(new View.OnTouchListener() {
+        /*taskHolder.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return TaskNoteFragment.this.onTouch(v, event);
             }
-        });
+        });*/
+
         return v;
     }
 
@@ -81,21 +83,21 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
      */
     private boolean onTouch(View v, MotionEvent event){
         RecyclerView view = (RecyclerView) v;
-        View childview = view.findChildViewUnder(event.getX(), event.getY());
+        View childView = view.findChildViewUnder(event.getX(), event.getY());
         int action = event.getAction();
         if (action == MotionEvent.ACTION_DOWN){
-            down = childview;
+            down = childView;
         }
         if (action == MotionEvent.ACTION_UP){
-            if (down != null && down.equals(childview)){
-                currentEditedNoteIndex = view.getChildAdapterPosition(childview);
+            if (down != null && down.equals(childView)){
+                currentEditedNoteIndex = view.getChildAdapterPosition(childView);
                 cBaseTask task = adapter.getItem(currentEditedNoteIndex);
                 callEditTaskFragment(task);
             }
             down = null;
         }
         // handle the click on the view
-        return v.performClick();
+        return false;
     }
 
 
@@ -108,7 +110,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
     @Override
     protected void updateUI(cTaskNote updatedData) {
         if (adapter == null) {
-            adapter = new SortableRecyclerAdapter<>(updatedData.getTaskList());
+            adapter = new SwipableRecyclerAdapter<>(updatedData.getTaskList());
             taskHolder.setAdapter(adapter);
         }else {
             adapter.replace(updatedData.getTaskList());
