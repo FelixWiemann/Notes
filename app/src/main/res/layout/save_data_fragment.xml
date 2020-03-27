@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_alignStart="@+id/textView"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:text="@string/cancel_exit" />
@@ -33,7 +33,7 @@
         android:layout_below="@+id/textView"
         android:layout_alignEnd="@+id/textView"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="0dp"
         android:text="@string/save_and_exit" />
 
     <Button
@@ -41,11 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
-        android:layout_marginStart="35dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="0dp"
         android:layout_toStartOf="@+id/bt_save_exit"
-        android:layout_toEndOf="@+id/bt_cancel_exit"
         android:text="@string/discard_exit" />
 
 </RelativeLayout>

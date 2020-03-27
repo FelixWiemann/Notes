@@ -9,10 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
@@ -98,6 +100,43 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         }
         // handle the click on the view
         return false;
+    }
+
+
+    private boolean onTouch(MotionEvent e){
+        GestureDetector gestureDetector = new GestureDetector(getContext(),new GestureDetector.SimpleOnGestureListener(){
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                Toast.makeText(getContext(),"double tap", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            @Override
+            public boolean onContextClick(MotionEvent e) {
+                Toast.makeText(getContext(),"onContextClick", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            public boolean onSingleTapUp(MotionEvent e) {
+                Toast.makeText(getContext(),"onSingleTapUp", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            public void onLongPress(MotionEvent e) {
+                Toast.makeText(getContext(),"onLongPress", Toast.LENGTH_SHORT).show();
+            }
+
+            public boolean onScroll(MotionEvent e1, MotionEvent e2,
+                                    float distanceX, float distanceY) {
+                //Toast.makeText(getContext(),"onScroll", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                   float velocityY) {
+                Toast.makeText(getContext(),"onFling", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        return gestureDetector.onTouchEvent(e);
     }
 
 
