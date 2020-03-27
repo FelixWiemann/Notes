@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static class IntentHandler{
         static DatabaseStorable StorableFromIntent(Intent intent){
+            if (intent == null || intent.getAction()==null) return null;
             switch (intent.getAction()){
                 case Intent.ACTION_SEND:
                     return handleMimeType(intent);
@@ -214,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
             if (MIME_TYPE == null) return null;
             if (MIME_TYPE.startsWith("text/")){
                 String text = intent.hasExtra(Intent.EXTRA_TEXT) ? intent.getStringExtra(Intent.EXTRA_TEXT) : "retrieving data failed";
-                String title = intent.hasExtra(Intent.EXTRA_TITLE) ? intent.getStringExtra(Intent.EXTRA_TITLE) : "enter title";
+                // empty default title for easier title manipulation
+                String title = intent.hasExtra(Intent.EXTRA_TITLE) ? intent.getStringExtra(Intent.EXTRA_TITLE) : "";
                 return new cTextNote(UUID.randomUUID(), title, text);
             }
             // TODO
