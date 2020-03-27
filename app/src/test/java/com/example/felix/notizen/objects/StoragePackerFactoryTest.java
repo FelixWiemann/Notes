@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
+import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Test;
@@ -23,22 +24,22 @@ public class StoragePackerFactoryTest extends AndroidTest {
 
     @Test(expected = UnpackingDataException.class)
     public void createFromData_expectClassNotFound() throws Exception {
-         StoragePackerFactory.createFromData("","","",1);
+         StorableFactory.createFromData("","","",1);
     }
 
     @Test(expected = UnpackingDataError.class)
     public void createFromData_expectNoDatabaseStorable() throws Exception {
-        StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.cIdObject","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
+        StorableFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.cIdObject","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
     }
 
     @Test(expected = UnpackingDataError.class)
     public void createFromData_expectAssertionError() throws Exception {
-        StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.Notes.cTaskNote","{\"titleas\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
+        StorableFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.Notes.cTaskNote","{\"titleas\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
     }
 
     @Test()
     public void createFromData() throws Exception {
-        cTaskNote note = (cTaskNote) StoragePackerFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.Notes.cTaskNote","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
+        cTaskNote note = (cTaskNote) StorableFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.example.felix.notizen.objects.Notes.cTaskNote","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
         assertEquals(note.getTitle(), "test title");
         assertEquals(note.getIdString(),"2563c779-7e46-4003-927b-1ff36077b285");
     }
@@ -47,13 +48,13 @@ public class StoragePackerFactoryTest extends AndroidTest {
     @Test
     public void addToIntent() throws Exception {
         Intent prevIntent = new Intent("");
-        StoragePackerFactory.addToIntent(prevIntent,null);
+        StorableFactory.addToIntent(prevIntent,null);
 
         Mockito.verify(prevIntent,Mockito.never()).putExtra(anyString(),anyString());
 
         prevIntent = new Intent();
         cTextNote note = new cTextNote(UUID.fromString("2563c779-7e46-4003-927b-1ff36077b285"),"title","message");
-        StoragePackerFactory.addToIntent(prevIntent,note);
+        StorableFactory.addToIntent(prevIntent,note);
         Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_ID"),anyString());
         Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_DATA"),anyString());
         Mockito.verify(prevIntent,Mockito.times(1)).putExtra(matches("INTENT_NAME_NOTE_TYPE"),anyString());
@@ -69,14 +70,14 @@ public class StoragePackerFactoryTest extends AndroidTest {
         Mockito.when(prevIntent.getStringExtra(matches("INTENT_NAME_NOTE_TYPE"))).thenReturn(cTextNote.class.getCanonicalName());
         Mockito.when(prevIntent.getIntExtra(matches("INTENT_NAME_NOTE_VERSION"),anyInt())).thenReturn(1);
         cTextNote note = new cTextNote(UUID.fromString("2563c779-7e46-4003-927b-1ff36077b285"),"title","message");
-        DatabaseStorable unpacked = StoragePackerFactory.storableFromIntent(prevIntent);
+        DatabaseStorable unpacked = StorableFactory.storableFromIntent(prevIntent);
         assertEquals(unpacked.getClass().getCanonicalName(), cTextNote.class.getCanonicalName());
         cTextNote tnote = (cTextNote) unpacked;
         assertEquals(tnote.getMessage(),note.getMessage());
         assertEquals(tnote.getTitle(), note.getTitle());
         assertEquals(tnote.getIdString(), note.getIdString());
         Mockito.when(prevIntent.hasExtra(matches("INTENT_NAME_NOTE_ID"))).thenReturn(false);
-        assertNull(StoragePackerFactory.storableFromIntent(prevIntent));
-        assertNull(StoragePackerFactory.storableFromIntent(null));
+        assertNull(StorableFactory.storableFromIntent(prevIntent));
+        assertNull(StorableFactory.storableFromIntent(null));
     }
 }

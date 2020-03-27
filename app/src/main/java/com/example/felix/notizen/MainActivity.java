@@ -20,7 +20,8 @@ import com.example.felix.notizen.Utils.cContextManager;
 import com.example.felix.notizen.Utils.cContextManagerException;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
-import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.StorableFactoy.DefaultTextNoteStrategy;
+import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.UnpackingDataException;
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO make sure a text note is created
                 callEditNoteActivityForResult();
             }
         });
@@ -164,11 +166,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * calles the edit note activity with a null-note and thus creating a new one
+     * calles the edit note activity with a null-note and thus creating a new one,
+     * as defined in the currently set DefaultStorable {@link StorableFactory#getDefaultStorable()}
      */
     private void callEditNoteActivityForResult(){
-        // TODO I don't like this creating a text note implicitly...
-        callEditNoteActivityForResult(null);
+        // create a new default text note and directly edit it.
+        callEditNoteActivityForResult(new DefaultTextNoteStrategy().createDefault());
     }
 
     /**
@@ -177,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void callEditNoteActivityForResult(DatabaseStorable storable){
         Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
-        intent = StoragePackerFactory.addToIntent(intent, storable);
+        intent = StorableFactory.addToIntent(intent, storable);
         startActivityForResult(intent,REQUEST_EDIT_NOTE);
     }
 
@@ -189,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 try {
-                    DatabaseStorable storable = StoragePackerFactory.storableFromIntent(data);
+                    DatabaseStorable storable = StorableFactory.storableFromIntent(data);
                     model.updateOrCreate(storable);
                 } catch (UnpackingDataException e) {
                     Log.e(TAG, "onActivityResult: ", e);
@@ -212,15 +215,16 @@ public class MainActivity extends AppCompatActivity {
 
         private static DatabaseStorable handleMimeType(Intent intent){
             final String MIME_TYPE = intent.getType();
-            if (MIME_TYPE == null) return null;
+            // could not determine Mime-Type
+            if (MIME_TYPE == null) return StorableFactory.getDefaultStorable();
             if (MIME_TYPE.startsWith("text/")){
                 String text = intent.hasExtra(Intent.EXTRA_TEXT) ? intent.getStringExtra(Intent.EXTRA_TEXT) : "retrieving data failed";
                 // empty default title for easier title manipulation
                 String title = intent.hasExtra(Intent.EXTRA_TITLE) ? intent.getStringExtra(Intent.EXTRA_TITLE) : "";
                 return new cTextNote(UUID.randomUUID(), title, text);
             }
-            // TODO
-            return null;
+            // could not be handled, return default storable
+            return StorableFactory.getDefaultStorable();
         }
     }
 }

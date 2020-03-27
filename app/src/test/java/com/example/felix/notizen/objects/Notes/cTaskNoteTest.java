@@ -1,6 +1,6 @@
 package com.example.felix.notizen.objects.Notes;
 
-import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.UnpackingDataException;
@@ -120,7 +120,7 @@ public class cTaskNoteTest  extends AndroidTest {
         testNote = new cTaskNote(UUID.randomUUID(),"task note",new ArrayList<cBaseTask>());
         String JSON = testNote.toJson();
         // when
-        Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
+        Object o = StorableFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
         // then
         assertEquals(testNote,o);
     }
@@ -131,7 +131,7 @@ public class cTaskNoteTest  extends AndroidTest {
         // given
         testNote.deleteNote();
         // create a new object, otherwise by updating the task object will also update it in the list inside of the note to test
-        testNote.addTask((cBaseTask) StoragePackerFactory.createFromData(task1.getId(),task1.getType(),task1.toJson(),task1.getVersion()));
+        testNote.addTask((cBaseTask) StorableFactory.createFromData(task1.getId(),task1.getType(),task1.toJson(),task1.getVersion()));
         task1.setDone(true);
         // when
         testNote.updateTask(task1);

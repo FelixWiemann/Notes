@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.objects.UnpackingDataException;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class cDBDataHandler {
                 int version = cursor.getInt(cursor.getColumnIndex(cDBHelper.aDB_COLUMN_TYPEVERSION));
                 DatabaseStorable storable = null;
                 try {
-                    storable = StoragePackerFactory.createFromData(id, type, data, version);
+                    storable = StorableFactory.createFromData(id, type, data, version);
                     list.add(storable);
                 } catch (UnpackingDataException e) {
                     Log.e(TAG, "could not create from DB of type " + type +" with version "+ version, e);

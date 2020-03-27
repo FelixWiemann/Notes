@@ -1,6 +1,6 @@
 package com.example.felix.notizen.objects.Task;
 
-import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Before;
@@ -44,7 +44,7 @@ public class cTaskTest  extends AndroidTest {
         // given
         String JSON = testTask.toJson();
         // when
-        Object o = StoragePackerFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
+        Object o = StorableFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
         // then
         assertEquals(testTask,o);
     }

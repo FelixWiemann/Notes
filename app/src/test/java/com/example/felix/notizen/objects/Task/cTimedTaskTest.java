@@ -1,7 +1,7 @@
 package com.example.felix.notizen.objects.Task;
 
 import com.example.felix.notizen.Utils.DateStrategy;
-import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Before;
@@ -50,7 +50,7 @@ public class cTimedTaskTest extends AndroidTest {
     @Test
     public void testJson() throws Exception{
         String JSON = testTask.toJson();
-        Object o = StoragePackerFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
+        Object o = StorableFactory.createFromData(testTask.getId(),testTask.getType(),JSON,testTask.getVersion());
         assertEquals(testTask,o);
         assertTrue(JSON.contains("taskDueDate\":"));
         // TODO

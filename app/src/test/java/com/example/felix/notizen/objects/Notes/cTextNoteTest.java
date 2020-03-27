@@ -1,6 +1,6 @@
 package com.example.felix.notizen.objects.Notes;
 
-import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Before;
@@ -77,7 +77,7 @@ public class cTextNoteTest  extends AndroidTest {
         // given
         String JSON = testNote.toJson();
         // when
-        Object o = StoragePackerFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
+        Object o = StorableFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());
         // then
         assertEquals(testNote,o);
     }

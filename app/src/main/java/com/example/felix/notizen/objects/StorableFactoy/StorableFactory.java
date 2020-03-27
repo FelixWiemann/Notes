@@ -1,8 +1,10 @@
-package com.example.felix.notizen.objects;
+package com.example.felix.notizen.objects.StorableFactoy;
 
 import android.content.Intent;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.UnpackingDataError;
+import com.example.felix.notizen.objects.UnpackingDataException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,12 +12,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * class for serialization and deserialisatzion of Storables.
  * TODO create own exception to encapsulate the JACKSON behavior totally
  */
-public class StoragePackerFactory {
+public class StorableFactory {
 
     private static final String INTENT_NAME_NOTE_ID = "INTENT_NAME_NOTE_ID";
     private static final String INTENT_NAME_NOTE_DATA = "INTENT_NAME_NOTE_DATA";
     private static final String INTENT_NAME_NOTE_TYPE = "INTENT_NAME_NOTE_TYPE";
     private static final String INTENT_NAME_NOTE_VERSION = "INTENT_NAME_NOTE_VERSION";
+    private static DefaultStorableStrategy defaultStrategy = new DefaultTextNoteStrategy();
 
     /**
      * creates a storable from the given information
@@ -86,6 +89,23 @@ public class StoragePackerFactory {
 
         }
         return null;
+    }
+
+    /**
+     * set the strategy for creating default storables
+     * @param strategy to use for defaults
+     */
+    public static void setDefaultStrategy(DefaultStorableStrategy strategy){
+        defaultStrategy = strategy;
+    }
+
+
+    /**
+     * get a default DatabaseStorable with currently set strategy
+     * @return
+     */
+    public static DatabaseStorable getDefaultStorable(){
+        return defaultStrategy.createDefault();
     }
 
 }

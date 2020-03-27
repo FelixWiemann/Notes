@@ -17,7 +17,7 @@ import android.widget.Button;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.Notes.cTextNote;
-import com.example.felix.notizen.objects.StoragePackerFactory;
+import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.objects.UnpackingDataException;
 import com.example.felix.notizen.views.fragments.EditNoteViewModel;
 import com.example.felix.notizen.views.fragments.FabProvider;
@@ -89,7 +89,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         Intent intent = getIntent();
         DatabaseStorable data = null;
         try {
-            data = StoragePackerFactory.storableFromIntent(intent);
+            data = StorableFactory.storableFromIntent(intent);
         } catch (UnpackingDataException e) {
             // TODO handle packing error
             Log.e(LOG_TAG, "loadData: ", e);
@@ -113,7 +113,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
      * setting the result of the currently stored data in the view model
      */
     private void save(){
-        Intent result = StoragePackerFactory.addToIntent(new Intent(),mViewModel.getValue());
+        Intent result = StorableFactory.addToIntent(new Intent(),mViewModel.getValue());
         setResult(Activity.RESULT_OK, result);
         finish();
     }
