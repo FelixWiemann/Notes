@@ -36,7 +36,7 @@ public class CreateTaskDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        taskViewModel = ViewModelProviders.of(getFragmentManager().findFragmentById(R.id.fragementHolder)).get(EditNoteViewModel.class);
+        taskViewModel = ViewModelProviders.of(getTargetFragment()).get(EditNoteViewModel.class);
         textTaskTitle = view.findViewById(R.id.task_title);
         taskViewModel.observe(this, new Observer<cBaseTask>() {
             @Override

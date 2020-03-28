@@ -2,10 +2,7 @@ package com.example.felix.notizen.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -27,15 +24,17 @@ public class SwipableView extends RelativeLayout{
     /**
      * background view on the left
      */
-    private View BackgroundLeft;
+    public View BackgroundLeft;
     /**
      * background view on the right
      */
-    private View BackgroundRight;
+    public View BackgroundRight;
     /**
      * main view to be wrapped
      */
     public View MainView;
+
+    private RelativeLayout Placeholder;
 
     private boolean inRecycler = false;
 
@@ -70,118 +69,14 @@ public class SwipableView extends RelativeLayout{
      * initialize the swipable
      */
     public void init () {
-        // inflate from resources
-        BackgroundLeft = LayoutInflater.from(this.getContext()).inflate(R.layout.swipable_left, null);
-        BackgroundRight = inflate(this.getContext(), R.layout.swipable_right, null);
-        // set params
-        RelativeLayout.LayoutParams params_left = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params_left.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-        params_left.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-        BackgroundLeft.setBackgroundColor(getResources().getColor(R.color.colorDeleteBackground));
-        params_left.leftMargin = 10;
-        // add the view
-        this.addView(BackgroundLeft, params_left);
-
-        RelativeLayout.LayoutParams params_right = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params_right.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-        params_right.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-        params_right.rightMargin = 10;
-        this.addView(BackgroundRight, params_right);
-
-        BackgroundRight.setVisibility(INVISIBLE);
+        LayoutInflater mInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater.inflate(R.layout.swipe_action_view, this);
+        Placeholder = findViewById(R.id.layout_to_be_swiped);
+        BackgroundLeft = findViewById(R.id.swipe_button_left);
         BackgroundLeft.setVisibility(INVISIBLE);
-
-        if (inRecycler) {
-            this.setOnTouchListener(new OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return SwipeDetector.onTouchEvent(event);
-                }
-            });
-        }
+        BackgroundRight = findViewById(R.id.swipe_button_right);
+        BackgroundRight.setVisibility(INVISIBLE);
     }
-
-
-    private GestureDetector SwipeDetector = new GestureDetector(getContext(), new GestureDetector.OnGestureListener() {
-        /**
-         * Notified when a tap occurs with the down {@link MotionEvent}
-         * that triggered it. This will be triggered immediately for
-         * every down event. All other events should be preceded by this.
-         *
-         * @param e The down motion event.
-         */
-        @Override
-        public boolean onDown(MotionEvent e) {
-            Log.d(TAG, "ondown");
-            return false;
-        }
-
-        /**
-         * The user has performed a down {@link MotionEvent} and not performed
-         * a move or up yet. This event is commonly used to provide visual
-         * feedback to the user to let them know that their action has been
-         * recognized i.e. highlight an element.
-         *
-         * @param e The down motion event
-         */
-        @Override
-        public void onShowPress(MotionEvent e) {
-            Log.d(TAG, "onShowPress");
-
-        }
-
-        /**
-         * Notified when a tap occurs with the up {@link MotionEvent}
-         * that triggered it.
-         *
-         * @param e The up motion event that completed the first tap
-         * @return true if the event is consumed, else false
-         */
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            Log.d(TAG, "onSingleTapUp");
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                                float distanceX, float distanceY) {
-            Log.d(TAG, "onScroll");
-            return false;
-        }
-
-        /**
-         * Notified when a long press occurs with the initial on down {@link MotionEvent}
-         * that trigged it.
-         *
-         * @param e The initial on down motion event that started the longpress.
-         */
-        @Override
-        public void onLongPress(MotionEvent e) {
-            Log.d(TAG, "onLongPress");
-        }
-
-        /**
-         * Notified of a fling event when it occurs with the initial on down {@link MotionEvent}
-         * and the matching up {@link MotionEvent}. The calculated velocity is supplied along
-         * the x and y axis in pixels per second.
-         *
-         * @param e1        The first down motion event that started the fling.
-         * @param e2        The move motion event that triggered the current onFling.
-         * @param velocityX The velocity of this fling measured in pixels per second
-         *                  along the x axis.
-         * @param velocityY The velocity of this fling measured in pixels per second
-         *                  along the y axis.
-         * @return true if the event is consumed, else false
-         */
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            Log.d(TAG, "onFling");
-            return false;
-        }
-    });
-
-
 
     public void setOnClickListeners(OnClickListener left, OnClickListener right){
         BackgroundLeft.setOnClickListener(left);
@@ -195,8 +90,8 @@ public class SwipableView extends RelativeLayout{
     public void setMainView(View mainView){
        MainView = mainView;
        mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-       this.removeView(mainView);
-       this.addView(mainView);
+       Placeholder.removeView(mainView);
+       Placeholder.addView(mainView);
     }
 
     /**
@@ -217,7 +112,7 @@ public class SwipableView extends RelativeLayout{
      * if pos = 0 -> hide all
      * @param pos based on which visibility is decided
      */
-    private void showBackground(float pos){
+    public void showBackground(float pos){
         if (pos<0){
             BackgroundRight.setVisibility(VISIBLE);
         }else if(pos>0){

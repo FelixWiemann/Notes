@@ -67,13 +67,29 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
         taskHolder = v.findViewById(R.id.task_holder);
         taskHolder.setLayoutManager(new LinearLayoutManager(getContext()));
+        // TODO ItemTouch handler should be moved to the Recycler View?
+        taskHolder.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+                return TaskNoteFragment.this.onTouch(recyclerView, motionEvent);
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+            }
+        });
         /*taskHolder.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return TaskNoteFragment.this.onTouch(v, event);
             }
         });*/
-
         return v;
     }
 
@@ -101,44 +117,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         // handle the click on the view
         return false;
     }
-
-
-    private boolean onTouch(MotionEvent e){
-        GestureDetector gestureDetector = new GestureDetector(getContext(),new GestureDetector.SimpleOnGestureListener(){
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                Toast.makeText(getContext(),"double tap", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            @Override
-            public boolean onContextClick(MotionEvent e) {
-                Toast.makeText(getContext(),"onContextClick", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            public boolean onSingleTapUp(MotionEvent e) {
-                Toast.makeText(getContext(),"onSingleTapUp", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            public void onLongPress(MotionEvent e) {
-                Toast.makeText(getContext(),"onLongPress", Toast.LENGTH_SHORT).show();
-            }
-
-            public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                                    float distanceX, float distanceY) {
-                //Toast.makeText(getContext(),"onScroll", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                                   float velocityY) {
-                Toast.makeText(getContext(),"onFling", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-        return gestureDetector.onTouchEvent(e);
-    }
-
 
     /**
      * will be called after the activity has been created and the fragment has been added.
@@ -194,6 +172,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
     private void callEditTaskFragment(cBaseTask taskToEdit){
         taskViewModel.setNote(taskToEdit);
         CreateTaskDialogFragment fragment = new CreateTaskDialogFragment();
+        fragment.setTargetFragment(this,1337);
         fragment.show(getFragmentManager(), "CREATE_TASK");
     }
 

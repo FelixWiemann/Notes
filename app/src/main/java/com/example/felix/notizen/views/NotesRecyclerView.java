@@ -18,7 +18,6 @@ import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 public class NotesRecyclerView extends RecyclerView {
 
     private static final String TAG = "NOTESRECYCLER";
-    private GestureDetector gestureDetector;
 
 
     public NotesRecyclerView(@NonNull Context context) {
@@ -37,121 +36,9 @@ public class NotesRecyclerView extends RecyclerView {
     }
 
     private void init(){
-        gestureDetector = new GestureDetector(getContext(), new GestureDetector.OnGestureListener() {
-            /**
-             * Notified when a tap occurs with the down {@link MotionEvent}
-             * that triggered it. This will be triggered immediately for
-             * every down event. All other events should be preceded by this.
-             *
-             * @param e The down motion event.
-             */
-            @Override
-            public boolean onDown(MotionEvent e) {
-                Log.d(TAG, "onDown");
-                return false;
-            }
-
-            /**
-             * The user has performed a down {@link MotionEvent} and not performed
-             * a move or up yet. This event is commonly used to provide visual
-             * feedback to the user to let them know that their action has been
-             * recognized i.e. highlight an element.
-             *
-             * @param e The down motion event
-             */
-            @Override
-            public void onShowPress(MotionEvent e) {
-                Log.d(TAG, "onShowPress");
-            }
-
-            /**
-             * Notified when a tap occurs with the up {@link MotionEvent}
-             * that triggered it.
-             *
-             * @param e The up motion event that completed the first tap
-             * @return true if the event is consumed, else false
-             */
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-
-                Log.d(TAG, "onSingleTapUp");
-                return false;
-            }
-
-            /**
-             * Notified when a scroll occurs with the initial on down {@link MotionEvent} and the
-             * current move {@link MotionEvent}. The distance in x and y is also supplied for
-             * convenience.
-             *
-             * @param e1        The first down motion event that started the scrolling.
-             * @param e2        The move motion event that triggered the current onScroll.
-             * @param distanceX The distance along the X axis that has been scrolled since the last
-             *                  call to onScroll. This is NOT the distance between {@code e1}
-             *                  and {@code e2}.
-             * @param distanceY The distance along the Y axis that has been scrolled since the last
-             *                  call to onScroll. This is NOT the distance between {@code e1}
-             *                  and {@code e2}.
-             * @return true if the event is consumed, else false
-             */
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                Log.d(TAG, "onScroll");
-                return false;
-            }
-
-            /**
-             * Notified when a long press occurs with the initial on down {@link MotionEvent}
-             * that trigged it.
-             *
-             * @param e The initial on down motion event that started the longpress.
-             */
-            @Override
-            public void onLongPress(MotionEvent e) {
-                Log.d(TAG, "onLongPress");
-            }
-
-            /**
-             * Notified of a fling event when it occurs with the initial on down {@link MotionEvent}
-             * and the matching up {@link MotionEvent}. The calculated velocity is supplied along
-             * the x and y axis in pixels per second.
-             *
-             * @param e1        The first down motion event that started the fling.
-             * @param e2        The move motion event that triggered the current onFling.
-             * @param velocityX The velocity of this fling measured in pixels per second
-             *                  along the x axis.
-             * @param velocityY The velocity of this fling measured in pixels per second
-             *                  along the y axis.
-             * @return true if the event is consumed, else false
-             */
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Log.d(TAG, "onFling");
-                return false;
-            }
-        });
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull ViewHolder viewHolder, @NonNull ViewHolder viewHolder1) {
-                Log.d(TAG, "onMove");
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull ViewHolder viewHolder, int i) {
-                Log.d(TAG, "onSwiped");
-            }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        ItemTouchHelper.Callback helperCallback = new NotesTouchHelperCallback();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
         itemTouchHelper.attachToRecyclerView(this);
-
-        this.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
-
-
     }
 
     /**
@@ -163,13 +50,9 @@ public class NotesRecyclerView extends RecyclerView {
         View childView = this.findChildViewUnder(event.getX(), event.getY());
         int index = this.getChildAdapterPosition(childView);
         cBaseTask task = (cBaseTask) ((SwipableRecyclerAdapter)getAdapter()).getItem(index);
-        //TODO callEditTaskFragment(task);
+        // TODO call correct fragment/activity to edit the item that is currently displayed
+        //callEditTaskFragment(task);
         // handle the click on the view
         return false;
     }
-
-    interface OnItemSingleTapListener{
-        void onSingleTap(DatabaseStorable storable, MotionEvent event);
-    }
-
 }
