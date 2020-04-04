@@ -16,6 +16,7 @@ public class NotesRecyclerView extends RecyclerView {
      * default must be true, so that we can activate the item touch handler
      */
     private boolean isOnItemTouchActive = true;
+    private boolean isNoScrollActive = true;
 
 
     public NotesRecyclerView(@NonNull Context context) {
@@ -40,8 +41,9 @@ public class NotesRecyclerView extends RecyclerView {
         this.addOnItemTouchListener(new OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+                SwipableView main = ((SwipableView)recyclerView.findChildViewUnder(motionEvent.getX(),motionEvent.getY()));
                 // dispatch the event to the main view, as there it is needed
-                return isOnItemTouchActive && ((SwipableView)recyclerView.findChildViewUnder(motionEvent.getX(),motionEvent.getY())).MainView.dispatchTouchEvent(motionEvent);
+                return main != null && isOnItemTouchActive && isNoScrollActive && main.MainView.dispatchTouchEvent(motionEvent);
             }
 
             @Override
@@ -53,6 +55,7 @@ public class NotesRecyclerView extends RecyclerView {
 
             }
         });
+        this.addOnScrollListener(onScrollListener);
     }
 
     /**
@@ -64,6 +67,20 @@ public class NotesRecyclerView extends RecyclerView {
     public void SetState(boolean ItemTouchState){
         isOnItemTouchActive = ItemTouchState;
     }
+
+    private RecyclerView.OnScrollListener onScrollListener = new OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            isNoScrollActive = newState == SCROLL_STATE_IDLE;
+
+        }
+
+        @Override
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+        }
+    };
 
 
 }

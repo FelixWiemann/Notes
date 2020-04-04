@@ -106,7 +106,7 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                Log.d("global layout listener", "onGlobalLayout: " + getHeight() + " " + ExpandableView.this);
+                //Log.d("global layout listener", "onGlobalLayout: " + getHeight() + " " + ExpandableView.this);
                 if (currentState == ExpandState.FIRSTINFLATE) {
                     aSizeExpanded = getHeight();
                     if (aSizeExpanded <= aSizeUnExpanded){
