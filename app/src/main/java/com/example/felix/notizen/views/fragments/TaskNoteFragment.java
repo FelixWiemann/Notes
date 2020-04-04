@@ -94,6 +94,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
             taskHolder.setAdapter(adapter);
         }else {
             adapter.replace(updatedData.getTaskList());
+            taskHolder.setAdapter(adapter);
         }
         adapter.sort(SortProvider.SortTasksDone);
         adapter.notifyDataSetChanged();
@@ -137,7 +138,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         cTaskNote data = mViewModel.getValue();
         data.deleteTask(updated);
         mViewModel.setNote(data);
-
     }
 
     private void callEditTaskFragment(cBaseTask taskToEdit){
