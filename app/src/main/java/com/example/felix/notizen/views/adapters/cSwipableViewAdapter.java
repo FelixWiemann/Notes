@@ -1,6 +1,7 @@
 package com.example.felix.notizen.views.adapters;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -57,16 +58,30 @@ public class cSwipableViewAdapter extends ExpandableViewAdapter {
             newView.setOnClickListeners(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onClickListenerLeft!=null){
+                    if (onClickListenerLeft != null) {
                         onClickListenerLeft.onClick(position);
                     }
                 }
             }, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onClickListenerRight!=null){
+                    if (onClickListenerRight != null) {
                         onClickListenerRight.onClick(position);
                     }
+                }
+            }, new View.OnTouchListener() {
+                /**
+                 * Called when a touch event is dispatched to a view. This allows listeners to
+                 * get a chance to respond before the target view.
+                 *
+                 * @param v     The view the touch event has been dispatched to.
+                 * @param event The MotionEvent object containing full information about
+                 *              the event.
+                 * @return True if the listener has consumed the event, false otherwise.
+                 */
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return false;
                 }
             });
         }

@@ -38,9 +38,6 @@ public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
     private final static int LEFT_BUTTONS_WIDTH = 100;
     private final static int RIGHT_BUTTONS_WIDTH = 100;
 
-    private RecyclerView.ViewHolder currentlySwiped;
-
-
     private boolean swipeBack = false;
 
     @Override
@@ -77,7 +74,7 @@ public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
                 if (currentButtonState == BUTTON_STATE.RIGHT) dX = Math.min(dX, -RIGHT_BUTTONS_WIDTH);
                 super.onChildDraw(c, recyclerView, getChildToDrawBasedOnType(viewHolder,dX), dX, dY, actionState, isCurrentlyActive);
             } else {
-                // not gone, we need the touch listener to undo the swiped state
+                // gone, we need the touch listener to undo the swiped state
                 setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }
@@ -85,6 +82,7 @@ public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
         if (currentButtonState == BUTTON_STATE.GONE) {
             super.onChildDraw(c, recyclerView, getChildToDrawBasedOnType(viewHolder,dX), dX, dY, actionState, isCurrentlyActive);
         }
+        Log.d(TAG, "onChildDraw, action state " + actionState);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -112,11 +110,12 @@ public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
                     if (currentButtonState != BUTTON_STATE.GONE) {
                         // make sure to be able to undo stuff
                         setTouchUpListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                        // and make the items not clickable so we can handle the buttons instead
-                        setItemsClickable(recyclerView, false);
                     }
                 }
-
+                // activate or deactivate the item touch handler of the recycler view depending on button states
+                // if they are visible we need to suppress the recycler on item touch
+                ((NotesRecyclerView) recyclerView).SetState(currentButtonState == BUTTON_STATE.GONE);
+                Log.d(TAG, "onTouch: setTouchListener, button state gone: " + (currentButtonState == BUTTON_STATE.GONE) + ",Motion event: " + event.getAction());
                 return false;
             }
         });
@@ -132,37 +131,17 @@ public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    // when touching down make default onTouchListener, as we can't remove an existing touch listener
-                    recyclerView.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            return false;
-                        }
-                    });
-                    // swiping buttons have been handled, items should be clickable again
-                    setItemsClickable(recyclerView, true);
+                if ((event.getAction() == MotionEvent.ACTION_DOWN)){
                     // reset swipe state and button state
                     swipeBack = false;
                     currentButtonState = BUTTON_STATE.GONE;
                     // finally reset child draw position to X-Origin (we only where detecting the X-Dir for swiping)
                     NotesTouchHelperCallback.this.onChildDraw(c, recyclerView, getChildToDrawBasedOnType(viewHolder,0F), 0F, dY, actionState, isCurrentlyActive);
                 }
+                Log.d(TAG, "onTouch: setTouchUpListener: Motion event: " + event.getAction());
                 return false;
             }
         });
-    }
-
-    /**
-     * helper function to change clickable-state of all children of recyclerView
-     * @param recyclerView
-     * @param isClickable
-     */
-    private void setItemsClickable(RecyclerView recyclerView,
-                                   boolean isClickable) {
-        for (int i = 0; i < recyclerView.getChildCount(); ++i) {
-            recyclerView.getChildAt(i).setClickable(isClickable);
-        }
     }
 
     private RecyclerView.ViewHolder getChildToDrawBasedOnType(final RecyclerView.ViewHolder viewHolder,

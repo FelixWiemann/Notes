@@ -7,14 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
@@ -22,6 +18,8 @@ import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.filtersort.SortProvider;
 import com.example.felix.notizen.views.NotesRecyclerView;
+import com.example.felix.notizen.views.SwipableView;
+import com.example.felix.notizen.views.adapters.OnSwipeableClickListener;
 import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import java.util.UUID;
@@ -43,11 +41,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
     FabProvider fabProvider;
     EditNoteViewModel<cBaseTask> taskViewModel;
 
-
-    // todo move to onTouchListener?
-    View down = null;
-
-
     private int currentEditedNoteIndex;
 
     public TaskNoteFragment(){
@@ -67,55 +60,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
         taskHolder = v.findViewById(R.id.task_holder);
         taskHolder.setLayoutManager(new LinearLayoutManager(getContext()));
-        // TODO ItemTouch handler should be moved to the Recycler View?
-        taskHolder.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                return TaskNoteFragment.this.onTouch(recyclerView, motionEvent);
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-            }
-        });
-        /*taskHolder.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return TaskNoteFragment.this.onTouch(v, event);
-            }
-        });*/
         return v;
-    }
-
-    /**
-     * handles the on touch event on the recycler view
-     * @param v
-     * @param event
-     * @return
-     */
-    private boolean onTouch(View v, MotionEvent event){
-        RecyclerView view = (RecyclerView) v;
-        View childView = view.findChildViewUnder(event.getX(), event.getY());
-        int action = event.getAction();
-        if (action == MotionEvent.ACTION_DOWN){
-            down = childView;
-        }
-        if (action == MotionEvent.ACTION_UP){
-            if (down != null && down.equals(childView)){
-                currentEditedNoteIndex = view.getChildAdapterPosition(childView);
-                cBaseTask task = adapter.getItem(currentEditedNoteIndex);
-                callEditTaskFragment(task);
-            }
-            down = null;
-        }
-        // handle the click on the view
-        return false;
     }
 
     /**
@@ -128,6 +73,21 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
     protected void updateUI(cTaskNote updatedData) {
         if (adapter == null) {
             adapter = new SwipableRecyclerAdapter<>(updatedData.getTaskList());
+            adapter.OnLeftClick = new OnSwipeableClickListener() {
+                @Override
+                public void onClick(View clickedOn, SwipableView parentView) {
+                    Log.d(TAG, "onClick: button left");
+                }
+            };
+            adapter.OnMiddleClick = new OnSwipeableClickListener() {
+                @Override
+                public void onClick(View clickedOn, SwipableView parentView) {
+                    currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
+                    if (currentEditedNoteIndex==-1) return;
+                    cBaseTask task = adapter.getItem(currentEditedNoteIndex);
+                    callEditTaskFragment(task);
+                }
+            };
             taskHolder.setAdapter(adapter);
         }else {
             adapter.replace(updatedData.getTaskList());

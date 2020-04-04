@@ -6,18 +6,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
-
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.objects.Task.cBaseTask;
-import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 
 public class NotesRecyclerView extends RecyclerView {
 
     private static final String TAG = "NOTESRECYCLER";
+
+    /**
+     * default must be true, so that we can activate the item touch handler
+     */
+    private boolean isOnItemTouchActive = true;
 
 
     public NotesRecyclerView(@NonNull Context context) {
@@ -39,20 +37,33 @@ public class NotesRecyclerView extends RecyclerView {
         ItemTouchHelper.Callback helperCallback = new NotesTouchHelperCallback();
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
         itemTouchHelper.attachToRecyclerView(this);
+        this.addOnItemTouchListener(new OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+                // dispatch the event to the main view, as there it is needed
+                return isOnItemTouchActive && ((SwipableView)recyclerView.findChildViewUnder(motionEvent.getX(),motionEvent.getY())).MainView.dispatchTouchEvent(motionEvent);
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+            }
+        });
     }
 
     /**
-     * handles the on touch event on the recycler view
-     * @param event
-     * @return
+     * sets the item touch state.
+     * if the item touch state is false, the item touch handler will not be called
+     * if it is true, the item touch handler will be called
+     * @param ItemTouchState
      */
-    private boolean onItemTouch(MotionEvent event){
-        View childView = this.findChildViewUnder(event.getX(), event.getY());
-        int index = this.getChildAdapterPosition(childView);
-        cBaseTask task = (cBaseTask) ((SwipableRecyclerAdapter)getAdapter()).getItem(index);
-        // TODO call correct fragment/activity to edit the item that is currently displayed
-        //callEditTaskFragment(task);
-        // handle the click on the view
-        return false;
+    public void SetState(boolean ItemTouchState){
+        isOnItemTouchActive = ItemTouchState;
     }
+
+
 }

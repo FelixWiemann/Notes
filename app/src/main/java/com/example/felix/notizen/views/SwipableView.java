@@ -37,6 +37,7 @@ public class SwipableView extends RelativeLayout{
     private RelativeLayout Placeholder;
 
     private boolean inRecycler = false;
+    OnTouchListener MiddleClick;
 
     public SwipableView(Context context) {
         super(context);
@@ -78,9 +79,11 @@ public class SwipableView extends RelativeLayout{
         BackgroundRight.setVisibility(INVISIBLE);
     }
 
-    public void setOnClickListeners(OnClickListener left, OnClickListener right){
+    public void setOnClickListeners(OnClickListener left, OnClickListener right, OnTouchListener middle){
         BackgroundLeft.setOnClickListener(left);
         BackgroundRight.setOnClickListener(right);
+        MiddleClick = middle;
+        if (inRecycler && MainView != null) MainView.setOnTouchListener(MiddleClick);
     }
 
     /**
@@ -88,10 +91,11 @@ public class SwipableView extends RelativeLayout{
      * @param mainView center view that can be swiped to show the background views
      */
     public void setMainView(View mainView){
-       MainView = mainView;
-       mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-       Placeholder.removeView(mainView);
-       Placeholder.addView(mainView);
+        Placeholder.removeView(MainView);
+        MainView = mainView;
+        if (inRecycler) MainView.setOnTouchListener(MiddleClick);
+        mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        Placeholder.addView(MainView);
     }
 
     /**
