@@ -1,7 +1,6 @@
 package com.example.felix.notizen.views.adapters;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,6 @@ public class SwipableRecyclerAdapter<T extends DatabaseStorable> extends Sortabl
                 if (OnMiddleClick != null) {
                     if (event.getAction() == MotionEvent.ACTION_UP) OnMiddleClick.onClick(v, view);
                 }
-                Log.d(TAG, "onTouch: Motion event: " + event.getAction());
                 return false;
             }
         });

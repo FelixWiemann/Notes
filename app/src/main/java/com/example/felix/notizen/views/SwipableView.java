@@ -73,9 +73,18 @@ public class SwipableView extends RelativeLayout{
         LayoutInflater mInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mInflater.inflate(R.layout.swipe_action_view, this);
         Placeholder = findViewById(R.id.layout_to_be_swiped);
-        BackgroundLeft = findViewById(R.id.swipe_button_left);
+        RelativeLayout parent = findViewById(R.id.parent);
+        BackgroundLeft = mInflater.inflate(R.layout.swipable_left, parent, false);
+        RelativeLayout.LayoutParams paramLeft = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        paramLeft.addRule(ALIGN_PARENT_START, TRUE);
+        paramLeft.addRule(CENTER_VERTICAL, TRUE);
+        parent.addView(BackgroundLeft, paramLeft);
         BackgroundLeft.setVisibility(INVISIBLE);
-        BackgroundRight = findViewById(R.id.swipe_button_right);
+        RelativeLayout.LayoutParams paramRight = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        paramRight.addRule(ALIGN_PARENT_END, TRUE);
+        paramRight.addRule(CENTER_VERTICAL, TRUE);
+        BackgroundRight = mInflater.inflate(R.layout.swipable_right, parent, false);
+        parent.addView(BackgroundRight, paramRight);
         BackgroundRight.setVisibility(INVISIBLE);
     }
 

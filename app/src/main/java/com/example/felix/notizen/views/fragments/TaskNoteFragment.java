@@ -76,7 +76,10 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
             adapter.OnLeftClick = new OnSwipeableClickListener() {
                 @Override
                 public void onClick(View clickedOn, SwipableView parentView) {
-                    Log.d(TAG, "onClick: button left");
+                    currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
+                    if (currentEditedNoteIndex==-1) return;
+                    cBaseTask task = adapter.getItem(currentEditedNoteIndex);
+                    deleteTask(task);
                 }
             };
             adapter.OnMiddleClick = new OnSwipeableClickListener() {
@@ -127,6 +130,14 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
             data.updateTask(updated);
         }
         mViewModel.setNote(data);
+    }
+
+    private void deleteTask(cBaseTask updated){
+        if (updated == null) return;
+        cTaskNote data = mViewModel.getValue();
+        data.deleteTask(updated);
+        mViewModel.setNote(data);
+
     }
 
     private void callEditTaskFragment(cBaseTask taskToEdit){
