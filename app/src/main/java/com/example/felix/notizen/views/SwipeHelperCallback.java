@@ -14,7 +14,7 @@ import com.example.felix.notizen.views.adapters.ViewHolders.SwipableViewHolder;
 import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE;
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
 import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;
-import static com.example.felix.notizen.views.NotesTouchHelperCallback.BUTTON_STATE.GONE;
+import static com.example.felix.notizen.views.SwipeHelperCallback.BUTTON_STATE.GONE;
 
 /**
  * following tutorial https://codeburst.io/android-swipe-menu-with-recyclerview-8f28a235ff28#ed30
@@ -23,23 +23,55 @@ import static com.example.felix.notizen.views.NotesTouchHelperCallback.BUTTON_ST
  *
  *
  */
-public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
+public class SwipeHelperCallback extends ItemTouchHelper.Callback {
+
+    private static final String TAG = "NOTES_TOUCH_HELPER";
 
     enum BUTTON_STATE {
         GONE, LEFT, RIGHT
     }
 
-    private static final String TAG = "NOTES_TOUCH_HELPER";
-
-    private final static int DRAG_FLAGS = 0;
-    // TODO make dependant whether buttons on right or left are added
-    private final static int MOVEMENT_FLAGS = LEFT | RIGHT;
+    /**
+     * state of the buttons
+     */
     private BUTTON_STATE currentButtonState = GONE;
-    // TODO make dependant on size of the buttons added left/right
-    private final static int LEFT_BUTTONS_WIDTH = 100;
-    private final static int RIGHT_BUTTONS_WIDTH = 100;
+
+
+    // dragging not supported
+    private final static int DRAG_FLAGS = 0;
+    /**
+     * movement flags depending on buttons added
+     */
+    private int MOVEMENT_FLAGS;
+    /**
+     * buttons width set in constructor
+     */
+    private final int LEFT_BUTTONS_WIDTH;
+    /**
+     * buttons width set in constructor
+     */
+    private final int RIGHT_BUTTONS_WIDTH;
+
+    /**
+     * no buttons added
+     */
+    final static int NO_BUTTON = -1;
 
     private boolean swipeBack = false;
+
+
+    public SwipeHelperCallback(int LEFT_BUTTONS_WIDTH, int RIGHT_BUTTONS_WIDTH) {
+        super();
+        this.LEFT_BUTTONS_WIDTH = LEFT_BUTTONS_WIDTH;
+        this.RIGHT_BUTTONS_WIDTH = RIGHT_BUTTONS_WIDTH;
+        MOVEMENT_FLAGS = 0;
+        if (LEFT_BUTTONS_WIDTH != NO_BUTTON){
+            MOVEMENT_FLAGS |= RIGHT; // swiping right means we need to show the left buttons
+        }
+        if (RIGHT_BUTTONS_WIDTH != NO_BUTTON){
+            MOVEMENT_FLAGS |= LEFT;
+        }
+    }
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -101,10 +133,10 @@ public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
                 swipeBack = event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP;
                 if (swipeBack){
                     // check if we are past boundaries and set correct state
-                    if (dX > LEFT_BUTTONS_WIDTH){
+                    if (LEFT_BUTTONS_WIDTH != NO_BUTTON && dX > LEFT_BUTTONS_WIDTH){
                         currentButtonState = BUTTON_STATE.LEFT;
                     }
-                    else if (dX < - RIGHT_BUTTONS_WIDTH){
+                    else if (RIGHT_BUTTONS_WIDTH != NO_BUTTON &&  dX < - RIGHT_BUTTONS_WIDTH){
                         currentButtonState = BUTTON_STATE.RIGHT;
                     }
                     // we need to show buttons
@@ -115,7 +147,7 @@ public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
                 }
                 // activate or deactivate the item touch handler of the recycler view depending on button states
                 // if they are visible we need to suppress the recycler on item touch
-                ((NotesRecyclerView) recyclerView).SetState(currentButtonState == GONE);
+                ((SwipeRecyclerView) recyclerView).SetState(currentButtonState == GONE);
                 Log.d(TAG, "onTouch: setTouchListener, button state gone: " + (currentButtonState == GONE) + ",Motion event: " + event.getAction());
                 return false;
             }
@@ -137,7 +169,7 @@ public class NotesTouchHelperCallback extends ItemTouchHelper.Callback {
                     swipeBack = false;
                     currentButtonState = GONE;
                     // finally reset child draw position to X-Origin (we only where detecting the X-Dir for swiping)
-                    NotesTouchHelperCallback.this.onChildDraw(c, recyclerView, getChildToDrawBasedOnType(viewHolder,0F), 0F, dY, actionState, isCurrentlyActive);
+                    SwipeHelperCallback.this.onChildDraw(c, recyclerView, getChildToDrawBasedOnType(viewHolder,0F), 0F, dY, actionState, isCurrentlyActive);
                 }
                 Log.d(TAG, "onTouch: setTouchUpListener: Motion event: " + event.getAction());
                 return false;

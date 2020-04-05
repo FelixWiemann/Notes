@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,8 @@ import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.filtersort.SortProvider;
-import com.example.felix.notizen.views.NotesRecyclerView;
 import com.example.felix.notizen.views.SwipableView;
+import com.example.felix.notizen.views.SwipeRecyclerView;
 import com.example.felix.notizen.views.adapters.OnSwipeableClickListener;
 import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 
@@ -36,10 +35,10 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
      * task has been added, but was not called for editing by click on it but by creation
      */
     private static final int NOT_YET_INDEXED = -2;
-    NotesRecyclerView taskHolder;
-    SwipableRecyclerAdapter<cBaseTask> adapter;
-    FabProvider fabProvider;
+    SwipeRecyclerView<cBaseTask> taskHolder;
     EditNoteViewModel<cBaseTask> taskViewModel;
+
+    FabProvider fabProvider;
 
     private int currentEditedNoteIndex;
 
@@ -59,7 +58,25 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
         taskHolder = v.findViewById(R.id.task_holder);
-        taskHolder.setLayoutManager(new LinearLayoutManager(getContext()));
+        final SwipableRecyclerAdapter<cBaseTask> adapter = taskHolder.getAdapter();
+        adapter.OnLeftClick = new OnSwipeableClickListener() {
+            @Override
+            public void onClick(View clickedOn, SwipableView parentView) {
+                currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
+                if (currentEditedNoteIndex==-1) return;
+                cBaseTask task = adapter.getItem(currentEditedNoteIndex);
+                deleteTask(task);
+            }
+        };
+        adapter.OnMiddleClick = new OnSwipeableClickListener() {
+            @Override
+            public void onClick(View clickedOn, SwipableView parentView) {
+                currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
+                if (currentEditedNoteIndex==-1) return;
+                cBaseTask task = adapter.getItem(currentEditedNoteIndex);
+                callEditTaskFragment(task);
+            }
+        };
         return v;
     }
 
@@ -71,31 +88,9 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
      */
     @Override
     protected void updateUI(cTaskNote updatedData) {
-        if (adapter == null) {
-            adapter = new SwipableRecyclerAdapter<>(updatedData.getTaskList());
-            adapter.OnLeftClick = new OnSwipeableClickListener() {
-                @Override
-                public void onClick(View clickedOn, SwipableView parentView) {
-                    currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
-                    if (currentEditedNoteIndex==-1) return;
-                    cBaseTask task = adapter.getItem(currentEditedNoteIndex);
-                    deleteTask(task);
-                }
-            };
-            adapter.OnMiddleClick = new OnSwipeableClickListener() {
-                @Override
-                public void onClick(View clickedOn, SwipableView parentView) {
-                    currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
-                    if (currentEditedNoteIndex==-1) return;
-                    cBaseTask task = adapter.getItem(currentEditedNoteIndex);
-                    callEditTaskFragment(task);
-                }
-            };
-            taskHolder.setAdapter(adapter);
-        }else {
-            adapter.replace(updatedData.getTaskList());
-            taskHolder.setAdapter(adapter);
-        }
+        SwipableRecyclerAdapter<cBaseTask> adapter = taskHolder.getAdapter();
+        adapter.replace(updatedData.getTaskList());
+        taskHolder.setAdapter(adapter);
         adapter.sort(SortProvider.SortTasksDone);
         adapter.notifyDataSetChanged();
         Log.d(TAG, "updateUI: done");
