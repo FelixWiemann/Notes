@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 
 import com.example.felix.notizen.R;
@@ -74,18 +75,21 @@ public class SwipableView extends RelativeLayout{
         mInflater.inflate(R.layout.swipe_action_view, this);
         Placeholder = findViewById(R.id.layout_to_be_swiped);
         RelativeLayout parent = findViewById(R.id.parent);
+
         BackgroundLeft = mInflater.inflate(R.layout.swipable_left, parent, false);
         RelativeLayout.LayoutParams paramLeft = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         paramLeft.addRule(ALIGN_PARENT_START, TRUE);
         paramLeft.addRule(CENTER_VERTICAL, TRUE);
         parent.addView(BackgroundLeft, paramLeft);
-        BackgroundLeft.setVisibility(INVISIBLE);
+
+
+        BackgroundRight = mInflater.inflate(R.layout.swipable_right, parent, false);
         RelativeLayout.LayoutParams paramRight = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         paramRight.addRule(ALIGN_PARENT_END, TRUE);
         paramRight.addRule(CENTER_VERTICAL, TRUE);
-        BackgroundRight = mInflater.inflate(R.layout.swipable_right, parent, false);
         parent.addView(BackgroundRight, paramRight);
-        BackgroundRight.setVisibility(INVISIBLE);
+        // init visibility
+        showBackground(0);
     }
 
     public void setOnClickListeners(OnClickListener left, OnClickListener right, OnTouchListener middle){
@@ -128,11 +132,15 @@ public class SwipableView extends RelativeLayout{
     public void showBackground(float pos){
         if (pos<0){
             BackgroundRight.setVisibility(VISIBLE);
+            BackgroundRight.setAlpha(pos/BackgroundRight.getWidth());
         }else if(pos>0){
             BackgroundLeft.setVisibility(VISIBLE);
+            BackgroundLeft.setAlpha(pos/BackgroundLeft.getWidth());
         }else{
             BackgroundRight.setVisibility(INVISIBLE);
             BackgroundLeft.setVisibility(INVISIBLE);
+            BackgroundRight.setAlpha(0);
+            BackgroundLeft.setAlpha(0);
         }
     }
 }
