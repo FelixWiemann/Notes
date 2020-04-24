@@ -30,5 +30,6 @@
     <string name="cancel_exit">cancel</string>
     <string name="save_and_exit">save</string>
     <string name="discard_exit">discard</string>
+    <string name="title_activity_test_acitivity">testAcitivity</string>
 
 </resources>

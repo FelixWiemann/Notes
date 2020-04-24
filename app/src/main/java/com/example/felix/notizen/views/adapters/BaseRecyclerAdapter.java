@@ -21,7 +21,7 @@ public class BaseRecyclerAdapter<T extends DatabaseStorable> extends RecyclerVie
     private static final String TAG = "RECYCLER_ADAPTER";
     ArrayList<T> itemList;
 
-    BaseRecyclerAdapter(List<T> itemList) {
+    public BaseRecyclerAdapter(List<T> itemList) {
         super();
         this.itemList = new ArrayList<>();
         this.itemList.addAll(itemList);

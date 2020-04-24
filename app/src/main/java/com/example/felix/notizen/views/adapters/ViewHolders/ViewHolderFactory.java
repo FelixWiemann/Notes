@@ -4,6 +4,8 @@ import android.view.View;
 
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.Notes.cTaskNote;
+import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 
 import java.lang.reflect.InvocationTargetException;
@@ -50,6 +52,8 @@ public class ViewHolderFactory {
             instance = new ViewHolderFactory();
             // register new View Types here
             instance.registerNewViewHolder(R.layout.task_view, cBaseTask.class, TaskViewHolder.class);
+            instance.registerNewViewHolder(R.layout.note_view, cTextNote.class, TextNoteViewHolder.class);
+            instance.registerNewViewHolder(R.layout.task_note_view, cTaskNote.class, TaskNoteViewHolder.class);
         }
         return instance;
     }

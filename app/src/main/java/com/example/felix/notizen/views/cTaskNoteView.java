@@ -10,8 +10,8 @@ import android.widget.FrameLayout;
 import com.example.felix.notizen.R;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
-import com.example.felix.notizen.views.adapters.SortableRecyclerAdapter;
 import com.example.felix.notizen.objects.filtersort.FilterHideDone;
+import com.example.felix.notizen.views.adapters.SortableRecyclerAdapter;
 
 /**
  * Created by Felix on 11.11.2018.
@@ -55,10 +55,12 @@ public class cTaskNoteView extends cNoteDisplayView<cTaskNote> {
     public void onInitialization() {
         noteViewContainer = findViewById(R.id.lvContentHolder);
         view = findViewById(R.id.NestedScrollView);
+        view.setNestedScrollingEnabled(true);
         adapter = new SortableRecyclerAdapter<>(getContent().getTaskList());
         adapter.filter(new FilterHideDone());
         noteViewContainer.setAdapter(adapter);
         noteViewContainer.setLayoutManager(new LinearLayoutManager(getContext()));
+        noteViewContainer.setNestedScrollingEnabled(true);
         updateData();
     }
 
