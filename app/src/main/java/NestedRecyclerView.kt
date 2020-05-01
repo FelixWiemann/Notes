@@ -8,6 +8,11 @@ import android.view.MotionEvent
 import android.view.View
 
 
+/**
+ *
+ * "stolen" from
+ * https://github.com/Widgetlabs/expedition-nestedscrollview
+ */
 open class NestedRecyclerView : RecyclerView, NestedScrollingParent {
 
     private var nestedScrollTarget: View? = null

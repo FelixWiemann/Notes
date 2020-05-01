@@ -13,7 +13,7 @@ public class TitleViewHolder<T extends cStorageObject> extends ViewHolderInterfa
 
     public TitleViewHolder(@NonNull View itemView) {
         super(itemView);
-        title = itemView.findViewById(R.id.titleid);
+        title = itemView.findViewById(R.id.titleText);
     }
 
     @Override
