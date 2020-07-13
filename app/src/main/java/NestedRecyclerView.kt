@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.view.NestedScrollingParent
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 
@@ -79,6 +80,7 @@ open class NestedRecyclerView : RecyclerView, NestedScrollingParent {
                 target.parent?.requestDisallowInterceptTouchEvent(false)
             }
         }
+        Log.d("NESTED SCROLLVIEW","onNestedScroll")
     }
 
 
@@ -89,7 +91,7 @@ open class NestedRecyclerView : RecyclerView, NestedScrollingParent {
             nestedScrollTargetIsBeingDragged = false
             nestedScrollTargetWasUnableToScroll = false
         }
-
+        Log.d("NESTED SCROLLVIEW","onNestedScrollAccepted")
         super.onNestedScrollAccepted(child, target, axes)
     }
 

@@ -51,7 +51,7 @@ public class CompoundAdapter<T extends DatabaseStorable> extends SortableRecycle
                 // for each adapter, create the view based on the given type
                 ViewHolderInterface adapterDefVH = adapter.onCreateViewHolder(compoundView, type);
                 // finally add it to the compound VH
-                compoundVH.addViewHolderInterface(adapterDefVH);
+                compoundVH.addViewHolderInterface(adapterDefVH,adapterDefVH.getClass());
                 // replace the view associated with the current adapter with the one the adapter inflated
                 ((ViewGroup)compoundView.findViewById(recyclerAdapters.get(adapter))).addView(adapterDefVH.itemView);
                 // remove the placeholder view

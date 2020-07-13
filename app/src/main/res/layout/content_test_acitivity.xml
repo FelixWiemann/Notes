@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_test_acitivity">
 
 
-    <com.example.felix.notizen.NestedRecyclerView
+    <com.example.felix.notizen.views.SwipeRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recview"/>

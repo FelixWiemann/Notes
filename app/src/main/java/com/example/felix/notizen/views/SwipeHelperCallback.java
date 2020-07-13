@@ -55,7 +55,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
     /**
      * no buttons added
      */
-    final static int NO_BUTTON = -1;
+    public final static int NO_BUTTON = -1;
 
     private boolean swipeBack = false;
 
@@ -185,7 +185,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
             return swipableHolder.viewHolderInterface;
         }else {
             // draw child on those directions
-            Log.d(TAG, "getChildToDrawBasedOnType: not swipable holder " + viewHolder.getClass().getCanonicalName());
+            //Log.d(TAG, "getChildToDrawBasedOnType: not swipable holder " + viewHolder.getClass().getCanonicalName());
             return viewHolder;
         }
     }

@@ -7,14 +7,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.util.Log;
 
+import com.example.felix.notizen.NestedRecyclerView;
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import java.util.ArrayList;
 
-public class SwipeRecyclerView<T extends DatabaseStorable> extends RecyclerView {
+public class SwipeRecyclerView<T extends DatabaseStorable> extends NestedRecyclerView {
 
     private static final String TAG = "NOTESRECYCLER";
 
@@ -49,23 +50,6 @@ public class SwipeRecyclerView<T extends DatabaseStorable> extends RecyclerView 
         ItemTouchHelper.Callback helperCallback = new SwipeHelperCallback(100, SwipeHelperCallback.NO_BUTTON);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
         itemTouchHelper.attachToRecyclerView(this);
-        this.addOnItemTouchListener(new OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                SwipableView main = ((SwipableView)recyclerView.findChildViewUnder(motionEvent.getX(),motionEvent.getY()));
-                // dispatch the event to the main view, as there it is needed
-                return main != null && isOnItemTouchActive && isNoScrollActive && main.MainView.dispatchTouchEvent(motionEvent);
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-            }
-        });
         addOnScrollListener(onScrollListener);
         setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -85,7 +69,7 @@ public class SwipeRecyclerView<T extends DatabaseStorable> extends RecyclerView 
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             isNoScrollActive = newState == SCROLL_STATE_IDLE;
-
+            Log.d(TAG, "new scroll state: " + isNoScrollActive);
         }
 
         @Override

@@ -16,6 +16,7 @@ import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.adapters.BaseRecyclerAdapter;
 import com.example.felix.notizen.views.adapters.CompoundAdapter;
+import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 import com.example.felix.notizen.views.adapters.TitleAdapter;
 
 import java.util.ArrayList;
@@ -60,10 +61,12 @@ public class testAcitivity extends AppCompatActivity {
         itemList.add(new cTextNote(UUID.randomUUID(),"title n7","message n7"));
 
         RecyclerView recyclerView = findViewById(R.id.recview);
-        //recyclerView.setNestedScrollingEnabled(true);
         CompoundAdapter<cStorageObject> adapter = new CompoundAdapter<>(itemList, R.layout.compound_view);
         adapter.registerAdapter(new TitleAdapter(itemList),R.id.titleid);
         adapter.registerAdapter(new BaseRecyclerAdapter<>(itemList), R.id.relativeLayout);
+        SwipableRecyclerAdapter swipeAdapter = new SwipableRecyclerAdapter<>(itemList);
+
+        adapter.registerAdapter(swipeAdapter,R.layout.swipe_action_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         adapter.notifyDataSetChanged();

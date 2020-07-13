@@ -60,6 +60,7 @@ public class cTaskNoteView extends cNoteDisplayView<cTaskNote> {
         adapter.filter(new FilterHideDone());
         noteViewContainer.setAdapter(adapter);
         noteViewContainer.setLayoutManager(new LinearLayoutManager(getContext()));
+
         noteViewContainer.setNestedScrollingEnabled(false);
         updateData();
     }
