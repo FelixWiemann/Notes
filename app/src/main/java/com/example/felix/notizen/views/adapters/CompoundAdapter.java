@@ -11,6 +11,7 @@ import com.example.felix.notizen.views.adapters.ViewHolders.ViewHolderInterface;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class CompoundAdapter<T extends DatabaseStorable> extends SortableRecyclerAdapter<T> {
 
@@ -23,7 +24,7 @@ public class CompoundAdapter<T extends DatabaseStorable> extends SortableRecycle
     private final int ViewId;
 
     public CompoundAdapter(List<T> itemList, int CompoundViewLayoutId) {
-        super(itemList);
+        super(itemList, 0);
         recyclerAdapters = new HashMap<>();
         ViewId = CompoundViewLayoutId;
     }
@@ -45,8 +46,8 @@ public class CompoundAdapter<T extends DatabaseStorable> extends SortableRecycle
         ViewGroup compoundView = (ViewGroup) LayoutInflater.from(viewGroup.getContext()).inflate(ViewId,viewGroup,false);
         // create compound view holder
         CompoundViewHolder compoundVH = new CompoundViewHolder<>(compoundView);
-
-        for (BaseRecyclerAdapter adapter:recyclerAdapters.keySet()) {
+        TreeMap<BaseRecyclerAdapter<T>, Integer> sorted = new TreeMap<>(recyclerAdapters);
+        for (BaseRecyclerAdapter adapter : sorted.keySet()) {
             try {
                 // for each adapter, create the view based on the given type
                 ViewHolderInterface adapterDefVH = adapter.onCreateViewHolder(compoundView, type);

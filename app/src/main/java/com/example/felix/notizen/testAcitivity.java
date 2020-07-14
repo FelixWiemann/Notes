@@ -62,11 +62,10 @@ public class testAcitivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recview);
         CompoundAdapter<cStorageObject> adapter = new CompoundAdapter<>(itemList, R.layout.compound_view);
-        adapter.registerAdapter(new TitleAdapter(itemList),R.id.titleid);
-        adapter.registerAdapter(new BaseRecyclerAdapter<>(itemList), R.id.relativeLayout);
-        SwipableRecyclerAdapter swipeAdapter = new SwipableRecyclerAdapter<>(itemList);
-
-        adapter.registerAdapter(swipeAdapter,R.layout.swipe_action_view);
+        adapter.registerAdapter(new TitleAdapter(itemList,2),R.id.titleid);
+        adapter.registerAdapter(new BaseRecyclerAdapter<>(itemList,1), R.id.content);
+        SwipableRecyclerAdapter<cStorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(itemList,0);
+        adapter.registerAdapter(swipeAdapter,R.id.compound_content);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         adapter.notifyDataSetChanged();

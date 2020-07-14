@@ -18,8 +18,8 @@ public class SortableRecyclerAdapter<T extends DatabaseStorable> extends BaseRec
     private Comparator<T> currentComparator;
 
 
-    public SortableRecyclerAdapter(List<T> itemList) {
-        super(itemList);
+    public SortableRecyclerAdapter(List<T> itemList, int SortOrder) {
+        super(itemList, SortOrder);
         filteredOut = new ArrayList<>();
     }
 

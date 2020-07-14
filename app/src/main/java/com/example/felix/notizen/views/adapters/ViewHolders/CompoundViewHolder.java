@@ -31,4 +31,19 @@ public class CompoundViewHolder<T extends cStorageObject> extends ViewHolderInte
     public ViewHolderInterface<T> getViewHolder(Class clazz){
         return interfaces.get(clazz);
     }
+
+    public ViewHolderInterface[] getViewHolders(float dX){
+        ViewHolderInterface[] array = new ViewHolderInterface[interfaces.size()];
+        for (int i = 0; i < array.length; i++) {
+            if (interfaces.values().toArray()[i] instanceof SwipableViewHolder) {
+                SwipableViewHolder swipableHolder = (SwipableViewHolder) interfaces.values().toArray()[i];
+                swipableHolder.setBackgroundVisibility(dX);
+                array[i] = swipableHolder.viewHolderInterface;
+            }else {
+                array[i] = (ViewHolderInterface<T>) interfaces.values().toArray()[i];
+            }
+        }
+        return array;
+    }
+
 }

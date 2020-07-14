@@ -10,12 +10,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.example.felix.notizen.NestedRecyclerView;
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import java.util.ArrayList;
 
-public class SwipeRecyclerView<T extends DatabaseStorable> extends NestedRecyclerView {
+public class SwipeRecyclerView<T extends cStorageObject> extends NestedRecyclerView {
 
     private static final String TAG = "NOTESRECYCLER";
 
@@ -44,7 +44,7 @@ public class SwipeRecyclerView<T extends DatabaseStorable> extends NestedRecycle
     }
 
     private void init(){
-        adapter = new SwipableRecyclerAdapter<>(new ArrayList<T>());
+        adapter = new SwipableRecyclerAdapter<>(new ArrayList<T>(), 0);
         this.setAdapter(adapter);
         // todo get swipe-menu width from adapter
         ItemTouchHelper.Callback helperCallback = new SwipeHelperCallback(100, SwipeHelperCallback.NO_BUTTON);

@@ -49,7 +49,7 @@ public class SortableRecyclerAdapterTest {
 
     @Before
     public void setUp() {
-        adapterUnderTest = spy(new SortableRecyclerAdapter<>(new ArrayList<DatabaseStorable>()));
+        adapterUnderTest = spy(new SortableRecyclerAdapter<>(new ArrayList<DatabaseStorable>(),0));
         // don't do anything on baseAdapter.notifyDataSetChanged, as not mocked
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
 

@@ -56,7 +56,7 @@ public class cTaskNoteView extends cNoteDisplayView<cTaskNote> {
         noteViewContainer = findViewById(R.id.lvContentHolder);
         view = findViewById(R.id.NestedScrollView);
         view.setNestedScrollingEnabled(false);
-        adapter = new SortableRecyclerAdapter<>(getContent().getTaskList());
+        adapter = new SortableRecyclerAdapter<>(getContent().getTaskList(), 0);
         adapter.filter(new FilterHideDone());
         noteViewContainer.setAdapter(adapter);
         noteViewContainer.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -5,14 +5,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.SwipableView;
 import com.example.felix.notizen.views.adapters.ViewHolders.SwipableViewHolder;
 import com.example.felix.notizen.views.adapters.ViewHolders.ViewHolderInterface;
 
 import java.util.List;
 
-public class SwipableRecyclerAdapter<T extends DatabaseStorable> extends SortableRecyclerAdapter<T> {
+public class SwipableRecyclerAdapter<T extends cStorageObject> extends SortableRecyclerAdapter<T> {
     private String TAG = "ADAPTER";
 
 
@@ -20,8 +20,8 @@ public class SwipableRecyclerAdapter<T extends DatabaseStorable> extends Sortabl
     public OnSwipeableClickListener OnRightClick;
     public OnSwipeableClickListener OnMiddleClick;
 
-    public SwipableRecyclerAdapter(List<T> itemList) {
-        super(itemList);
+    public SwipableRecyclerAdapter(List<T> itemList, int SortOrder) {
+        super(itemList,SortOrder);
     }
 
     @NonNull

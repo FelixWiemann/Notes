@@ -14,8 +14,8 @@ import java.util.List;
 
 public class TitleAdapter extends BaseRecyclerAdapter<cStorageObject> {
 
-    public TitleAdapter(List<cStorageObject> itemList) {
-        super(itemList);
+    public TitleAdapter(List<cStorageObject> itemList, int SortOrder) {
+        super(itemList, SortOrder);
     }
 
     @NonNull

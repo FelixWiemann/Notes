@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.felix.notizen.views.adapters.ViewHolders.CompoundViewHolder;
 import com.example.felix.notizen.views.adapters.ViewHolders.SwipableViewHolder;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE;
@@ -105,7 +106,9 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
                 // determine button state direction
                 if (currentButtonState == BUTTON_STATE.LEFT) dX = Math.max(dX, LEFT_BUTTONS_WIDTH);
                 if (currentButtonState == BUTTON_STATE.RIGHT) dX = Math.min(dX, -RIGHT_BUTTONS_WIDTH);
-                super.onChildDraw(c, recyclerView, getChildToDrawBasedOnType(viewHolder,dX), dX, dY, actionState, isCurrentlyActive);
+                for (RecyclerView.ViewHolder holder : getChildToDrawBasedOnType(viewHolder,dX)) {
+                    super.onChildDraw(c, recyclerView, holder, dX, dY, actionState, isCurrentlyActive);
+                }
             } else {
                 // gone, we need the touch listener to undo the swiped state
                 setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
@@ -113,7 +116,9 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
         }
         // button state is gone, draw anyways
         if (currentButtonState == GONE) {
-            super.onChildDraw(c, recyclerView, getChildToDrawBasedOnType(viewHolder,dX), dX, dY, actionState, isCurrentlyActive);
+            for (RecyclerView.ViewHolder holder : getChildToDrawBasedOnType(viewHolder,dX)) {
+                super.onChildDraw(c, recyclerView, holder, dX, dY, actionState, isCurrentlyActive);
+            }
         }
         Log.d(TAG, "onChildDraw, action state " + actionState);
     }
@@ -169,7 +174,9 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
                     swipeBack = false;
                     currentButtonState = GONE;
                     // finally reset child draw position to X-Origin (we only where detecting the X-Dir for swiping)
-                    SwipeHelperCallback.this.onChildDraw(c, recyclerView, getChildToDrawBasedOnType(viewHolder,0F), 0F, dY, actionState, isCurrentlyActive);
+                    for (RecyclerView.ViewHolder holder : getChildToDrawBasedOnType(viewHolder,0F)) {
+                        SwipeHelperCallback.this.onChildDraw(c, recyclerView, holder, 0F, dY, actionState, isCurrentlyActive);
+                    }
                 }
                 Log.d(TAG, "onTouch: setTouchUpListener: Motion event: " + event.getAction());
                 return false;
@@ -177,16 +184,20 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
         });
     }
 
-    private RecyclerView.ViewHolder getChildToDrawBasedOnType(final RecyclerView.ViewHolder viewHolder,
+    private RecyclerView.ViewHolder[] getChildToDrawBasedOnType(final RecyclerView.ViewHolder viewHolder,
                                                               final float dX){
-        if (viewHolder instanceof SwipableViewHolder){
+
+        Log.d(TAG, "getChildToDrawBasedOnType: got " + viewHolder.getClass().getCanonicalName());
+        if (viewHolder instanceof SwipableViewHolder) {
             SwipableViewHolder swipableHolder = (SwipableViewHolder) viewHolder;
             swipableHolder.setBackgroundVisibility(dX);
-            return swipableHolder.viewHolderInterface;
+            return new RecyclerView.ViewHolder[]{swipableHolder.viewHolderInterface};
+        }
+        else if(viewHolder instanceof CompoundViewHolder && ((CompoundViewHolder) viewHolder).getViewHolder(SwipableViewHolder.class)!= null) {
+            return ((CompoundViewHolder) viewHolder).getViewHolders(dX);
         }else {
             // draw child on those directions
-            //Log.d(TAG, "getChildToDrawBasedOnType: not swipable holder " + viewHolder.getClass().getCanonicalName());
-            return viewHolder;
+            return new RecyclerView.ViewHolder[]{viewHolder};
         }
     }
 }

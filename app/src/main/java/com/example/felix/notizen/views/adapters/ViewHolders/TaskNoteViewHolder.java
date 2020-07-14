@@ -27,7 +27,7 @@ public class TaskNoteViewHolder extends ViewHolderInterface<cTaskNote> {
 
         SortableRecyclerAdapter<cBaseTask> adapter = (SortableRecyclerAdapter<cBaseTask>) task.getAdapter();
         if (adapter == null) {
-            adapter = new SortableRecyclerAdapter<>(toBind.getTaskList());
+            adapter = new SortableRecyclerAdapter<>(toBind.getTaskList(), 0);
             adapter.filter(new FilterShowAll());
             task.setAdapter(adapter);
             task.setLayoutManager(new LinearLayoutManager(task.getContext()));

@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 
 import com.example.felix.notizen.R;
@@ -72,9 +71,9 @@ public class SwipableView extends RelativeLayout{
      */
     public void init () {
         LayoutInflater mInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mInflater.inflate(R.layout.swipe_action_view, this);
-        Placeholder = findViewById(R.id.layout_to_be_swiped);
-        RelativeLayout parent = findViewById(R.id.parent);
+        View swipeParent = mInflater.inflate(R.layout.swipe_action_view, this);
+        Placeholder = swipeParent.findViewById(R.id.layout_to_be_swiped);
+        RelativeLayout parent = swipeParent.findViewById(R.id.parent);
 
         BackgroundLeft = mInflater.inflate(R.layout.swipable_left, parent, false);
         RelativeLayout.LayoutParams paramLeft = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -107,8 +106,8 @@ public class SwipableView extends RelativeLayout{
         Placeholder.removeView(MainView);
         MainView = mainView;
         if (inRecycler) MainView.setOnTouchListener(MiddleClick);
-        mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        Placeholder.addView(MainView);
+        mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        //Placeholder.addView(MainView);
     }
 
     /**

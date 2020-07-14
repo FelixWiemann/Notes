@@ -13,7 +13,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
@@ -35,7 +34,7 @@ public class BaseRecyclerAdapterTest {
     public void setUp(){
         s1 = new DataBaseStorableTestImpl();
         s2 = new DataBaseStorableTestImpl();
-        adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<DatabaseStorable>()));
+        adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<DatabaseStorable>(),0));
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
     }
 
