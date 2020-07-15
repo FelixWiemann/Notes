@@ -1,6 +1,6 @@
 package com.example.felix.notizen.views.adapters;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.objects.filtersort.FilterShowAll;
 import com.example.felix.notizen.objects.filtersort.ViewFilter;
 
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class SortableRecyclerAdapter<T extends DatabaseStorable> extends BaseRecyclerAdapter<T> {
+public class SortableRecyclerAdapter<T extends cStorageObject> extends BaseRecyclerAdapter<T> {
 
     private ArrayList<T> filteredOut;
 

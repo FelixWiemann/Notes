@@ -2,7 +2,7 @@ package com.example.felix.notizen.objects.filtersort;
 
 import android.support.annotation.NonNull;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cSortableObject;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public class FilterBasedOnClass extends ViewFilter {
     }
 
     @Override
-    public boolean filter(@NonNull DatabaseStorable toFilter) {
+    public boolean filter(@NonNull cSortableObject toFilter) {
         // make sure nothing is null & the given class in the constructor matches the class of the toFilter
         return Objects.requireNonNull(toFilter.getClass().getCanonicalName()).equalsIgnoreCase(clazz.getCanonicalName());
     }

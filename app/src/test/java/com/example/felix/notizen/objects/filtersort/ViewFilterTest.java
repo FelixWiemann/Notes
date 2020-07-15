@@ -3,6 +3,7 @@ package com.example.felix.notizen.objects.filtersort;
 import android.support.annotation.NonNull;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cSortableObject;
 import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
 
 import org.junit.Before;
@@ -11,7 +12,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ViewFilterTest {
 
@@ -22,13 +23,13 @@ public class ViewFilterTest {
     public void setUp(){
         none = new ViewFilter() {
             @Override
-            public boolean filter(@NonNull DatabaseStorable toFilter) {
+            public boolean filter(@NonNull cSortableObject toFilter) {
                 return false;
             }
         };
         all = new ViewFilter() {
             @Override
-            public boolean filter(@NonNull DatabaseStorable toFilter) {
+            public boolean filter(@NonNull cSortableObject toFilter) {
                 return true;
             }
         };

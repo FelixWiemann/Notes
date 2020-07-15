@@ -1,10 +1,12 @@
 package com.example.felix.notizen.views.adapters;
 
 import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
+import com.example.felix.notizen.objects.cSortableObject;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.objects.filtersort.FilterHideAll;
 import com.example.felix.notizen.objects.filtersort.FilterShowAll;
 import com.example.felix.notizen.objects.filtersort.ViewFilter;
+import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -38,8 +40,8 @@ public class SortableAdapterTest {
 
     private SortableAdapter adapterUnderTest;
 
-    private DatabaseStorable s1;
-    private DatabaseStorable s2;
+    private cStorageObject s1;
+    private cStorageObject s2;
 
     private ViewFilter filterMock;
     private FilterShowAll mockShowAll;
@@ -123,7 +125,7 @@ public class SortableAdapterTest {
         // given
         adapterUnderTest.add(s1);
         adapterUnderTest.add(s2);
-        when(filterMock.filter(any(DatabaseStorable.class))).thenReturn(false);
+        when(filterMock.filter(any(cStorageObject.class))).thenReturn(false);
         // when
         adapterUnderTest.filter(filterMock);
         // then
@@ -133,7 +135,7 @@ public class SortableAdapterTest {
     public void filterSpecificFilterSecondTime() {
         // given
         filterSpecificFilter();
-        when(filterMock.filter(any(DatabaseStorable.class))).thenReturn(true);
+        when(filterMock.filter(any(cStorageObject.class))).thenReturn(true);
         // when
         adapterUnderTest.filter(filterMock);
         // then
@@ -186,7 +188,7 @@ public class SortableAdapterTest {
         adapterUnderTest.clearFilter();
         // then
         verify(adapterUnderTest).filter();
-        verify(mockShowAll).filter(any(DatabaseStorable.class));
+        verify(mockShowAll).filter(any(cStorageObject.class));
 
     }
 
@@ -214,7 +216,7 @@ public class SortableAdapterTest {
         // add s2 and don't hide it
         adapterUnderTest.add(s2);
         // when
-        List<DatabaseStorable> result = adapterUnderTest.getAllObjects();
+        List<cSortableObject> result = adapterUnderTest.getAllObjects();
         // then
         assertEquals(2, result.size());
         assertTrue(result.contains(s1));
@@ -261,7 +263,7 @@ public class SortableAdapterTest {
     @Test
     public void replace() {
         // given
-        ArrayList<DatabaseStorable> newList = new ArrayList<>();
+        ArrayList<cSortableObject> newList = new ArrayList<>();
         // when
         adapterUnderTest.replace(newList);
         // then

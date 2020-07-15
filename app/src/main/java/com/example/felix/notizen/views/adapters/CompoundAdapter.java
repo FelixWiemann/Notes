@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.adapters.ViewHolders.CompoundViewHolder;
 import com.example.felix.notizen.views.adapters.ViewHolders.ViewHolderInterface;
 
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-public class CompoundAdapter<T extends DatabaseStorable> extends SortableRecyclerAdapter<T> {
+public class CompoundAdapter<T extends cStorageObject> extends SortableRecyclerAdapter<T> {
 
     private static final String LOG_TAG = "CompoundAdapter";
     /**
@@ -45,12 +45,12 @@ public class CompoundAdapter<T extends DatabaseStorable> extends SortableRecycle
         // inflate configured compound ViewGroup
         ViewGroup compoundView = (ViewGroup) LayoutInflater.from(viewGroup.getContext()).inflate(ViewId,viewGroup,false);
         // create compound view holder
-        CompoundViewHolder compoundVH = new CompoundViewHolder<>(compoundView);
+        CompoundViewHolder<T> compoundVH = new CompoundViewHolder<>(compoundView);
         TreeMap<BaseRecyclerAdapter<T>, Integer> sorted = new TreeMap<>(recyclerAdapters);
-        for (BaseRecyclerAdapter adapter : sorted.keySet()) {
+        for (BaseRecyclerAdapter<T> adapter : sorted.keySet()) {
             try {
                 // for each adapter, create the view based on the given type
-                ViewHolderInterface adapterDefVH = adapter.onCreateViewHolder(compoundView, type);
+                ViewHolderInterface<T> adapterDefVH = adapter.onCreateViewHolder(compoundView, type);
                 // finally add it to the compound VH
                 compoundVH.addViewHolderInterface(adapterDefVH,adapterDefVH.getClass());
                 // replace the view associated with the current adapter with the one the adapter inflated
@@ -63,5 +63,57 @@ public class CompoundAdapter<T extends DatabaseStorable> extends SortableRecycle
             }
         }
         return compoundVH;
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        for (BaseRecyclerAdapter<T> adapter:recyclerAdapters.keySet()) {
+            adapter.clear();
+        }
+    }
+
+    @Override
+    public void remove(T object) {
+        super.remove(object);
+        for (BaseRecyclerAdapter<T> adapter:recyclerAdapters.keySet()) {
+            adapter.remove(object);
+        }
+    }
+
+    @Override
+    public void replace(List<T> newList) {
+        super.replace(newList);
+        for (BaseRecyclerAdapter<T> adapter:recyclerAdapters.keySet()) {
+            adapter.replace(newList);
+        }
+    }
+
+    /**
+     * adds all items from the list to the adapter
+     *
+     * @param toAdd list of items to Add
+     */
+    @Override
+    void addAll(List<T> toAdd) {
+        super.addAll(toAdd);
+        for (BaseRecyclerAdapter<T> adapter:recyclerAdapters.keySet()) {
+            adapter.addAll(toAdd);
+        }
+    }
+
+    /**
+     * add an object to the adapter to be displayed
+     * <p>
+     * will not be filtered or sorted afterwards!
+     *
+     * @param toAdd storable that is to be added
+     */
+    @Override
+    public void add(T toAdd) {
+        super.add(toAdd);
+        for (BaseRecyclerAdapter<T> adapter:recyclerAdapters.keySet()) {
+            adapter.add(toAdd);
+        }
     }
 }

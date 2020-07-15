@@ -36,7 +36,7 @@ public class SwipableView extends RelativeLayout{
 
     private RelativeLayout Placeholder;
 
-    private boolean inRecycler = false;
+    private boolean fromCompoundAdapter = false;
     OnTouchListener MiddleClick;
 
     public SwipableView(Context context) {
@@ -44,9 +44,9 @@ public class SwipableView extends RelativeLayout{
         init();
     }
 
-    public SwipableView(Context context, boolean inRecycler) {
+    public SwipableView(Context context, boolean fromCompoundAdapter) {
         super(context);
-        this.inRecycler = inRecycler;
+        this.fromCompoundAdapter = fromCompoundAdapter;
         init();
 
     }
@@ -95,7 +95,7 @@ public class SwipableView extends RelativeLayout{
         BackgroundLeft.setOnClickListener(left);
         BackgroundRight.setOnClickListener(right);
         MiddleClick = middle;
-        if (inRecycler && MainView != null) MainView.setOnTouchListener(MiddleClick);
+        if (fromCompoundAdapter && MainView != null) Placeholder.setOnTouchListener(MiddleClick);
     }
 
     /**
@@ -105,9 +105,11 @@ public class SwipableView extends RelativeLayout{
     public void setMainView(View mainView){
         Placeholder.removeView(MainView);
         MainView = mainView;
-        if (inRecycler) MainView.setOnTouchListener(MiddleClick);
-        mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        //Placeholder.addView(MainView);
+        if (!fromCompoundAdapter) {
+            Placeholder.setOnTouchListener(MiddleClick);
+            mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            Placeholder.addView(MainView);
+        }
     }
 
     /**

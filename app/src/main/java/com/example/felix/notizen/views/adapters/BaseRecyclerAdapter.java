@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.adapters.ViewHolders.ViewHolderFactory;
 import com.example.felix.notizen.views.adapters.ViewHolders.ViewHolderInterface;
 
@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseRecyclerAdapter<T extends DatabaseStorable> extends RecyclerView.Adapter<ViewHolderInterface<T>> implements Comparable<BaseRecyclerAdapter>{
+public class BaseRecyclerAdapter<T extends cStorageObject> extends RecyclerView.Adapter<ViewHolderInterface<T>> implements Comparable<BaseRecyclerAdapter>{
 
     private static final String TAG = "RECYCLER_ADAPTER";
     ArrayList<T> itemList;

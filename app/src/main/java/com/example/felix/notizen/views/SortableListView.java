@@ -6,10 +6,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cSortableObject;
+import com.example.felix.notizen.objects.filtersort.ViewFilter;
 import com.example.felix.notizen.views.adapters.SortableAdapter;
 import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
-import com.example.felix.notizen.objects.filtersort.ViewFilter;
 
 import java.util.Comparator;
 
@@ -42,12 +42,12 @@ public class SortableListView extends ListView {
         this.setAdapter(adapter);
     }
 
-    public void add(DatabaseStorable storable){
+    public void add(cSortableObject storable){
         adapter.add(storable);
         adapter.notifyDataSetChanged();
     }
 
-    public void remove(DatabaseStorable storable){
+    public void remove(cSortableObject storable){
         adapter.remove(storable);
         adapter.notifyDataSetChanged();
     }
@@ -81,7 +81,7 @@ public class SortableListView extends ListView {
         adapter.filter(filter);
     }
 
-    public void sort(Comparator<DatabaseStorable> category){
+    public void sort(Comparator<cSortableObject> category){
         adapter.sort(category);
     }
 

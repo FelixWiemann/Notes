@@ -20,14 +20,17 @@ public class SwipableRecyclerAdapter<T extends cStorageObject> extends SortableR
     public OnSwipeableClickListener OnRightClick;
     public OnSwipeableClickListener OnMiddleClick;
 
-    public SwipableRecyclerAdapter(List<T> itemList, int SortOrder) {
+    final private boolean inCompoundAdapter;
+
+    public SwipableRecyclerAdapter(List<T> itemList, int SortOrder, boolean inCompoundAdapter) {
         super(itemList,SortOrder);
+        this.inCompoundAdapter = inCompoundAdapter;
     }
 
     @NonNull
     @Override
     public ViewHolderInterface<T> onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
-        final SwipableView view = new SwipableView(viewGroup.getContext(), true);
+        final SwipableView view = new SwipableView(viewGroup.getContext(), inCompoundAdapter);
         view.setOnClickListeners(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

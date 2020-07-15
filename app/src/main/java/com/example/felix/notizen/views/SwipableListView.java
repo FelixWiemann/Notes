@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 
 /**
@@ -111,7 +112,7 @@ public class SwipableListView extends SortableListView {
     private void onLongPress(MotionEvent event) {
         if (onLongPressListener!=null){
             // decide if it can be handled by the list view item itself, therefore no need to worry about header views...
-            onLongPressListener.onLongPress(adapter.getItem(pointToPosition((int)event.getX(),(int)event.getY())-getHeaderViewsCount()));
+            onLongPressListener.onLongPress((DatabaseStorable) adapter.getItem(pointToPosition((int)event.getX(),(int)event.getY())-getHeaderViewsCount()));
         }
 
     }

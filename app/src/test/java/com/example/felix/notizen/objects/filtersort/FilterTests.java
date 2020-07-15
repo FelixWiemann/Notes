@@ -1,10 +1,10 @@
 package com.example.felix.notizen.objects.filtersort;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Notes.cTextNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Test;
@@ -12,14 +12,15 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class FilterTests extends AndroidTest {
 
     @Test
     public void testHideAll() {
         // given
-        FilterHideAll<DatabaseStorable> filter = new FilterHideAll<>();
+        FilterHideAll<cStorageObject> filter = new FilterHideAll<>();
         cTaskNote object1 = new cTaskNote(UUID.randomUUID(),"asd",new ArrayList<cBaseTask>());
         cTaskNote object2 = new cTaskNote(UUID.randomUUID(),"asd",new ArrayList<cBaseTask>());
         // when/then
@@ -30,7 +31,7 @@ public class FilterTests extends AndroidTest {
     @Test
     public void testShowAll() {
         // given
-        FilterShowAll<DatabaseStorable> filter = new FilterShowAll<>();
+        FilterShowAll<cStorageObject> filter = new FilterShowAll<>();
         cTaskNote object1 = new cTaskNote(UUID.randomUUID(),"",new ArrayList<cBaseTask>());
         cTaskNote object2 = new cTaskNote(UUID.randomUUID(),"asd",new ArrayList<cBaseTask>());
         // when/then

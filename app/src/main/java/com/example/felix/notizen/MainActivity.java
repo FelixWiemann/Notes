@@ -4,12 +4,14 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.HeaderViewListAdapter;
 import android.widget.Toast;
 
 import com.example.felix.notizen.Settings.cSetting;
@@ -25,13 +27,18 @@ import com.example.felix.notizen.objects.StorableFactoy.StorableFactory;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.UnpackingDataException;
-import com.example.felix.notizen.views.OnListItemInPositionClickListener;
-import com.example.felix.notizen.views.OnLongPressListener;
-import com.example.felix.notizen.views.SwipableListView;
-import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
-import com.example.felix.notizen.views.fabs.FabSpawnerFab;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.objects.filtersort.FilterShowAll;
 import com.example.felix.notizen.objects.filtersort.SortProvider;
+import com.example.felix.notizen.views.SwipableView;
+import com.example.felix.notizen.views.SwipeRecyclerView;
+import com.example.felix.notizen.views.adapters.BaseRecyclerAdapter;
+import com.example.felix.notizen.views.adapters.CompoundAdapter;
+import com.example.felix.notizen.views.adapters.OnSwipeableClickListener;
+import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
+import com.example.felix.notizen.views.adapters.TitleAdapter;
+import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
+import com.example.felix.notizen.views.fabs.FabSpawnerFab;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -47,9 +54,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAINACTIVITY";
     private cSwipableViewAdapter adapter;
     private NoteViewModel model;
-    private SwipableListView lv;
+    private RecyclerView recyclerView;
 
     public static final int REQUEST_EDIT_NOTE = 1;
+    public int currentEditedNoteIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,20 +79,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // init vars
         Log.i(TAG, "onCreate");
-        lv = findViewById(R.id.adapterView);
-        // since we have a header view, we get a HeaderViewListAdapter from which we need the wrapped adapter
-        adapter = (cSwipableViewAdapter)((HeaderViewListAdapter)lv.getAdapter()).getWrappedAdapter();
-        adapter.onClickListenerLeft = new OnListItemInPositionClickListener() {
+        // TODO HEADER VIEW
+        recyclerView = findViewById(R.id.adapterView);
+        ArrayList<cStorageObject> list = new ArrayList<>();
+        final CompoundAdapter<cStorageObject> adapter = new CompoundAdapter<>(list, R.layout.compound_view);
+        adapter.registerAdapter(new TitleAdapter(list,2),R.id.titleid);
+        adapter.registerAdapter(new BaseRecyclerAdapter<>(list,1), R.id.content);
+        SwipableRecyclerAdapter<cStorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true);
+        swipeAdapter.OnLeftClick = new OnSwipeableClickListener() {
             @Override
-            public void onClick(int position) {
-                model.deleteData(adapter.getItem(position));
+            public void onClick(View clickedOn, SwipableView parentView) {
+                currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
+                if (currentEditedNoteIndex==-1) return;
+                cStorageObject task = adapter.getItem(currentEditedNoteIndex);
+                model.deleteData(task);
+                Log.d(TAG, "OnLeftClick: " + task);
             }
         };
+        adapter.registerAdapter(swipeAdapter,R.id.compound_content);
         // update list view adapter on changes of the view model
         model.observeForEver(new Observer<HashMap<String, DatabaseStorable>>() {
             @Override
             public void onChanged(@Nullable HashMap<String, DatabaseStorable> map) {
-                List<DatabaseStorable> list = new ArrayList<>();
+                List<cStorageObject> list = new ArrayList<>();
                 try {
                     if (map == null) {
                         return;
@@ -92,13 +109,11 @@ public class MainActivity extends AppCompatActivity {
 
                     // Concurrent Modification Exception happened again, added additional logging
                     for (Map.Entry<String, DatabaseStorable> set : map.entrySet()) {
-                        list.add(set.getValue());
+                        list.add((cStorageObject) set.getValue());
                     }
 
                     adapter.replace(list);
-                    adapter.notifyDataSetChanged();
                     Log.d(TAG, "onChanged: adapter updated");
-                    lv.update(list.size());
                     // sort and filter new data based on current settings
                     adapter.filter();
                     adapter.sort();
@@ -111,15 +126,60 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        lv.filter(new FilterShowAll());
-        lv.sort(SortProvider.SortByType);
-        lv.setOnLongPressListener(new OnLongPressListener() {
+        adapter.filter(new FilterShowAll());
+        adapter.sort(SortProvider.SortByType);
+        recyclerView.setAdapter(adapter);
+        // TODO this item touch helper blocks scrolling of inner recycler views...
+        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+            /**
+             * state whether we want to intercept the touch for the item itself
+             */
+            boolean intercept = false;
+            /**
+             * interlock to only call once the edit note activity
+             */
+            boolean called = false;
+
             @Override
-            public void onLongPress(DatabaseStorable databaseStorable) {
-                callEditNoteActivityForResult(databaseStorable);
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                if (!intercept) {
+                    intercept = e.getAction() == MotionEvent.ACTION_DOWN;
+                    called = false;
+                }
+                if(intercept) {
+                    boolean action = e.getAction() == MotionEvent.ACTION_UP;
+                    boolean time = e.getEventTime() - e.getDownTime() < 55;
+                    boolean distance = getMotionDistance(e) < 1;
+                    intercept = (action || time) && distance;
+                    Log.d("RecyclerView.SimpleOnItemTouchListener","action " + action + " event time " + (e.getEventTime() - e.getDownTime()) + " distance " + getMotionDistance(e));
+                }
+                Log.d("RecyclerView.SimpleOnItemTouchListener","onInterceptTouchEvent " + intercept);
+                return intercept && !((SwipeRecyclerView) rv).isItemSwipeMenuActive;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                super.onTouchEvent(rv, e);
+                intercept = false;
+                //Toast.makeText(getApplicationContext(),"onTouchEvent",Toast.LENGTH_SHORT).show();
+                Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
+                currentEditedNoteIndex = recyclerView.getChildAdapterPosition(rv.findChildViewUnder(e.getX(),e.getY()));
+                if (currentEditedNoteIndex==-1) return;
+                cStorageObject task = adapter.getItem(currentEditedNoteIndex);
+                if (!called) {
+                    called = true;
+                    callEditNoteActivityForResult(task);
+                }
+            }
+
+            double getMotionDistance(MotionEvent e){
+                if(e.getHistorySize() == 0) {
+                    return 0;
+                }
+                return Math.sqrt(Math.pow(e.getHistoricalX(0)-e.getX(), 2) + Math.pow(e.getHistoricalY(0)-e.getY(), 2));
             }
         });
-
+        adapter.notifyDataSetChanged();
         FabSpawnerFab fabSpawner = findViewById(R.id.fab_add_notes);
         FloatingActionButton fab =  findViewById(R.id.fab_text_note);
         fab.setOnClickListener(new View.OnClickListener() {

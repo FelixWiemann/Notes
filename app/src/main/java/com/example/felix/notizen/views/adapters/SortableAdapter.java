@@ -5,12 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cSortableObject;
 import com.example.felix.notizen.objects.cStorageObject;
-import com.example.felix.notizen.views.cNoteDisplayView;
-import com.example.felix.notizen.views.cNoteDisplayViewFactory;
 import com.example.felix.notizen.objects.filtersort.FilterShowAll;
 import com.example.felix.notizen.objects.filtersort.ViewFilter;
+import com.example.felix.notizen.views.cNoteDisplayView;
+import com.example.felix.notizen.views.cNoteDisplayViewFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,10 +22,10 @@ import java.util.List;
  */
 public class SortableAdapter extends BaseAdapter {
 
-    private ArrayList<DatabaseStorable> displayed;
-    private ArrayList<DatabaseStorable> currentlyHidden;
-    private Comparator<DatabaseStorable> currentComparator;
-    private ViewFilter<DatabaseStorable> currentFilter;
+    private ArrayList<cSortableObject> displayed;
+    private ArrayList<cSortableObject> currentlyHidden;
+    private Comparator<cSortableObject> currentComparator;
+    private ViewFilter<cSortableObject> currentFilter;
 
 
     public SortableAdapter(){
@@ -62,7 +62,7 @@ public class SortableAdapter extends BaseAdapter {
      * @return The data at the specified position.
      */
     @Override
-    public DatabaseStorable getItem(int position) {
+    public cSortableObject getItem(int position) {
         return displayed.get(position);
     }
 
@@ -91,7 +91,7 @@ public class SortableAdapter extends BaseAdapter {
      * sort the data based on the given comparator.
      * this also sets it for future #SortableAdapter::sort() calls
      */
-    public void sort(Comparator<DatabaseStorable> sortBy){
+    public void sort(Comparator<cSortableObject> sortBy){
         currentComparator = sortBy;
         sort();
     }
@@ -103,7 +103,7 @@ public class SortableAdapter extends BaseAdapter {
      * the filtered out objects will not be discarded, with the FilterShowAll, all could be shown again.
      * @param filter
      */
-    public void filter(ViewFilter<DatabaseStorable> filter){
+    public void filter(ViewFilter<cSortableObject> filter){
         currentFilter = filter;
         filter();
     }
@@ -118,8 +118,8 @@ public class SortableAdapter extends BaseAdapter {
             currentFilter = new FilterShowAll();
         }
 
-        ArrayList<DatabaseStorable> tempShow = new ArrayList<>();
-        ArrayList<DatabaseStorable> tempHide = new ArrayList<>();
+        ArrayList<cSortableObject> tempShow = new ArrayList<>();
+        ArrayList<cSortableObject> tempHide = new ArrayList<>();
 
         currentFilter.filter(displayed, tempShow, tempHide);
         currentFilter.filter(currentlyHidden, tempShow, tempHide);
@@ -143,7 +143,7 @@ public class SortableAdapter extends BaseAdapter {
      * adds all items from the list to the adapter
      * @param toAdd
      */
-    public void addAll(List<DatabaseStorable> toAdd){
+    public void addAll(List<cSortableObject> toAdd){
         displayed.addAll(toAdd);
         notifyDataSetChanged();
     }
@@ -154,7 +154,7 @@ public class SortableAdapter extends BaseAdapter {
      *
      * @param toAdd storable that is to be added
      */
-    public void add(DatabaseStorable toAdd){
+    public void add(cSortableObject toAdd){
         displayed.add(toAdd);
         notifyDataSetChanged();
     }
@@ -178,8 +178,8 @@ public class SortableAdapter extends BaseAdapter {
      * returns a List of all objects currently stored in the adapter, also the hidden ones!     *
      * @return
      */
-    public List<DatabaseStorable> getAllObjects(){
-        ArrayList<DatabaseStorable> allObjects = new ArrayList<>();
+    public List<cSortableObject> getAllObjects(){
+        ArrayList<cSortableObject> allObjects = new ArrayList<>();
         allObjects.addAll(displayed);
         allObjects.addAll(currentlyHidden);
         return allObjects;
@@ -189,7 +189,7 @@ public class SortableAdapter extends BaseAdapter {
      * permanently removes a Storable from the adapter
      * @param object
      */
-    public void remove(DatabaseStorable object){
+    public void remove(cSortableObject object){
         displayed.remove(object);
         currentlyHidden.remove(object);
     }
@@ -243,7 +243,7 @@ public class SortableAdapter extends BaseAdapter {
      * sorts and filters according to the currently set sorting mechanism and filter
      * @param list
      */
-    public void replace(List <DatabaseStorable> list){
+    public void replace(List <cSortableObject> list){
         clear();
         addAll(list);
         filter();

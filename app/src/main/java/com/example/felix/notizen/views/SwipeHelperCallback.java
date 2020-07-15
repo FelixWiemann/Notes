@@ -114,6 +114,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
                 setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }
+
         // button state is gone, draw anyways
         if (currentButtonState == GONE) {
             for (RecyclerView.ViewHolder holder : getChildToDrawBasedOnType(viewHolder,dX)) {
@@ -152,7 +153,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
                 }
                 // activate or deactivate the item touch handler of the recycler view depending on button states
                 // if they are visible we need to suppress the recycler on item touch
-                ((SwipeRecyclerView) recyclerView).SetState(currentButtonState == GONE);
+                ((SwipeRecyclerView) recyclerView).SetState(currentButtonState != GONE);
                 Log.d(TAG, "onTouch: setTouchListener, button state gone: " + (currentButtonState == GONE) + ",Motion event: " + event.getAction());
                 return false;
             }

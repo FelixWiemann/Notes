@@ -2,7 +2,7 @@ package com.example.felix.notizen.objects.filtersort;
 
 import android.support.annotation.NonNull;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cSortableObject;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * filter class that can be used to filter items
  */
-public abstract class ViewFilter <T extends DatabaseStorable>{
+public abstract class ViewFilter <T extends cSortableObject>{
     /**
      * return true, if the object needs to be displayed, false otherwise
      * default behaviour is to show all existing ones.

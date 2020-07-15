@@ -1,11 +1,11 @@
 package com.example.felix.notizen.views.adapters;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
-import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.objects.filtersort.FilterHideAll;
 import com.example.felix.notizen.objects.filtersort.FilterShowAll;
 import com.example.felix.notizen.objects.filtersort.SortProvider;
 import com.example.felix.notizen.objects.filtersort.ViewFilter;
+import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -38,23 +38,23 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @PrepareForTest(SortableRecyclerAdapter.class)
 public class SortableRecyclerAdapterTest {
 
-    private SortableRecyclerAdapter<DatabaseStorable> adapterUnderTest;
+    private SortableRecyclerAdapter<cStorageObject> adapterUnderTest;
 
-    private DatabaseStorable s1;
-    private DatabaseStorable s2;
+    private cStorageObject s1;
+    private cStorageObject s2;
 
-    private ViewFilter<DatabaseStorable> filterMock;
-    private FilterShowAll<DatabaseStorable> mockShowAll;
+    private ViewFilter<cStorageObject> filterMock;
+    private FilterShowAll<cStorageObject> mockShowAll;
 
 
     @Before
     public void setUp() {
-        adapterUnderTest = spy(new SortableRecyclerAdapter<>(new ArrayList<DatabaseStorable>(),0));
+        adapterUnderTest = spy(new SortableRecyclerAdapter<>(new ArrayList<cStorageObject>(), 0));
         // don't do anything on baseAdapter.notifyDataSetChanged, as not mocked
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
 
-        filterMock = (ViewFilter<DatabaseStorable>) mock(ViewFilter.class);
-        doCallRealMethod().when(filterMock).filter(ArgumentMatchers.<DatabaseStorable>anyList(), ArgumentMatchers.<DatabaseStorable>anyList(), ArgumentMatchers.<DatabaseStorable>anyList());
+        filterMock = (ViewFilter<cStorageObject>) mock(ViewFilter.class);
+        doCallRealMethod().when(filterMock).filter(ArgumentMatchers.<cStorageObject>anyList(), ArgumentMatchers.<cStorageObject>anyList(), ArgumentMatchers.<cStorageObject>anyList());
         mockShowAll = spy(new FilterShowAll());
 
         s1 = new DataBaseStorableTestImpl();
@@ -81,7 +81,7 @@ public class SortableRecyclerAdapterTest {
         adapterUnderTest.filter();
         // then
         verify(adapterUnderTest).notifyDataSetChanged();
-        verify(mockShowAll, times(2)).filter(ArgumentMatchers.<DatabaseStorable>anyList(), ArgumentMatchers.<DatabaseStorable>anyList(), ArgumentMatchers.<DatabaseStorable>anyList());
+        verify(mockShowAll, times(2)).filter(ArgumentMatchers.<cStorageObject>anyList(), ArgumentMatchers.<cStorageObject>anyList(), ArgumentMatchers.<cStorageObject>anyList());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class SortableRecyclerAdapterTest {
         // given
         adapterUnderTest.add(s1);
         adapterUnderTest.add(s2);
-        when(filterMock.filter(any(DatabaseStorable.class))).thenReturn(false);
+        when(filterMock.filter(any(cStorageObject.class))).thenReturn(false);
         // when
         adapterUnderTest.filter(filterMock);
         // then
@@ -99,7 +99,7 @@ public class SortableRecyclerAdapterTest {
     public void filterSpecificFilterSecondTime() {
         // given
         filterSpecificFilter();
-        when(filterMock.filter(any(DatabaseStorable.class))).thenReturn(true);
+        when(filterMock.filter(any(cStorageObject.class))).thenReturn(true);
         // when
         adapterUnderTest.filter(filterMock);
         // then
@@ -119,7 +119,7 @@ public class SortableRecyclerAdapterTest {
         adapterUnderTest.clearFilter();
         // then
         verify(adapterUnderTest).filter();
-        verify(mockShowAll).filter(any(DatabaseStorable.class));
+        verify(mockShowAll).filter(any(cStorageObject.class));
 
     }
 
@@ -147,7 +147,7 @@ public class SortableRecyclerAdapterTest {
         // add s2 and don't hide it
         adapterUnderTest.add(s2);
         // when
-        List<DatabaseStorable> result = adapterUnderTest.getAllObjects();
+        List<cStorageObject> result = adapterUnderTest.getAllObjects();
         // then
         assertEquals(2, result.size());
         assertTrue(result.contains(s1));
@@ -194,7 +194,7 @@ public class SortableRecyclerAdapterTest {
     @Test
     public void replace() {
         // given
-        ArrayList<DatabaseStorable> newList = new ArrayList<>();
+        ArrayList<cStorageObject> newList = new ArrayList<>();
         // when
         adapterUnderTest.replace(newList);
         // then

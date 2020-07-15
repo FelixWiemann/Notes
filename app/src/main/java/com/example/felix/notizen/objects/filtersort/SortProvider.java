@@ -1,8 +1,8 @@
 package com.example.felix.notizen.objects.filtersort;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.cSortableObject;
+import com.example.felix.notizen.objects.cStorageObject;
 
 import java.util.Comparator;
 
@@ -44,9 +44,9 @@ public class SortProvider {
         }
     };
 
-    public static final Comparator<DatabaseStorable> SortByType = new Comparator<DatabaseStorable>() {
+    public static final Comparator<cStorageObject> SortByType = new Comparator<cStorageObject>() {
         @Override
-        public int compare(DatabaseStorable t1, DatabaseStorable t2) {
+        public int compare(cStorageObject t1, cStorageObject t2) {
             if (t1 == null && t2 == null){
                 // both are null, so they are equal
                 return EQUALS;

@@ -8,12 +8,12 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <com.example.felix.notizen.views.SwipableListView
+    <com.example.felix.notizen.views.SwipeRecyclerView
         android:id="@+id/adapterView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-    </com.example.felix.notizen.views.SwipableListView>
+    </com.example.felix.notizen.views.SwipeRecyclerView>
 
     <com.example.felix.notizen.views.fabs.FabSpawnerFab
         android:id="@+id/fab_add_notes"

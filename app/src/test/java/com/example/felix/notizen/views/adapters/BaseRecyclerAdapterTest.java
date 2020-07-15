@@ -1,6 +1,6 @@
 package com.example.felix.notizen.views.adapters;
 
-import com.example.felix.notizen.Utils.DBAccess.DatabaseStorable;
+import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
 
 import org.junit.Before;
@@ -24,17 +24,17 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 @PrepareForTest(BaseRecyclerAdapter.class)
 public class BaseRecyclerAdapterTest {
 
-    private BaseRecyclerAdapter<DatabaseStorable> adapterUnderTest;
+    private BaseRecyclerAdapter<cStorageObject> adapterUnderTest;
 
-    private DatabaseStorable s1;
-    private DatabaseStorable s2;
+    private cStorageObject s1;
+    private cStorageObject s2;
 
 
     @Before
     public void setUp(){
         s1 = new DataBaseStorableTestImpl();
         s2 = new DataBaseStorableTestImpl();
-        adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<DatabaseStorable>(),0));
+        adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<cStorageObject>(),0));
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
     }
 
