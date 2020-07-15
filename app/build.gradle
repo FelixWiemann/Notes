@@ -11,8 +11,18 @@ android {
         applicationId "com.example.felix.notizen"
         minSdkVersion 26
         targetSdkVersion 28
-        versionCode "$System.env.VERSIONCODE" as Integer
-        versionName "$System.env.VERSIONNAME" as String
+        // check version code from system environment (if input from CI-System)
+        if ("$System.env.VERSIONCODE"=="null") {
+            // not found, check local properties file in root dir of project
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            // default values are also provided, if not in properties file...
+            versionCode properties.getProperty('versionCode') as Integer?:1
+            versionName properties.getProperty('versionName') as String?:"1.0"
+        }else{
+            versionCode "$System.env.VERSIONCODE" as Integer
+            versionName "$System.env.VERSIONNAME" as String
+        }
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
