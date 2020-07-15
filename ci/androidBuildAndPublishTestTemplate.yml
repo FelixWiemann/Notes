@@ -25,6 +25,6 @@ steps:
 - task: PublishBuildArtifacts@1
   condition: always()
   inputs:
-    PathtoPublish: './app/outputs/apk/${{parameters.BUILD_TYPE}}'
+    PathtoPublish: './app/build/outputs/apk/${{parameters.BUILD_TYPE}}'
     ArtifactName: 'drop'
     publishLocation: 'Container'
