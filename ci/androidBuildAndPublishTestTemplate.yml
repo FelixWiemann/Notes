@@ -18,5 +18,10 @@ steps:
     codeCoverageTool: 'JaCoCo'
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/JaCoCoReports/*${{parameters.BUILD_TYPE}}*/**.xml'
     pathToSources: '$(System.DefaultWorkingDirectory)/app/src/main/java'
-    reportDirectory: '$(System.DefaultWorkingDirectory)./app/build/JaCoCoReports/*${{parameters.BUILD_TYPE}}*/html/'
+    # reportDirectory: '$(System.DefaultWorkingDirectory)./app/build/JaCoCoReports/*${{parameters.BUILD_TYPE}}*/html/'
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: './app/outputs/apk/${{parameters.BUILD_TYPE}}'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
