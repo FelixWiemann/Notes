@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.felix.notizen.Settings.cSetting;
 import com.example.felix.notizen.Settings.cSettingException;
@@ -155,14 +154,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO create task notes
                 ArrayList<cBaseTask> list = new ArrayList<>();
-                list.add(new cTask(UUID.randomUUID(),"test task 1","no need to be worried", false));
-                list.add(new cTask(UUID.randomUUID(),"test task 2","no need to be worried", false));
-                list.add(new cTask(UUID.randomUUID(),"test task 3","no need to be worried", false));
-                cTaskNote testNote = new cTaskNote(UUID.randomUUID(),"task note test hardcoded",list);
-                model.updateOrCreate(testNote);
-                Toast.makeText(MainActivity.this, "create task note",Toast.LENGTH_SHORT).show();
+                // TODO use string resources
+                list.add(new cTask(UUID.randomUUID(),"Task 1","enter text", false));
+                cTaskNote testNote = new cTaskNote(UUID.randomUUID(),"",list);
+                callEditNoteActivityForResult(testNote);
             }
         });
         fabSpawner.addFabToSpawn(fab);

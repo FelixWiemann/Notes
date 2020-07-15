@@ -25,6 +25,7 @@
         </activity>
         <activity
             android:name=".EditNoteActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".views.fragments.NoteDisplayFragment">
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/ndf_tv"
@@ -14,4 +13,4 @@
         android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textWebEmailAddress|textPersonName|textCapSentences|textAutoComplete|textImeMultiLine|textCapWords"
         android:importantForAutofill="no" />
 
-</FrameLayout>
+</RelativeLayout>
