@@ -8,8 +8,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      echo '$VERSIONCODE'
-      echo '$VERSIONNAME'
+      echo $VERSIONCODE
+      echo $VERSIONNAME
 
 - task: Gradle@2
   condition: always()
