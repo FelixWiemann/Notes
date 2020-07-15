@@ -28,6 +28,7 @@ import com.example.felix.notizen.objects.UnpackingDataException;
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.objects.filtersort.FilterShowAll;
 import com.example.felix.notizen.objects.filtersort.SortProvider;
+import com.example.felix.notizen.views.NoteListViewHeaderView;
 import com.example.felix.notizen.views.SwipableOnItemTouchListener;
 import com.example.felix.notizen.views.SwipableView;
 import com.example.felix.notizen.views.adapters.BaseRecyclerAdapter;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         adapter.registerAdapter(swipeAdapter,R.id.compound_content);
+        final NoteListViewHeaderView headerView = findViewById(R.id.headerView);
         // update list view adapter on changes of the view model
         model.observeForEver(new Observer<HashMap<String, DatabaseStorable>>() {
             @Override
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     // sort and filter new data based on current settings
                     adapter.filter();
                     adapter.sort();
+                    headerView.update(list.size());
                 } catch (ConcurrentModificationException ex){
                     Log.e(TAG, "onChanged: got a concurrentmodex", ex);
                     Log.e(TAG, "map data: " + map );
