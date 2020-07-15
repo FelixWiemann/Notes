@@ -5,6 +5,7 @@ parameters:
 
 steps:
 - task: Gradle@2
+  condition: always()
   inputs:
     workingDirectory: ''
     gradleWrapperFile: 'gradlew'
@@ -14,6 +15,7 @@ steps:
     tasks: 'clean build jacocoTest${{parameters.BUILD_TYPE}}UnitTestReport'
 
 - task: PublishCodeCoverageResults@1
+  condition: always()
   inputs:
     codeCoverageTool: 'JaCoCo'
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/JaCoCoReports/*${{parameters.BUILD_TYPE}}*/**.xml'
@@ -21,6 +23,7 @@ steps:
     # reportDirectory: '$(System.DefaultWorkingDirectory)./app/build/JaCoCoReports/*${{parameters.BUILD_TYPE}}*/html/'
 
 - task: PublishBuildArtifacts@1
+  condition: always()
   inputs:
     PathtoPublish: './app/outputs/apk/${{parameters.BUILD_TYPE}}'
     ArtifactName: 'drop'
