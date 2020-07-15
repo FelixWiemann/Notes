@@ -95,7 +95,7 @@ public class SwipableView extends RelativeLayout{
         BackgroundLeft.setOnClickListener(left);
         BackgroundRight.setOnClickListener(right);
         MiddleClick = middle;
-        if (fromCompoundAdapter && MainView != null) Placeholder.setOnTouchListener(MiddleClick);
+        if (!fromCompoundAdapter && MainView != null) Placeholder.setOnTouchListener(MiddleClick);
     }
 
     /**
@@ -106,7 +106,7 @@ public class SwipableView extends RelativeLayout{
         Placeholder.removeView(MainView);
         MainView = mainView;
         if (!fromCompoundAdapter) {
-            Placeholder.setOnTouchListener(MiddleClick);
+            MainView.setOnTouchListener(MiddleClick);
             mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             Placeholder.addView(MainView);
         }

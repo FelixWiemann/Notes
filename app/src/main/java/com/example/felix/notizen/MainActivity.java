@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -30,14 +29,13 @@ import com.example.felix.notizen.objects.UnpackingDataException;
 import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.objects.filtersort.FilterShowAll;
 import com.example.felix.notizen.objects.filtersort.SortProvider;
+import com.example.felix.notizen.views.SwipableOnItemTouchListener;
 import com.example.felix.notizen.views.SwipableView;
-import com.example.felix.notizen.views.SwipeRecyclerView;
 import com.example.felix.notizen.views.adapters.BaseRecyclerAdapter;
 import com.example.felix.notizen.views.adapters.CompoundAdapter;
 import com.example.felix.notizen.views.adapters.OnSwipeableClickListener;
 import com.example.felix.notizen.views.adapters.SwipableRecyclerAdapter;
 import com.example.felix.notizen.views.adapters.TitleAdapter;
-import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 import com.example.felix.notizen.views.fabs.FabSpawnerFab;
 
 import java.util.ArrayList;
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     private cSetting settings;
     private static final String TAG = "MAINACTIVITY";
-    private cSwipableViewAdapter adapter;
     private NoteViewModel model;
     private RecyclerView recyclerView;
 
@@ -130,55 +127,19 @@ public class MainActivity extends AppCompatActivity {
         adapter.sort(SortProvider.SortByType);
         recyclerView.setAdapter(adapter);
         // TODO this item touch helper blocks scrolling of inner recycler views...
-        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-            /**
-             * state whether we want to intercept the touch for the item itself
-             */
-            boolean intercept = false;
-            /**
-             * interlock to only call once the edit note activity
-             */
-            boolean called = false;
-
+        recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                if (!intercept) {
-                    intercept = e.getAction() == MotionEvent.ACTION_DOWN;
-                    called = false;
-                }
-                if(intercept) {
-                    boolean action = e.getAction() == MotionEvent.ACTION_UP;
-                    boolean time = e.getEventTime() - e.getDownTime() < 55;
-                    boolean distance = getMotionDistance(e) < 1;
-                    intercept = (action || time) && distance;
-                    Log.d("RecyclerView.SimpleOnItemTouchListener","action " + action + " event time " + (e.getEventTime() - e.getDownTime()) + " distance " + getMotionDistance(e));
-                }
-                Log.d("RecyclerView.SimpleOnItemTouchListener","onInterceptTouchEvent " + intercept);
-                return intercept && !((SwipeRecyclerView) rv).isItemSwipeMenuActive;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                super.onTouchEvent(rv, e);
-                intercept = false;
+            public boolean onTouch(View v, MotionEvent e) {
                 //Toast.makeText(getApplicationContext(),"onTouchEvent",Toast.LENGTH_SHORT).show();
                 Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
-                currentEditedNoteIndex = recyclerView.getChildAdapterPosition(rv.findChildViewUnder(e.getX(),e.getY()));
-                if (currentEditedNoteIndex==-1) return;
+                currentEditedNoteIndex = recyclerView.getChildAdapterPosition(recyclerView.findChildViewUnder(e.getX(),e.getY()));
+                if (currentEditedNoteIndex==-1) return false;
                 cStorageObject task = adapter.getItem(currentEditedNoteIndex);
-                if (!called) {
-                    called = true;
-                    callEditNoteActivityForResult(task);
-                }
+                callEditNoteActivityForResult(task);
+                return false;
             }
+        }));
 
-            double getMotionDistance(MotionEvent e){
-                if(e.getHistorySize() == 0) {
-                    return 0;
-                }
-                return Math.sqrt(Math.pow(e.getHistoricalX(0)-e.getX(), 2) + Math.pow(e.getHistoricalY(0)-e.getY(), 2));
-            }
-        });
         adapter.notifyDataSetChanged();
         FabSpawnerFab fabSpawner = findViewById(R.id.fab_add_notes);
         FloatingActionButton fab =  findViewById(R.id.fab_text_note);

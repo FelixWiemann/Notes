@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +17,7 @@ import com.example.felix.notizen.objects.Notes.cTaskNote;
 import com.example.felix.notizen.objects.Task.cBaseTask;
 import com.example.felix.notizen.objects.Task.cTask;
 import com.example.felix.notizen.objects.filtersort.SortProvider;
+import com.example.felix.notizen.views.SwipableOnItemTouchListener;
 import com.example.felix.notizen.views.SwipableView;
 import com.example.felix.notizen.views.SwipeRecyclerView;
 import com.example.felix.notizen.views.adapters.OnSwipeableClickListener;
@@ -68,15 +70,27 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
                 deleteTask(task);
             }
         };
-        adapter.OnMiddleClick = new OnSwipeableClickListener() {
+        taskHolder.addOnItemTouchListener(new SwipableOnItemTouchListener(new View.OnTouchListener() {
+
+            /**
+             * Called when a touch event is dispatched to a view. This allows listeners to
+             * get a chance to respond before the target view.
+             *
+             * @param v     The view the touch event has been dispatched to.
+             * @param e The MotionEvent object containing full information about
+             *              the event.
+             * @return True if the listener has consumed the event, false otherwise.
+             */
             @Override
-            public void onClick(View clickedOn, SwipableView parentView) {
-                currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
-                if (currentEditedNoteIndex==-1) return;
+            public boolean onTouch(View v, MotionEvent e) {
+                Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
+                currentEditedNoteIndex = taskHolder.getChildAdapterPosition(taskHolder.findChildViewUnder(e.getX(),e.getY()));
+                if (currentEditedNoteIndex==-1) return true;
                 cBaseTask task = adapter.getItem(currentEditedNoteIndex);
                 callEditTaskFragment(task);
+                return false;
             }
-        };
+        }));
         return v;
     }
 
