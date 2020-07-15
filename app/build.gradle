@@ -11,8 +11,8 @@ android {
         applicationId "com.example.felix.notizen"
         minSdkVersion 26
         targetSdkVersion 28
-        versionCode System.getenv("BuildID") as Integer ?: 1
-        versionName "\$(SourceBranchName)_\$(Date:yyyyMMdd)\$(Rev:.r)"
+        versionCode System.getenv("VersionCode") as Integer ?: 1
+        versionName System.getenv("VersionName") as String ?:"1.0"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

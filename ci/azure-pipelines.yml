@@ -1,6 +1,9 @@
 
 # YAML build Script for Notes
 
+variables:
+  - group: ReleaseNameVariables
+
 trigger:
   batch: true
   branches:
