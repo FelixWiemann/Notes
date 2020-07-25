@@ -44,7 +44,8 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
 
     private int currentEditedNoteIndex;
 
-    public TaskNoteFragment(){
+    public TaskNoteFragment() {
+        super();
         currentEditedNoteIndex = INVALID_INDEX;
     }
 

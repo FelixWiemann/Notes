@@ -19,7 +19,8 @@ public class SwipableOnItemTouchListener extends RecyclerView.SimpleOnItemTouchL
      */
     boolean called = false;
 
-    public SwipableOnItemTouchListener(View.OnTouchListener onTouchListener){
+    public SwipableOnItemTouchListener(View.OnTouchListener onTouchListener) {
+        super();
         this.onTouchListener = onTouchListener;
     }
 

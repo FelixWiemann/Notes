@@ -41,11 +41,11 @@ public class NoteDisplayFragmentFactoryTest extends AndroidTest {
         assertTrue(fragment instanceof TaskNoteFragment);
     }
 
-    class TestTaskNote extends cTaskNote{
+    static class TestTaskNote extends cTaskNote{
 
     }
 
-    class UnknownDataBaseStorable implements DatabaseStorable {
+    static class UnknownDataBaseStorable implements DatabaseStorable {
 
         /**
          * version on the object.

@@ -24,7 +24,8 @@ public class NoteDisplayFragmentFactory {
 
     private HashMap<Class<? extends DatabaseStorable>, Class <? extends NoteDisplayFragment>> storableToFragment;
 
-    private NoteDisplayFragmentFactory(){
+    private NoteDisplayFragmentFactory() {
+        super();
         storableToFragment = new HashMap<>();
         addStorableTypeToFragment(cTaskNote.class, TaskNoteFragment.class);
         addStorableTypeToFragment(cTextNote.class, TextNoteFragment.class);

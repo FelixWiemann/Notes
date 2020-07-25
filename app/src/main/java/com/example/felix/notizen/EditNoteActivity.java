@@ -74,7 +74,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         NoteDisplayFragment headerFragment = new NoteDisplayHeaderFragment();
         fragmentTransaction.add(R.id.fragmentHeader, headerFragment);
         NoteDisplayFragment fragmentContent = NoteDisplayFragmentFactory.generateFragment(mViewModel.getValue());
-        fragmentTransaction.add(R.id.fragementHolder, fragmentContent);
+        fragmentTransaction.add(R.id.fragmentHolder, fragmentContent);
         fragmentTransaction.commit();
         if (fabToBeProvided == null){
             fabToBeProvided = findViewById(R.id.provided_fab);

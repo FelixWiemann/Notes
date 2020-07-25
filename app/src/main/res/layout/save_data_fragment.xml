@@ -24,7 +24,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:text="@string/cancel_exit" />
+        android:text="@android:string/cancel" />
 
     <Button
         android:id="@+id/bt_save_exit"

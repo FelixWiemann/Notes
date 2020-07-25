@@ -22,7 +22,6 @@ public class TitleAdapter extends BaseRecyclerAdapter<cStorageObject> {
     @Override
     public ViewHolderInterface<cStorageObject> onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
         View titleView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.title_view,viewGroup,false);
-        ViewHolderInterface viewHolderInterface = new TitleViewHolder(titleView);
-        return viewHolderInterface;
+        return (ViewHolderInterface) new TitleViewHolder(titleView);
     }
 }

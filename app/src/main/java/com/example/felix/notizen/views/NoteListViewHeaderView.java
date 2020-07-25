@@ -36,7 +36,7 @@ public class NoteListViewHeaderView extends RelativeLayout {
     }
 
     public void update(int numberOfNotes){
-        ((TextView) findViewById(R.id.amount)).setText(String.format(getResources().getString(R.string.notes),numberOfNotes));
+        ((TextView) findViewById(R.id.amount)).setText(getResources().getQuantityString(R.plurals.notes,numberOfNotes,numberOfNotes));
     }
 
 

@@ -38,8 +38,7 @@ public class SaveDataFragment extends DialogFragment {
     }
 
     @Override
-
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         saveExit = view.findViewById(R.id.bt_save_exit);
         saveExit.setOnClickListener(new View.OnClickListener() {

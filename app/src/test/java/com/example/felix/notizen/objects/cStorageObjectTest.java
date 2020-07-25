@@ -1,10 +1,11 @@
 package com.example.felix.notizen.objects;
 
 import com.example.felix.notizen.Utils.OnUpdateCallback;
-import com.example.felix.notizen.testutils.AndroidTest;
 import com.example.felix.notizen.objects.filtersort.SortCategory;
+import com.example.felix.notizen.testutils.AndroidTest;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -13,9 +14,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.powermock.api.mockito.PowerMockito.spy;
 
 
 @PrepareForTest({cStorageObjectTest.cStorageObjectImpl.class})
@@ -101,7 +100,9 @@ public class cStorageObjectTest extends AndroidTest {
         assertTrue(json.contains("lastChangedDate"));
     }
 
-    class cStorageObjectImpl extends  cStorageObject{
+    @SuppressWarnings("UnconstructableJUnitTestCase")
+    @Ignore
+    static class cStorageObjectImpl extends  cStorageObject{
         cStorageObjectImpl(){
             super(UUID.randomUUID(),"");
         }

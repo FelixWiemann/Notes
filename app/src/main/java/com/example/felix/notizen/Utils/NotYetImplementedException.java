@@ -12,8 +12,8 @@ public class NotYetImplementedException extends RuntimeException
      *             before releasing the software.
      */
     @Deprecated
-    public NotYetImplementedException()
-    {
+    public NotYetImplementedException() {
+        super();
     }
 
     /**

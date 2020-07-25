@@ -1,6 +1,7 @@
 package com.example.felix.notizen.Utils.DBAccess;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 import com.example.felix.notizen.testutils.AndroidTest;
 import com.example.felix.notizen.testutils.DataBaseStorableTestImpl;
@@ -24,6 +25,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
@@ -31,6 +33,7 @@ import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.spy;
+import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @PrepareForTest({cDBHelper.class,cDBDataHandler.class})
@@ -52,7 +55,7 @@ public class cDBDataHandlerTest extends AndroidTest {
                 return testImpl.get((String)invocation.getArgument(0));
             }
         }).when(contentValueMock).get(anyString());
-        Answer answerOnPut = new Answer<Object>() {
+        Answer<Object> answerOnPut = new Answer<Object>() {
             @Override
             public Object answer(InvocationOnMock invocation) {
                 testImpl.put((String)invocation.getArgument(0), invocation.getArgument(1));
@@ -64,12 +67,11 @@ public class cDBDataHandlerTest extends AndroidTest {
 
         whenNew(ContentValues.class).withAnyArguments().thenReturn(contentValueMock);
 
-        mockStatic(cDBHelper.class, new Answer() {
+        mockStatic(cDBHelper.class, new Answer<Object>() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                switch (invocation.getMethod().getName()){
-                    case "getInstance":
-                        return helperMock;
+            public Object answer(InvocationOnMock invocation) {
+                if ("getInstance".equals(invocation.getMethod().getName())) {
+                    return helperMock;
                 }
                 fail();
                 return null;
@@ -81,12 +83,12 @@ public class cDBDataHandlerTest extends AndroidTest {
     @Test
     public void insert() {
         // given
-        ArgumentCaptor captor = ArgumentCaptor.forClass(cDBHelper.class);
+        ArgumentCaptor<ContentValues> captor = ArgumentCaptor.forClass(ContentValues.class);
         // when
         handlerUnderTest.insert(new DataBaseStorableTestImpl());
         // then
-        verify(helperMock).insert((ContentValues) captor.capture());
-        ContentValues captured = (ContentValues) captor.getValue();
+        verify(helperMock).insert(captor.capture());
+        ContentValues captured = captor.getValue();
 
         assertEquals(DataBaseStorableTestImpl.DATA_ID ,captured.get(cDBHelper.aDB_COLUMN_ID));
         assertEquals(DataBaseStorableTestImpl.DATA_STRING ,captured.get(cDBHelper.aDB_COLUMN_JSONDATA));
@@ -164,11 +166,34 @@ public class cDBDataHandlerTest extends AndroidTest {
 
     }
 
+    @Test
+    public void contentValueToDatabaseStorableTest(){
+        // given
+        final int COLUMN_TYPE = 0;
+        final int COLUMN_ID = 1;
+        final int COLUMN_JSONDATA = 2;
+        final int COLUMN_TYPEVERSION = 3;
+        Cursor cursor = mock(Cursor.class);
+        when(cursor.getColumnIndex(matches(cDBHelper.aDB_COLUMN_TYPE))).thenReturn(COLUMN_TYPE);
+        when(cursor.getColumnIndex(matches(cDBHelper.aDB_COLUMN_ID))).thenReturn(COLUMN_ID);
+        when(cursor.getColumnIndex(matches(cDBHelper.aDB_COLUMN_JSONDATA))).thenReturn(COLUMN_JSONDATA);
+        when(cursor.getColumnIndex(matches(cDBHelper.aDB_COLUMN_TYPEVERSION))).thenReturn(COLUMN_TYPEVERSION);
+        DataBaseStorableTestImpl testImpl = new DataBaseStorableTestImpl();
 
-    /**
-     *
-     * @return
-     */
+        when(cursor.getString(COLUMN_TYPE)).thenReturn(testImpl.getType());
+        when(cursor.getString(COLUMN_ID)).thenReturn(testImpl.getId());
+        when(cursor.getString(COLUMN_JSONDATA)).thenReturn(testImpl.getDataString());
+        when(cursor.getInt(COLUMN_TYPEVERSION)).thenReturn(testImpl.getVersion());
+        // when
+        DatabaseStorable storable = handlerUnderTest.contentValueToDatabaseStorable(cursor);
+        // then
+        assertEquals(testImpl.getType(),storable.getType());
+        assertEquals(testImpl.getId(),storable.getId());
+        assertEquals(testImpl.getDataString(),storable.getDataString());
+        assertEquals(testImpl.getVersion(),storable.getVersion());
+    }
+
+
     private String[] isNullStringArray() {
         mockingProgress().getArgumentMatcherStorage().reportMatcher(Null.NULL);
         return new String[]{};
@@ -178,7 +203,7 @@ public class cDBDataHandlerTest extends AndroidTest {
     /**
      * wrapper class for ContentValue mock
      */
-    class ContentValuesImpl {
+    private static class ContentValuesImpl {
 
         HashMap<String, Object> map = new HashMap<>();
 

@@ -10,7 +10,6 @@ import com.example.felix.notizen.objects.Task.cBaseTask;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Factory for creating view holders based on the given layout ID.
@@ -71,7 +70,7 @@ public class ViewHolderFactory {
      */
     private ViewHolderInterface getViewHolder(Integer type, View view) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         if (typeToViewHolder.containsKey(type) ) {
-            return Objects.requireNonNull(typeToViewHolder.get(type)).getConstructor(View.class).newInstance(view);
+            return typeToViewHolder.get(type).getConstructor(View.class).newInstance(view);
         }
         throw new IllegalArgumentException("Unknown Type ID given");
     }

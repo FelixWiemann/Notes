@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 @PrepareForTest({cDBDataHandler.class, NoteViewModel.class})
 public class NoteViewModelTest extends AndroidTest {
 
@@ -65,7 +66,7 @@ public class NoteViewModelTest extends AndroidTest {
         when(handler.read()).thenReturn(new ArrayList<>(storables.values()));
         mockStatic(NoteViewModel.helper.class, new Answer() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 switch (invocation.getMethod().getName()){
                     case "getLiveData":
                         return liveData;
@@ -104,7 +105,7 @@ public class NoteViewModelTest extends AndroidTest {
     }
 
     @Test
-    public void testReadDataFromDB() throws InterruptedException {
+    public void testReadDataFromDB() {
         // given the setup
         // when creating of modelUnderTest
         // then

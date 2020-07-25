@@ -75,7 +75,7 @@ public class cNoteDisplayViewFactoryTest extends AndroidTest {
         assertTrue(view instanceof cTaskView);
     }
 
-    class TaskNoteTestImpl extends cTaskNote {
+    static class TaskNoteTestImpl extends cTaskNote {
 
         @Override
         public int getVersion() {
@@ -84,7 +84,7 @@ public class cNoteDisplayViewFactoryTest extends AndroidTest {
     }
 
 
-    class StorageObjectTestImpl extends cStorageObject {
+    static class StorageObjectTestImpl extends cStorageObject {
 
         @Override
         public int getVersion() {

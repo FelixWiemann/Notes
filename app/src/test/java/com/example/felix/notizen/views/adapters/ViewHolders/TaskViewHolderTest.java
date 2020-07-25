@@ -50,7 +50,7 @@ public class TaskViewHolderTest extends AndroidTest {
         UUID uuid = UUID.randomUUID();
         String title = "TITLE";
         String text = "text";
-        boolean doneState = false;
+        final boolean doneState = false;
         cBaseTask testTask = new cTask(uuid, title, text, doneState);
         // when
         viewHolderUnderTest.bind(testTask);

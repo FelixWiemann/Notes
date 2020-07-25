@@ -5,7 +5,6 @@ import android.util.Log;
 import com.example.felix.notizen.Utils.DateStrategy;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -17,7 +16,6 @@ import java.util.UUID;
  *
  * TODO create timer, handle it (start/stop/alarm if over/etc.)
  */
-@SuppressWarnings("unused")
 public class cTimedTask extends cBaseTask {
 
 

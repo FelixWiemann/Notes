@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        android:text="@string/test_string"
+        android:text="@string/ph_debug"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -24,6 +24,6 @@
         android:layout_alignStart="@+id/header"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:text="@string/test_string" />
+        android:text="@string/ph_debug" />
 
 </RelativeLayout>

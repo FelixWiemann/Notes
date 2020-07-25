@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseRecyclerAdapter<T extends cStorageObject> extends RecyclerView.Adapter<ViewHolderInterface<T>> implements Comparable<BaseRecyclerAdapter>{
+public class BaseRecyclerAdapter<T extends cStorageObject> extends RecyclerView.Adapter<ViewHolderInterface<T>> implements Comparable<BaseRecyclerAdapter<T>>{
 
     private static final String TAG = "RECYCLER_ADAPTER";
     ArrayList<T> itemList;

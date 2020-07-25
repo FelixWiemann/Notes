@@ -15,6 +15,7 @@ import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 /**
  * Created by Felix on 21.06.2018.
  */
+@Deprecated
 public class SwipableListView extends SortableListView {
 
     private static final String TAG = "SwipableListView";

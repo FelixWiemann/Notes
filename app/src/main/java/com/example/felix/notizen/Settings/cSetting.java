@@ -37,7 +37,9 @@ public class cSetting {
     private Context aContext;
     private SharedPreferences prefs;
 
-    private cSetting(){}
+    private cSetting() {
+        super();
+    }
 
     /**
      *
@@ -62,7 +64,7 @@ public class cSetting {
         try {
             initPrefs(false);
         } catch (cSettingException e) {
-            throw new cSettingException("cSetting.init",cSettingException.aINIT_SETTINGS_FAILED,e);
+            throw new cSettingException(cSettingException.aINIT_SETTINGS_FAILED,e);
         }
     }
 
@@ -90,7 +92,7 @@ public class cSetting {
                 setSetting(aAPP_DEBUG_LEVEL, 1);
             }
         }catch (cSettingException ex){
-            throw new cSettingException("cSetting.initPrefs",cSettingException.aINIT_PREFS_FAILED,ex);
+            throw new cSettingException(cSettingException.aINIT_PREFS_FAILED,ex);
         }
     }
 
@@ -115,7 +117,7 @@ public class cSetting {
             prefEditor.putLong(key,(Long) value);
         }
         else{
-            throw new cSettingException("cSetting.setSettingValue",cSettingException.aSETTING_VALUE_FAILED,null);
+            throw new cSettingException(cSettingException.aSETTING_VALUE_FAILED,null);
         }
         // apply changes
         prefEditor.apply();

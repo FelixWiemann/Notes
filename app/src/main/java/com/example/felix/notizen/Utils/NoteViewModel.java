@@ -146,7 +146,7 @@ public class NoteViewModel extends ViewModel {
      * @param owner of the lifecycle
      * @param observer to be notified of changes
      */
-    public void observe(LifecycleOwner owner, Observer observer) {
+    public void observe(LifecycleOwner owner, Observer<HashMap<String, DatabaseStorable>> observer) {
         data.observe(owner, observer);
     }
 
@@ -155,7 +155,7 @@ public class NoteViewModel extends ViewModel {
      *
      * @param observer to be notified of changes
      */
-    public void observeForEver(Observer observer) {
+    public void observeForEver(Observer<HashMap<String, DatabaseStorable>> observer) {
         data.observeForever(observer);
     }
 

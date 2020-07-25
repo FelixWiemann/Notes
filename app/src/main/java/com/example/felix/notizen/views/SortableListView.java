@@ -13,6 +13,7 @@ import com.example.felix.notizen.views.adapters.cSwipableViewAdapter;
 
 import java.util.Comparator;
 
+@Deprecated
 public class SortableListView extends ListView {
 
     protected SortableAdapter adapter;

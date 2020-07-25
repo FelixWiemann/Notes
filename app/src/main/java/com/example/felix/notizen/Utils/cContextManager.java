@@ -11,7 +11,6 @@ import android.content.Context;
  *
  * getApplicationContext instead!
  */
-@SuppressWarnings("unused")
 @Deprecated
 public class cContextManager {
     /**
@@ -26,19 +25,20 @@ public class cContextManager {
 
     /**
      * get the instance of ContextManager
-     * @return
+     * @return instance of context manager
      */
     public static cContextManager getInstance() {
         return mContextManagerInstance;
     }
 
     private cContextManager() {
+        super();
     }
 
     /**
      * sets up the context manager for storing the context
      * @param context context to be stored
-     * @throws cContextManagerException
+     * @throws cContextManagerException if context already set
      */
     public void setUp(Context context) throws cContextManagerException {
         // only set context, if not set already
@@ -47,7 +47,7 @@ public class cContextManager {
         }
         else {
             // otherwise throw exception
-            throw new cContextManagerException("Context Manager setUp",cContextManagerException.aCONTEXT_ALREADY_SET,null);
+            throw new cContextManagerException(cContextManagerException.aCONTEXT_ALREADY_SET,null);
         }
     }
 

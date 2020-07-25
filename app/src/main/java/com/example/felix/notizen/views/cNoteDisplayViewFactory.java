@@ -23,9 +23,10 @@ public class cNoteDisplayViewFactory {
 
     private static cNoteDisplayViewFactory instance;
 
-    private HashMap<Class<? extends cStorageObject>, Class <? extends cNoteDisplayView>> objectToDisplayView;
+    private HashMap<Class<?>, Class <? extends cNoteDisplayView<?>>> objectToDisplayView;
 
-    private cNoteDisplayViewFactory(){
+    private cNoteDisplayViewFactory() {
+        super();
         objectToDisplayView = new HashMap<>();
         registerNewDisplayObject(cTextNote.class, cNoteView.class);
         registerNewDisplayObject(cTask.class, cTaskView.class);
@@ -33,12 +34,12 @@ public class cNoteDisplayViewFactory {
         registerNewDisplayObject(cImageNote.class, cImageView.class);
     }
 
-    private cNoteDisplayView constructView(Context context, Class<? extends cStorageObject> object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private cNoteDisplayView<?> constructView(Context context, Class<?> object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         if (objectToDisplayView.containsKey(object)) {
             return objectToDisplayView.get(object).getConstructor(Context.class).newInstance(context);
         }
 
-        Class superClazz = object.getSuperclass();
+        Class<?> superClazz = object.getSuperclass();
         if (superClazz != Object.class){
             return constructView(context, superClazz);
         }
@@ -46,7 +47,7 @@ public class cNoteDisplayViewFactory {
         return null;
     }
 
-    private void registerNewDisplayObject(Class<? extends cStorageObject> objectClass, Class<? extends cNoteDisplayView> displayClass){
+    private void registerNewDisplayObject(Class<? extends cStorageObject> objectClass, Class<? extends cNoteDisplayView<?>> displayClass){
         objectToDisplayView.put(objectClass, displayClass);
     }
 
@@ -54,8 +55,7 @@ public class cNoteDisplayViewFactory {
         return instance;
     }
 
-    public static cNoteDisplayView getView(Context context, cStorageObject object){
-
+    public static cNoteDisplayView<?> getView(Context context, cStorageObject object){
         if (instance == null){
             instance = new cNoteDisplayViewFactory();
         }

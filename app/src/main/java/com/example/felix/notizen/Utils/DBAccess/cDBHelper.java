@@ -16,14 +16,8 @@ import com.example.felix.notizen.Utils.cContextManager;
  * ID              |Type
  * UUID of Note    |type of note
  *
- * Created as part of notes in package com.example.felix.notizen.BackEnd.DBAccess
- * by Felix "nepumuk" Wiemann on 10/06/17.
- *
  */
 public class cDBHelper extends SQLiteOpenHelper {
-
-    //Database Version
-    private static final String aLOG_TAG = "SQL_MANAGER_CONTRACT" ;
 
     private static final int aDB_VERSION = 2;
 
@@ -48,14 +42,14 @@ public class cDBHelper extends SQLiteOpenHelper {
 
     private void init(){
         mDB = this.getReadableDatabase();
-
+        Log.d(TAG, "init: stored at " + getDBPAth());
     }
 
     /**
-     * TODO make protected, after removing the moving of the debug coping of DB
-     * @return
+     * gets the helper instance
+     * @return helper instance
      */
-    public static cDBHelper getInstance(){
+    protected static cDBHelper getInstance(){
 
         if (mMasterInstance == null){
             mMasterInstance = new cDBHelper(cContextManager.getInstance().getContext(), aDB_Name, null, aDB_VERSION);
@@ -86,14 +80,14 @@ public class cDBHelper extends SQLiteOpenHelper {
         mDB.delete(aDB_TABLE_NAME, selection, selectionArgs);
     }
 
-    private void rawSQL(String command, String[] selectionArgs){
+    private void rawSQL(String command){
         Log.w(TAG, "raw SQL on DB: <" + command + ">");
         mDB.execSQL(command);
     }
 
     void deleteAndReinit(){
-        rawSQL(SQL_DELETE_ENTRIES, null);
-        rawSQL(SQL_CREATE_ENTRIES, null);
+        rawSQL(SQL_DELETE_ENTRIES);
+        rawSQL(SQL_CREATE_ENTRIES);
     }
 
     void insert(ContentValues contentValue){
@@ -118,7 +112,7 @@ public class cDBHelper extends SQLiteOpenHelper {
      */
     public void openDB() throws cDBMasterException {
         if (mDB!=null){
-            throw new cDBMasterException("DB Master open",cDBMasterException.aSQL_CONNECTION_ALREADY_OPEN,null);
+            throw new cDBMasterException(cDBMasterException.aSQL_CONNECTION_ALREADY_OPEN,null);
         }else{
             mDB = mMasterInstance.getReadableDatabase();
         }

@@ -16,7 +16,8 @@ public class FabToggleManager {
      */
     private boolean hasSpawned = false;
 
-    public FabToggleManager(){
+    public FabToggleManager() {
+        super();
         init();
     }
 

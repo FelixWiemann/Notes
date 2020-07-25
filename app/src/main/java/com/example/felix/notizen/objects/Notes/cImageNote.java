@@ -12,7 +12,6 @@ import java.util.UUID;
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
  */
-@SuppressWarnings("unused")
 public class cImageNote extends cNote {
 
     private static final String LOG_TAG = "ImageNote";
@@ -43,7 +42,9 @@ public class cImageNote extends cNote {
     /**
      * default constructor used for deserialization from JACKSON
      */
-    public cImageNote() {}
+    public cImageNote() {
+        super();
+    }
 
     /**
      * handles deletion of image referenced inside instance of cImageNote

@@ -8,6 +8,7 @@ import com.example.felix.notizen.objects.cStorageObject;
 import com.example.felix.notizen.views.ExpandableView;
 import com.example.felix.notizen.views.cNoteDisplayViewFactory;
 
+@Deprecated
 public class ExpandableViewAdapter extends SortableAdapter {
     /**
      * Get a View that displays the data at the specified position in the data set. You can either
@@ -31,7 +32,7 @@ public class ExpandableViewAdapter extends SortableAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         cStorageObject objectToDisplay = (cStorageObject)getItem(position);
         // if view is already created, just update the data
-        boolean createNewView = false;
+        boolean createNewView;
 
         if(convertView == null){
             // if it is null, definitely create a new one

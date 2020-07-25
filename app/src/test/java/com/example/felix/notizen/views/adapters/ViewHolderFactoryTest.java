@@ -70,7 +70,7 @@ public class ViewHolderFactoryTest {
     }
 
 
-    class TestTask extends cBaseTask{
+    static class TestTask extends cBaseTask{
 
         /**
          * abstract method to implement in each inherited task type.

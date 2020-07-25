@@ -7,7 +7,7 @@
         android:id="@+id/note_view_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/test_string"
+        android:text="@string/ph_debug"
         android:drawableStart="@color/colorGrey"
         />
 </LinearLayout>

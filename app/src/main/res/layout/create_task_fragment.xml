@@ -13,8 +13,9 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:hint="title"
-        android:inputType="textShortMessage|textLongMessage|textAutoCorrect|textPhonetic|textCapSentences|textAutoComplete|textPostalAddress" />
+        android:hint="@string/hint_task_title"
+        android:inputType="textShortMessage|textLongMessage|textAutoCorrect|textPhonetic|textCapSentences|textAutoComplete|textPostalAddress"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/task_message"
@@ -27,6 +28,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="0dp"
         android:inputType="textShortMessage|textLongMessage|textAutoCorrect|textPhonetic|textCapSentences|textAutoComplete|textPostalAddress"
-        android:hint="text" />
+        android:hint="@string/hint_task_message"
+        android:importantForAutofill="no" />
 
 </RelativeLayout>

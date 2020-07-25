@@ -12,6 +12,7 @@ import com.example.felix.notizen.views.SwipableView;
 /**
  * Created by Felix on 21.06.2018.
  */
+@Deprecated
 public class cSwipableViewAdapter extends ExpandableViewAdapter {
 
     public OnListItemInPositionClickListener onClickListenerLeft = null;

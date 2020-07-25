@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.example.felix.notizen.objects.cSortableObject;
 
-import java.util.Objects;
-
 public class FilterBasedOnClass extends ViewFilter {
 
     private Class clazz;
@@ -18,6 +16,6 @@ public class FilterBasedOnClass extends ViewFilter {
     @Override
     public boolean filter(@NonNull cSortableObject toFilter) {
         // make sure nothing is null & the given class in the constructor matches the class of the toFilter
-        return Objects.requireNonNull(toFilter.getClass().getCanonicalName()).equalsIgnoreCase(clazz.getCanonicalName());
+        return toFilter.getClass().getCanonicalName().equalsIgnoreCase(clazz.getCanonicalName());
     }
 }

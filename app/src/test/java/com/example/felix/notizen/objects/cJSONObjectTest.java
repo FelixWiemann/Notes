@@ -32,11 +32,12 @@ public class cJSONObjectTest extends AndroidTest {
         assertNotEquals(object, 1);
     }
 
-    private class cJSONObjectImpl extends cJSONObject{
+    private static class cJSONObjectImpl extends cJSONObject{
         @JsonProperty("testProp")
         private String testProperty = "testproperty";
 
         cJSONObjectImpl() {
+            super();
         }
     }
 }

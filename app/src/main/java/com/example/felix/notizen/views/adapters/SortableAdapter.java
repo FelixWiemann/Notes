@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * Adapter which allows sorting and filtering of it's content
  */
+@Deprecated
 public class SortableAdapter extends BaseAdapter {
 
     private ArrayList<cSortableObject> displayed;
@@ -216,7 +217,7 @@ public class SortableAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         cStorageObject objectToDisplay = (cStorageObject)getItem(position);
         // if view is already created, just update the data
-        boolean createNewView = false;
+        boolean createNewView;
 
         if(convertView == null){
             // if it is null, definitely create a new one

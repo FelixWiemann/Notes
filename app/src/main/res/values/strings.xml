@@ -22,14 +22,31 @@
 
     <string name="btSave">save</string>
     <string name="list_view_header_text">notes</string>
-    <string name="notes">%d notes</string>
-    <string name="test_string" translatable="false">DEBUG NEEDS TO BE DELETED</string>
-    <string name="edit_note_title_hint">enter the title of your new note</string>
-    <string name="ndf_note_text_hint">enter the text of your note</string>
+    <plurals name="notes">
+        <item quantity="one">%d note</item>
+        <item quantity="other">%d notes</item>
+    </plurals>
     <string name="unchanged_data">Data has been changed without a save, what do you want to do?</string>
-    <string name="cancel_exit">cancel</string>
     <string name="save_and_exit">save</string>
     <string name="discard_exit">discard</string>
     <string name="title_activity_test_acitivity" translatable="false">testAcitivity</string>
+
+    <!--image content descriptions-->
+    <string name="image_exclamation_mark">exclamation mark</string>
+    <string name="image_note_content">image of the note</string>
+    <string name="image_delete">delete element</string>
+
+    <!--hints-->
+    <string name="hint_task_title">title of your task</string>
+    <string name="hint_task_message">text of your task</string>
+    <string name="hint_note_title">enter the title of your new note</string>
+    <string name="hint_note_message">enter the text of your note</string>
+
+    <!--error messages-->
+    <string name="error_generic_message">OUPS, sth. went wrong</string>
+
+    <!--placeholder/debug texts-->
+    <string name="ph_generic" translatable="false">PLACEHOLDER</string>
+    <string name="ph_debug" translatable="false">DEBUG NEEDS TO BE DELETED</string>
 
 </resources>
