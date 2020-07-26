@@ -12,10 +12,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.nepumuk.notizen.objects.Notes.cTaskNote;
-import com.nepumuk.notizen.objects.Notes.cTextNote;
-import com.nepumuk.notizen.objects.Task.cBaseTask;
-import com.nepumuk.notizen.objects.Task.cTask;
+import com.nepumuk.notizen.objects.notes.cTaskNote;
+import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.tasks.cBaseTask;
+import com.nepumuk.notizen.objects.tasks.cTask;
 import com.nepumuk.notizen.objects.cStorageObject;
 import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.adapters.BaseRecyclerAdapter;

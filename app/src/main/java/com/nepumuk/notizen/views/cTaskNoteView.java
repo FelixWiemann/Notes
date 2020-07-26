@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.Notes.cTaskNote;
-import com.nepumuk.notizen.objects.Task.cBaseTask;
+import com.nepumuk.notizen.objects.notes.cTaskNote;
+import com.nepumuk.notizen.objects.tasks.cBaseTask;
 import com.nepumuk.notizen.objects.filtersort.FilterHideDone;
 import com.nepumuk.notizen.views.adapters.SortableRecyclerAdapter;
 

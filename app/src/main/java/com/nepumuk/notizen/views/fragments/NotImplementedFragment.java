@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.Utils.DBAccess.DatabaseStorable;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
 public class NotImplementedFragment extends NoteDisplayFragment {
 

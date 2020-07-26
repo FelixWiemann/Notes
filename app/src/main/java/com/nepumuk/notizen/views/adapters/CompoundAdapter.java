@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.nepumuk.notizen.objects.cStorageObject;
-import com.nepumuk.notizen.views.adapters.ViewHolders.CompoundViewHolder;
-import com.nepumuk.notizen.views.adapters.ViewHolders.ViewHolderInterface;
+import com.nepumuk.notizen.views.adapters.view_holders.CompoundViewHolder;
+import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.views;
 
-import com.nepumuk.notizen.Utils.DBAccess.DatabaseStorable;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
 /**
  * OnLongPressListener listens to long presses - duh

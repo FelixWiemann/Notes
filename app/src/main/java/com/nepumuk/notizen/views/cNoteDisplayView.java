@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.util.AttributeSet;
 
-import com.nepumuk.notizen.Utils.OnUpdateCallback;
+import com.nepumuk.notizen.utils.OnUpdateCallback;
 import com.nepumuk.notizen.objects.cStorageObject;
 
 public abstract class cNoteDisplayView<T extends cStorageObject>

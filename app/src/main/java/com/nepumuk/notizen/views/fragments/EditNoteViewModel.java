@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 
-import com.nepumuk.notizen.Utils.DBAccess.DatabaseStorable;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
 /**
  * View Model containing an instance of a note of type T extending DatabaseStorable

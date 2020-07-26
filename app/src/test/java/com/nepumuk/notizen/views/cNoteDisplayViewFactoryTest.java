@@ -2,8 +2,8 @@ package com.nepumuk.notizen.views;
 
 import android.content.Context;
 
-import com.nepumuk.notizen.objects.Notes.cTaskNote;
-import com.nepumuk.notizen.objects.Notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.cTaskNote;
+import com.nepumuk.notizen.objects.notes.cTextNote;
 import com.nepumuk.notizen.objects.cStorageObject;
 import com.nepumuk.notizen.testutils.AndroidTest;
 

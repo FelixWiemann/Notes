@@ -2,7 +2,7 @@ package com.nepumuk.notizen.objects.filtersort;
 
 import android.support.annotation.NonNull;
 
-import com.nepumuk.notizen.Utils.DBAccess.DatabaseStorable;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.objects.cSortableObject;
 import com.nepumuk.notizen.testutils.DataBaseStorableTestImpl;
 

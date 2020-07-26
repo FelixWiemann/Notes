@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.Utils.OnUpdateCallback;
+import com.nepumuk.notizen.utils.OnUpdateCallback;
 import com.nepumuk.notizen.objects.cStorageObject;
 
 /**

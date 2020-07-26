@@ -2,10 +2,10 @@ package com.nepumuk.notizen.objects;
 
 import android.content.Intent;
 
-import com.nepumuk.notizen.Utils.DBAccess.DatabaseStorable;
-import com.nepumuk.notizen.objects.Notes.cTaskNote;
-import com.nepumuk.notizen.objects.Notes.cTextNote;
-import com.nepumuk.notizen.objects.StorableFactoy.StorableFactory;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.objects.notes.cTaskNote;
+import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.testutils.AndroidTest;
 
 import org.junit.Test;

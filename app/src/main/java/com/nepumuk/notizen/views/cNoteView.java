@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.Notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.cTextNote;
 
 /**
  * Created by Felix on 11.11.2018.

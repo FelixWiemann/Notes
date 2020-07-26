@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.objects.filtersort;
 
-import com.nepumuk.notizen.objects.Task.cBaseTask;
+import com.nepumuk.notizen.objects.tasks.cBaseTask;
 import com.nepumuk.notizen.objects.cSortableObject;
 import com.nepumuk.notizen.objects.cStorageObject;
 

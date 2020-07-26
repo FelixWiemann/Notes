@@ -15,9 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.nepumuk.notizen.Utils.DBAccess.DatabaseStorable;
-import com.nepumuk.notizen.objects.Notes.cTextNote;
-import com.nepumuk.notizen.objects.StorableFactoy.StorableFactory;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.views.fragments.FabProvider;

@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import com.nepumuk.notizen.objects.cStorageObject;
 import com.nepumuk.notizen.views.SwipableView;
-import com.nepumuk.notizen.views.adapters.ViewHolders.SwipableViewHolder;
-import com.nepumuk.notizen.views.adapters.ViewHolders.ViewHolderInterface;
+import com.nepumuk.notizen.views.adapters.view_holders.SwipableViewHolder;
+import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 
 import java.util.List;
 

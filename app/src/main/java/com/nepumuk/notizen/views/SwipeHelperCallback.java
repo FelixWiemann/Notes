@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.nepumuk.notizen.views.adapters.ViewHolders.CompoundViewHolder;
-import com.nepumuk.notizen.views.adapters.ViewHolders.SwipableViewHolder;
+import com.nepumuk.notizen.views.adapters.view_holders.CompoundViewHolder;
+import com.nepumuk.notizen.views.adapters.view_holders.SwipableViewHolder;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE;
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;

@@ -2,7 +2,7 @@ package com.nepumuk.notizen.views;
 
 import android.content.Context;
 import android.widget.ImageView;
-import com.nepumuk.notizen.objects.Notes.cImageNote;
+import com.nepumuk.notizen.objects.notes.cImageNote;
 
 import com.nepumuk.notizen.R;
 

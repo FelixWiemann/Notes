@@ -1,8 +1,8 @@
 package com.nepumuk.notizen.objects;
 
-import com.nepumuk.notizen.Utils.DBAccess.DatabaseStorable;
-import com.nepumuk.notizen.Utils.DateStrategy;
-import com.nepumuk.notizen.Utils.OnUpdateCallback;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.utils.DateStrategy;
+import com.nepumuk.notizen.utils.OnUpdateCallback;
 import com.nepumuk.notizen.objects.filtersort.SortAble;
 import com.nepumuk.notizen.objects.filtersort.SortCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;

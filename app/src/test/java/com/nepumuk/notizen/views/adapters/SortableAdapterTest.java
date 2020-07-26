@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.views.adapters;
 
-import com.nepumuk.notizen.Utils.DBAccess.DatabaseStorable;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.objects.cSortableObject;
 import com.nepumuk.notizen.objects.cStorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterHideAll;

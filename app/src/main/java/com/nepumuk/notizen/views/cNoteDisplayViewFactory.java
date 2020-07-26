@@ -3,10 +3,10 @@ package com.nepumuk.notizen.views;
 import android.content.Context;
 import android.util.Log;
 
-import com.nepumuk.notizen.objects.Notes.cImageNote;
-import com.nepumuk.notizen.objects.Notes.cTaskNote;
-import com.nepumuk.notizen.objects.Notes.cTextNote;
-import com.nepumuk.notizen.objects.Task.cTask;
+import com.nepumuk.notizen.objects.notes.cImageNote;
+import com.nepumuk.notizen.objects.notes.cTaskNote;
+import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.tasks.cTask;
 import com.nepumuk.notizen.objects.cStorageObject;
 
 import java.lang.reflect.InvocationTargetException;

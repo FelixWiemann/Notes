@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.Task.cBaseTask;
+import com.nepumuk.notizen.objects.tasks.cBaseTask;
 
 public class CreateTaskDialogFragment extends DialogFragment {
 

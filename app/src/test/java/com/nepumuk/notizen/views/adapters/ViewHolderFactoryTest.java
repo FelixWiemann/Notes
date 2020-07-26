@@ -3,14 +3,14 @@ package com.nepumuk.notizen.views.adapters;
 import android.view.View;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.Task.cBaseTask;
-import com.nepumuk.notizen.views.adapters.ViewHolders.TaskViewHolder;
-import com.nepumuk.notizen.views.adapters.ViewHolders.ViewHolderFactory;
-import com.nepumuk.notizen.views.adapters.ViewHolders.ViewHolderInterface;
+import com.nepumuk.notizen.objects.tasks.cBaseTask;
+import com.nepumuk.notizen.views.adapters.view_holders.TaskViewHolder;
+import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderFactory;
+import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 
 import org.junit.Test;
 
-import static com.nepumuk.notizen.views.adapters.ViewHolders.ViewHolderFactory.UNKNOWN_TYPE;
+import static com.nepumuk.notizen.views.adapters.view_holders.ViewHolderFactory.UNKNOWN_TYPE;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.mock;

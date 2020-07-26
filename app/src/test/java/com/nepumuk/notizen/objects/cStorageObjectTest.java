@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.objects;
 
-import com.nepumuk.notizen.Utils.OnUpdateCallback;
+import com.nepumuk.notizen.utils.OnUpdateCallback;
 import com.nepumuk.notizen.objects.filtersort.SortCategory;
 import com.nepumuk.notizen.testutils.AndroidTest;
 

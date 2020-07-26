@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.Notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.cTextNote;
 
 
 public class TextNoteFragment extends  NoteDisplayFragment<cTextNote>{

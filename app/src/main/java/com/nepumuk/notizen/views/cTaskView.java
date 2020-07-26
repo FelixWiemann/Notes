@@ -6,7 +6,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.Task.cTask;
+import com.nepumuk.notizen.objects.tasks.cTask;
 
 /**
  * Created by Felix on 06.10.2018.

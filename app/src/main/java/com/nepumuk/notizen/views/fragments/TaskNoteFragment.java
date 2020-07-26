@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.Notes.cTaskNote;
-import com.nepumuk.notizen.objects.Task.cBaseTask;
-import com.nepumuk.notizen.objects.Task.cTask;
+import com.nepumuk.notizen.objects.notes.cTaskNote;
+import com.nepumuk.notizen.objects.tasks.cBaseTask;
+import com.nepumuk.notizen.objects.tasks.cTask;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.views.SwipableView;
