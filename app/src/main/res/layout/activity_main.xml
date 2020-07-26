@@ -8,18 +8,18 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <com.example.felix.notizen.views.NoteListViewHeaderView
+    <com.nepumuk.notizen.views.NoteListViewHeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/headerView"/>
 
-    <com.example.felix.notizen.views.SwipeRecyclerView
+    <com.nepumuk.notizen.views.SwipeRecyclerView
         android:id="@+id/adapterView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/headerView" />
 
-    <com.example.felix.notizen.views.fabs.FabSpawnerFab
+    <com.nepumuk.notizen.views.fabs.FabSpawnerFab
         android:id="@+id/fab_add_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -5,7 +5,7 @@
     android:fillViewport="true"
     android:id="@+id/NestedScrollView">
 
-    <com.example.felix.notizen.NestedRecyclerView
+    <com.nepumuk.notizen.NestedRecyclerView
         android:id="@+id/lvContentHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

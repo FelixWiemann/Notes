@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.felix.notizen">
+    package="com.nepumuk.notizen">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -15,7 +15,7 @@
         android:supportsRtl="false">
         <!--RTL support once translations are available-->
         <activity
-            android:name=".testAcitivity"
+            android:name="com.nepumuk.notizen.testAcitivity"
             android:label="@string/title_activity_test_acitivity"
             android:theme="@style/AppTheme.NoActionBar">
             <!--
@@ -27,15 +27,15 @@
             </intent-filter>-->
         </activity>
         <activity
-            android:name=".EditNoteActivity"
+            android:name="com.nepumuk.notizen.EditNoteActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.nepumuk.notizen.MainActivity" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.nepumuk.notizen.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
