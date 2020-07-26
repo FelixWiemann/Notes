@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderFactory;
 import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 
@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseRecyclerAdapter<T extends cStorageObject> extends RecyclerView.Adapter<ViewHolderInterface<T>> implements Comparable<BaseRecyclerAdapter<T>>{
+public class BaseRecyclerAdapter<T extends StorageObject> extends RecyclerView.Adapter<ViewHolderInterface<T>> implements Comparable<BaseRecyclerAdapter<T>>{
 
     private static final String TAG = "RECYCLER_ADAPTER";
     ArrayList<T> itemList;

@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
 
-public class TextNoteViewHolder extends ViewHolderInterface<cTextNote> {
+public class TextNoteViewHolder extends ViewHolderInterface<TextNote> {
 
     TextView message ;
 
@@ -17,7 +17,7 @@ public class TextNoteViewHolder extends ViewHolderInterface<cTextNote> {
     }
 
     @Override
-    public void bind(cTextNote toBind) {
+    public void bind(TextNote toBind) {
         message.setText(toBind.getMessage());
     }
 }

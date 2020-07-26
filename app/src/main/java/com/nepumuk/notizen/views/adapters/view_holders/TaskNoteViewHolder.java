@@ -6,12 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.views.adapters.SortableRecyclerAdapter;
 
-public class TaskNoteViewHolder extends ViewHolderInterface<cTaskNote> {
+public class TaskNoteViewHolder extends ViewHolderInterface<TaskNote> {
 
     private RecyclerView task;
 
@@ -22,10 +22,10 @@ public class TaskNoteViewHolder extends ViewHolderInterface<cTaskNote> {
     }
 
     @Override
-    public void bind(cTaskNote toBind) {
+    public void bind(TaskNote toBind) {
         // TODO bind task list of task note
 
-        SortableRecyclerAdapter<cBaseTask> adapter = (SortableRecyclerAdapter<cBaseTask>) task.getAdapter();
+        SortableRecyclerAdapter<BaseTask> adapter = (SortableRecyclerAdapter<BaseTask>) task.getAdapter();
         if (adapter == null) {
             adapter = new SortableRecyclerAdapter<>(toBind.getTaskList(), 0);
             adapter.filter(new FilterShowAll());

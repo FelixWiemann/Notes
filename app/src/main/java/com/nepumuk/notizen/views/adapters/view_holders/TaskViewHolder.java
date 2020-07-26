@@ -7,12 +7,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
 
 /**
  * ViewHolder that holds a view representing a TaskNote
  */
-public class TaskViewHolder extends ViewHolderInterface<cBaseTask>{
+public class TaskViewHolder extends ViewHolderInterface<BaseTask>{
 
     private TextView title;
     private TextView message;
@@ -27,7 +27,7 @@ public class TaskViewHolder extends ViewHolderInterface<cBaseTask>{
     }
 
     @Override
-    public void bind(final cBaseTask toBind){
+    public void bind(final BaseTask toBind){
         // make sure the old one is not updated, if it was bound already...
         done.setOnCheckedChangeListener(null);
         // finally we cna bind all the other stuff

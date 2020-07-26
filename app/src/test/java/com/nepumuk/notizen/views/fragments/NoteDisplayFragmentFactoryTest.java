@@ -1,8 +1,8 @@
 package com.nepumuk.notizen.views.fragments;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.testutils.AndroidTest;
 
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class NoteDisplayFragmentFactoryTest extends AndroidTest {
     @Test
     public void generateFragment() {
         // given
-        cTextNote storable = new cTextNote();
+        TextNote storable = new TextNote();
         // when
         NoteDisplayFragment fragment = NoteDisplayFragmentFactory.generateFragment(storable);
         // then
@@ -41,7 +41,7 @@ public class NoteDisplayFragmentFactoryTest extends AndroidTest {
         assertTrue(fragment instanceof TaskNoteFragment);
     }
 
-    static class TestTaskNote extends cTaskNote{
+    static class TestTaskNote extends TaskNote {
 
     }
 

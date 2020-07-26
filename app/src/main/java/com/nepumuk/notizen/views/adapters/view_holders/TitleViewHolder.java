@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 
-public class TitleViewHolder<T extends cStorageObject> extends ViewHolderInterface<T> {
+public class TitleViewHolder<T extends StorageObject> extends ViewHolderInterface<T> {
 
     TextView title;
 

@@ -4,9 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.ExpandableView;
-import com.nepumuk.notizen.views.cNoteDisplayViewFactory;
+import com.nepumuk.notizen.views.NoteDisplayViewFactory;
 
 @Deprecated
 public class ExpandableViewAdapter extends SortableAdapter {
@@ -30,7 +30,7 @@ public class ExpandableViewAdapter extends SortableAdapter {
      */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        cStorageObject objectToDisplay = (cStorageObject)getItem(position);
+        StorageObject objectToDisplay = (StorageObject)getItem(position);
         // if view is already created, just update the data
         boolean createNewView;
 
@@ -48,7 +48,7 @@ public class ExpandableViewAdapter extends SortableAdapter {
         }
         if (createNewView){
             // todo let view handling be done by sortable adapter
-            return new ExpandableView(parent.getContext(), cNoteDisplayViewFactory.getView(parent.getContext(),objectToDisplay));
+            return new ExpandableView(parent.getContext(), NoteDisplayViewFactory.getView(parent.getContext(),objectToDisplay));
         }else {
             objectToDisplay.updateData();
             return convertView;

@@ -2,7 +2,7 @@ package com.nepumuk.notizen.objects.filtersort;
 
 import android.support.annotation.NonNull;
 
-import com.nepumuk.notizen.objects.cSortableObject;
+import com.nepumuk.notizen.objects.SortableObject;
 
 public class FilterBasedOnClass extends ViewFilter {
 
@@ -14,7 +14,7 @@ public class FilterBasedOnClass extends ViewFilter {
     }
 
     @Override
-    public boolean filter(@NonNull cSortableObject toFilter) {
+    public boolean filter(@NonNull SortableObject toFilter) {
         // make sure nothing is null & the given class in the constructor matches the class of the toFilter
         return toFilter.getClass().getCanonicalName().equalsIgnoreCase(clazz.getCanonicalName());
     }

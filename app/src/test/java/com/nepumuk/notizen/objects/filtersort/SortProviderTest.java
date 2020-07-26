@@ -1,11 +1,11 @@
 package com.nepumuk.notizen.objects.filtersort;
 
-import com.nepumuk.notizen.objects.notes.cImageNote;
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.notes.cTextNote;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
-import com.nepumuk.notizen.objects.tasks.cTask;
-import com.nepumuk.notizen.objects.tasks.cTimedTask;
+import com.nepumuk.notizen.objects.notes.ImageNote;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
+import com.nepumuk.notizen.objects.tasks.Task;
+import com.nepumuk.notizen.objects.tasks.TimedTask;
 import com.nepumuk.notizen.testutils.AndroidTest;
 
 import org.junit.Test;
@@ -20,13 +20,13 @@ public class SortProviderTest extends AndroidTest{
     @Test
     public void testSortByTitleAscending(){
         // given
-        cTextNote object1 = null;
-        cTextNote object2 = new cTextNote(UUID.randomUUID(), "aaa", "");
-        cTextNote object3 = new cTextNote(UUID.randomUUID(), "aba", "");
-        cTextNote object4 = new cTextNote(UUID.randomUUID(), "bbb", "");
-        cImageNote object5 = new cImageNote(UUID.randomUUID(), "abc", "");
-        cTextNote object6 = new cTextNote(UUID.randomUUID(), "", "");
-        cTextNote object7 = new cTextNote(UUID.randomUUID(), "bbb", "");
+        TextNote object1 = null;
+        TextNote object2 = new TextNote(UUID.randomUUID(), "aaa", "");
+        TextNote object3 = new TextNote(UUID.randomUUID(), "aba", "");
+        TextNote object4 = new TextNote(UUID.randomUUID(), "bbb", "");
+        ImageNote object5 = new ImageNote(UUID.randomUUID(), "abc", "");
+        TextNote object6 = new TextNote(UUID.randomUUID(), "", "");
+        TextNote object7 = new TextNote(UUID.randomUUID(), "bbb", "");
 
         // when/then
         assertTrue(SortProvider.SortByTitleAscending.compare(object3, object2)>0);
@@ -45,13 +45,13 @@ public class SortProviderTest extends AndroidTest{
     @Test
     public void testSortByTitleDescending(){
         // given
-        cTextNote object1 = null;
-        cTextNote object2 = new cTextNote(UUID.randomUUID(), "aaa", "");
-        cTextNote object3 = new cTextNote(UUID.randomUUID(), "aba", "");
-        cTextNote object4 = new cTextNote(UUID.randomUUID(), "bbb", "");
-        cImageNote object5 = new cImageNote(UUID.randomUUID(), "abc", "");
-        cTextNote object6 = new cTextNote(UUID.randomUUID(), "", "");
-        cTextNote object7 = new cTextNote(UUID.randomUUID(), "bbb", "");
+        TextNote object1 = null;
+        TextNote object2 = new TextNote(UUID.randomUUID(), "aaa", "");
+        TextNote object3 = new TextNote(UUID.randomUUID(), "aba", "");
+        TextNote object4 = new TextNote(UUID.randomUUID(), "bbb", "");
+        ImageNote object5 = new ImageNote(UUID.randomUUID(), "abc", "");
+        TextNote object6 = new TextNote(UUID.randomUUID(), "", "");
+        TextNote object7 = new TextNote(UUID.randomUUID(), "bbb", "");
 
         // when/then
         assertTrue(SortProvider.SortByTitleDescending.compare(object3, object2)<0);
@@ -70,13 +70,13 @@ public class SortProviderTest extends AndroidTest{
     @Test
     public void testSortTasksDone(){
         // given
-        cBaseTask object1 = null;
-        cBaseTask object2 = new cTask(UUID.randomUUID(), "aaa", "", false);
-        cBaseTask object3 = new cTask(UUID.randomUUID(), "aba", "", true);
-        cBaseTask object4 = new cTask(UUID.randomUUID(), "bbb", "", true);
-        cBaseTask object5 = new cTask(UUID.randomUUID(), "abc", "", false);
-        cBaseTask object6 = new cTask(UUID.randomUUID(), "", "", true);
-        cBaseTask object7 = new cTask(UUID.randomUUID(), "bbb", "", false);
+        BaseTask object1 = null;
+        BaseTask object2 = new Task(UUID.randomUUID(), "aaa", "", false);
+        BaseTask object3 = new Task(UUID.randomUUID(), "aba", "", true);
+        BaseTask object4 = new Task(UUID.randomUUID(), "bbb", "", true);
+        BaseTask object5 = new Task(UUID.randomUUID(), "abc", "", false);
+        BaseTask object6 = new Task(UUID.randomUUID(), "", "", true);
+        BaseTask object7 = new Task(UUID.randomUUID(), "bbb", "", false);
 
         // when/then
         assertTrue(SortProvider.SortTasksDone.compare(object3, object2)>0);
@@ -94,13 +94,13 @@ public class SortProviderTest extends AndroidTest{
     @Test
     public void testSortByType(){
         // given
-        cTextNote object1 = null;
-        cTextNote object2 = new cTextNote(UUID.randomUUID(), "aaa", "");
-        cTask object3 = new cTask(UUID.randomUUID(), "aba", "", false);
-        cTextNote object4 = new cTextNote(UUID.randomUUID(), "bbb", "");
-        cImageNote object5 = new cImageNote(UUID.randomUUID(), "abc", "");
-        cTimedTask object6 = new cTimedTask(UUID.randomUUID(), "", "", false);
-        cTaskNote object7 = new cTaskNote(UUID.randomUUID(), "bbb", new ArrayList<cBaseTask>());
+        TextNote object1 = null;
+        TextNote object2 = new TextNote(UUID.randomUUID(), "aaa", "");
+        Task object3 = new Task(UUID.randomUUID(), "aba", "", false);
+        TextNote object4 = new TextNote(UUID.randomUUID(), "bbb", "");
+        ImageNote object5 = new ImageNote(UUID.randomUUID(), "abc", "");
+        TimedTask object6 = new TimedTask(UUID.randomUUID(), "", "", false);
+        TaskNote object7 = new TaskNote(UUID.randomUUID(), "bbb", new ArrayList<BaseTask>());
         // when/then
         assertTrue(SortProvider.SortByType.compare(object3, object2)>0);
         assertTrue(SortProvider.SortByType.compare(object2, object3)<0);

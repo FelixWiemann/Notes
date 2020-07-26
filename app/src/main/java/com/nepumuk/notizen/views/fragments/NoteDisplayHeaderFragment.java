@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 
 /**
 
  */
-public class NoteDisplayHeaderFragment extends NoteDisplayFragment<cStorageObject> {
+public class NoteDisplayHeaderFragment extends NoteDisplayFragment<StorageObject> {
 
 
     public NoteDisplayHeaderFragment() {
@@ -49,7 +49,7 @@ public class NoteDisplayHeaderFragment extends NoteDisplayFragment<cStorageObjec
                     // we are not updating the UI, so we are sure that the changes are made by the user
                     typingInMessage = true;
                     // update view model after setting the new message text to the note
-                    cStorageObject note = mViewModel.getValue();
+                    StorageObject note = mViewModel.getValue();
                     note.setTitle(s.toString());
                     mViewModel.setNote(note);
                 }
@@ -61,7 +61,7 @@ public class NoteDisplayHeaderFragment extends NoteDisplayFragment<cStorageObjec
     }
 
     @Override
-    protected void updateUI(cStorageObject data) {
+    protected void updateUI(StorageObject data) {
         // only change the text, if the changes did not happen by user input
         // because otherwise we get into a loop!
         if (!typingInMessage) {

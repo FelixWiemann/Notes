@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 
-import com.nepumuk.notizen.objects.cSortableObject;
+import com.nepumuk.notizen.objects.SortableObject;
 import com.nepumuk.notizen.objects.filtersort.ViewFilter;
 import com.nepumuk.notizen.views.adapters.SortableAdapter;
 import com.nepumuk.notizen.views.adapters.cSwipableViewAdapter;
@@ -43,12 +43,12 @@ public class SortableListView extends ListView {
         this.setAdapter(adapter);
     }
 
-    public void add(cSortableObject storable){
+    public void add(SortableObject storable){
         adapter.add(storable);
         adapter.notifyDataSetChanged();
     }
 
-    public void remove(cSortableObject storable){
+    public void remove(SortableObject storable){
         adapter.remove(storable);
         adapter.notifyDataSetChanged();
     }
@@ -82,7 +82,7 @@ public class SortableListView extends ListView {
         adapter.filter(filter);
     }
 
-    public void sort(Comparator<cSortableObject> category){
+    public void sort(Comparator<SortableObject> category){
         adapter.sort(category);
     }
 

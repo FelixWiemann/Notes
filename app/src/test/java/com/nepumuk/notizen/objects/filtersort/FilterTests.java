@@ -1,10 +1,10 @@
 package com.nepumuk.notizen.objects.filtersort;
 
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.notes.cTextNote;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
-import com.nepumuk.notizen.objects.tasks.cTask;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
+import com.nepumuk.notizen.objects.tasks.Task;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.testutils.AndroidTest;
 
 import org.junit.Test;
@@ -20,9 +20,9 @@ public class FilterTests extends AndroidTest {
     @Test
     public void testHideAll() {
         // given
-        FilterHideAll<cStorageObject> filter = new FilterHideAll<>();
-        cTaskNote object1 = new cTaskNote(UUID.randomUUID(),"asd",new ArrayList<cBaseTask>());
-        cTaskNote object2 = new cTaskNote(UUID.randomUUID(),"asd",new ArrayList<cBaseTask>());
+        FilterHideAll<StorageObject> filter = new FilterHideAll<>();
+        TaskNote object1 = new TaskNote(UUID.randomUUID(),"asd",new ArrayList<BaseTask>());
+        TaskNote object2 = new TaskNote(UUID.randomUUID(),"asd",new ArrayList<BaseTask>());
         // when/then
         assertFalse(filter.filter(object1));
         assertFalse(filter.filter(object2));
@@ -31,9 +31,9 @@ public class FilterTests extends AndroidTest {
     @Test
     public void testShowAll() {
         // given
-        FilterShowAll<cStorageObject> filter = new FilterShowAll<>();
-        cTaskNote object1 = new cTaskNote(UUID.randomUUID(),"",new ArrayList<cBaseTask>());
-        cTaskNote object2 = new cTaskNote(UUID.randomUUID(),"asd",new ArrayList<cBaseTask>());
+        FilterShowAll<StorageObject> filter = new FilterShowAll<>();
+        TaskNote object1 = new TaskNote(UUID.randomUUID(),"",new ArrayList<BaseTask>());
+        TaskNote object2 = new TaskNote(UUID.randomUUID(),"asd",new ArrayList<BaseTask>());
         // when/then
         assertTrue(filter.filter(object1));
         assertTrue(filter.filter(object2));
@@ -43,8 +43,8 @@ public class FilterTests extends AndroidTest {
     public void testHideDone() {
         // given
         FilterHideDone filter = new FilterHideDone();
-        cTask object1 = new cTask(UUID.randomUUID(),"","",false);
-        cTask object2 = new cTask(UUID.randomUUID(),"","",true);
+        Task object1 = new Task(UUID.randomUUID(),"","",false);
+        Task object2 = new Task(UUID.randomUUID(),"","",true);
 
         // when/then
         assertTrue(filter.filter(object1));
@@ -53,10 +53,10 @@ public class FilterTests extends AndroidTest {
     @Test
     public void testBasedOnClass() {
         // given
-        FilterBasedOnClass filter = new FilterBasedOnClass(cTask.class);
-        cTask object1 = new cTask(UUID.randomUUID(),"","",false);
-        cTaskNote object2 = new cTaskNote(UUID.randomUUID(),"",new ArrayList<cBaseTask>());
-        cTextNote object3 = new cTextNote(UUID.randomUUID(),"","");
+        FilterBasedOnClass filter = new FilterBasedOnClass(Task.class);
+        Task object1 = new Task(UUID.randomUUID(),"","",false);
+        TaskNote object2 = new TaskNote(UUID.randomUUID(),"",new ArrayList<BaseTask>());
+        TextNote object3 = new TextNote(UUID.randomUUID(),"","");
 
         // when/then
         assertTrue(filter.filter(object1));

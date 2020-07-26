@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
 
 public class CreateTaskDialogFragment extends DialogFragment {
 
-    EditNoteViewModel<cBaseTask> taskViewModel;
+    EditNoteViewModel<BaseTask> taskViewModel;
     EditText textTaskTitle;
     EditText textTaskMessage;
 
@@ -38,9 +38,9 @@ public class CreateTaskDialogFragment extends DialogFragment {
 
         taskViewModel = ViewModelProviders.of(getTargetFragment()).get(EditNoteViewModel.class);
         textTaskTitle = view.findViewById(R.id.task_title);
-        taskViewModel.observe(this, new Observer<cBaseTask>() {
+        taskViewModel.observe(this, new Observer<BaseTask>() {
             @Override
-            public void onChanged(@Nullable cBaseTask task) {
+            public void onChanged(@Nullable BaseTask task) {
                 if (task ==null) return;
                 if (isTyping) {
                     isTyping = false;
@@ -70,7 +70,7 @@ public class CreateTaskDialogFragment extends DialogFragment {
                     return;
                 }
                 isTyping = true;
-                cBaseTask task = taskViewModel.getValue();
+                BaseTask task = taskViewModel.getValue();
                 task.setTitle(s.toString());
                 taskViewModel.setNote(task);
             }
@@ -91,7 +91,7 @@ public class CreateTaskDialogFragment extends DialogFragment {
                     return;
                 }
                 isTyping = true;
-                cBaseTask task = taskViewModel.getValue();
+                BaseTask task = taskViewModel.getValue();
                 task.setText(s.toString());
                 taskViewModel.setNote(task);
             }

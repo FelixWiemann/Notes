@@ -6,8 +6,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
-import com.nepumuk.notizen.objects.tasks.cTask;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
+import com.nepumuk.notizen.objects.tasks.Task;
 import com.nepumuk.notizen.testutils.AndroidTest;
 
 import org.junit.Before;
@@ -51,7 +51,7 @@ public class TaskViewHolderTest extends AndroidTest {
         String title = "TITLE";
         String text = "text";
         final boolean doneState = false;
-        cBaseTask testTask = new cTask(uuid, title, text, doneState);
+        BaseTask testTask = new Task(uuid, title, text, doneState);
         // when
         viewHolderUnderTest.bind(testTask);
         // then

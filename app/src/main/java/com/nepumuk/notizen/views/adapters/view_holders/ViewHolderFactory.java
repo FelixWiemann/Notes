@@ -4,9 +4,9 @@ import android.view.View;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.notes.cTextNote;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -50,9 +50,9 @@ public class ViewHolderFactory {
         if (instance == null){
             instance = new ViewHolderFactory();
             // register new View Types here
-            instance.registerNewViewHolder(R.layout.task_view, cBaseTask.class, TaskViewHolder.class);
-            instance.registerNewViewHolder(R.layout.note_view, cTextNote.class, TextNoteViewHolder.class);
-            instance.registerNewViewHolder(R.layout.task_note_view, cTaskNote.class, TaskNoteViewHolder.class);
+            instance.registerNewViewHolder(R.layout.task_view, BaseTask.class, TaskViewHolder.class);
+            instance.registerNewViewHolder(R.layout.note_view, TextNote.class, TextNoteViewHolder.class);
+            instance.registerNewViewHolder(R.layout.task_note_view, TaskNote.class, TaskNoteViewHolder.class);
         }
         return instance;
     }

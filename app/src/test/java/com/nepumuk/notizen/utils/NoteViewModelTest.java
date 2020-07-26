@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.utils.db_access.cDBDataHandler;
+import com.nepumuk.notizen.utils.db_access.DbDataHandler;
 import com.nepumuk.notizen.testutils.AndroidTest;
 
 import org.junit.After;
@@ -30,10 +30,10 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-@PrepareForTest({cDBDataHandler.class, NoteViewModel.class})
+@PrepareForTest({DbDataHandler.class, NoteViewModel.class})
 public class NoteViewModelTest extends AndroidTest {
 
-    cDBDataHandler handler;
+    DbDataHandler handler;
     NoteViewModel modelUnderTest;
     DatabaseStorable storable1;
     DatabaseStorable storable2;
@@ -46,7 +46,7 @@ public class NoteViewModelTest extends AndroidTest {
     public void setUp() throws Exception {
         super.setUp();
         // init mocks
-        handler = mock(cDBDataHandler.class);
+        handler = mock(DbDataHandler.class);
         liveData = mock(MutableLiveData.class);
         helper = mock(NoteViewModel.helper.class);
 

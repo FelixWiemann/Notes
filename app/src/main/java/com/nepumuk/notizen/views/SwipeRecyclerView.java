@@ -7,13 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
 
-import com.nepumuk.notizen.NestedRecyclerView;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.com.nepumuk.notizen.views.NestedRecyclerView;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import java.util.ArrayList;
 
-public class SwipeRecyclerView<T extends cStorageObject> extends NestedRecyclerView {
+public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerView {
 
     private static final String TAG = "NOTESRECYCLER";
 

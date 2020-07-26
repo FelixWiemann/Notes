@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
 
 
-public class TextNoteFragment extends  NoteDisplayFragment<cTextNote>{
+public class TextNoteFragment extends  NoteDisplayFragment<TextNote>{
 
     /**
      * state if the message field is being changed
@@ -41,7 +41,7 @@ public class TextNoteFragment extends  NoteDisplayFragment<cTextNote>{
                     // we are not updating the UI, so we are sure that the changes are made by the user
                     typingInMessage = true;
                     // update view model after setting the new message text to the note
-                    cTextNote note = mViewModel.getValue();
+                    TextNote note = mViewModel.getValue();
                     note.setMessage(s.toString());
                     mViewModel.setNote(note);
                 }
@@ -53,7 +53,7 @@ public class TextNoteFragment extends  NoteDisplayFragment<cTextNote>{
     }
 
     @Override
-    protected void updateUI(cTextNote data) {
+    protected void updateUI(TextNote data) {
         // only change the text, if the changes did not happen by user input
         // because otherwise we get into a loop!
         if (!typingInMessage) {

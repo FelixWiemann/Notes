@@ -3,8 +3,8 @@ package com.nepumuk.notizen.views.fragments;
 import android.util.Log;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
 
 import java.util.HashMap;
 
@@ -27,8 +27,8 @@ public class NoteDisplayFragmentFactory {
     private NoteDisplayFragmentFactory() {
         super();
         storableToFragment = new HashMap<>();
-        addStorableTypeToFragment(cTaskNote.class, TaskNoteFragment.class);
-        addStorableTypeToFragment(cTextNote.class, TextNoteFragment.class);
+        addStorableTypeToFragment(TaskNote.class, TaskNoteFragment.class);
+        addStorableTypeToFragment(TextNote.class, TextNoteFragment.class);
     }
 
     private void addStorableTypeToFragment(Class<? extends DatabaseStorable> storableType, Class<? extends NoteDisplayFragment> fragmentType){

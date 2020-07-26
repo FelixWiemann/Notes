@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.adapters.view_holders.CompoundViewHolder;
 import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-public class CompoundAdapter<T extends cStorageObject> extends SortableRecyclerAdapter<T> {
+public class CompoundAdapter<T extends StorageObject> extends SortableRecyclerAdapter<T> {
 
     private static final String LOG_TAG = "CompoundAdapter";
     /**

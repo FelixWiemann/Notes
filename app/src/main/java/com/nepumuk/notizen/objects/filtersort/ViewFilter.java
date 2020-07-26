@@ -2,7 +2,7 @@ package com.nepumuk.notizen.objects.filtersort;
 
 import android.support.annotation.NonNull;
 
-import com.nepumuk.notizen.objects.cSortableObject;
+import com.nepumuk.notizen.objects.SortableObject;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * filter class that can be used to filter items
  */
-public abstract class ViewFilter <T extends cSortableObject>{
+public abstract class ViewFilter <T extends SortableObject>{
     /**
      * return true, if the object needs to be displayed, false otherwise
      * default behaviour is to show all existing ones.

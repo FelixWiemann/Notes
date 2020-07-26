@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.views.adapters;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterHideAll;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
@@ -38,23 +38,23 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @PrepareForTest(SortableRecyclerAdapter.class)
 public class SortableRecyclerAdapterTest {
 
-    private SortableRecyclerAdapter<cStorageObject> adapterUnderTest;
+    private SortableRecyclerAdapter<StorageObject> adapterUnderTest;
 
-    private cStorageObject s1;
-    private cStorageObject s2;
+    private StorageObject s1;
+    private StorageObject s2;
 
-    private ViewFilter<cStorageObject> filterMock;
-    private FilterShowAll<cStorageObject> mockShowAll;
+    private ViewFilter<StorageObject> filterMock;
+    private FilterShowAll<StorageObject> mockShowAll;
 
 
     @Before
     public void setUp() {
-        adapterUnderTest = spy(new SortableRecyclerAdapter<>(new ArrayList<cStorageObject>(), 0));
+        adapterUnderTest = spy(new SortableRecyclerAdapter<>(new ArrayList<StorageObject>(), 0));
         // don't do anything on baseAdapter.notifyDataSetChanged, as not mocked
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
 
-        filterMock = (ViewFilter<cStorageObject>) mock(ViewFilter.class);
-        doCallRealMethod().when(filterMock).filter(ArgumentMatchers.<cStorageObject>anyList(), ArgumentMatchers.<cStorageObject>anyList(), ArgumentMatchers.<cStorageObject>anyList());
+        filterMock = (ViewFilter<StorageObject>) mock(ViewFilter.class);
+        doCallRealMethod().when(filterMock).filter(ArgumentMatchers.<StorageObject>anyList(), ArgumentMatchers.<StorageObject>anyList(), ArgumentMatchers.<StorageObject>anyList());
         mockShowAll = spy(new FilterShowAll());
 
         s1 = new DataBaseStorableTestImpl();
@@ -81,7 +81,7 @@ public class SortableRecyclerAdapterTest {
         adapterUnderTest.filter();
         // then
         verify(adapterUnderTest).notifyDataSetChanged();
-        verify(mockShowAll, times(2)).filter(ArgumentMatchers.<cStorageObject>anyList(), ArgumentMatchers.<cStorageObject>anyList(), ArgumentMatchers.<cStorageObject>anyList());
+        verify(mockShowAll, times(2)).filter(ArgumentMatchers.<StorageObject>anyList(), ArgumentMatchers.<StorageObject>anyList(), ArgumentMatchers.<StorageObject>anyList());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class SortableRecyclerAdapterTest {
         // given
         adapterUnderTest.add(s1);
         adapterUnderTest.add(s2);
-        when(filterMock.filter(any(cStorageObject.class))).thenReturn(false);
+        when(filterMock.filter(any(StorageObject.class))).thenReturn(false);
         // when
         adapterUnderTest.filter(filterMock);
         // then
@@ -99,7 +99,7 @@ public class SortableRecyclerAdapterTest {
     public void filterSpecificFilterSecondTime() {
         // given
         filterSpecificFilter();
-        when(filterMock.filter(any(cStorageObject.class))).thenReturn(true);
+        when(filterMock.filter(any(StorageObject.class))).thenReturn(true);
         // when
         adapterUnderTest.filter(filterMock);
         // then
@@ -119,7 +119,7 @@ public class SortableRecyclerAdapterTest {
         adapterUnderTest.clearFilter();
         // then
         verify(adapterUnderTest).filter();
-        verify(mockShowAll).filter(any(cStorageObject.class));
+        verify(mockShowAll).filter(any(StorageObject.class));
 
     }
 
@@ -147,7 +147,7 @@ public class SortableRecyclerAdapterTest {
         // add s2 and don't hide it
         adapterUnderTest.add(s2);
         // when
-        List<cStorageObject> result = adapterUnderTest.getAllObjects();
+        List<StorageObject> result = adapterUnderTest.getAllObjects();
         // then
         assertEquals(2, result.size());
         assertTrue(result.contains(s1));
@@ -194,7 +194,7 @@ public class SortableRecyclerAdapterTest {
     @Test
     public void replace() {
         // given
-        ArrayList<cStorageObject> newList = new ArrayList<>();
+        ArrayList<StorageObject> newList = new ArrayList<>();
         // when
         adapterUnderTest.replace(newList);
         // then

@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.utils.db_access.cDBDataHandler;
+import com.nepumuk.notizen.utils.db_access.DbDataHandler;
 
 import java.util.HashMap;
 
@@ -164,8 +164,8 @@ public class NoteViewModel extends ViewModel {
      */
     static class helper{
 
-        static cDBDataHandler getDBHandler() {
-            return new cDBDataHandler();
+        static DbDataHandler getDBHandler() {
+            return new DbDataHandler();
         }
 
         static MutableLiveData<HashMap<String, DatabaseStorable>> getLiveData() {

@@ -3,11 +3,11 @@ package com.nepumuk.notizen.views.adapters.view_holders;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 
 import java.util.HashMap;
 
-public class CompoundViewHolder<T extends cStorageObject> extends ViewHolderInterface<T> {
+public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInterface<T> {
 
     private HashMap<Class,ViewHolderInterface<T>> interfaces;
 

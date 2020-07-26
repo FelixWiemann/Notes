@@ -12,20 +12,20 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.nepumuk.notizen.settings.cSetting;
-import com.nepumuk.notizen.settings.cSettingException;
+import com.nepumuk.notizen.settings.Setting;
+import com.nepumuk.notizen.settings.SettingException;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.utils.NoteViewModel;
-import com.nepumuk.notizen.utils.cContextManager;
-import com.nepumuk.notizen.utils.cContextManagerException;
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.utils.ContextManager;
+import com.nepumuk.notizen.utils.ContextManagerException;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
-import com.nepumuk.notizen.objects.tasks.cTask;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
+import com.nepumuk.notizen.objects.tasks.Task;
 import com.nepumuk.notizen.objects.UnpackingDataException;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.views.NoteListViewHeaderView;
@@ -48,7 +48,7 @@ import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
-    private cSetting settings;
+    private Setting settings;
     private static final String TAG = "MAINACTIVITY";
     private NoteViewModel model;
     private RecyclerView recyclerView;
@@ -61,15 +61,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // must init setting-singleton first to make sure cust views have access to settings before
         // them getting inflated
-        settings = cSetting.getInstance();
+        settings = Setting.getInstance();
         try {
             settings.init(this.getApplicationContext());
-        } catch (cSettingException e) {
+        } catch (SettingException e) {
             Log.e(TAG, "onCreate: error during settings setup", e);
         }
         try {
-            cContextManager.getInstance().setUp(this.getApplicationContext());
-        } catch (cContextManagerException e) {
+            ContextManager.getInstance().setUp(this.getApplicationContext());
+        } catch (ContextManagerException e) {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
         model = ViewModelProviders.of(this).get(NoteViewModel.class);
@@ -78,17 +78,17 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate");
         // TODO HEADER VIEW
         recyclerView = findViewById(R.id.adapterView);
-        ArrayList<cStorageObject> list = new ArrayList<>();
-        final CompoundAdapter<cStorageObject> adapter = new CompoundAdapter<>(list, R.layout.compound_view);
+        ArrayList<StorageObject> list = new ArrayList<>();
+        final CompoundAdapter<StorageObject> adapter = new CompoundAdapter<>(list, R.layout.compound_view);
         adapter.registerAdapter(new TitleAdapter(list,2),R.id.titleid);
         adapter.registerAdapter(new BaseRecyclerAdapter<>(list,1), R.id.content);
-        SwipableRecyclerAdapter<cStorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true);
+        SwipableRecyclerAdapter<StorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true);
         swipeAdapter.OnLeftClick = new OnSwipeableClickListener() {
             @Override
             public void onClick(View clickedOn, SwipableView parentView) {
                 currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
                 if (currentEditedNoteIndex==-1) return;
-                cStorageObject task = adapter.getItem(currentEditedNoteIndex);
+                StorageObject task = adapter.getItem(currentEditedNoteIndex);
                 model.deleteData(task);
                 Log.d(TAG, "OnLeftClick: " + task);
             }
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         model.observeForEver(new Observer<HashMap<String, DatabaseStorable>>() {
             @Override
             public void onChanged(@Nullable HashMap<String, DatabaseStorable> map) {
-                List<cStorageObject> list = new ArrayList<>();
+                List<StorageObject> list = new ArrayList<>();
                 try {
                     if (map == null) {
                         return;
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Concurrent Modification Exception happened again, added additional logging
                     for (Map.Entry<String, DatabaseStorable> set : map.entrySet()) {
-                        list.add((cStorageObject) set.getValue());
+                        list.add((StorageObject) set.getValue());
                     }
 
                     adapter.replace(list);
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
                 currentEditedNoteIndex = recyclerView.getChildAdapterPosition(recyclerView.findChildViewUnder(e.getX(),e.getY()));
                 if (currentEditedNoteIndex==-1) return false;
-                cStorageObject task = adapter.getItem(currentEditedNoteIndex);
+                StorageObject task = adapter.getItem(currentEditedNoteIndex);
                 callEditNoteActivityForResult(task);
                 return false;
             }
@@ -158,10 +158,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<cBaseTask> list = new ArrayList<>();
+                ArrayList<BaseTask> list = new ArrayList<>();
                 // TODO use string resources
-                list.add(new cTask(UUID.randomUUID(),"Task 1","enter text", false));
-                cTaskNote testNote = new cTaskNote(UUID.randomUUID(),"",list);
+                list.add(new Task(UUID.randomUUID(),"Task 1","enter text", false));
+                TaskNote testNote = new TaskNote(UUID.randomUUID(),"",list);
                 callEditNoteActivityForResult(testNote);
                 fabSpawner.callOnClick();
             }
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         model.getData().getValue().values().forEach(new Consumer<DatabaseStorable>() {
             @Override
             public void accept(DatabaseStorable storable) {
-                if (storable instanceof cTaskNote) model.updateData(storable);
+                if (storable instanceof TaskNote) model.updateData(storable);
             }
         });
     }
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 String text = intent.hasExtra(Intent.EXTRA_TEXT) ? intent.getStringExtra(Intent.EXTRA_TEXT) : "retrieving data failed";
                 // empty default title for easier title manipulation
                 String title = intent.hasExtra(Intent.EXTRA_TITLE) ? intent.getStringExtra(Intent.EXTRA_TITLE) : "";
-                return new cTextNote(UUID.randomUUID(), title, text);
+                return new TextNote(UUID.randomUUID(), title, text);
             }
             // could not be handled, return default storable
             return StorableFactory.getDefaultStorable();

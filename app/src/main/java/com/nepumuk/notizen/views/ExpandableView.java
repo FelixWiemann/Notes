@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.utils.OnUpdateCallback;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
+import com.nepumuk.notizen.views.note_views.NoteDisplayView;
 
 /**
  * ExpandableView can be expanded and made smaller again by the press of a button.
@@ -62,13 +63,13 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
     /**
      * content view of the note
      */
-    private cNoteDisplayView noteDisplayView;
+    private NoteDisplayView noteDisplayView;
 
     public ExpandableView(Context context){
         super(context);
         init(null, 0, null);
     }
-    public ExpandableView(Context context, cNoteDisplayView view) {
+    public ExpandableView(Context context, NoteDisplayView view) {
         super(context);
         init(null, 0, view);
     }
@@ -90,11 +91,11 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         return noteDisplayView.getContent().getId();
     }
 
-    public cStorageObject getObject(){
+    public StorageObject getObject(){
         return noteDisplayView.getContent();
     }
 
-    private void init(AttributeSet attrs, int defStyle, cNoteDisplayView newView) {
+    private void init(AttributeSet attrs, int defStyle, NoteDisplayView newView) {
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.ExpandableView, defStyle, 0);
@@ -133,7 +134,7 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
      * set the new content view of the expandable view
      * @param newView
      */
-    public void setContentView(cNoteDisplayView newView){
+    public void setContentView(NoteDisplayView newView){
         noteDisplayView = newView;
         noteDisplayView.setParentView(this);
         noteDisplayView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

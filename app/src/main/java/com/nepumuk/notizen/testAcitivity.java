@@ -12,11 +12,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.notes.cTextNote;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
-import com.nepumuk.notizen.objects.tasks.cTask;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
+import com.nepumuk.notizen.objects.tasks.Task;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.adapters.BaseRecyclerAdapter;
 import com.nepumuk.notizen.views.adapters.CompoundAdapter;
@@ -48,37 +48,37 @@ public class testAcitivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<cStorageObject> itemList = new ArrayList<>();
+        ArrayList<StorageObject> itemList = new ArrayList<>();
 
-        itemList.add(new cTextNote(UUID.randomUUID(),"title n1","message n1"));
-        itemList.add(new cTextNote(UUID.randomUUID(),"title n2","message n2"));
-        itemList.add(new cTextNote(UUID.randomUUID(),"title n3","message n3"));
-        itemList.add(new cTextNote(UUID.randomUUID(),"title n4","message n4"));
+        itemList.add(new TextNote(UUID.randomUUID(),"title n1","message n1"));
+        itemList.add(new TextNote(UUID.randomUUID(),"title n2","message n2"));
+        itemList.add(new TextNote(UUID.randomUUID(),"title n3","message n3"));
+        itemList.add(new TextNote(UUID.randomUUID(),"title n4","message n4"));
 
-        ArrayList<cBaseTask> tasks = new ArrayList<>();
-        tasks.add(new cTask(UUID.randomUUID(),"title t1","text t1",false));
-        tasks.add(new cTask(UUID.randomUUID(),"title t2","text t2",false));
-        tasks.add(new cTask(UUID.randomUUID(),"title t3","text t3",true));
-        tasks.add(new cTask(UUID.randomUUID(),"title t4","text t4",false));
-        tasks.add(new cTask(UUID.randomUUID(),"title t5","text t5",false));
-        itemList.add(new cTaskNote(UUID.randomUUID(),"title n8",tasks));
+        ArrayList<BaseTask> tasks = new ArrayList<>();
+        tasks.add(new Task(UUID.randomUUID(),"title t1","text t1",false));
+        tasks.add(new Task(UUID.randomUUID(),"title t2","text t2",false));
+        tasks.add(new Task(UUID.randomUUID(),"title t3","text t3",true));
+        tasks.add(new Task(UUID.randomUUID(),"title t4","text t4",false));
+        tasks.add(new Task(UUID.randomUUID(),"title t5","text t5",false));
+        itemList.add(new TaskNote(UUID.randomUUID(),"title n8",tasks));
 
 
-        itemList.add(new cTextNote(UUID.randomUUID(),"title n5","message n5"));
-        itemList.add(new cTextNote(UUID.randomUUID(),"title n6","message n6"));
-        itemList.add(new cTextNote(UUID.randomUUID(),"title n7","message n7"));
+        itemList.add(new TextNote(UUID.randomUUID(),"title n5","message n5"));
+        itemList.add(new TextNote(UUID.randomUUID(),"title n6","message n6"));
+        itemList.add(new TextNote(UUID.randomUUID(),"title n7","message n7"));
 
         final RecyclerView recyclerView = findViewById(R.id.recview);
-        final CompoundAdapter<cStorageObject> adapter = new CompoundAdapter<>(itemList, R.layout.compound_view);
+        final CompoundAdapter<StorageObject> adapter = new CompoundAdapter<>(itemList, R.layout.compound_view);
         adapter.registerAdapter(new TitleAdapter(itemList,2),R.id.titleid);
         adapter.registerAdapter(new BaseRecyclerAdapter<>(itemList,1), R.id.content);
-        SwipableRecyclerAdapter<cStorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(itemList,0, true);
+        SwipableRecyclerAdapter<StorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(itemList,0, true);
         swipeAdapter.OnLeftClick = new OnSwipeableClickListener() {
             @Override
             public void onClick(View clickedOn, SwipableView parentView) {
                 currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
                 if (currentEditedNoteIndex==-1) return;
-                cStorageObject task = adapter.getItem(currentEditedNoteIndex);
+                StorageObject task = adapter.getItem(currentEditedNoteIndex);
                 adapter.remove(task);
                 adapter.notifyDataSetChanged();
                 Log.d("testAcitivity", "OnLeftClick: " + task);
@@ -95,7 +95,7 @@ public class testAcitivity extends AppCompatActivity {
             public void onClick(View clickedOn, SwipableView parentView) {
                 currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
                 if (currentEditedNoteIndex==-1) return;
-                cStorageObject task = adapter.getItem(currentEditedNoteIndex);
+                StorageObject task = adapter.getItem(currentEditedNoteIndex);
                 Log.d("testAcitivity", "OnMiddleClick: " + task);
             }
         };

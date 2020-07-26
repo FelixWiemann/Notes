@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.testutils;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 
 /**
  * Database Storable test implementation that contains no data,
@@ -8,7 +8,7 @@ import com.nepumuk.notizen.objects.cStorageObject;
  * warnings suppressed, as test class
  */
 @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-public class DataBaseStorableTestImpl extends cStorageObject {
+public class DataBaseStorableTestImpl extends StorageObject {
     public static final String DATA_STRING = "{\"lastChangedDate\":1594896550151,\"title\":\"title\",\"creationDate\":1594896550151,\"idString\":\"bb4bb4a3-51e2-4fd4-b96e-5b7a3a132be2\"}";
     public static final String DATA_TYPE = DataBaseStorableTestImpl.class.getCanonicalName();
     public static final String DATA_ID = "bb4bb4a3-51e2-4fd4-b96e-5b7a3a132be2";

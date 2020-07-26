@@ -2,7 +2,7 @@ package com.nepumuk.notizen.objects.storable_factory;
 
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
 
 import java.util.UUID;
 
@@ -12,6 +12,6 @@ import java.util.UUID;
 public class DefaultTextNoteStrategy implements DefaultStorableStrategy {
     @Override
     public DatabaseStorable createDefault() {
-        return new cTextNote(UUID.randomUUID(),"","");
+        return new TextNote(UUID.randomUUID(),"","");
     }
 }

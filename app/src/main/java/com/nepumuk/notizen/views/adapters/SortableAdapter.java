@@ -5,12 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.nepumuk.notizen.objects.cSortableObject;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.SortableObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.ViewFilter;
-import com.nepumuk.notizen.views.cNoteDisplayView;
-import com.nepumuk.notizen.views.cNoteDisplayViewFactory;
+import com.nepumuk.notizen.views.note_views.NoteDisplayView;
+import com.nepumuk.notizen.views.NoteDisplayViewFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,10 +23,10 @@ import java.util.List;
 @Deprecated
 public class SortableAdapter extends BaseAdapter {
 
-    private ArrayList<cSortableObject> displayed;
-    private ArrayList<cSortableObject> currentlyHidden;
-    private Comparator<cSortableObject> currentComparator;
-    private ViewFilter<cSortableObject> currentFilter;
+    private ArrayList<SortableObject> displayed;
+    private ArrayList<SortableObject> currentlyHidden;
+    private Comparator<SortableObject> currentComparator;
+    private ViewFilter<SortableObject> currentFilter;
 
 
     public SortableAdapter(){
@@ -63,7 +63,7 @@ public class SortableAdapter extends BaseAdapter {
      * @return The data at the specified position.
      */
     @Override
-    public cSortableObject getItem(int position) {
+    public SortableObject getItem(int position) {
         return displayed.get(position);
     }
 
@@ -92,7 +92,7 @@ public class SortableAdapter extends BaseAdapter {
      * sort the data based on the given comparator.
      * this also sets it for future #SortableAdapter::sort() calls
      */
-    public void sort(Comparator<cSortableObject> sortBy){
+    public void sort(Comparator<SortableObject> sortBy){
         currentComparator = sortBy;
         sort();
     }
@@ -104,7 +104,7 @@ public class SortableAdapter extends BaseAdapter {
      * the filtered out objects will not be discarded, with the FilterShowAll, all could be shown again.
      * @param filter
      */
-    public void filter(ViewFilter<cSortableObject> filter){
+    public void filter(ViewFilter<SortableObject> filter){
         currentFilter = filter;
         filter();
     }
@@ -119,8 +119,8 @@ public class SortableAdapter extends BaseAdapter {
             currentFilter = new FilterShowAll();
         }
 
-        ArrayList<cSortableObject> tempShow = new ArrayList<>();
-        ArrayList<cSortableObject> tempHide = new ArrayList<>();
+        ArrayList<SortableObject> tempShow = new ArrayList<>();
+        ArrayList<SortableObject> tempHide = new ArrayList<>();
 
         currentFilter.filter(displayed, tempShow, tempHide);
         currentFilter.filter(currentlyHidden, tempShow, tempHide);
@@ -144,7 +144,7 @@ public class SortableAdapter extends BaseAdapter {
      * adds all items from the list to the adapter
      * @param toAdd
      */
-    public void addAll(List<cSortableObject> toAdd){
+    public void addAll(List<SortableObject> toAdd){
         displayed.addAll(toAdd);
         notifyDataSetChanged();
     }
@@ -155,7 +155,7 @@ public class SortableAdapter extends BaseAdapter {
      *
      * @param toAdd storable that is to be added
      */
-    public void add(cSortableObject toAdd){
+    public void add(SortableObject toAdd){
         displayed.add(toAdd);
         notifyDataSetChanged();
     }
@@ -179,8 +179,8 @@ public class SortableAdapter extends BaseAdapter {
      * returns a List of all objects currently stored in the adapter, also the hidden ones!     *
      * @return
      */
-    public List<cSortableObject> getAllObjects(){
-        ArrayList<cSortableObject> allObjects = new ArrayList<>();
+    public List<SortableObject> getAllObjects(){
+        ArrayList<SortableObject> allObjects = new ArrayList<>();
         allObjects.addAll(displayed);
         allObjects.addAll(currentlyHidden);
         return allObjects;
@@ -190,7 +190,7 @@ public class SortableAdapter extends BaseAdapter {
      * permanently removes a Storable from the adapter
      * @param object
      */
-    public void remove(cSortableObject object){
+    public void remove(SortableObject object){
         displayed.remove(object);
         currentlyHidden.remove(object);
     }
@@ -215,7 +215,7 @@ public class SortableAdapter extends BaseAdapter {
      */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        cStorageObject objectToDisplay = (cStorageObject)getItem(position);
+        StorageObject objectToDisplay = (StorageObject)getItem(position);
         // if view is already created, just update the data
         boolean createNewView;
 
@@ -223,16 +223,16 @@ public class SortableAdapter extends BaseAdapter {
             // if it is null, definitely create a new one
             createNewView = true;
         }else{
-            if (convertView instanceof cNoteDisplayView){
+            if (convertView instanceof NoteDisplayView){
                 // if the objects are not the same, they might have been deleted, create a new view
-                createNewView = !(((cNoteDisplayView)convertView).getContent().equals(objectToDisplay));
+                createNewView = !(((NoteDisplayView)convertView).getContent().equals(objectToDisplay));
             }else  {
                 // if it's not an Expandable view, create a new view
                 createNewView = true;
             }
         }
         if (createNewView){
-            return cNoteDisplayViewFactory.getView(parent.getContext(),objectToDisplay);
+            return NoteDisplayViewFactory.getView(parent.getContext(),objectToDisplay);
         }else {
             objectToDisplay.updateData();
             return convertView;
@@ -244,7 +244,7 @@ public class SortableAdapter extends BaseAdapter {
      * sorts and filters according to the currently set sorting mechanism and filter
      * @param list
      */
-    public void replace(List <cSortableObject> list){
+    public void replace(List <SortableObject> list){
         clear();
         addAll(list);
         filter();

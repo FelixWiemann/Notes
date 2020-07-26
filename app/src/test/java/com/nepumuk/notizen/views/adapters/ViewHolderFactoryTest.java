@@ -3,7 +3,7 @@ package com.nepumuk.notizen.views.adapters;
 import android.view.View;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.views.adapters.view_holders.TaskViewHolder;
 import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderFactory;
 import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
@@ -44,7 +44,7 @@ public class ViewHolderFactoryTest {
         // given
         Integer expectedType = R.layout.task_view;
         // when
-        Integer actualType = ViewHolderFactory.getTypeForClass(cBaseTask.class);
+        Integer actualType = ViewHolderFactory.getTypeForClass(BaseTask.class);
         // then
         assertEquals(expectedType, actualType);
     }
@@ -70,7 +70,7 @@ public class ViewHolderFactoryTest {
     }
 
 
-    static class TestTask extends cBaseTask{
+    static class TestTask extends BaseTask {
 
         /**
          * abstract method to implement in each inherited task type.

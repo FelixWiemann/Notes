@@ -1,8 +1,8 @@
 package com.nepumuk.notizen.views.adapters;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.objects.cSortableObject;
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.SortableObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterHideAll;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.ViewFilter;
@@ -40,8 +40,8 @@ public class SortableAdapterTest {
 
     private SortableAdapter adapterUnderTest;
 
-    private cStorageObject s1;
-    private cStorageObject s2;
+    private StorageObject s1;
+    private StorageObject s2;
 
     private ViewFilter filterMock;
     private FilterShowAll mockShowAll;
@@ -125,7 +125,7 @@ public class SortableAdapterTest {
         // given
         adapterUnderTest.add(s1);
         adapterUnderTest.add(s2);
-        when(filterMock.filter(any(cStorageObject.class))).thenReturn(false);
+        when(filterMock.filter(any(StorageObject.class))).thenReturn(false);
         // when
         adapterUnderTest.filter(filterMock);
         // then
@@ -135,7 +135,7 @@ public class SortableAdapterTest {
     public void filterSpecificFilterSecondTime() {
         // given
         filterSpecificFilter();
-        when(filterMock.filter(any(cStorageObject.class))).thenReturn(true);
+        when(filterMock.filter(any(StorageObject.class))).thenReturn(true);
         // when
         adapterUnderTest.filter(filterMock);
         // then
@@ -188,7 +188,7 @@ public class SortableAdapterTest {
         adapterUnderTest.clearFilter();
         // then
         verify(adapterUnderTest).filter();
-        verify(mockShowAll).filter(any(cStorageObject.class));
+        verify(mockShowAll).filter(any(StorageObject.class));
 
     }
 
@@ -216,7 +216,7 @@ public class SortableAdapterTest {
         // add s2 and don't hide it
         adapterUnderTest.add(s2);
         // when
-        List<cSortableObject> result = adapterUnderTest.getAllObjects();
+        List<SortableObject> result = adapterUnderTest.getAllObjects();
         // then
         assertEquals(2, result.size());
         assertTrue(result.contains(s1));
@@ -263,7 +263,7 @@ public class SortableAdapterTest {
     @Test
     public void replace() {
         // given
-        ArrayList<cSortableObject> newList = new ArrayList<>();
+        ArrayList<SortableObject> newList = new ArrayList<>();
         // when
         adapterUnderTest.replace(newList);
         // then

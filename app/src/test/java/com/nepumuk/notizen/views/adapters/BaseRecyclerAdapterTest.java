@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.views.adapters;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.testutils.DataBaseStorableTestImpl;
 
 import org.junit.Before;
@@ -24,17 +24,17 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 @PrepareForTest(BaseRecyclerAdapter.class)
 public class BaseRecyclerAdapterTest {
 
-    private BaseRecyclerAdapter<cStorageObject> adapterUnderTest;
+    private BaseRecyclerAdapter<StorageObject> adapterUnderTest;
 
-    private cStorageObject s1;
-    private cStorageObject s2;
+    private StorageObject s1;
+    private StorageObject s2;
 
 
     @Before
     public void setUp(){
         s1 = new DataBaseStorableTestImpl();
         s2 = new DataBaseStorableTestImpl();
-        adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<cStorageObject>(),0));
+        adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<StorageObject>(),0));
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
     }
 

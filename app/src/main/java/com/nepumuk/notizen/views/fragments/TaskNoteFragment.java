@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.objects.notes.cTaskNote;
-import com.nepumuk.notizen.objects.tasks.cBaseTask;
-import com.nepumuk.notizen.objects.tasks.cTask;
+import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.tasks.BaseTask;
+import com.nepumuk.notizen.objects.tasks.Task;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.views.SwipableView;
@@ -26,7 +26,7 @@ import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 import java.util.UUID;
 
 
-public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements RequiresFabFragment {
+public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements RequiresFabFragment {
 
     private static final String TAG = "TaskNoteFragment";
     /**
@@ -37,8 +37,8 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
      * task has been added, but was not called for editing by click on it but by creation
      */
     private static final int NOT_YET_INDEXED = -2;
-    SwipeRecyclerView<cBaseTask> taskHolder;
-    EditNoteViewModel<cBaseTask> taskViewModel;
+    SwipeRecyclerView<BaseTask> taskHolder;
+    EditNoteViewModel<BaseTask> taskViewModel;
 
     FabProvider fabProvider;
 
@@ -61,13 +61,13 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
         taskHolder = v.findViewById(R.id.task_holder);
-        final SwipableRecyclerAdapter<cBaseTask> adapter = taskHolder.getAdapter();
+        final SwipableRecyclerAdapter<BaseTask> adapter = taskHolder.getAdapter();
         adapter.OnLeftClick = new OnSwipeableClickListener() {
             @Override
             public void onClick(View clickedOn, SwipableView parentView) {
                 currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
                 if (currentEditedNoteIndex==-1) return;
-                cBaseTask task = adapter.getItem(currentEditedNoteIndex);
+                BaseTask task = adapter.getItem(currentEditedNoteIndex);
                 deleteTask(task);
             }
         };
@@ -87,7 +87,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
                 Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
                 currentEditedNoteIndex = taskHolder.getChildAdapterPosition(taskHolder.findChildViewUnder(e.getX(),e.getY()));
                 if (currentEditedNoteIndex==-1) return true;
-                cBaseTask task = adapter.getItem(currentEditedNoteIndex);
+                BaseTask task = adapter.getItem(currentEditedNoteIndex);
                 callEditTaskFragment(task);
                 return false;
             }
@@ -102,8 +102,8 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
      * @param updatedData
      */
     @Override
-    protected void updateUI(cTaskNote updatedData) {
-        SwipableRecyclerAdapter<cBaseTask> adapter = taskHolder.getAdapter();
+    protected void updateUI(TaskNote updatedData) {
+        SwipableRecyclerAdapter<BaseTask> adapter = taskHolder.getAdapter();
         adapter.replace(updatedData.getTaskList());
         taskHolder.setAdapter(adapter);
         adapter.sort(SortProvider.SortTasksDone);
@@ -118,9 +118,9 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         // get the view model of the parent activity
         taskViewModel = ViewModelProviders.of(TaskNoteFragment.this).get(EditNoteViewModel.class);
         // let this observe the view model
-        taskViewModel.observe(this, new Observer<cBaseTask>() {
+        taskViewModel.observe(this, new Observer<BaseTask>() {
             @Override
-            public void onChanged(@Nullable cBaseTask updatedData) {
+            public void onChanged(@Nullable BaseTask updatedData) {
                 updateTask(updatedData);
             }
         });
@@ -131,9 +131,9 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
      * update the displayed task note with the given task
      * @param updated
      */
-    private void updateTask(cBaseTask updated){
+    private void updateTask(BaseTask updated){
         if (updated == null) return;
-        cTaskNote data = mViewModel.getValue();
+        TaskNote data = mViewModel.getValue();
         if (currentEditedNoteIndex == INVALID_INDEX){
             currentEditedNoteIndex = NOT_YET_INDEXED;
             data.addTask(updated);
@@ -143,14 +143,14 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
         mViewModel.setNote(data);
     }
 
-    private void deleteTask(cBaseTask updated){
+    private void deleteTask(BaseTask updated){
         if (updated == null) return;
-        cTaskNote data = mViewModel.getValue();
+        TaskNote data = mViewModel.getValue();
         data.deleteTask(updated);
         mViewModel.setNote(data);
     }
 
-    private void callEditTaskFragment(cBaseTask taskToEdit){
+    private void callEditTaskFragment(BaseTask taskToEdit){
         taskViewModel.setNote(taskToEdit);
         CreateTaskDialogFragment fragment = new CreateTaskDialogFragment();
         fragment.setTargetFragment(this,1337);
@@ -167,7 +167,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<cTaskNote> implements 
             @Override
             public void onClick(View v) {
                 currentEditedNoteIndex = INVALID_INDEX;
-                callEditTaskFragment(new cTask(UUID.randomUUID(),"","",false));
+                callEditTaskFragment(new Task(UUID.randomUUID(),"","",false));
             }
         });
     }

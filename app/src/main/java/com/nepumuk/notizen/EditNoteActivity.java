@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.objects.notes.cTextNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.views.fragments.EditNoteViewModel;
@@ -95,7 +95,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
             Log.e(LOG_TAG, "loadData: ", e);
         }
         if (data == null){
-            data = new cTextNote(UUID.randomUUID(),"" , "");
+            data = new TextNote(UUID.randomUUID(),"" , "");
         }
         originalData = data.getDataString();
         mViewModel = ViewModelProviders.of(this).get(EditNoteViewModel.class);

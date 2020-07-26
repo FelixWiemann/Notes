@@ -5,14 +5,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.adapters.view_holders.SwipableViewHolder;
 import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 
 import java.util.List;
 
-public class SwipableRecyclerAdapter<T extends cStorageObject> extends SortableRecyclerAdapter<T> {
+public class SwipableRecyclerAdapter<T extends StorageObject> extends SortableRecyclerAdapter<T> {
     private String TAG = "ADAPTER";
 
 

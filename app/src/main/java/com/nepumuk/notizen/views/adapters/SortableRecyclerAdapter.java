@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.views.adapters;
 
-import com.nepumuk.notizen.objects.cStorageObject;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.ViewFilter;
 
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class SortableRecyclerAdapter<T extends cStorageObject> extends BaseRecyclerAdapter<T> {
+public class SortableRecyclerAdapter<T extends StorageObject> extends BaseRecyclerAdapter<T> {
 
     private ArrayList<T> filteredOut;
 
