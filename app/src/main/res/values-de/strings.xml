@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Notizen</string>
+    <string name="app_name_base">Notizen</string>
+    <string name="app_name_debug">Notizen.DEBUG</string>
     <string name="action_settings">Einstellungen</string>
     <string name="title_activity_bla">Titel</string>
     <string name="ChangeCatFragmentCatColor"> -65536</string>

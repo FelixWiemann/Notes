@@ -2,7 +2,8 @@
 
     <!--
       -->
-    <string name="app_name">Notizen</string>
+    <string name="app_name_base">Notes</string>
+    <string name="app_name_debug">Notes.DEBUG</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_bla">title</string>
     <string name="ChangeCatFragmentCatColor"> -65536</string>
