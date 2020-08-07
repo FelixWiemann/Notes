@@ -11,10 +11,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
+
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
 
 public class CreateTaskDialogFragment extends DialogFragment {
 
@@ -75,6 +78,10 @@ public class CreateTaskDialogFragment extends DialogFragment {
                 taskViewModel.setNote(task);
             }
         });
+        Window window = getDialog().getWindow();
+        if (window!=null) {
+            window.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE);
+        }
         textTaskMessage = view.findViewById(R.id.task_message);
 
         textTaskMessage.addTextChangedListener(new TextWatcher() {
