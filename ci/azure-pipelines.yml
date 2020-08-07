@@ -4,6 +4,7 @@
 
 variables:
   - group: ReleaseNameVariables
+  - group: Signing Keys
 
 trigger:
   batch: true
@@ -20,5 +21,17 @@ jobs:
       - template: androidBuildAndPublishTestTemplate.yml
         parameters:
           BUILD_TYPE: 'Release'
+
+      - task: AndroidSigning@3
+        displayName: 'Signing and aligning APK file(s) $(System.DefaultWorkingDirectory)/unsignedBuild/dropRelease/app-release-unsigned.apk'
+        inputs:
+          apkFiles: '$(System.DefaultWorkingDirectory)/unsignedBuild/dropRelease/app-release-unsigned.apk'
+          apksignerKeystoreFile: azurekeystore
+          apksignerKeystorePassword: '$(KeyStorePass)'
+          apksignerKeystoreAlias: 'azure pipeline'
+          apksignerKeyPassword: '$(KeyPass)'
+          apksignerArguments: '--verbose --out $(System.DefaultWorkingDirectory)/unsignedBuild/dropRelease/app-release-signed.apk'
+
+
 
 
