@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/ndf_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:hint="@string/hint_note_message"
+        android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textWebEmailAddress|textPersonName|textCapSentences|textAutoComplete|textImeMultiLine|textCapWords"
+        android:importantForAutofill="no" />
+
+</RelativeLayout>

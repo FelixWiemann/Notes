@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ExpandableView">
+        <attr name="aSize" format="enum">
+            <enum name="wrap_content" value="1"/>
+            <enum name="cust" value="2"/>
+        </attr>
+        <attr name="aSizeUnExpanded" format="integer"/>
+    </declare-styleable>
+</resources>

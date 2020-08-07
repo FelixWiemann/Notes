@@ -1,0 +1,1 @@
+adb pull -a /sdcard/Android/data/com.example.felix.notizen/

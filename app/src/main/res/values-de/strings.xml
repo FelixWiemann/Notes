@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Notizen</string>
+    <string name="app_name_base">Notizen</string>
+    <string name="app_name_debug">Notizen.DEBUG</string>
     <string name="action_settings">Einstellungen</string>
     <string name="title_activity_bla">Titel</string>
     <string name="ChangeCatFragmentCatColor"> -65536</string>
@@ -10,16 +11,35 @@
     <string name="TitleCreateNewCategory">Erstelle neue Kategorie</string>
     <string name="FGM_Change_Cat_Title">Wähle Kategorie</string>
 
-    <string name="LT_nue_ItemLongClick">InitListViewNotes longitemclick</string>
-    <string name="LT_nue_onActRes_AddNote">onActivityResADDNote</string>
-    <string name="LT_nue_onActRes_EditNote">onActivityResChangeNote</string>
     <string name="action_reply">Antworten</string>
     <string name="action_share">Teilen</string>
-    <string name="note__notification_placeholder_text_template">Du sagtest %1$s</string>
-    <string name="note__notification_title_template">Notiz: %1$s</string>
     <string name="title_activity_act_new_photo_note">Neue Photo Notiz</string>
     <string name="toolbar_menu_create_note_cancel">Abbrechen</string>
     <string name="toolbar_menu_create_note_save">Speichern</string>
     <string name="bt_retake_pic">erneut aufnehmen</string>
     <string name="bt_cancel_pic">Abbrechen</string>
+    <string name="btSave">speichern</string>
+    <plurals name="notes">
+        <item quantity="one">%d Notiz</item>
+        <item quantity="other">%d Notizen</item>
+    </plurals>
+    <string name="list_view_header_text">Notizen</string>
+    <string name="unchanged_data">Seit des letztes Speicherns wurden die Daten geändert, wie weiter?</string>
+    <string name="save_and_exit">speichern</string>
+    <string name="discard_exit">Verwerfen</string>
+
+
+    <!--image content descriptions-->
+    <string name="image_exclamation_mark">Ausrufezeichen</string>
+    <string name="image_note_content">Bild der Notiz</string>
+    <string name="image_delete">Element löschen</string>
+
+    <!--hints-->
+    <string name="hint_task_title">Titel der Aufgabe</string>
+    <string name="hint_task_message">Text der Aufgabe</string>
+    <string name="hint_note_title">Titel der Neuen Notiz</string>
+    <string name="hint_note_message">Text der Notiz</string>
+
+    <!--error messages-->
+    <string name="error_generic_message">OUPS, etwas ist schiefgelaufen</string>
 </resources>

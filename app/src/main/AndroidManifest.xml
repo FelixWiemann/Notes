@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.felix.notizen">
+    package="com.nepumuk.notizen">
 
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_note_v1_0"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:fullBackupContent="@xml/mybackupscheme"
-        android:theme="@style/AppTheme">
+        android:supportsRtl="false">
+        <!--RTL support once translations are available-->
         <activity
-            android:name=".activities.Notizen_uebersicht"
-            android:label="@string/app_name"
+            android:name="com.nepumuk.notizen.testAcitivity"
+            android:label="@string/title_activity_test_acitivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.nepumuk.notizen.EditNoteActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nepumuk.notizen.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.nepumuk.notizen.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.newNoteActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".fragments.fragmentTest" />
-        <activity
-            android:name=".activities.act_newPhotoNote"
-            android:screenOrientation="portrait"
-
-            android:label="@string/title_activity_act_new_photo_note"
-            android:theme="@style/AppTheme.NoActionBar"><!-- TODO don't force orientation -->
-
-        </activity>
-
-
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
