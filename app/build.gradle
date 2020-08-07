@@ -8,7 +8,7 @@ android {
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        applicationId "com.example.felix.notizen"
+        applicationId "com.nepumuk.notizen"
         minSdkVersion 26
         targetSdkVersion 28
         // check version code from system environment (if input from CI-System)
