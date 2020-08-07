@@ -5,15 +5,22 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 
 public class SwipableOnItemTouchListener extends RecyclerView.SimpleOnItemTouchListener {
 
     private View.OnTouchListener onTouchListener;
+    private static final String TAG="RecyclerView.SimpleOnItemTouch";
+    private float tapDistance ;
+    private boolean initialized = false;
 
     /**
      * state whether we want to intercept the touch for the item itself
      */
-    boolean intercept = false;
+    boolean observe = false;
+
+    boolean analyzeTouch = false;
     /**
      * interlock to only call once the edit note activity
      */
@@ -26,25 +33,49 @@ public class SwipableOnItemTouchListener extends RecyclerView.SimpleOnItemTouchL
 
     @Override
     public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-        if (!intercept) {
-            intercept = e.getAction() == MotionEvent.ACTION_DOWN;
+        ViewConfiguration vc = ViewConfiguration.get(rv.getContext());
+        boolean action = false;
+        boolean time = false;
+        boolean distance = false;
+        boolean childIntercept = false;
+        boolean inter = false;
+        if (!initialized) {
+            int mSlop = vc.getScaledTouchSlop();
+            float scale = rv.getContext().getResources().getDisplayMetrics().density;
+            tapDistance = 10; //(int) (mSlop * scale + 0.5f);
+            initialized = true;
+            Log.d(TAG, "tap timeout: " + ViewConfiguration.getTapTimeout());
+            Log.d(TAG, "tapDistance: " + tapDistance);
+        }
+        if(observe) {
+            View childUnderTouch = rv.findChildViewUnder(e.getX(), e.getY());
+            if (childUnderTouch instanceof ViewGroup) {
+                // TODO does not get properly dispatched if only one task in the list
+                childIntercept = childUnderTouch.dispatchTouchEvent(e);
+            }
+            action = e.getAction() == MotionEvent.ACTION_MOVE;
+            time = e.getEventTime() - e.getDownTime() < ViewConfiguration.getTapTimeout();
+            distance = getMotionDistance(e) < tapDistance;
+            // intercept touch event, if we detect an up, touch has been shorter that tap timeout, motion distance had been smaller then tap distance and the child did not capture the touch itself
+            observe = !(!action || !time || !distance || childIntercept);
+            inter = !action && time  && distance &&!childIntercept && !((SwipeRecyclerView) rv).isItemSwipeMenuActive;
+            //analyzeTouch = (action || time) && distance && !childIntercept;
+
+        }
+        if (!observe) {
+            observe = e.getAction() == MotionEvent.ACTION_DOWN ;
             called = false;
         }
-        if(intercept) {
-            boolean action = e.getAction() == MotionEvent.ACTION_UP;
-            boolean time = e.getEventTime() - e.getDownTime() < 55;
-            boolean distance = getMotionDistance(e) < 1;
-            intercept = (action || time) && distance;
-            Log.d("RecyclerView.SimpleOnItemTouchListener","action " + action + " event time " + (e.getEventTime() - e.getDownTime()) + " distance " + getMotionDistance(e));
-        }
-        Log.d("RecyclerView.SimpleOnItemTouchListener","onInterceptTouchEvent " + intercept);
-        return intercept && !((SwipeRecyclerView) rv).isItemSwipeMenuActive;
+        if (e.getAction()== MotionEvent.ACTION_CANCEL) Log.d(TAG, "onInterceptTouchEvent: cancel");
+        Log.d(TAG, String.format("observe %b, intercept: %b, action %b,tap timeout %b (%d), tap distance %b (%f), child intercept %b, swipe menu %b, superintercept %b",observe, inter,action,time,(e.getEventTime() - e.getDownTime()),distance,getMotionDistance(e),childIntercept,((SwipeRecyclerView) rv).isItemSwipeMenuActive, super.onInterceptTouchEvent(rv, e)));
+        if (inter) onTouchEvent(rv, e);
+        return inter && !((SwipeRecyclerView) rv).isItemSwipeMenuActive;
     }
 
     @Override
     public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
         super.onTouchEvent(rv, e);
-        intercept = false;
+        observe = false;
         if (!called) {
             called = true;
             onTouchListener.onTouch(rv, e);

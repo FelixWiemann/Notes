@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
 
-import com.nepumuk.notizen.com.nepumuk.notizen.views.NestedRecyclerView;
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 

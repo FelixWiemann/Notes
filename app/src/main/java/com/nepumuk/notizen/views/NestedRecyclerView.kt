@@ -1,4 +1,4 @@
-package com.nepumuk.notizen.com.nepumuk.notizen.views
+package com.nepumuk.notizen.views
 
 import android.content.Context
 import android.support.v4.view.NestedScrollingParent

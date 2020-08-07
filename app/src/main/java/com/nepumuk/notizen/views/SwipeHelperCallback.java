@@ -170,7 +170,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if ((event.getAction() == MotionEvent.ACTION_DOWN)){
+                if ((event.getAction() == MotionEvent.ACTION_UP)){
                     // reset swipe state and button state
                     swipeBack = false;
                     currentButtonState = GONE;

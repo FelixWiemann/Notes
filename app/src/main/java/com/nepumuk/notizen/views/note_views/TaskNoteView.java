@@ -3,14 +3,14 @@ package com.nepumuk.notizen.views.note_views;
 import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.nepumuk.notizen.R;
+import com.nepumuk.notizen.views.NestedRecyclerView;
+import com.nepumuk.notizen.objects.filtersort.FilterHideDone;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
-import com.nepumuk.notizen.objects.filtersort.FilterHideDone;
 import com.nepumuk.notizen.views.adapters.SortableRecyclerAdapter;
 
 /**
@@ -19,7 +19,7 @@ import com.nepumuk.notizen.views.adapters.SortableRecyclerAdapter;
 
 public class TaskNoteView extends NoteDisplayView<TaskNote> {
 
-    RecyclerView noteViewContainer;
+    NestedRecyclerView noteViewContainer;
 
     SortableRecyclerAdapter<BaseTask> adapter;
 
