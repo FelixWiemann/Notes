@@ -19,7 +19,7 @@ steps:
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'clean build jacocoTest${{parameters.BUILD_TYPE}}UnitTestReport'
+    tasks: 'clean assemble${{parameters.BUILD_TYPE}} jacocoTest${{parameters.BUILD_TYPE}}UnitTestReport'
 
 - task: PublishCodeCoverageResults@1
   condition: always()
@@ -33,5 +33,5 @@ steps:
   condition: always()
   inputs:
     PathtoPublish: './app/build/outputs/apk/${{parameters.BUILD_TYPE}}'
-    ArtifactName: 'drop'
+    ArtifactName: 'drop${{parameters.BUILD_TYPE}}'
     publishLocation: 'Container'

@@ -9,17 +9,16 @@ trigger:
   batch: true
   branches:
     include:
-    - rework
-    - ci
+    - master
 
 pool:
   vmImage: 'macos-latest'
 
 jobs:
-  - job: DEBUG
+  - job: RELEASE
     steps:
       - template: androidBuildAndPublishTestTemplate.yml
         parameters:
-          BUILD_TYPE: 'Debug'
+          BUILD_TYPE: 'Release'
 
 
