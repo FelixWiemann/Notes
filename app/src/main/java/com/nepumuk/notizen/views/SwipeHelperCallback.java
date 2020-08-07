@@ -60,6 +60,12 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
 
     private boolean swipeBack = false;
 
+    private Canvas currentCanvas;
+    private RecyclerView.ViewHolder currentViewHolder;
+    private float currentY;
+    private RecyclerView currentRecyclerView;
+    private boolean isResettable;
+
 
     public SwipeHelperCallback(int LEFT_BUTTONS_WIDTH, int RIGHT_BUTTONS_WIDTH) {
         super();
@@ -166,23 +172,36 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
                                     final RecyclerView.ViewHolder viewHolder,
                                     final float dX, final float dY,
                                     final int actionState, final boolean isCurrentlyActive) {
+
+        currentCanvas = c;
+        currentViewHolder = viewHolder;
+        currentY = dY;
+        currentRecyclerView = recyclerView;
+        isResettable = true;
         // undo touch handler
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if ((event.getAction() == MotionEvent.ACTION_UP)){
-                    // reset swipe state and button state
-                    swipeBack = false;
-                    currentButtonState = GONE;
-                    // finally reset child draw position to X-Origin (we only where detecting the X-Dir for swiping)
-                    for (RecyclerView.ViewHolder holder : getChildToDrawBasedOnType(viewHolder,0F)) {
-                        SwipeHelperCallback.this.onChildDraw(c, recyclerView, holder, 0F, dY, actionState, isCurrentlyActive);
-                    }
+                    resetSwipeState(actionState,isCurrentlyActive);
                 }
                 Log.d(TAG, "onTouch: setTouchUpListener: Motion event: " + event.getAction());
                 return false;
             }
         });
+    }
+
+    public void resetSwipeState( int actionState, boolean isCurrentlyActive){
+        if(isResettable) {
+            // reset swipe state and button state
+            swipeBack = false;
+            currentButtonState = GONE;
+            // finally reset child draw position to X-Origin (we only where detecting the X-Dir for swiping)
+            for (RecyclerView.ViewHolder holder : getChildToDrawBasedOnType(currentViewHolder, 0F)) {
+                SwipeHelperCallback.this.onChildDraw(currentCanvas, currentRecyclerView, holder, 0F, currentY, actionState, isCurrentlyActive);
+            }
+        }
+        isResettable = false;
     }
 
     private RecyclerView.ViewHolder[] getChildToDrawBasedOnType(final RecyclerView.ViewHolder viewHolder,

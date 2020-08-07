@@ -7,30 +7,30 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.nepumuk.notizen.settings.Setting;
-import com.nepumuk.notizen.settings.SettingException;
-import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.utils.NoteViewModel;
-import com.nepumuk.notizen.utils.ContextManager;
-import com.nepumuk.notizen.utils.ContextManagerException;
+import com.nepumuk.notizen.objects.StorageObject;
+import com.nepumuk.notizen.objects.UnpackingDataException;
+import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
+import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.tasks.Task;
-import com.nepumuk.notizen.objects.UnpackingDataException;
-import com.nepumuk.notizen.objects.StorageObject;
-import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
-import com.nepumuk.notizen.objects.filtersort.SortProvider;
+import com.nepumuk.notizen.settings.Setting;
+import com.nepumuk.notizen.settings.SettingException;
+import com.nepumuk.notizen.utils.ContextManager;
+import com.nepumuk.notizen.utils.ContextManagerException;
+import com.nepumuk.notizen.utils.NoteViewModel;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.views.NoteListViewHeaderView;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.views.SwipableView;
+import com.nepumuk.notizen.views.SwipeRecyclerView;
 import com.nepumuk.notizen.views.adapters.BaseRecyclerAdapter;
 import com.nepumuk.notizen.views.adapters.CompoundAdapter;
 import com.nepumuk.notizen.views.adapters.OnSwipeableClickListener;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private Setting settings;
     private static final String TAG = "MAINACTIVITY";
     private NoteViewModel model;
-    private RecyclerView recyclerView;
+    private SwipeRecyclerView recyclerView;
 
     public static final int REQUEST_EDIT_NOTE = 1;
     public int currentEditedNoteIndex = 0;
@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 StorageObject task = adapter.getItem(currentEditedNoteIndex);
                 model.deleteData(task);
                 Log.d(TAG, "OnLeftClick: " + task);
+                recyclerView.resetSwipeState();
             }
         };
         adapter.registerAdapter(swipeAdapter,R.id.compound_content);

@@ -69,6 +69,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
                 if (currentEditedNoteIndex==-1) return;
                 BaseTask task = adapter.getItem(currentEditedNoteIndex);
                 deleteTask(task);
+                taskHolder.resetSwipeState();
             }
         };
         taskHolder.addOnItemTouchListener(new SwipableOnItemTouchListener(new View.OnTouchListener() {

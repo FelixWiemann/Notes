@@ -12,6 +12,8 @@ import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import java.util.ArrayList;
 
+import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE;
+
 public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerView {
 
     private static final String TAG = "NOTESRECYCLER";
@@ -22,6 +24,8 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
     public boolean isItemSwipeMenuActive = false;
 
     private SwipableRecyclerAdapter<T> adapter;
+
+    SwipeHelperCallback helperCallback;
 
 
     public SwipeRecyclerView(@NonNull Context context) {
@@ -44,7 +48,7 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
         adapter = new SwipableRecyclerAdapter<>(new ArrayList<T>(), 0, false);
         this.setAdapter(adapter);
         // todo get swipe-menu width from adapter
-        ItemTouchHelper.Callback helperCallback = new SwipeHelperCallback(100, SwipeHelperCallback.NO_BUTTON);
+        helperCallback = new SwipeHelperCallback(100, SwipeHelperCallback.NO_BUTTON);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
         itemTouchHelper.attachToRecyclerView(this);
         setLayoutManager(new LinearLayoutManager(getContext()));
@@ -66,6 +70,10 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
      */
     public SwipableRecyclerAdapter<T> getAdapter(){
         return adapter;
+    }
+
+    public void resetSwipeState(){
+        helperCallback.resetSwipeState(ACTION_STATE_SWIPE,true);
     }
 
 }
