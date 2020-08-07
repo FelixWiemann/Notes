@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created as part of notes in package com.example.felix.notizen.test.FrontEnd
+ * Created as part of notes in package com.nepumuk.notizen.test.FrontEnd
  * by Felix "nepumuk" Wiemann on 29/04/17.
  */
 @SuppressWarnings("unused")

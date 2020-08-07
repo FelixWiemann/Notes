@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created as part of notes in package com.example.felix.notizen.test.FrontEnd.Task
+ * Created as part of notes in package com.nepumuk.notizen.test.FrontEnd.Task
  * by Felix "nepumuk" Wiemann on 22/04/17.
  */
 public class BaseTaskTest extends AndroidTest {

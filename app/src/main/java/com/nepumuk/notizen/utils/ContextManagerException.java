@@ -4,7 +4,7 @@ package com.nepumuk.notizen.utils;
 /**
  * exception thrown by cContextManager
  *
- * Created as part of notes in package com.example.felix.notizen.BackEnd
+ * Created as part of notes in package com.nepumuk.notizen.BackEnd
  * by Felix "nepumuk" Wiemann on 04/06/17.
  */
 public class ContextManagerException extends Exception {

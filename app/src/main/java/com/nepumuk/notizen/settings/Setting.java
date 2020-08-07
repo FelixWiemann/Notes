@@ -16,7 +16,7 @@ public class Setting {
     private final static String aKEY_TAG = "key ";
     private final static String aVALUE_TAG = "value ";
 
-    private final static String aSHARED_PREFS_FILE_NAME = "com.example.notes_shared_prefs";
+    private final static String aSHARED_PREFS_FILE_NAME = "com.nepumuk.notes_shared_prefs";
 
     public final static String aLOG_LOCATION = "KEY_SETTING_LOG_LOCATION";
     public final static String aLOGS_TO_KEEP = "KEY_SETTING_LOGS_TO_KEEP";

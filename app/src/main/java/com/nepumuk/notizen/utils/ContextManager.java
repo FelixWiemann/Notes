@@ -6,7 +6,7 @@ import android.content.Context;
  * mContext manager for storing the mContext of the app and making it accessible throughout the app
  * to be set up at app start / start of first service
  *
- * Created as part of notes in package com.example.felix.notizen.BackEnd
+ * Created as part of notes in package com.nepumuk.notizen.BackEnd
  * by Felix "nepumuk" Wiemann on 04/06/17.
  *
  * getApplicationContext instead!

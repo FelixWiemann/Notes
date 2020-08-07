@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created as part of notes in package com.example.felix.notizen.test
+ * Created as part of notes in package com.nepumuk.notizen.test
  * by Felix "nepumuk" Wiemann on 22/04/17.
  */
 public class TextNoteTest extends AndroidTest {
