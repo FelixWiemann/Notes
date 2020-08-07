@@ -25,7 +25,7 @@ jobs:
       - task: AndroidSigning@3
         displayName: 'Signing and aligning APK file(s) $(System.DefaultWorkingDirectory)/unsignedBuild/dropRelease/app-release-unsigned.apk'
         inputs:
-          apkFiles: './app/build/outputs/apk/${{parameters.BUILD_TYPE}}/app-release-unsigned.apk'
+          apkFiles: './app/build/outputs/apk/Release/app-release-unsigned.apk'
           apksignerKeystoreFile: azurekeystore
           apksignerKeystorePassword: '$(KeyStorePass)'
           apksignerKeystoreAlias: 'azure pipeline'
