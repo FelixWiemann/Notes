@@ -3,10 +3,12 @@ package com.nepumuk.notizen.views;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
 
+import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 
@@ -51,7 +53,12 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
         helperCallback = new SwipeHelperCallback(100, SwipeHelperCallback.NO_BUTTON);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
         itemTouchHelper.attachToRecyclerView(this);
-        setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        setLayoutManager(layoutManager);
+        // divider decoration
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
+        dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.rv_line_divider));
+        this.addItemDecoration(dividerItemDecoration);
     }
 
     /**
