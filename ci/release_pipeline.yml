@@ -32,7 +32,7 @@ jobs:
           apksignerKeystorePassword: '$(KeyStorePass)'
           apksignerKeystoreAlias: 'azure pipeline'
           apksignerKeyPassword: '$(KeyPass)'
-          apksignerArguments: '--verbose --out $(System.DefaultWorkingDirectory)/signedBuild/app-release-signed.apk'
+          apksignerArguments: '--verbose --out ''$(System.DefaultWorkingDirectory)/signedBuild/app-release-signed.apk'''
       - task: PublishBuildArtifacts@1
         condition: always()
         inputs:
