@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'jacoco-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.nepumuk.notizen"
         minSdkVersion 26
-        targetSdkVersion 28
+        targetSdkVersion 29
         // check version code from system environment (if input from CI-System)
         if ("$System.env.VERSIONCODE"=="null") {
             // not found, check local properties file in root dir of project
