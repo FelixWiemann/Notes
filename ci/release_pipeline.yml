@@ -27,7 +27,7 @@ jobs:
       - task: AndroidSigning@3
         displayName: 'Signing and aligning APK file(s) $(System.DefaultWorkingDirectory)/unsignedBuild/dropRelease/app-release-unsigned.apk'
         inputs:
-          apkFiles: './app/build/outputs/apk/Release/app-release-unsigned.apk'
+          apkFiles: '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/app-release-unsigned.apk'
           apksignerKeystoreFile: azurekeystore
           apksignerKeystorePassword: '$(KeyStorePass)'
           apksignerKeystoreAlias: 'azure pipeline'
@@ -36,7 +36,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         condition: always()
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/unsignedBuild/dropRelease/'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/app-release-unsigned.ap'
           ArtifactName: 'signed_apk'
           publishLocation: 'Container'
 
