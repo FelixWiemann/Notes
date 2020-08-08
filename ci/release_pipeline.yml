@@ -41,8 +41,7 @@ jobs:
         inputs:
           targetType: 'inline'
           script: 
-            mkdir '$(System.DefaultWorkingDirectory)/signed'
-            cp '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/app-release-unsigned.apk' '$(System.DefaultWorkingDirectory)/signed/notes-release-signed.apk'
+            mkdir '$(System.DefaultWorkingDirectory)/signed' && cp '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/app-release-unsigned.apk' '$(System.DefaultWorkingDirectory)/signed/notes-release-signed.apk'
 
       # publish signed apk
       - task: PublishBuildArtifacts@1
