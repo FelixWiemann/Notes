@@ -75,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
         model = ViewModelProviders.of(this).get(NoteViewModel.class);
         setContentView(R.layout.activity_main);
         // init vars
-        Log.i(TAG, "onCreate");
-        // TODO HEADER VIEW
         recyclerView = findViewById(R.id.adapterView);
         ArrayList<StorageObject> list = new ArrayList<>();
         final CompoundAdapter<StorageObject> adapter = new CompoundAdapter<>(list, R.layout.compound_view);
@@ -90,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 if (currentEditedNoteIndex==-1) return;
                 StorageObject task = adapter.getItem(currentEditedNoteIndex);
                 model.deleteData(task);
-                Log.d(TAG, "OnLeftClick: " + task);
                 recyclerView.resetSwipeState();
             }
         };
@@ -112,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     adapter.replace(list);
-                    Log.d(TAG, "onChanged: adapter updated");
                     // sort and filter new data based on current settings
                     adapter.filter();
                     adapter.sort();
@@ -133,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent e) {
-                //Toast.makeText(getApplicationContext(),"onTouchEvent",Toast.LENGTH_SHORT).show();
-                Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
                 currentEditedNoteIndex = recyclerView.getChildAdapterPosition(recyclerView.findChildViewUnder(e.getX(),e.getY()));
                 if (currentEditedNoteIndex==-1) return false;
                 StorageObject task = adapter.getItem(currentEditedNoteIndex);
@@ -173,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(getIntent());
         if (fromIntent != null) callEditNoteActivityForResult(fromIntent);
-        Log.d(TAG, "done creating");
     }
 
     @Override
@@ -209,7 +202,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "onActivityResult: got result");
         // Check which request we're responding to
         if (requestCode == REQUEST_EDIT_NOTE) {
             // Make sure the request was successful

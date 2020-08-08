@@ -3,7 +3,6 @@ package com.nepumuk.notizen.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.utils.OnUpdateCallback;
 import com.nepumuk.notizen.objects.StorageObject;
+import com.nepumuk.notizen.utils.OnUpdateCallback;
 import com.nepumuk.notizen.views.note_views.NoteDisplayView;
 
 /**
@@ -107,7 +106,6 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
         this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                //Log.d("global layout listener", "onGlobalLayout: " + getHeight() + " " + ExpandableView.this);
                 if (currentState == ExpandState.FIRSTINFLATE) {
                     aSizeExpanded = getHeight();
                     if (aSizeExpanded <= aSizeUnExpanded){
@@ -165,7 +163,6 @@ public class ExpandableView extends LinearLayout implements OnUpdateCallback {
     }
 
     private void setHeight(int newHeight){
-        Log.d("height","set height: "+ newHeight);
         getLayoutParams().height = newHeight;
         requestLayout();
     }

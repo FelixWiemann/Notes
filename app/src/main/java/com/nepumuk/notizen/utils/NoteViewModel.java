@@ -4,7 +4,6 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.utils.db_access.DbDataHandler;
@@ -37,7 +36,6 @@ public class NoteViewModel extends ViewModel {
      */
     public NoteViewModel() {
         super();
-        Log.d(TAG, "NoteViewModel: creating");
         data = helper.getLiveData();
         dataMap = new HashMap<>();
         data.setValue(dataMap);

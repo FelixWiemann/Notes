@@ -1,13 +1,11 @@
 package com.nepumuk.notizen.objects.tasks;
 
-import android.util.Log;
-
-import com.nepumuk.notizen.utils.DateStrategy;
-import com.nepumuk.notizen.objects.StorageObject;
-import com.nepumuk.notizen.objects.filtersort.SortAble;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.nepumuk.notizen.objects.StorageObject;
+import com.nepumuk.notizen.objects.filtersort.SortAble;
+import com.nepumuk.notizen.utils.DateStrategy;
 
 import java.util.UUID;
 
@@ -83,7 +81,6 @@ public abstract class BaseTask extends StorageObject {
      */
     @JsonIgnore
     public boolean isDone() {
-        Log.d(BASE_TASK_LOG_TAG,"is task done?");
         return mDone;
     }
 
@@ -92,7 +89,6 @@ public abstract class BaseTask extends StorageObject {
      * @param done true if task is complete, false if not
      */
     public void setDone(boolean done) {
-        Log.d(BASE_TASK_LOG_TAG,"setting task done");
         setLastChangedDate();
         this.mDone = done;
         if (done){

@@ -1,11 +1,9 @@
 package com.nepumuk.notizen.objects.notes;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 
 import java.util.ArrayList;
@@ -97,7 +95,6 @@ public class TaskNote extends Note {
         // clear the list
         mTaskList.clear();
         this.updateData();
-        Log.d(TASK_NOTE_LOG_TAG,"tasks cleared");
     }
 
 

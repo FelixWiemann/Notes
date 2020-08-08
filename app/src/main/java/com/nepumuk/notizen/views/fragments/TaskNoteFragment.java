@@ -6,17 +6,16 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.nepumuk.notizen.R;
+import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.tasks.Task;
-import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.SwipeRecyclerView;
@@ -85,7 +84,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
              */
             @Override
             public boolean onTouch(View v, MotionEvent e) {
-                Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
                 currentEditedNoteIndex = taskHolder.getChildAdapterPosition(taskHolder.findChildViewUnder(e.getX(),e.getY()));
                 if (currentEditedNoteIndex==-1) return true;
                 BaseTask task = adapter.getItem(currentEditedNoteIndex);
@@ -109,7 +107,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         taskHolder.setAdapter(adapter);
         adapter.sort(SortProvider.SortTasksDone);
         adapter.notifyDataSetChanged();
-        Log.d(TAG, "updateUI: done");
     }
 
 

@@ -31,7 +31,6 @@ public class DbDataHandler {
      * @param object to insert
      */
     public void insert(DatabaseStorable object){
-        Log.d(TAG, "insert: "+ object.getId());
         aHelper.insert(storableToContentValues(object));
     }
 

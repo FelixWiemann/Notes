@@ -1,9 +1,7 @@
 package com.nepumuk.notizen.objects.tasks;
 
-import android.util.Log;
-
-import com.nepumuk.notizen.utils.DateStrategy;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nepumuk.notizen.utils.DateStrategy;
 
 import java.util.UUID;
 
@@ -29,7 +27,6 @@ public class TimedTask extends BaseTask {
      * @return due date
      */
     public long getTaskDueDate() {
-        Log.d(LOG_TAG,"getting task due date");
         return mTaskDueDate;
     }
 
@@ -39,7 +36,6 @@ public class TimedTask extends BaseTask {
      * @param mTaskDueDate new task due date
      */
     public void setTaskDueDate(long mTaskDueDate) {
-        Log.d(LOG_TAG,"setting task due date");
         this.mTaskDueDate = mTaskDueDate;
     }
 
@@ -58,7 +54,6 @@ public class TimedTask extends BaseTask {
      */
     public TimedTask(UUID mId, String mTitle, String mText, boolean mDone) {
         super(mId,mTitle, mText, mDone);
-        Log.d(LOG_TAG,"creating timed task");
     }
 
     /**
@@ -73,7 +68,6 @@ public class TimedTask extends BaseTask {
      */
     @Override
     public void deleteTask() {
-        Log.d(LOG_TAG,"deleting timed task");
         // TODO: delete timer
     }
 

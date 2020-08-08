@@ -8,15 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.tasks.Task;
-import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.adapters.BaseRecyclerAdapter;
 import com.nepumuk.notizen.views.adapters.CompoundAdapter;
@@ -81,13 +80,11 @@ public class testAcitivity extends AppCompatActivity {
                 StorageObject task = adapter.getItem(currentEditedNoteIndex);
                 adapter.remove(task);
                 adapter.notifyDataSetChanged();
-                Log.d("testAcitivity", "OnLeftClick: " + task);
             }
         };
         recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
             @Override
             public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
             }
         });
         swipeAdapter.OnMiddleClick = new OnSwipeableClickListener() {
@@ -96,7 +93,6 @@ public class testAcitivity extends AppCompatActivity {
                 currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
                 if (currentEditedNoteIndex==-1) return;
                 StorageObject task = adapter.getItem(currentEditedNoteIndex);
-                Log.d("testAcitivity", "OnMiddleClick: " + task);
             }
         };
         adapter.registerAdapter(swipeAdapter,R.id.compound_content);
@@ -116,9 +112,7 @@ public class testAcitivity extends AppCompatActivity {
                     boolean distance = getMotionDistance(e) < 1;
 
                     intercept = (action || time) && distance;
-                    Log.d("RecyclerView.SimpleOnItemTouchListener","action " + action + " event time " + (e.getEventTime() - e.getDownTime()) + " distance " + getMotionDistance(e));
                 }
-                Log.d("RecyclerView.SimpleOnItemTouchListener","onInterceptTouchEvent " + intercept);
                 return intercept;
             }
 
@@ -126,8 +120,6 @@ public class testAcitivity extends AppCompatActivity {
             public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                 super.onTouchEvent(rv, e);
                 intercept = false;
-                //Toast.makeText(getApplicationContext(),"onTouchEvent",Toast.LENGTH_SHORT).show();
-                Log.d("RecyclerView.SimpleOnItemTouchListener","onTouchEvent");
             }
         });
         adapter.notifyDataSetChanged();

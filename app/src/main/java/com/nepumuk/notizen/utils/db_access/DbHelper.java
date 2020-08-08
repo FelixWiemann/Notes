@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 import android.util.Log;
 
 import com.nepumuk.notizen.utils.ContextManager;
@@ -27,7 +26,7 @@ public class DbHelper extends SQLiteOpenHelper {
     static final String aDB_COLUMN_TYPE = "Type";
     static final String aDB_COLUMN_JSONDATA = "DATA";
     static final String aDB_COLUMN_TYPEVERSION = "Version";
-    private static final String TAG = "DB Helper" ;
+    private static final String TAG = "DB Helper";
 
 
     private static DbHelper mMasterInstance = null;
@@ -36,13 +35,11 @@ public class DbHelper extends SQLiteOpenHelper {
     private DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         Log.i(TAG, "creating DB Master");
-        Log.d(TAG, "cDBHelper: " + Environment.getExternalStorageDirectory().getPath());
         init();
     }
 
     private void init(){
         mDB = this.getReadableDatabase();
-        Log.d(TAG, "init: stored at " + getDBPAth());
     }
 
     /**
@@ -60,7 +57,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.d(TAG, "Database Created");
+        Log.i(TAG, "Database Created");
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
     }
 
@@ -121,7 +118,6 @@ public class DbHelper extends SQLiteOpenHelper {
      * closes the DB-connection
      */
     public void closeDB(){
-        Log.i(TAG, "closing DB");
         mDB.close();
         mDB = null;
     }

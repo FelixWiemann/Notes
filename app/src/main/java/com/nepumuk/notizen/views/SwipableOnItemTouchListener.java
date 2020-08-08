@@ -2,7 +2,6 @@ package com.nepumuk.notizen.views;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -44,8 +43,6 @@ public class SwipableOnItemTouchListener extends RecyclerView.SimpleOnItemTouchL
             float scale = rv.getContext().getResources().getDisplayMetrics().density;
             tapDistance = 10; //(int) (mSlop * scale + 0.5f);
             initialized = true;
-            Log.d(TAG, "tap timeout: " + ViewConfiguration.getTapTimeout());
-            Log.d(TAG, "tapDistance: " + tapDistance);
         }
         if(observe) {
             View childUnderTouch = rv.findChildViewUnder(e.getX(), e.getY());
@@ -66,9 +63,7 @@ public class SwipableOnItemTouchListener extends RecyclerView.SimpleOnItemTouchL
             observe = e.getAction() == MotionEvent.ACTION_DOWN ;
             called = false;
         }
-        if (e.getAction()== MotionEvent.ACTION_CANCEL) Log.d(TAG, "onInterceptTouchEvent: cancel");
-        Log.d(TAG, String.format("observe %b, intercept: %b, action %b,tap timeout %b (%d), tap distance %b (%f), child intercept %b, swipe menu %b, superintercept %b",observe, inter,action,time,(e.getEventTime() - e.getDownTime()),distance,getMotionDistance(e),childIntercept,((SwipeRecyclerView) rv).isItemSwipeMenuActive, super.onInterceptTouchEvent(rv, e)));
-        if (inter) onTouchEvent(rv, e);
+       if (inter) onTouchEvent(rv, e);
         return inter && !((SwipeRecyclerView) rv).isItemSwipeMenuActive;
     }
 

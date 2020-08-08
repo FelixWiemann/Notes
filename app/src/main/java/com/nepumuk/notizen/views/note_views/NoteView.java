@@ -31,7 +31,6 @@ public class NoteView extends NoteDisplayView<TextNote> {
         super.update();
         if (isInitialized()) {
             messageView.setText(this.getContent().getMessage());
-            //Log.d("noteview", "update: " + messageView.getTotalPaddingEnd() + " - " + content.getTitle());
         }
     }
 

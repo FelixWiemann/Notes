@@ -80,7 +80,6 @@ open class NestedRecyclerView : RecyclerView, NestedScrollingParent {
                 target.parent?.requestDisallowInterceptTouchEvent(false)
             }
         }
-        Log.d("NESTED SCROLLVIEW","onNestedScroll")
     }
 
 
@@ -91,7 +90,6 @@ open class NestedRecyclerView : RecyclerView, NestedScrollingParent {
             nestedScrollTargetIsBeingDragged = false
             nestedScrollTargetWasUnableToScroll = false
         }
-        Log.d("NESTED SCROLLVIEW","onNestedScrollAccepted")
         super.onNestedScrollAccepted(child, target, axes)
     }
 
