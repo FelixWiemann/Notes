@@ -36,7 +36,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         condition: always()
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/app-release-unsigned.ap'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/'
           ArtifactName: 'signed_apk'
           publishLocation: 'Container'
 
