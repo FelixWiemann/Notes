@@ -25,18 +25,29 @@ jobs:
           BUILD_TYPE: 'Release'
 
       - task: AndroidSigning@3
+        condition: succeeded()
         displayName: 'Signing and aligning APK file(s) $(System.DefaultWorkingDirectory)/unsignedBuild/dropRelease/app-release-unsigned.apk'
         inputs:
-          apkFiles: '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/app-release-unsigned.apk'
+          apkFiles: 
           apksignerKeystoreFile: azurekeystore
           apksignerKeystorePassword: '$(KeyStorePass)'
           apksignerKeystoreAlias: 'azure pipeline'
           apksignerKeyPassword: '$(KeyPass)'
           apksignerArguments: '--verbose'
-      - task: PublishBuildArtifacts@1
-        condition: always()
+      
+      # copy & rename signed package
+      - task: Bash@3
+        condition: succeeded()
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/'
+          targetType: 'inline'
+          script: 
+            cp '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/app-release-unsigned.apk' '$(System.DefaultWorkingDirectory)/signed/notes-release-signed.apk'
+
+      # publish signed apk
+      - task: PublishBuildArtifacts@1
+        condition: succeeded()
+        inputs:
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/signed/notes-release-signed.apk'
           ArtifactName: 'signed_apk'
           publishLocation: 'Container'
 
