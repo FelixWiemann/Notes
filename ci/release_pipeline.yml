@@ -1,11 +1,13 @@
 
 
 # YAML build Script for Notes
+# builds a release build and signs the resulting apk
 
 variables:
   - group: ReleaseNameVariables
   - group: Signing Keys
 
+# is only triggered on master branch
 trigger:
   batch: true
   branches:

@@ -1,0 +1,24 @@
+# YAML build Script for Notes
+variables:
+  - group: ReleaseNameVariables
+
+# trigger for all branches
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+    exclude:
+      - master
+
+pool:
+  vmImage: 'macos-latest'
+
+jobs:
+  - job: DEBUG-Build
+    steps:
+      - template: androidBuildAndPublishTestTemplate.yml
+        parameters:
+          BUILD_TYPE: 'Debug'
+
+
