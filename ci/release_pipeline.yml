@@ -28,7 +28,7 @@ jobs:
         condition: succeeded()
         displayName: 'Signing and aligning APK file(s) $(System.DefaultWorkingDirectory)/unsignedBuild/dropRelease/app-release-unsigned.apk'
         inputs:
-          apkFiles: 
+          apkFiles: '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/Release/app-release-unsigned.apk'
           apksignerKeystoreFile: azurekeystore
           apksignerKeystorePassword: '$(KeyStorePass)'
           apksignerKeystoreAlias: 'azure pipeline'
