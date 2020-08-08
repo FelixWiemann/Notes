@@ -15,7 +15,7 @@ pool:
   vmImage: 'macos-latest'
 
 jobs:
-  - job: DEBUG-Build
+  - job: DEBUG_Build
     steps:
       - template: androidBuildAndPublishTestTemplate.yml
         parameters:
