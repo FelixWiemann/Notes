@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
+import com.nepumuk.notizen.utils.ResourceManger;
 
 /**
  * ViewHolder that holds a view representing a TaskNote
@@ -32,9 +33,12 @@ public class TaskViewHolder extends ViewHolderInterface<BaseTask>{
         done.setOnCheckedChangeListener(null);
         // finally we cna bind all the other stuff
         title.setText(toBind.getTitle());
+        title.setContentDescription(ResourceManger.getString(R.string.content_task_title) + " " + toBind.getTitle());
         message.setText(toBind.getText());
+        message.setContentDescription(ResourceManger.getString(R.string.content_task_message) + " " + toBind.getTitle() + ": " + toBind.getText());
         // first set the checked status
         done.setChecked(toBind.isDone());
+        done.setContentDescription(ResourceManger.getString(R.string.content_task_status) + " " + toBind.getTitle() + ": " + toBind.getStateDescription());
         // before adding the listener to avoid unclear state
         done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -17,6 +17,7 @@
         android:id="@+id/adapterView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/content_list_of_notes"
         android:layout_below="@+id/headerView" />
 
     <com.nepumuk.notizen.views.fabs.FabSpawnerFab
@@ -29,6 +30,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:contentDescription="@string/content_add_notes"
         app:srcCompat="@drawable/ic_create_new_note"
         android:clickable="true"
         app:fabSize="normal" />
@@ -45,6 +47,7 @@
         android:layout_marginBottom="5dp"
         android:clickable="true"
         app:fabSize="normal"
+        android:contentDescription="@string/content_create_text_note"
         app:srcCompat="@drawable/ic_create_text_note" />
 
     <android.support.design.widget.FloatingActionButton
@@ -59,6 +62,7 @@
         android:layout_marginBottom="5dp"
         android:clickable="true"
         app:fabSize="normal"
+        android:contentDescription="@string/content_create_task_note"
         app:srcCompat="@drawable/ic_create_task_note"/>
 
 </RelativeLayout>

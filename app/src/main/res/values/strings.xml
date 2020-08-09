@@ -36,6 +36,19 @@
     <string name="image_exclamation_mark">exclamation mark</string>
     <string name="image_note_content">image of the note</string>
     <string name="image_delete">delete element</string>
+    <string name="content_list_of_notes">list of notes</string>
+    <string name="content_add_notes">add a note</string>
+    <string name="content_create_text_note">create a note</string>
+    <string name="content_create_task_note">create a note with tasks</string>
+    <string name="content_add_task">add a task</string>
+    <string name="content_note_title">title of the note</string>
+    <string name="content_note_message">content of the note</string>
+    <string name="content_note_tasks">tasks of the note</string>
+    <string name="content_task_title">title of the task</string>
+    <string name="content_task_message">message of the task</string>
+    <string name="content_task_status">status of the task</string>
+    <string name="content_task_done">done</string>
+    <string name="content_task_open">open</string>
 
     <!--hints-->
     <string name="hint_task_title">title of your task</string>

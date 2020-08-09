@@ -6,21 +6,33 @@
     tools:context=".EditNoteActivity">
 
     <Button
-        android:id="@+id/btSave"
+        android:id="@+id/bt_discard_exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginBottom="18dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/discard_exit" />
+
+    <Button
+        android:id="@+id/btSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/bt_discard_exit"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="28dp"
         android:text="@string/btSave" />
 
     <LinearLayout
+        android:id="@+id/fragmentHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragmentHeader"
-        android:layout_marginEnd="27dp"
+        android:layout_below="@+id/btSave"
+        android:layout_marginTop="-20dp"
         android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
         android:orientation="horizontal" />
 
     <LinearLayout
@@ -28,9 +40,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/fragmentHeader"
-        android:layout_marginEnd="27dp"
         android:layout_marginStart="27dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="27dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal" />
 

@@ -61,6 +61,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         // load the data from intent
         loadData();
         // init UI components
+        // TODO move buttons to action bar
         Button btSave = findViewById(R.id.btSave);
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +69,14 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
                 save();
             }
         });
+        Button discardExit = findViewById(R.id.bt_discard_exit);
+        discardExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                discardAndExit();
+            }
+        });
+
         // setup fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -146,8 +155,6 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         }
     }
 
-
-    @Override
     public void discardAndExit() {
         super.onBackPressed();
     }
