@@ -20,7 +20,6 @@ import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
-import com.nepumuk.notizen.objects.tasks.Task;
 import com.nepumuk.notizen.settings.Setting;
 import com.nepumuk.notizen.settings.SettingException;
 import com.nepumuk.notizen.utils.ContextManager;
@@ -155,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ArrayList<BaseTask> list = new ArrayList<>();
                 // TODO use string resources
-                list.add(new Task(UUID.randomUUID(),"Task 1","enter text", false));
                 TaskNote testNote = new TaskNote(UUID.randomUUID(),"",list);
                 callEditNoteActivityForResult(testNote);
                 fabSpawner.callOnClick();
