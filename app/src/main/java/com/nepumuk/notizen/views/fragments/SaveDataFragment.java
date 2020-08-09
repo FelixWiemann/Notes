@@ -22,7 +22,6 @@ public class SaveDataFragment extends DialogFragment {
 
     Button saveExit;
     Button cancelExit;
-    Button discardExit;
 
 
     SaveDataFragmentListener listener;
@@ -53,14 +52,6 @@ public class SaveDataFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 listener.cancelExit();
-                SaveDataFragment.this.dismiss();
-            }
-        });
-        discardExit = view.findViewById(R.id.bt_discard_exit);
-        discardExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.discardAndExit();
                 SaveDataFragment.this.dismiss();
             }
         });

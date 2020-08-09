@@ -36,14 +36,4 @@
         android:layout_marginEnd="0dp"
         android:text="@string/save_and_exit" />
 
-    <Button
-        android:id="@+id/bt_discard_exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="0dp"
-        android:layout_toStartOf="@+id/bt_save_exit"
-        android:text="@string/discard_exit" />
-
 </RelativeLayout>

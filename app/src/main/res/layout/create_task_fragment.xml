@@ -28,8 +28,8 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="0dp"
-        android:inputType="textShortMessage|textLongMessage|textAutoCorrect|textPhonetic|textCapSentences|textAutoComplete|textPostalAddress"
         android:hint="@string/hint_task_message"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        android:inputType="textShortMessage|textLongMessage|textAutoCorrect|textMultiLine|textPhonetic|textCapSentences|textAutoComplete|textPostalAddress" />
 
 </RelativeLayout>
