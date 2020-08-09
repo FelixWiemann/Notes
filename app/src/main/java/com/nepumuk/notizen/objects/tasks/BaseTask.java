@@ -3,9 +3,11 @@ package com.nepumuk.notizen.objects.tasks;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.SortAble;
 import com.nepumuk.notizen.utils.DateStrategy;
+import com.nepumuk.notizen.utils.ResourceManger;
 
 import java.util.UUID;
 
@@ -128,5 +130,20 @@ public abstract class BaseTask extends StorageObject {
      * e.g. timed task: delete timer service associated with it
      */
     public abstract void deleteTask();
+
+    /**
+     * get the localized state description of the task
+     * returns {@link R.string#content_task_done} if the task is done, {@link R.string#content_task_open} otherwise
+     * @return state description
+     */
+    @JsonIgnore
+    public String getStateDescription(){
+        if (mDone){
+            return ResourceManger.getString(R.string.content_task_done);
+        }else{
+            return ResourceManger.getString(R.string.content_task_open);
+        }
+    }
+
 
 }

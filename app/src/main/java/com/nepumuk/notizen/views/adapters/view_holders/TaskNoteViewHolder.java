@@ -6,9 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.nepumuk.notizen.R;
+import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
-import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
+import com.nepumuk.notizen.utils.ResourceManger;
 import com.nepumuk.notizen.views.adapters.SortableRecyclerAdapter;
 
 public class TaskNoteViewHolder extends ViewHolderInterface<TaskNote> {
@@ -35,6 +36,6 @@ public class TaskNoteViewHolder extends ViewHolderInterface<TaskNote> {
         }
         adapter.replace(toBind.getTaskList());
         adapter.notifyDataSetChanged();
-
+        task.setContentDescription(ResourceManger.getString(R.string.content_note_tasks) + " " + toBind.getTitle());
     }
 }

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.util.Log;
 
+import com.nepumuk.notizen.utils.ResourceManger;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -16,6 +18,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -25,7 +28,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * Helper test class to be extended, if android stuff needs to be mocked
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
+@PrepareForTest({Log.class, ResourceManger.class})
 public abstract class AndroidTest {
 
     /**
@@ -34,6 +37,11 @@ public abstract class AndroidTest {
      */
     @Mock
     public Intent mockedIntent;
+
+    @Mock
+    private ResourceManger mockedResources;
+
+    public final String ResourcesGetStringValue = "DEFAULT_TEST_STRING";
 
     @CallSuper
     @Before
@@ -57,6 +65,9 @@ public abstract class AndroidTest {
                 return null;
             }
         });
+
+        PowerMockito.mockStatic(ResourceManger.class);
+        when(ResourceManger.getString(anyInt())).thenReturn(ResourcesGetStringValue);
         PowerMockito.whenNew(Intent.class).withNoArguments().thenReturn(mockedIntent);
         PowerMockito.whenNew(Intent.class).withAnyArguments().thenReturn(mock(Intent.class));
     }

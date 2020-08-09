@@ -16,6 +16,7 @@ import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.tasks.Task;
+import com.nepumuk.notizen.utils.ResourceManger;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.SwipeRecyclerView;
@@ -160,6 +161,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         fabProvider = provider;
         if (fabProvider.getFab() == null)  return;
         fabProvider.getFab().setImageResource(R.drawable.ic_create_task_note);
+        fabProvider.getFab().setContentDescription(ResourceManger.getString(R.string.content_add_task));
         fabProvider.getFab().show();
         fabProvider.getFab().setOnClickListener(new View.OnClickListener() {
             @Override

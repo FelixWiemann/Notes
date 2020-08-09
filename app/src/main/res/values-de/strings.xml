@@ -33,6 +33,19 @@
     <string name="image_exclamation_mark">Ausrufezeichen</string>
     <string name="image_note_content">Bild der Notiz</string>
     <string name="image_delete">Element löschen</string>
+    <string name="content_list_of_notes">Liste der Notizen</string>
+    <string name="content_add_notes">Notiz hinzufügen</string>
+    <string name="content_create_text_note">Erstelle eine Notiz</string>
+    <string name="content_create_task_note">Erstelle eine Notiz mit Aufgaben</string>
+    <string name="content_add_task">Aufgabe hinzufügen</string>
+    <string name="content_note_title">Titel der Notiz </string>>
+    <string name="content_note_message">Inhalt der Notiz</string>
+    <string name="content_note_tasks">Aufgaben in der Notiz</string>
+    <string name="content_task_title">Titel der Aufgabe</string>
+    <string name="content_task_message">Inhalt der Aufgabe</string>
+    <string name="content_task_status">Status der Aufgabe</string>
+    <string name="content_task_done">erledigt</string>
+    <string name="content_task_open">offen</string>
 
     <!--hints-->
     <string name="hint_task_title">Titel der Aufgabe</string>
