@@ -7,39 +7,43 @@
         android:icon="@mipmap/ic_launcher_note_v1_0"
         android:label="@string/app_name"
         android:supportsRtl="false">
-        <!--RTL support once translations are available-->
+        <!-- RTL support once translations are available -->
         <activity
-            android:name="com.nepumuk.notizen.testAcitivity"
+            android:name=".testAcitivity"
             android:label="@string/title_activity_test_acitivity"
             android:theme="@style/AppTheme.NoActionBar">
+
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
-            android:name="com.nepumuk.notizen.EditNoteActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".EditNoteActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nepumuk.notizen.MainActivity" />
         </activity>
         <activity
-            android:name="com.nepumuk.notizen.MainActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
