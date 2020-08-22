@@ -1,15 +1,20 @@
 package com.nepumuk.notizen;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.Preference;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.objects.StorageObject;
@@ -21,8 +26,8 @@ import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
-import com.nepumuk.notizen.settings.Setting;
-import com.nepumuk.notizen.settings.SettingException;
+import com.nepumuk.notizen.settings.Settings;
+import com.nepumuk.notizen.settings.SettingsFragment;
 import com.nepumuk.notizen.utils.ContextManager;
 import com.nepumuk.notizen.utils.ContextManagerException;
 import com.nepumuk.notizen.utils.NoteViewModel;
@@ -48,7 +53,6 @@ import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Setting settings;
     private static final String TAG = "MAINACTIVITY";
     private NoteViewModel model;
     private SwipeRecyclerView recyclerView;
@@ -59,14 +63,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // must init setting-singleton first to make sure cust views have access to settings before
-        // them getting inflated
-        settings = Setting.getInstance();
-        try {
-            settings.init(this.getApplicationContext());
-        } catch (SettingException e) {
-            Log.e(TAG, "onCreate: error during settings setup", e);
-        }
         try {
             ContextManager.getInstance().setUp(this.getApplicationContext());
         } catch (ContextManagerException e) {
@@ -166,6 +162,60 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(getIntent());
         if (fromIntent != null) callEditNoteActivityForResult(fromIntent);
+
+        // init settings view
+
+        Settings.registerOnSharedPreferenceListener(this, new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                // TODO only react on change of theme
+                onThemeChange();
+                Toast.makeText(MainActivity.this,"theme changed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        SettingsFragment settingsFragment = new SettingsFragment(getApplicationContext());
+        settingsFragment.registerPreferenceTouchListener(R.string.pref_key_feedback, new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                onSendFeedBack();
+                return false;
+            }
+        });
+        settingsFragment.registerPreferenceTouchListener(R.string.pref_key_exception_test, new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                throw new RuntimeException("test exception to see how exceptions are handled in developer console");
+            }
+        });
+        getSupportFragmentManager().beginTransaction().replace(R.id.nav_view_content,settingsFragment).commit();
+        onThemeChange();
+
+    }
+
+    private void onSendFeedBack(){
+        Intent Email = new Intent(Intent.ACTION_SENDTO);
+        //Email.setType("text/plain");
+        Email.setData(Uri.parse("mailto:")); // only email apps should handle this
+        Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "feedback@nepumuk.com" });
+        Email.putExtra(Intent.EXTRA_SUBJECT, "Feedback" );
+        Email.putExtra(Intent.EXTRA_TEXT, "" + "");
+        if (Email.resolveActivity(getPackageManager()) != null) {
+            startActivity(Email);
+        }
+    }
+
+    private void onThemeChange(){
+        // set values
+        if(Settings.Is(this,R.string.pref_key_theme,R.string.pref_value_theme_dark)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else if(Settings.Is(this,R.string.pref_key_theme,R.string.pref_value_theme_light)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        else {
+            // default should be follow system, but you can force it as well
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
     }
 
     @Override
@@ -178,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 if (storable instanceof TaskNote) model.updateData(storable);
             }
         });
+        Settings.unregisterOnSharedPreferenceListeners(this);
     }
 
     /**
