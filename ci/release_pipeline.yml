@@ -7,13 +7,6 @@ variables:
   - group: ReleaseNameVariables
   - group: Signing Keys
 
-# is only triggered on master branch
-trigger:
-  batch: true
-  branches:
-    include:
-    - master
-
 pool:
   vmImage: 'macos-latest'
 
