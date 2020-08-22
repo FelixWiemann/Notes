@@ -1,8 +1,8 @@
 package com.nepumuk.notizen.views.note_views;
 
 import android.content.Context;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
