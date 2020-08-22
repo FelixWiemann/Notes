@@ -2,7 +2,7 @@ package com.nepumuk.notizen.testutils;
 
 
 import android.content.Intent;
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 import android.util.Log;
 
 import com.nepumuk.notizen.utils.ResourceManger;

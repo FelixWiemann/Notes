@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.views.fragments;
 
-import android.support.design.widget.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  *

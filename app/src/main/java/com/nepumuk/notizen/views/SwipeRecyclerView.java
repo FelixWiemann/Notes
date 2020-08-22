@@ -1,11 +1,11 @@
 package com.nepumuk.notizen.views;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.AttributeSet;
 
 import com.nepumuk.notizen.R;
@@ -14,7 +14,7 @@ import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import java.util.ArrayList;
 
-import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE;
+import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE;
 
 public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerView {
 

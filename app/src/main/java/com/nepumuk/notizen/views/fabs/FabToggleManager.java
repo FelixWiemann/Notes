@@ -1,6 +1,6 @@
 package com.nepumuk.notizen.views.fabs;
 
-import android.support.design.widget.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,8 @@
 package com.nepumuk.notizen.views
 
 import android.content.Context
-import android.support.v4.view.NestedScrollingParent
-import android.support.v7.widget.RecyclerView
+import androidx.core.view.NestedScrollingParent
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent

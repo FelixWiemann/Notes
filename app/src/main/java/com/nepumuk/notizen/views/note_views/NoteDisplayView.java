@@ -1,7 +1,7 @@
 package com.nepumuk.notizen.views.note_views;
 
 import android.content.Context;
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 import android.util.AttributeSet;
 
 import com.nepumuk.notizen.utils.OnUpdateCallback;
