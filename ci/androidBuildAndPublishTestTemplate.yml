@@ -21,11 +21,12 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'clean assemble${{parameters.BUILD_TYPE}} jacocoTest${{parameters.BUILD_TYPE}}UnitTestReport'
 
+# TODO publish code coverage again
 - task: PublishCodeCoverageResults@1
   condition: always()
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/JaCoCoReports/*${{parameters.BUILD_TYPE}}*/**.xml'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/JaCoCo/**.xml'
     pathToSources: '$(System.DefaultWorkingDirectory)/app/src/main/java'
     # reportDirectory: '$(System.DefaultWorkingDirectory)./app/build/JaCoCoReports/*${{parameters.BUILD_TYPE}}*/html/'
 
