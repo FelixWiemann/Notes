@@ -1,6 +1,5 @@
 package com.nepumuk.notizen.settings;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -15,14 +14,9 @@ import java.util.HashMap;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    private Context context;
     private boolean isCreated = false;
 
     private HashMap<Integer,Preference.OnPreferenceClickListener> toRegister = new HashMap<>();
-
-    public SettingsFragment(Context applicationContext) {
-        context = applicationContext;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,7 +26,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             registerPreferenceTouchListener(key, toRegister.get(key));
         }
         toRegister = null;
-
         Log.d("SettingsFragment","onCreate");
     }
 
@@ -54,9 +47,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             toRegister.put(PrefId,listener);
         }else {
             try {
-                findPreference(context.getString(PrefId)).setOnPreferenceClickListener(listener);
+                findPreference(getContext().getString(PrefId)).setOnPreferenceClickListener(listener);
             } catch (NullPointerException ex) {
-                Log.e("SettingsFragment", "registering touch listener failed for " + context.getString(PrefId), ex);
+                Log.e("SettingsFragment", "registering touch listener failed for " + getContext().getString(PrefId), ex);
             }
         }
     }

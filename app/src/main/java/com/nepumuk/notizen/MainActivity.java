@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -170,10 +169,9 @@ public class MainActivity extends AppCompatActivity {
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
                 // TODO only react on change of theme
                 onThemeChange();
-                Toast.makeText(MainActivity.this,"theme changed", Toast.LENGTH_SHORT).show();
             }
         });
-        SettingsFragment settingsFragment = new SettingsFragment(getApplicationContext());
+        SettingsFragment settingsFragment = new SettingsFragment();
         settingsFragment.registerPreferenceTouchListener(R.string.pref_key_feedback, new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
