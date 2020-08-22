@@ -7,6 +7,9 @@ variables:
   - group: ReleaseNameVariables
   - group: Signing Keys
 
+
+trigger: none
+
 pool:
   vmImage: 'macos-latest'
 
