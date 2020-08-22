@@ -1,24 +1,24 @@
 package com.nepumuk.notizen;
 
-import android.app.Activity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
-import com.nepumuk.notizen.objects.UnpackingDataException;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.views.fragments.FabProvider;
 import com.nepumuk.notizen.views.fragments.NoteDisplayFragment;
@@ -123,7 +123,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
      */
     private void save(){
         Intent result = StorableFactory.addToIntent(new Intent(),mViewModel.getValue());
-        setResult(Activity.RESULT_OK, result);
+        setResult(AppCompatActivity.RESULT_OK, result);
         finish();
     }
 

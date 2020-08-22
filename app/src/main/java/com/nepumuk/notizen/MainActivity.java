@@ -1,16 +1,17 @@
 package com.nepumuk.notizen;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
@@ -201,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_EDIT_NOTE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
