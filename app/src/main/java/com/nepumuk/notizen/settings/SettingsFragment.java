@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
 
 import com.nepumuk.notizen.R;
 
@@ -23,10 +24,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onCreate(savedInstanceState);
         isCreated = true;
         for (Integer key : toRegister.keySet()){
-            registerPreferenceTouchListener(key, toRegister.get(key));
+            registerPreferenceClickListener(key, toRegister.get(key));
         }
         toRegister = null;
-        Log.d("SettingsFragment","onCreate");
+        // TODO put in again once privacy notice is included
+        removePreference(R.string.pref_key_category_about,R.string.pref_key_privacy_notice);
     }
 
     @Override
@@ -38,10 +40,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         // 4. refer to the new setting with the key from 1 (R.string.created_in_1)
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-        Log.d("SettingsFragment","onCreatePreferences");
     }
 
-    public void registerPreferenceTouchListener(@StringRes int PrefId, Preference.OnPreferenceClickListener listener){
+    public void registerPreferenceClickListener(@StringRes int PrefId, Preference.OnPreferenceClickListener listener){
         if(!isCreated){
             // Fragment is not yet properly created, put listeners in a queue to register later on
             toRegister.put(PrefId,listener);
@@ -54,5 +55,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
     }
 
+    public Preference findPreference(@StringRes int PrefId){
+        return findPreference(getContext().getString(PrefId));
+    }
+
+    public void removePreference(@StringRes int parentId, @StringRes int PrefId){
+        ((PreferenceGroup)findPreference(parentId)).removePreference(findPreference(PrefId));
+    }
 
 }

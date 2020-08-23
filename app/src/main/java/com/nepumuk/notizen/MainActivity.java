@@ -172,17 +172,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         SettingsFragment settingsFragment = new SettingsFragment();
-        settingsFragment.registerPreferenceTouchListener(R.string.pref_key_feedback, new Preference.OnPreferenceClickListener() {
+        settingsFragment.registerPreferenceClickListener(R.string.pref_key_feedback, new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 onSendFeedBack();
                 return false;
             }
         });
-        settingsFragment.registerPreferenceTouchListener(R.string.pref_key_exception_test, new Preference.OnPreferenceClickListener() {
+        settingsFragment.registerPreferenceClickListener(R.string.pref_key_exception_test, new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 throw new RuntimeException("test exception to see how exceptions are handled in developer console");
+            }
+        });
+        settingsFragment.registerPreferenceClickListener(R.string.pref_key_privacy_notice, new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // TODO show privacy notice
+                return false;
             }
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.nav_view_content,settingsFragment).commit();

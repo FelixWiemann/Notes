@@ -55,13 +55,15 @@
 
 
     <string name="preference_category_theme">Theme</string>
-    <string name="preference_category_other">Andere</string>
+    <string name="preference_category_about">Über</string>
     <string name="preference_title_feedback">Feedback senden</string>
     <string name="preference_summary_feedback">Probleme melden oder neue Features vorschlagen</string>
     <string name="preference_name_theme_system">Systemeinstellungen verwenden</string>
     <string name="preference_name_theme_dark">Dark Theme</string>
     <string name="preference_name_theme_light">Light Theme</string>
     <string name="preference_title_theme" >Theme</string>
+    <string name="preference_title_privacy_notice">Datenschutzhinweise</string>
+    <string name="preference_summary_privacy_notice">Zeigt die Datenschutzhinweise an</string>
 
     <!--error messages-->
     <string name="error_generic_message">OUPS, etwas ist schiefgelaufen</string>
