@@ -1,20 +1,62 @@
 package com.nepumuk.notizen.views.adapters.view_holders;
 
-import androidx.annotation.NonNull;
 import android.view.View;
+import android.widget.Button;
 
+import androidx.annotation.NonNull;
+
+import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
+import com.nepumuk.notizen.views.note_views.NoteDisplayView;
 
 import java.util.HashMap;
 
 public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInterface<T> {
 
+    /**
+     * expansion state of an Expandable View
+     */
+    enum ExpandState{
+        /**
+         * is expanded, State = 1
+         */
+        EXPANDED(1),
+        /**
+         * is shrinked, State = 0
+         */
+        SHRINKED(0),
+        /**
+         * is just inflated, hasn't changed the state yet.
+         * State = -1
+         */
+        FIRSTINFLATE(-1);
+        public int State;
+        ExpandState(int state){
+            State = state;
+        }
+    }
+
+    private int aSizeUnExpanded = 200;
+    private int aSizeExpanded = 650;
+
+
+    ExpandState currentState = ExpandState.FIRSTINFLATE;
+
     private HashMap<Class,ViewHolderInterface<T>> interfaces;
+
+    private Button expandButton;
 
 
     public CompoundViewHolder(@NonNull View itemView) {
         super(itemView);
         interfaces = new HashMap<>();
+        expandButton = itemView.findViewById(R.id.expand_button);
+        expandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                invertShrink();
+            }
+        });
     }
 
     @Override
@@ -22,6 +64,8 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
         for (ViewHolderInterface<T> vhf: interfaces.values()) {
             vhf.bind(toBind);
         }
+        currentState = ExpandState.FIRSTINFLATE;
+        invertShrink();
     }
 
     public void addViewHolderInterface(ViewHolderInterface<T> viewHolderInterface, Class clazz){
@@ -44,6 +88,36 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
             }
         }
         return array;
+    }
+
+    /**
+     * inverts the shrinking state
+     */
+    private void invertShrink(){
+        if (currentState== ExpandState.FIRSTINFLATE){
+            currentState = ExpandState.EXPANDED;
+        }
+        if (currentState == ExpandState.EXPANDED){
+            setHeight(aSizeUnExpanded);
+            currentState = ExpandState.SHRINKED;
+            if (itemView instanceof NoteDisplayView){
+                ((NoteDisplayView) itemView).onShrink();
+            }
+        }else {
+            setHeight(aSizeExpanded);
+            // TODO get expand size of child and limit it to max size depending on Screen size
+            currentState = ExpandState.EXPANDED;
+            if (itemView instanceof NoteDisplayView){
+                ((NoteDisplayView) itemView).onExpand();
+            }
+        }
+        // TODO animate
+        expandButton.setRotationX((currentState.State*180)%360);
+    }
+
+    private void setHeight(int newHeight){
+        itemView.getLayoutParams().height = newHeight;
+        itemView.requestLayout();
     }
 
 }

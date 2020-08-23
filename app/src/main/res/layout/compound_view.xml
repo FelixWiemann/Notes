@@ -8,5 +8,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/compound_content"/>
 
+    <Button
+        android:id="@+id/expand_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:background="@mipmap/ic_expand" />
+
 
 </RelativeLayout>

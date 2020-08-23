@@ -23,6 +23,7 @@ import com.nepumuk.notizen.views.note_views.NoteDisplayView;
  * The button and a title is being shown.
  * on pressing the button, the underlying view is notified of the size change.
  */
+@Deprecated
 public class ExpandableView extends LinearLayout implements OnUpdateCallback {
 
     /**
