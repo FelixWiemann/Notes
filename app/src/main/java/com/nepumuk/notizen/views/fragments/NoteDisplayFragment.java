@@ -1,14 +1,15 @@
 package com.nepumuk.notizen.views.fragments;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
@@ -60,7 +61,7 @@ public abstract class NoteDisplayFragment<T extends DatabaseStorable> extends Fr
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // get the view model of the parent activity
-        mViewModel = ViewModelProviders.of(getActivity()).get(EditNoteViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(EditNoteViewModel.class);
         // let this observe the view model
         mViewModel.observe(this, new Observer<T>() {
             @Override

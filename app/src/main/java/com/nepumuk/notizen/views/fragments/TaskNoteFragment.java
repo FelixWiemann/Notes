@@ -1,15 +1,16 @@
 package com.nepumuk.notizen.views.fragments;
 
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
@@ -115,7 +116,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // get the view model of the parent activity
-        taskViewModel = ViewModelProviders.of(TaskNoteFragment.this).get(EditNoteViewModel.class);
+        taskViewModel = new ViewModelProvider(TaskNoteFragment.this).get(EditNoteViewModel.class);
         // let this observe the view model
         taskViewModel.observe(this, new Observer<BaseTask>() {
             @Override
@@ -153,7 +154,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         taskViewModel.setNote(taskToEdit);
         CreateTaskDialogFragment fragment = new CreateTaskDialogFragment();
         fragment.setTargetFragment(this,1337);
-        fragment.show(getFragmentManager(), "CREATE_TASK");
+        fragment.show(getParentFragmentManager(), "CREATE_TASK");
     }
 
     @Override

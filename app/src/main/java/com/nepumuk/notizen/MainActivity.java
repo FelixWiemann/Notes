@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (ContextManagerException e) {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
-        model = ViewModelProviders.of(this).get(NoteViewModel.class);
+        model = new ViewModelProvider(this).get(NoteViewModel.class);
         setContentView(R.layout.activity_main);
         // init vars
         recyclerView = findViewById(R.id.adapterView);

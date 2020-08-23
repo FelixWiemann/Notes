@@ -1,11 +1,6 @@
 package com.nepumuk.notizen.views.fragments;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,6 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
@@ -39,7 +40,7 @@ public class CreateTaskDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        taskViewModel = ViewModelProviders.of(getTargetFragment()).get(EditNoteViewModel.class);
+        taskViewModel = new ViewModelProvider(getTargetFragment()).get(EditNoteViewModel.class);
         textTaskTitle = view.findViewById(R.id.task_title);
         taskViewModel.observe(this, new Observer<BaseTask>() {
             @Override

@@ -6,13 +6,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.objects.UnpackingDataException;
@@ -107,7 +108,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
             data = new TextNote(UUID.randomUUID(),"" , "");
         }
         originalData = data.getDataString();
-        mViewModel = ViewModelProviders.of(this).get(EditNoteViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(EditNoteViewModel.class);
         mViewModel.setNote(data);
         mViewModel.observe(this, new Observer<DatabaseStorable>() {
             @Override
@@ -148,7 +149,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
     }
 
     @Override
-    public void onAttachFragment(Fragment fragment) {
+    public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
         if(fragment instanceof RequiresFabFragment) {
             ((RequiresFabFragment) fragment).registerFabProvider(this);
