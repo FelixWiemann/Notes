@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:name="androidx.navigation.fragment.NavHostFragment"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.nepumuk.notizen.views.NoteListViewHeaderView
         android:layout_width="match_parent"
@@ -65,4 +61,4 @@
         android:contentDescription="@string/content_create_task_note"
         app:srcCompat="@drawable/ic_create_task_note"/>
 
-</RelativeLayout>
+</merge>
