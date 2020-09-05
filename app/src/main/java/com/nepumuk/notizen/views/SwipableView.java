@@ -7,16 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+
 import com.nepumuk.notizen.R;
+import com.nepumuk.notizen.utils.LayoutHelper;
 
 /**
  * SwipableView wraps the main view that shall be shown to the user.
  * upon swiping to the right or left the proper view is being shown.
  *
- * TODO abstract the swipable view to be used in with other swipe actions as well
- *
- * TODO setMainX -> is what is beeing animated; swipable list view ist der böse
- *
+ * TODO abstract the swipable view to be used in with other swipe actions as well *
  */
 public class SwipableView extends RelativeLayout{
 
@@ -24,11 +25,13 @@ public class SwipableView extends RelativeLayout{
     /**
      * background view on the left
      */
-    public View BackgroundLeft;
+    @Nullable
+    private View BackgroundLeft;
     /**
      * background view on the right
      */
-    public View BackgroundRight;
+    @Nullable
+    private View BackgroundRight;
     /**
      * main view to be wrapped
      */
@@ -37,16 +40,20 @@ public class SwipableView extends RelativeLayout{
     private RelativeLayout Placeholder;
 
     private boolean fromCompoundAdapter = false;
-    OnTouchListener MiddleClick;
+    private int swipeMenuLeft = -1;
+    private int swipeMenuRight = -1;
+   // OnTouchListener MiddleClick;
 
     public SwipableView(Context context) {
         super(context);
         init();
     }
 
-    public SwipableView(Context context, boolean fromCompoundAdapter) {
+    public SwipableView(Context context, boolean fromCompoundAdapter, @LayoutRes int swipeMenuLeft, @LayoutRes int swipeMenuRight) {
         super(context);
         this.fromCompoundAdapter = fromCompoundAdapter;
+        this.swipeMenuLeft = swipeMenuLeft;
+        this.swipeMenuRight = swipeMenuRight;
         init();
 
     }
@@ -73,29 +80,48 @@ public class SwipableView extends RelativeLayout{
         LayoutInflater mInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View swipeParent = mInflater.inflate(R.layout.swipe_action_view, this);
         Placeholder = swipeParent.findViewById(R.id.layout_to_be_swiped);
+        Placeholder.setClickable(false);
         RelativeLayout parent = swipeParent.findViewById(R.id.parent);
 
-        BackgroundLeft = mInflater.inflate(R.layout.swipable_left, parent, false);
-        RelativeLayout.LayoutParams paramLeft = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        paramLeft.addRule(ALIGN_PARENT_START, TRUE);
-        paramLeft.addRule(CENTER_VERTICAL, TRUE);
-        parent.addView(BackgroundLeft, paramLeft);
-
-
-        BackgroundRight = mInflater.inflate(R.layout.swipable_right, parent, false);
-        RelativeLayout.LayoutParams paramRight = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        paramRight.addRule(ALIGN_PARENT_END, TRUE);
-        paramRight.addRule(CENTER_VERTICAL, TRUE);
-        parent.addView(BackgroundRight, paramRight);
+        if (swipeMenuLeft != -1) {
+            BackgroundLeft = mInflater.inflate(swipeMenuLeft, parent, false);
+            RelativeLayout.LayoutParams paramLeft = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            paramLeft.addRule(ALIGN_PARENT_START, TRUE);
+            paramLeft.addRule(CENTER_VERTICAL, TRUE);
+            parent.addView(BackgroundLeft, paramLeft);
+            BackgroundLeft.post(new Runnable() {
+                @Override
+                public void run() {
+                    LayoutHelper.LayoutHelper.updateSize(BackgroundLeft.getWidth(), LayoutHelper.LayoutHelper.getSwipableRightSize());
+                }
+            });
+        }
+        if (swipeMenuRight != -1) {
+            BackgroundRight = mInflater.inflate(swipeMenuRight, parent, false);
+            RelativeLayout.LayoutParams paramRight = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            paramRight.addRule(ALIGN_PARENT_END, TRUE);
+            paramRight.addRule(CENTER_VERTICAL, TRUE);
+            parent.addView(BackgroundRight, paramRight);
+            BackgroundRight.post(new Runnable() {
+                @Override
+                public void run() {
+                    LayoutHelper.LayoutHelper.updateSize(LayoutHelper.LayoutHelper.getSwipableLeftSize(), BackgroundRight.getWidth());
+                }
+            });
+        }
         // init visibility
         showBackground(0);
     }
 
     public void setOnClickListeners(OnClickListener left, OnClickListener right, OnTouchListener middle){
-        BackgroundLeft.setOnClickListener(left);
-        BackgroundRight.setOnClickListener(right);
-        MiddleClick = middle;
-        if (!fromCompoundAdapter && MainView != null) Placeholder.setOnTouchListener(MiddleClick);
+        if (BackgroundLeft!=null) {
+            BackgroundLeft.setOnClickListener(left);
+        }
+        if (BackgroundRight!=null) {
+            BackgroundRight.setOnClickListener(right);
+        }
+       // MiddleClick = middle;
+       // if (!fromCompoundAdapter && MainView != null) Placeholder.setOnTouchListener(MiddleClick);
     }
 
     /**
@@ -106,7 +132,7 @@ public class SwipableView extends RelativeLayout{
         Placeholder.removeView(MainView);
         MainView = mainView;
         if (!fromCompoundAdapter) {
-            MainView.setOnTouchListener(MiddleClick);
+           // MainView.setOnTouchListener(MiddleClick);
             mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             Placeholder.addView(MainView);
         }
@@ -119,17 +145,21 @@ public class SwipableView extends RelativeLayout{
      * @param pos based on which visibility is decided
      */
     public void showBackground(float pos){
-        if (pos<0){
+        if (pos<0 && BackgroundRight != null){
             BackgroundRight.setVisibility(VISIBLE);
             BackgroundRight.setAlpha(pos/BackgroundRight.getWidth());
-        }else if(pos>0){
+        }else if(pos>0 && BackgroundLeft != null){
             BackgroundLeft.setVisibility(VISIBLE);
             BackgroundLeft.setAlpha(pos/BackgroundLeft.getWidth());
         }else{
-            BackgroundRight.setVisibility(INVISIBLE);
-            BackgroundLeft.setVisibility(INVISIBLE);
-            BackgroundRight.setAlpha(0);
-            BackgroundLeft.setAlpha(0);
+            if (BackgroundRight!= null) {
+                BackgroundRight.setAlpha(0);
+                BackgroundRight.setVisibility(INVISIBLE);
+            }
+            if (BackgroundLeft!= null) {
+                BackgroundLeft.setAlpha(0);
+                BackgroundLeft.setVisibility(INVISIBLE);
+            }
         }
     }
 }

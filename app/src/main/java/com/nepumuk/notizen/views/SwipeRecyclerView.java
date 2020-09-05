@@ -1,12 +1,13 @@
 package com.nepumuk.notizen.views;
 
 import android.content.Context;
+import android.util.AttributeSet;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import android.util.AttributeSet;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
@@ -46,15 +47,14 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
     }
 
     private void init(){
-        // set default adapter
-        adapter = new SwipableRecyclerAdapter<>(new ArrayList<>(), 0, false);
-        this.setAdapter(adapter);
-        // todo get swipe-menu width from adapter
-        helperCallback = new SwipeHelperCallback(100, SwipeHelperCallback.NO_BUTTON);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
-        itemTouchHelper.attachToRecyclerView(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         setLayoutManager(layoutManager);
+        helperCallback = new SwipeHelperCallback(SwipeHelperCallback.NO_BUTTON, SwipeHelperCallback.NO_BUTTON);
+        // set default adapter
+        adapter = new SwipableRecyclerAdapter<>(new ArrayList<T>(), 0, false, R.layout.swipable_left, R.layout.swipable_right);
+        this.setAdapter(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
+        itemTouchHelper.attachToRecyclerView(this);
         // divider decoration
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
         dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.rv_line_divider, null));

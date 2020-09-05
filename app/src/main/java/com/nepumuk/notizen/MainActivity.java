@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         final CompoundAdapter<StorageObject> adapter = new CompoundAdapter<>(list, R.layout.compound_view);
         adapter.registerAdapter(new TitleAdapter(list,2),R.id.titleid);
         adapter.registerAdapter(new BaseRecyclerAdapter<>(list,1), R.id.content);
-        SwipableRecyclerAdapter<StorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true);
+        SwipableRecyclerAdapter<StorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true, R.layout.swipable_left, R.layout.swipable_right);
         swipeAdapter.OnLeftClick = (clickedOn, parentView) -> {
             currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
             if (currentEditedNoteIndex==-1) return;

@@ -1,9 +1,11 @@
 package com.nepumuk.notizen.views.adapters;
 
-import androidx.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.SwipableView;
@@ -20,17 +22,22 @@ public class SwipableRecyclerAdapter<T extends StorageObject> extends SortableRe
     public OnSwipeableClickListener OnRightClick;
     public OnSwipeableClickListener OnMiddleClick;
 
-    final private boolean inCompoundAdapter;
 
-    public SwipableRecyclerAdapter(List<T> itemList, int SortOrder, boolean inCompoundAdapter) {
+    final private boolean inCompoundAdapter;
+    private final int leftSwipeMenu;
+    private final int rightSwipeMenu;
+
+    public SwipableRecyclerAdapter(List<T> itemList, int SortOrder, boolean inCompoundAdapter, @LayoutRes int leftSwipeMenu, @LayoutRes int rightSwipeMenu) {
         super(itemList,SortOrder);
         this.inCompoundAdapter = inCompoundAdapter;
+        this.leftSwipeMenu = leftSwipeMenu;
+        this.rightSwipeMenu = rightSwipeMenu;
     }
 
     @NonNull
     @Override
     public ViewHolderInterface<T> onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
-        final SwipableView view = new SwipableView(viewGroup.getContext(), inCompoundAdapter);
+        final SwipableView view = new SwipableView(viewGroup.getContext(), inCompoundAdapter, leftSwipeMenu, rightSwipeMenu);
         view.setOnClickListeners(v -> {
             if (OnLeftClick != null) {
                 OnLeftClick.onClick(v, view);

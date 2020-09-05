@@ -9,6 +9,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.nepumuk.notizen.utils.LayoutHelper;
+import com.nepumuk.notizen.utils.OnHelperCallback;
 import com.nepumuk.notizen.views.adapters.view_holders.CompoundViewHolder;
 import com.nepumuk.notizen.views.adapters.view_holders.SwipableViewHolder;
 
@@ -45,13 +51,13 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
      */
     private int MOVEMENT_FLAGS;
     /**
-     * buttons width set in constructor
+     * buttons width
      */
-    private final int LEFT_BUTTONS_WIDTH;
+    private int LEFT_BUTTONS_WIDTH;
     /**
-     * buttons width set in constructor
+     * buttons width
      */
-    private final int RIGHT_BUTTONS_WIDTH;
+    private int RIGHT_BUTTONS_WIDTH;
 
     /**
      * no buttons added
@@ -69,6 +75,17 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
 
     public SwipeHelperCallback(int LEFT_BUTTONS_WIDTH, int RIGHT_BUTTONS_WIDTH) {
         super();
+
+        setButtonWidths(LEFT_BUTTONS_WIDTH,RIGHT_BUTTONS_WIDTH);
+        LayoutHelper.LayoutHelper.registerSwipableChangeListener(new OnHelperCallback() {
+            @Override
+            public void layoutUpdate(int left, int right) {
+                setButtonWidths(left, right);
+            }
+        });
+    }
+
+    public void setButtonWidths(int LEFT_BUTTONS_WIDTH, int RIGHT_BUTTONS_WIDTH){
         this.LEFT_BUTTONS_WIDTH = LEFT_BUTTONS_WIDTH;
         this.RIGHT_BUTTONS_WIDTH = RIGHT_BUTTONS_WIDTH;
         MOVEMENT_FLAGS = 0;

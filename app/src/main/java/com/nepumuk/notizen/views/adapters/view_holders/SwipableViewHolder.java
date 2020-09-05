@@ -1,7 +1,8 @@
 package com.nepumuk.notizen.views.adapters.view_holders;
 
-import androidx.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.nepumuk.notizen.views.SwipableView;
 
