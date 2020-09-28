@@ -17,11 +17,19 @@ pool:
 jobs:
   - job: DEBUG_Build
     steps:
-      #- template: androidBuildAndPublishTestTemplate.yml
-      #  parameters:
-      #    BUILD_TYPE: 'Debug'
+    - template: androidBuildAndPublishTestTemplate.yml
+        parameters:
+          BUILD_TYPE: 'Debug'
+  - job: Compile_ReleaseNotes_Curr_Iter
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'
         filePath: '$(System.DefaultWorkingDirectory)/ci/generateReleaseNotes.ps1'
+        
+    - task: PublishBuildArtifacts@1
+      condition: always()
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/ci/?(*.md)'
+        ArtifactName: 'ReleaseNotes'
+        publishLocation: 'Container'
 
