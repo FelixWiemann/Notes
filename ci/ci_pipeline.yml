@@ -12,7 +12,7 @@ trigger:
       - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'macos-latest'
 
 jobs:
   - job: DEBUG_Build
