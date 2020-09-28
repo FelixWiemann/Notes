@@ -27,6 +27,13 @@ jobs:
         inputs:
           targetType: 'filePath'
           filePath: '$(System.DefaultWorkingDirectory)/ci/generateReleaseNotes.ps1'
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            ls
+            cd ./ci
+            ls
       - task: CopyFiles@2
         inputs:
           SourceFolder: '$(System.DefaultWorkingDirectory)/ci'
