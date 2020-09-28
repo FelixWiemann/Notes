@@ -10,7 +10,7 @@ $Result = Invoke-RestMethod -Uri $CurrentIterApiCall -Method get -Headers $Azure
 
 $CurrentIterId=$Result.Value.id
 
-$Path = "../ReleaseNotes.md"
+$Path = "./ReleaseNotes.md"
 
 #Write-Host "Iteration" $Result.Value.name "id: " $CurrentIterId
 $CurrentIterWiApiCall="https://dev.azure.com/nepumuk/Notes/_apis/work/teamsettings/iterations/$CurrentIterId/workitems?api-version=6.0-preview.1"

@@ -31,7 +31,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         condition: always()
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/ci/'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/ci/?(*.md)'
           ArtifactName: 'ReleaseNotes'
           publishLocation: 'Container'
 
