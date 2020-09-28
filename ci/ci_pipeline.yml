@@ -27,11 +27,17 @@ jobs:
         inputs:
           targetType: 'filePath'
           filePath: '$(System.DefaultWorkingDirectory)/ci/generateReleaseNotes.ps1'
-          
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(System.DefaultWorkingDirectory)/ci'
+          Contents: '*.md'
+          TargetFolder: '$(build.artifactstagingdirectory)/ReleaseNotes'
+          CleanTargetFolder: true
+          flattenFolders: true
       - task: PublishBuildArtifacts@1
         condition: always()
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/ci/ReleaseNotes.md'
+          PathtoPublish: '$(build.artifactstagingdirectory)/ReleaseNotes'
           ArtifactName: 'ReleaseNotes'
           publishLocation: 'Container'
 
