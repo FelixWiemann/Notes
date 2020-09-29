@@ -10,8 +10,6 @@ foreach ($variable in $variables) {
 	}
 }
 
-Write-Host $Token
-
 $AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($Token)")) }
 
 
