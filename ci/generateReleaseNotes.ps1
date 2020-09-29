@@ -1,8 +1,7 @@
 [CmdletBinding()]
 param()
-$AccessToken="3e7rzxcq6gdsiag3ktr7mhe45b53yjryrfzoch5564rwrtbsf2gq"
 
-$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($AccessToken)")) }
+$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($System.AccessToken)")) }
 
 $CurrentIterApiCall = "https://dev.azure.com/nepumuk/Notes/Notes%20Team/_apis/work/teamsettings/iterations?$timeframe=current&api-version=6.0"
 
@@ -28,6 +27,7 @@ foreach ($WiRelation in $Result.workItemRelations) {
 	$WiApiCall="https://dev.azure.com/nepumuk/Notes/_apis/wit/workItems/$WiId"
 	$Result = Invoke-RestMethod -Uri $WiApiCall -Method GET -Headers $AzureDevOpsAuthenicationHeader
 	if ($Result.fields."System.State" -eq "Resolved" -or $Result.fields."System.State" -eq "Closed" ){
+		Write-Host $WiId
 		if ($Result.fields."Custom.e9e4fb1f-788b-4bbf-afd5-2f14d4be2bdd" -ne $null){
 			$NewImprovements+=$Result.fields."Custom.e9e4fb1f-788b-4bbf-afd5-2f14d4be2bdd"
 		}if ($Result.fields."Custom.ReleaseNotesBugs" -ne $null){
