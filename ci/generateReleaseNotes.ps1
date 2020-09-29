@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param()
 
-$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($System.AccessToken)")) }
+$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($Env:System.AccessToken)")) }
 
 $CurrentIterApiCall = "https://dev.azure.com/nepumuk/Notes/Notes%20Team/_apis/work/teamsettings/iterations?$timeframe=current&api-version=6.0"
 
