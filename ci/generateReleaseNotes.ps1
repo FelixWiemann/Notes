@@ -1,7 +1,20 @@
 [CmdletBinding()]
 param()
 
-$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($Env:System.AccessToken)")) }
+$variables = Get-Childitem -Path Env:* # | Sort-Object Name
+
+
+foreach ($variable in $variables) {
+	if ($variable.name -eq "System.AccessToken"){
+		$Token =  $variable.Value
+	}
+}
+
+Write-Host $Token
+
+$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($Token)")) }
+
+
 
 $CurrentIterApiCall = "https://dev.azure.com/nepumuk/Notes/Notes%20Team/_apis/work/teamsettings/iterations?$timeframe=current&api-version=6.0"
 
