@@ -15,12 +15,6 @@
         app:key="@string/pref_key_category_about">
         <Preference
             app:defaultValue=""
-            app:key="@string/pref_key_exception_test"
-            app:title="@string/preference_title_exception_test"
-            app:summary="@string/preference_summary_exception_test"
-            />
-        <Preference
-            app:defaultValue=""
             app:key="@string/pref_key_privacy_notice"
             app:title="@string/preference_title_privacy_notice"
             app:summary="@string/preference_summary_privacy_notice"

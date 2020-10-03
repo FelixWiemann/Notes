@@ -6,7 +6,6 @@
 
     <string name="pref_key_feedback" translatable="false">preference_key_feedback</string>
     <string name="pref_key_theme" translatable="false">preference_key_theme</string>
-    <string name="pref_key_exception_test" translatable="false">pref_key_exception_test</string>
     <string name="pref_key_privacy_notice" translatable="false">pref_key_privacy_notice</string>
 
     <string name="pref_value_theme_system" translatable="false">pref_value_theme_system</string>

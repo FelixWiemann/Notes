@@ -179,12 +179,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        settingsFragment.registerPreferenceClickListener(R.string.pref_key_exception_test, new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                throw new RuntimeException("test exception to see how exceptions are handled in developer console");
-            }
-        });
         settingsFragment.registerPreferenceClickListener(R.string.pref_key_privacy_notice, new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
