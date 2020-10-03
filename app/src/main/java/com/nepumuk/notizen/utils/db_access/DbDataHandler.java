@@ -2,7 +2,10 @@ package com.nepumuk.notizen.utils.db_access;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.UnpackingDataException;
@@ -110,6 +113,7 @@ public class DbDataHandler {
      * updates all objects of the given list in the database
      * @param objects to update
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void update(List<DatabaseStorable> objects){
         objects.forEach(new Consumer<DatabaseStorable>() {
             @Override

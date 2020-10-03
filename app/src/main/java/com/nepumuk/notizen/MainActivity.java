@@ -221,12 +221,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         // TODO update view model data on click
-        model.getData().getValue().values().forEach(new Consumer<DatabaseStorable>() {
-            @Override
-            public void accept(DatabaseStorable storable) {
-                if (storable instanceof TaskNote) model.updateData(storable);
-            }
-        });
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            model.getData().getValue().values().forEach(new Consumer<DatabaseStorable>() {
+                @Override
+                public void accept(DatabaseStorable storable) {
+                    if (storable instanceof TaskNote) model.updateData(storable);
+                }
+            });
+        }
         Settings.unregisterOnSharedPreferenceListeners(this);
     }
 
