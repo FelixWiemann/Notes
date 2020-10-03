@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.nepumuk.notizen"
-        minSdkVersion 26
+        minSdkVersion 23
         targetSdkVersion 30
         // check version code from system environment (if input from CI-System)
         if ("$System.env.VERSIONCODE"=="null") {
