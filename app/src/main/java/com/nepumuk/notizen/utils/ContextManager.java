@@ -8,10 +8,7 @@ import android.content.Context;
  *
  * Created as part of notes in package com.nepumuk.notizen.BackEnd
  * by Felix "nepumuk" Wiemann on 04/06/17.
- *
- * getApplicationContext instead!
  */
-@Deprecated
 public class ContextManager {
     /**
      * mContext variable
@@ -43,7 +40,9 @@ public class ContextManager {
     public void setUp(Context context) throws ContextManagerException {
         // only set context, if not set already
         if (mContext == null) {
-            this.mContext = context;
+            // getting application context avoids leaks, as the application context
+            // lives through the app lifecycle and is destroyed afterwards
+            this.mContext = context.getApplicationContext();
         }
         else {
             // otherwise throw exception

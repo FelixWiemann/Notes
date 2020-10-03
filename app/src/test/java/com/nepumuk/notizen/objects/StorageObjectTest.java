@@ -101,7 +101,7 @@ public class StorageObjectTest extends AndroidTest {
     }
 
     @SuppressWarnings("UnconstructableJUnitTestCase")
-    @Ignore
+    @Ignore ("test support class, not to be tested")
     static class StorageObjectImpl extends StorageObject {
         StorageObjectImpl(){
             super(UUID.randomUUID(),"");

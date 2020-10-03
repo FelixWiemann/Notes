@@ -18,7 +18,7 @@ import java.util.HashMap;
  */
 public class NoteDisplayFragmentFactory {
 
-    private static final String TAG = "NoteDisplayFragmentFactory";
+    private static final String TAG = "NoteDisplayFrgmntFac";
 
     private static NoteDisplayFragmentFactory factory;
 
