@@ -102,7 +102,7 @@ public class SortProviderTest extends AndroidTest{
         TextNote object4 = new TextNote(UUID.randomUUID(), "bbb", "");
         ImageNote object5 = new ImageNote(UUID.randomUUID(), "abc", "");
         TimedTask object6 = new TimedTask(UUID.randomUUID(), "", "", false);
-        TaskNote object7 = new TaskNote(UUID.randomUUID(), "bbb", new ArrayList<BaseTask>());
+        TaskNote object7 = new TaskNote(UUID.randomUUID(), "bbb", new ArrayList<>());
         // when/then
         assertTrue(SortProvider.SortByType.compare(object3, object2)>0);
         assertTrue(SortProvider.SortByType.compare(object2, object3)<0);

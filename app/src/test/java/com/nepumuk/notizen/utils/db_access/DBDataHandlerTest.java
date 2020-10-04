@@ -11,7 +11,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.internal.matchers.Null;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
@@ -49,33 +48,22 @@ public class DBDataHandlerTest extends AndroidTest {
         testImpl = new ContentValuesImpl();
         helperMock = mock(DbHelper.class);
         ContentValues contentValueMock = mock(ContentValues.class);
-        doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                return testImpl.get((String)invocation.getArgument(0));
-            }
-        }).when(contentValueMock).get(anyString());
-        Answer<Object> answerOnPut = new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                testImpl.put((String)invocation.getArgument(0), invocation.getArgument(1));
-                return null;
-            }
+        doAnswer(invocation -> testImpl.get(invocation.getArgument(0))).when(contentValueMock).get(anyString());
+        Answer<Object> answerOnPut = invocation -> {
+            testImpl.put(invocation.getArgument(0), invocation.getArgument(1));
+            return null;
         };
         doAnswer(answerOnPut).when(contentValueMock).put(anyString(), anyString());
         doAnswer(answerOnPut).when(contentValueMock).put(anyString(), anyInt());
 
         whenNew(ContentValues.class).withAnyArguments().thenReturn(contentValueMock);
 
-        mockStatic(DbHelper.class, new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                if ("getInstance".equals(invocation.getMethod().getName())) {
-                    return helperMock;
-                }
-                fail();
-                return null;
+        mockStatic(DbHelper.class, (Answer<Object>) invocation -> {
+            if ("getInstance".equals(invocation.getMethod().getName())) {
+                return helperMock;
             }
+            fail();
+            return null;
         });
         handlerUnderTest = new DbDataHandler();
     }

@@ -1,9 +1,6 @@
 package com.nepumuk.notizen.views.note_views;
 
 import android.content.Context;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.tasks.Task;

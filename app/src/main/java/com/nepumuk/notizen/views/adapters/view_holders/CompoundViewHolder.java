@@ -58,12 +58,7 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
         super(itemView);
         interfaces = new HashMap<>();
         expandButton = itemView.findViewById(R.id.expand_button);
-        expandButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                invertShrink();
-            }
-        });
+        expandButton.setOnClickListener(view -> invertShrink());
     }
 
     @Override

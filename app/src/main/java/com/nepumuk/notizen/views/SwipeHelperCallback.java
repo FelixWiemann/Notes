@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.nepumuk.notizen.views.adapters.view_holders.CompoundViewHolder;
 import com.nepumuk.notizen.views.adapters.view_holders.SwipableViewHolder;
@@ -136,30 +135,27 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
                                   final int actionState, final boolean isCurrentlyActive) {
 
         // setting the touch listener for detecting swipe boundaries and see whether button needs to be shown
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // check whether swipe was cancelled or done
-                swipeBack = event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP;
-                if (swipeBack){
-                    // check if we are past boundaries and set correct state
-                    if (LEFT_BUTTONS_WIDTH != NO_BUTTON && dX > LEFT_BUTTONS_WIDTH){
-                        currentButtonState = BUTTON_STATE.LEFT;
-                    }
-                    else if (RIGHT_BUTTONS_WIDTH != NO_BUTTON &&  dX < - RIGHT_BUTTONS_WIDTH){
-                        currentButtonState = BUTTON_STATE.RIGHT;
-                    }
-                    // we need to show buttons
-                    if (currentButtonState != GONE) {
-                        // make sure to be able to undo stuff
-                        setTouchUpListener(c, recyclerView, viewHolder, dY, actionState, isCurrentlyActive);
-                    }
+        recyclerView.setOnTouchListener((v, event) -> {
+            // check whether swipe was cancelled or done
+            swipeBack = event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP;
+            if (swipeBack){
+                // check if we are past boundaries and set correct state
+                if (LEFT_BUTTONS_WIDTH != NO_BUTTON && dX > LEFT_BUTTONS_WIDTH){
+                    currentButtonState = BUTTON_STATE.LEFT;
                 }
-                // activate or deactivate the item touch handler of the recycler view depending on button states
-                // if they are visible we need to suppress the recycler on item touch
-                ((SwipeRecyclerView) recyclerView).SetState(currentButtonState != GONE);
-                return false;
+                else if (RIGHT_BUTTONS_WIDTH != NO_BUTTON &&  dX < - RIGHT_BUTTONS_WIDTH){
+                    currentButtonState = BUTTON_STATE.RIGHT;
+                }
+                // we need to show buttons
+                if (currentButtonState != GONE) {
+                    // make sure to be able to undo stuff
+                    setTouchUpListener(c, recyclerView, viewHolder, dY, actionState, isCurrentlyActive);
+                }
             }
+            // activate or deactivate the item touch handler of the recycler view depending on button states
+            // if they are visible we need to suppress the recycler on item touch
+            ((SwipeRecyclerView) recyclerView).SetState(currentButtonState != GONE);
+            return false;
         });
     }
 
@@ -176,14 +172,11 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
         currentRecyclerView = recyclerView;
         isResettable = true;
         // undo touch handler
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if ((event.getAction() == MotionEvent.ACTION_UP)){
-                    resetSwipeState(actionState,isCurrentlyActive);
-                }
-                return false;
+        recyclerView.setOnTouchListener((v, event) -> {
+            if ((event.getAction() == MotionEvent.ACTION_UP)){
+                resetSwipeState(actionState,isCurrentlyActive);
             }
+            return false;
         });
     }
 

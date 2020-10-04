@@ -11,8 +11,6 @@ import com.nepumuk.notizen.testutils.AndroidTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.util.ArrayList;
@@ -62,18 +60,15 @@ public class NoteViewModelTest extends AndroidTest {
 
         // init handler
         when(handler.read()).thenReturn(new ArrayList<>(storables.values()));
-        mockStatic(NoteViewModel.helper.class, new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                switch (invocation.getMethod().getName()){
-                    case "getLiveData":
-                        return liveData;
-                    case "getDBHandler":
-                        return handler;
-                }
-                fail();
-                return null;
+        mockStatic(NoteViewModel.helper.class, invocation -> {
+            switch (invocation.getMethod().getName()){
+                case "getLiveData":
+                    return liveData;
+                case "getDBHandler":
+                    return handler;
             }
+            fail();
+            return null;
         });
 
         modelUnderTest = new NoteViewModel();

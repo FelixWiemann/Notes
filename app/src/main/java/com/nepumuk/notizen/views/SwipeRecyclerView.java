@@ -47,7 +47,7 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
 
     private void init(){
         // set default adapter
-        adapter = new SwipableRecyclerAdapter<>(new ArrayList<T>(), 0, false);
+        adapter = new SwipableRecyclerAdapter<>(new ArrayList<>(), 0, false);
         this.setAdapter(adapter);
         // todo get swipe-menu width from adapter
         helperCallback = new SwipeHelperCallback(100, SwipeHelperCallback.NO_BUTTON);

@@ -25,61 +25,56 @@ public class SortProvider {
         }
     };
 
-    public static final Comparator<SortableObject> SortByTitleDescending = new Comparator<SortableObject>() {
-        @Override
-        public int compare(SortableObject t1, SortableObject t2) {
-            if (t1 == null && t2 == null){
+    public static final Comparator<SortableObject> SortByTitleDescending;
+
+    static {
+        SortByTitleDescending = (t1, t2) -> {
+            if (t1 == null && t2 == null) {
                 // both are null, so they are equal
                 return EQUALS;
             }
-            if (t1 == null){
+            if (t1 == null) {
                 // t1 is null, so t2 is greater
                 return GREATER;
             }
-            if (t2 == null){
+            if (t2 == null) {
                 // t2 is null, so t2 is smaller
                 return SMALLER;
             }
             return (t2.getSortable(SortCategory.TITLE)).compareToIgnoreCase((t1.getSortable(SortCategory.TITLE)));
+        };
+    }
+
+    public static final Comparator<StorageObject> SortByType = (t1, t2) -> {
+        if (t1 == null && t2 == null){
+            // both are null, so they are equal
+            return EQUALS;
         }
+        if (t1 == null || t1.getClass().getCanonicalName() == null){
+            // t1 is null, so t2 is greater
+            return GREATER;
+        }
+        if (t2 == null || t2.getClass().getCanonicalName() == null){
+            // t2 is null, so t2 is smaller
+            return SMALLER;
+        }
+        return t1.getClass().getCanonicalName().compareTo(t2.getClass().getCanonicalName());
     };
 
-    public static final Comparator<StorageObject> SortByType = new Comparator<StorageObject>() {
-        @Override
-        public int compare(StorageObject t1, StorageObject t2) {
-            if (t1 == null && t2 == null){
-                // both are null, so they are equal
-                return EQUALS;
-            }
-            if (t1 == null || t1.getClass().getCanonicalName() == null){
-                // t1 is null, so t2 is greater
-                return GREATER;
-            }
-            if (t2 == null || t2.getClass().getCanonicalName() == null){
-                // t2 is null, so t2 is smaller
-                return SMALLER;
-            }
-            return t1.getClass().getCanonicalName().compareTo(t2.getClass().getCanonicalName());
+    public static final Comparator<BaseTask> SortTasksDone = (t1, t2) -> {
+        if (t1 == null && t2 == null){
+            // both are null, so they are equal
+            return EQUALS;
         }
-    };
-
-    public static final Comparator<BaseTask> SortTasksDone = new Comparator<BaseTask>() {
-        @Override
-        public int compare(BaseTask t1, BaseTask t2) {
-            if (t1 == null && t2 == null){
-                // both are null, so they are equal
-                return EQUALS;
-            }
-            if (t1 == null){
-                // t1 is null, so t2 is greater
-                return GREATER;
-            }
-            if (t2 == null){
-                // t2 is null, so t2 is smaller
-                return SMALLER;
-            }
-            return Boolean.compare(t1.isDone(), t2.isDone());
+        if (t1 == null){
+            // t1 is null, so t2 is greater
+            return GREATER;
         }
+        if (t2 == null){
+            // t2 is null, so t2 is smaller
+            return SMALLER;
+        }
+        return Boolean.compare(t1.isDone(), t2.isDone());
     };
 
 }

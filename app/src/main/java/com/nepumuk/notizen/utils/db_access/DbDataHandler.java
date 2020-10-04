@@ -7,12 +7,11 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.UnpackingDataException;
+import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Database Data Handler for wrapping the Database
@@ -115,12 +114,7 @@ public class DbDataHandler {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void update(List<DatabaseStorable> objects){
-        objects.forEach(new Consumer<DatabaseStorable>() {
-            @Override
-            public void accept(DatabaseStorable databaseStorable) {
-                update(databaseStorable);
-            }
-        });
+        objects.forEach(this::update);
     }
 
     /**

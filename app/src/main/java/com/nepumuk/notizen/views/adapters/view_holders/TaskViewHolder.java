@@ -3,7 +3,6 @@ package com.nepumuk.notizen.views.adapters.view_holders;
 import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
@@ -40,12 +39,7 @@ public class TaskViewHolder extends ViewHolderInterface<BaseTask>{
         done.setChecked(toBind.isDone());
         done.setContentDescription(ResourceManger.getString(R.string.content_task_status) + " " + toBind.getTitle() + ": " + toBind.getStateDescription());
         // before adding the listener to avoid unclear state
-        done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toBind.setDone(isChecked);
-            }
-        });
+        done.setOnCheckedChangeListener((buttonView, isChecked) -> toBind.setDone(isChecked));
     }
 
 }

@@ -30,7 +30,7 @@ public class TaskNoteTest extends AndroidTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        TaskNote test = new TaskNote(UUID.randomUUID(),"task note",new ArrayList<BaseTask>());
+        TaskNote test = new TaskNote(UUID.randomUUID(),"task note", new ArrayList<>());
         testNote = spy(test);
         task1 = new Task(UUID.randomUUID(),"title task", "text task", false );
         testNote.addTask(task1);
@@ -99,7 +99,7 @@ public class TaskNoteTest extends AndroidTest {
     public void testJson() {
         // given
         // Jackson's toJSON doesn't like mocks, therefore a new note needed to be created
-        testNote = new TaskNote(UUID.randomUUID(),"task note",new ArrayList<BaseTask>());
+        testNote = new TaskNote(UUID.randomUUID(),"task note", new ArrayList<>());
         testNote.addTask(task1);
         testNote.addTask(new Task(UUID.randomUUID(),"test task 2", "text task", false ));
         // when
@@ -117,7 +117,7 @@ public class TaskNoteTest extends AndroidTest {
     public void testCreationFromJSON() throws UnpackingDataException {
         // given
         // Jackson's toJSON doesn't like mocks, therefore a new note needed to be created
-        testNote = new TaskNote(UUID.randomUUID(),"task note",new ArrayList<BaseTask>());
+        testNote = new TaskNote(UUID.randomUUID(),"task note", new ArrayList<>());
         String JSON = testNote.toJson();
         // when
         Object o = StorableFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());

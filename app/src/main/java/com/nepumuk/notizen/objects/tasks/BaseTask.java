@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
-import com.nepumuk.notizen.objects.filtersort.SortAble;
 import com.nepumuk.notizen.utils.DateStrategy;
 import com.nepumuk.notizen.utils.ResourceManger;
 
@@ -56,18 +55,8 @@ public abstract class BaseTask extends StorageObject {
         this.mDone = mDone;
         setCreationDate();
         setLastChangedDate();
-        this.addSortable(TASK_DONE_TIME, new SortAble<Long>() {
-            @Override
-            public Long getData() {
-                return mTaskCompleteDate;
-            }
-        });
-        this.addSortable(TASK_DONE_STATE, new SortAble<Boolean>() {
-            @Override
-            public Boolean getData() {
-                return mDone;
-            }
-        });
+        this.addSortable(TASK_DONE_TIME, () -> mTaskCompleteDate);
+        this.addSortable(TASK_DONE_STATE, () -> mDone);
     }
 
     /**

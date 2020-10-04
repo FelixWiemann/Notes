@@ -2,7 +2,6 @@ package com.nepumuk.notizen.views.adapters.view_holders;
 
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.nepumuk.notizen.R;
@@ -58,6 +57,6 @@ public class TaskViewHolderTest extends AndroidTest {
         verify(titleMock,atLeastOnce()).setText(eq(title));
         verify(messageMock,atLeastOnce()).setText(eq(text));
         verify(doneMock,atLeastOnce()).setChecked(eq(doneState));
-        verify(doneMock, times(2)).setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) any());
+        verify(doneMock, times(2)).setOnCheckedChangeListener(any());
     }
 }

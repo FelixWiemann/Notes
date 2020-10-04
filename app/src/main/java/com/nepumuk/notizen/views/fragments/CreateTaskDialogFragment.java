@@ -12,7 +12,6 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.R;
@@ -42,19 +41,16 @@ public class CreateTaskDialogFragment extends DialogFragment {
 
         taskViewModel = new ViewModelProvider(getTargetFragment()).get(EditNoteViewModel.class);
         textTaskTitle = view.findViewById(R.id.task_title);
-        taskViewModel.observe(this, new Observer<BaseTask>() {
-            @Override
-            public void onChanged(@Nullable BaseTask task) {
-                if (task ==null) return;
-                if (isTyping) {
-                    isTyping = false;
-                    return;
-                }
-                isUpdate = true;
-                textTaskMessage.setText(task.getText());
-                textTaskTitle.setText(task.getTitle());
-                isUpdate = false;
+        taskViewModel.observe(this, task -> {
+            if (task ==null) return;
+            if (isTyping) {
+                isTyping = false;
+                return;
             }
+            isUpdate = true;
+            textTaskMessage.setText(task.getText());
+            textTaskTitle.setText(task.getTitle());
+            isUpdate = false;
         });
 
         textTaskTitle.addTextChangedListener(new TextWatcher() {

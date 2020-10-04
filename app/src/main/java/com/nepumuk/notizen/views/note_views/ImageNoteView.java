@@ -1,7 +1,6 @@
 package com.nepumuk.notizen.views.note_views;
 
 import android.content.Context;
-import android.widget.ImageView;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.notes.ImageNote;

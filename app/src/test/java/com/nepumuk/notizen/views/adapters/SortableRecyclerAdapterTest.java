@@ -49,12 +49,12 @@ public class SortableRecyclerAdapterTest {
 
     @Before
     public void setUp() {
-        adapterUnderTest = spy(new SortableRecyclerAdapter<>(new ArrayList<StorageObject>(), 0));
+        adapterUnderTest = spy(new SortableRecyclerAdapter<>(new ArrayList<>(), 0));
         // don't do anything on baseAdapter.notifyDataSetChanged, as not mocked
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
 
         filterMock = (ViewFilter<StorageObject>) mock(ViewFilter.class);
-        doCallRealMethod().when(filterMock).filter(ArgumentMatchers.<StorageObject>anyList(), ArgumentMatchers.<StorageObject>anyList(), ArgumentMatchers.<StorageObject>anyList());
+        doCallRealMethod().when(filterMock).filter(ArgumentMatchers.anyList(), ArgumentMatchers.anyList(), ArgumentMatchers.anyList());
         mockShowAll = spy(new FilterShowAll());
 
         s1 = new DataBaseStorableTestImpl();
@@ -81,7 +81,7 @@ public class SortableRecyclerAdapterTest {
         adapterUnderTest.filter();
         // then
         verify(adapterUnderTest).notifyDataSetChanged();
-        verify(mockShowAll, times(2)).filter(ArgumentMatchers.<StorageObject>anyList(), ArgumentMatchers.<StorageObject>anyList(), ArgumentMatchers.<StorageObject>anyList());
+        verify(mockShowAll, times(2)).filter(ArgumentMatchers.anyList(), ArgumentMatchers.anyList(), ArgumentMatchers.anyList());
     }
 
     @Test

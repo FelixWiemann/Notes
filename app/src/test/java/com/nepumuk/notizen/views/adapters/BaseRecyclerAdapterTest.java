@@ -34,7 +34,7 @@ public class BaseRecyclerAdapterTest {
     public void setUp(){
         s1 = new DataBaseStorableTestImpl();
         s2 = new DataBaseStorableTestImpl();
-        adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<StorageObject>(),0));
+        adapterUnderTest = spy(new BaseRecyclerAdapter<>(new ArrayList<>(),0));
         doNothing().when(adapterUnderTest).notifyDataSetChanged();
     }
 

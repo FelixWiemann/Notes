@@ -40,20 +40,14 @@ public class SaveDataFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         saveExit = view.findViewById(R.id.bt_save_exit);
-        saveExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.saveAndExit();
-                SaveDataFragment.this.dismiss();
-            }
+        saveExit.setOnClickListener(view1 -> {
+            listener.saveAndExit();
+            SaveDataFragment.this.dismiss();
         });
         cancelExit = view.findViewById(R.id.bt_cancel_exit);
-        cancelExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.cancelExit();
-                SaveDataFragment.this.dismiss();
-            }
+        cancelExit.setOnClickListener(view2 -> {
+            listener.cancelExit();
+            SaveDataFragment.this.dismiss();
         });
     }
 }

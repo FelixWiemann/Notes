@@ -1,17 +1,12 @@
 package com.nepumuk.notizen.views.note_views;
 
 import android.content.Context;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.views.NestedRecyclerView;
-import com.nepumuk.notizen.objects.filtersort.FilterHideDone;
 import com.nepumuk.notizen.objects.notes.TaskNote;
-import com.nepumuk.notizen.objects.tasks.BaseTask;
-import com.nepumuk.notizen.views.adapters.SortableRecyclerAdapter;
 
 /**
  * Created by Felix on 11.11.2018.

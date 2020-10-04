@@ -1,11 +1,11 @@
 package com.nepumuk.notizen.views.fabs;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.util.AttributeSet;
-import android.view.View;
 
+import androidx.annotation.Nullable;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.R;
 
 /**
@@ -40,13 +40,10 @@ public class FabSpawnerFab extends FloatingActionButton {
     private void init(){
         manager = new FabToggleManager();
         SuperListener = null;
-        final OnClickListener listener = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                manager.toggle();
-                toggleImage();
-                if (SuperListener != null) SuperListener.onClick(view);
-            }
+        final OnClickListener listener = view -> {
+            manager.toggle();
+            toggleImage();
+            if (SuperListener != null) SuperListener.onClick(view);
         };
         super.setOnClickListener(listener);
     }

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.R;
@@ -19,9 +18,7 @@ import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.tasks.Task;
 import com.nepumuk.notizen.utils.ResourceManger;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
-import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.SwipeRecyclerView;
-import com.nepumuk.notizen.views.adapters.OnSwipeableClickListener;
 import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import java.util.UUID;
@@ -63,15 +60,12 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
         taskHolder = v.findViewById(R.id.task_holder);
         final SwipableRecyclerAdapter<BaseTask> adapter = taskHolder.getAdapter();
-        adapter.OnLeftClick = new OnSwipeableClickListener() {
-            @Override
-            public void onClick(View clickedOn, SwipableView parentView) {
-                currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
-                if (currentEditedNoteIndex==-1) return;
-                BaseTask task = adapter.getItem(currentEditedNoteIndex);
-                deleteTask(task);
-                taskHolder.resetSwipeState();
-            }
+        adapter.OnLeftClick = (clickedOn, parentView) -> {
+            currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
+            if (currentEditedNoteIndex==-1) return;
+            BaseTask task = adapter.getItem(currentEditedNoteIndex);
+            deleteTask(task);
+            taskHolder.resetSwipeState();
         };
         taskHolder.addOnItemTouchListener(new SwipableOnItemTouchListener(new View.OnTouchListener() {
 
@@ -118,12 +112,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         // get the view model of the parent activity
         taskViewModel = new ViewModelProvider(TaskNoteFragment.this).get(EditNoteViewModel.class);
         // let this observe the view model
-        taskViewModel.observe(this, new Observer<BaseTask>() {
-            @Override
-            public void onChanged(@Nullable BaseTask updatedData) {
-                updateTask(updatedData);
-            }
-        });
+        taskViewModel.observe(this, this::updateTask);
     }
 
 
@@ -164,12 +153,9 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         fabProvider.getFab().setImageResource(R.drawable.ic_create_task_note);
         fabProvider.getFab().setContentDescription(ResourceManger.getString(R.string.content_add_task));
         fabProvider.getFab().show();
-        fabProvider.getFab().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentEditedNoteIndex = INVALID_INDEX;
-                callEditTaskFragment(new Task(UUID.randomUUID(),"","",false));
-            }
+        fabProvider.getFab().setOnClickListener(v -> {
+            currentEditedNoteIndex = INVALID_INDEX;
+            callEditTaskFragment(new Task(UUID.randomUUID(),"","",false));
         });
     }
 }

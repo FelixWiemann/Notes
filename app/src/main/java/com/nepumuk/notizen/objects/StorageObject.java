@@ -3,7 +3,6 @@ package com.nepumuk.notizen.objects;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.utils.DateStrategy;
 import com.nepumuk.notizen.utils.OnUpdateCallback;
-import com.nepumuk.notizen.objects.filtersort.SortAble;
 import com.nepumuk.notizen.objects.filtersort.SortCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,25 +33,9 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
     }
 
     private void initSortables(){
-        this.addSortable(SortCategory.TITLE, new SortAble<String>() {
-            @Override
-            public String getData() {
-                return getTitle();
-            }
-        });
-
-        this.addSortable(SortCategory.CREATION_TIME, new SortAble<Long>() {
-            @Override
-            public Long getData() {
-                return getCreationDate();
-            }
-        });
-        this.addSortable(SortCategory.LAST_CHANGE_TIME, new SortAble<Long>() {
-            @Override
-            public Long getData() {
-                return getLastChangedDate();
-            }
-        });
+        this.addSortable(SortCategory.TITLE, this::getTitle);
+        this.addSortable(SortCategory.CREATION_TIME, this::getCreationDate);
+        this.addSortable(SortCategory.LAST_CHANGE_TIME, this::getLastChangedDate);
     }
 
     @Override

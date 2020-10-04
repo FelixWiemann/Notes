@@ -40,12 +40,7 @@ public class NoteViewModel extends ViewModel {
         dataMap = new HashMap<>();
         data.setValue(dataMap);
         // do an async read of the DB
-        dataFetcher = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                readFromDatabase();
-            }
-        });
+        dataFetcher = new Thread(this::readFromDatabase);
         dataFetcher.start();
     }
 

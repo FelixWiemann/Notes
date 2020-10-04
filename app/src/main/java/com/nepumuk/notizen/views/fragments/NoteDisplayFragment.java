@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
@@ -63,15 +62,12 @@ public abstract class NoteDisplayFragment<T extends DatabaseStorable> extends Fr
         // get the view model of the parent activity
         mViewModel = new ViewModelProvider(getActivity()).get(EditNoteViewModel.class);
         // let this observe the view model
-        mViewModel.observe(this, new Observer<T>() {
-            @Override
-            public void onChanged(@Nullable T updatedData) {
-                // since we are updating based on the changed data, set the state
-                updatingUI = true;
-                updateUI(updatedData);
-                // and reset after update
-                updatingUI = false;
-            }
+        mViewModel.observe(this, updatedData -> {
+            // since we are updating based on the changed data, set the state
+            updatingUI = true;
+            updateUI(updatedData);
+            // and reset after update
+            updatingUI = false;
         });
     }
 

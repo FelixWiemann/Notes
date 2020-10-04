@@ -1,19 +1,14 @@
 package com.nepumuk.notizen;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.Preference;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.objects.StorageObject;
@@ -33,22 +28,18 @@ import com.nepumuk.notizen.utils.NoteViewModel;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.views.NoteListViewHeaderView;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
-import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.SwipeRecyclerView;
 import com.nepumuk.notizen.views.adapters.BaseRecyclerAdapter;
 import com.nepumuk.notizen.views.adapters.CompoundAdapter;
-import com.nepumuk.notizen.views.adapters.OnSwipeableClickListener;
 import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 import com.nepumuk.notizen.views.adapters.TitleAdapter;
 import com.nepumuk.notizen.views.fabs.FabSpawnerFab;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -76,84 +67,69 @@ public class MainActivity extends AppCompatActivity {
         adapter.registerAdapter(new TitleAdapter(list,2),R.id.titleid);
         adapter.registerAdapter(new BaseRecyclerAdapter<>(list,1), R.id.content);
         SwipableRecyclerAdapter<StorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true);
-        swipeAdapter.OnLeftClick = new OnSwipeableClickListener() {
-            @Override
-            public void onClick(View clickedOn, SwipableView parentView) {
-                currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
-                if (currentEditedNoteIndex==-1) return;
-                StorageObject task = adapter.getItem(currentEditedNoteIndex);
-                model.deleteData(task);
-                recyclerView.resetSwipeState();
-            }
+        swipeAdapter.OnLeftClick = (clickedOn, parentView) -> {
+            currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
+            if (currentEditedNoteIndex==-1) return;
+            StorageObject task = adapter.getItem(currentEditedNoteIndex);
+            model.deleteData(task);
+            recyclerView.resetSwipeState();
         };
         adapter.registerAdapter(swipeAdapter,R.id.compound_content);
         final NoteListViewHeaderView headerView = findViewById(R.id.headerView);
         // update list view adapter on changes of the view model
-        model.observeForEver(new Observer<HashMap<String, DatabaseStorable>>() {
-            @Override
-            public void onChanged(@Nullable HashMap<String, DatabaseStorable> map) {
-                List<StorageObject> list = new ArrayList<>();
-                try {
-                    if (map == null) {
-                        return;
-                    }
-
-                    // Concurrent Modification Exception happened again, added additional logging
-                    for (Map.Entry<String, DatabaseStorable> set : map.entrySet()) {
-                        list.add((StorageObject) set.getValue());
-                    }
-
-                    adapter.replace(list);
-                    // sort and filter new data based on current settings
-                    adapter.filter();
-                    adapter.sort();
-                    headerView.update(list.size());
-                } catch (ConcurrentModificationException ex){
-                    Log.e(TAG, "onChanged: got a concurrentmodex", ex);
-                    Log.e(TAG, "map data: " + map );
-                    Log.e(TAG, "list data: " + list);
-                    Log.e(TAG, "is fetching " + model.isCurrentlyFetchingDataFromDB());
-                    throw new RuntimeException("fail");
+        model.observeForEver(map -> {
+            List<StorageObject> list1 = new ArrayList<>();
+            try {
+                if (map == null) {
+                    return;
                 }
+
+                // Concurrent Modification Exception happened again, added additional logging
+                for (Map.Entry<String, DatabaseStorable> set : map.entrySet()) {
+                    list1.add((StorageObject) set.getValue());
+                }
+
+                adapter.replace(list1);
+                // sort and filter new data based on current settings
+                adapter.filter();
+                adapter.sort();
+                headerView.update(list1.size());
+            } catch (ConcurrentModificationException ex){
+                Log.e(TAG, "onChanged: got a concurrentmodex", ex);
+                Log.e(TAG, "map data: " + map );
+                Log.e(TAG, "list data: " + list1);
+                Log.e(TAG, "is fetching " + model.isCurrentlyFetchingDataFromDB());
+                throw new RuntimeException("fail");
             }
         });
         adapter.filter(new FilterShowAll());
         adapter.sort(SortProvider.SortByType);
         recyclerView.setAdapter(adapter);
         // TODO this item touch helper blocks scrolling of inner recycler views...
-        recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent e) {
-                currentEditedNoteIndex = recyclerView.getChildAdapterPosition(recyclerView.findChildViewUnder(e.getX(),e.getY()));
-                if (currentEditedNoteIndex==-1) return false;
-                StorageObject task = adapter.getItem(currentEditedNoteIndex);
-                callEditNoteActivityForResult(task);
-                return false;
-            }
+        recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener((v, e) -> {
+            currentEditedNoteIndex = recyclerView.getChildAdapterPosition(recyclerView.findChildViewUnder(e.getX(),e.getY()));
+            if (currentEditedNoteIndex==-1) return false;
+            StorageObject task = adapter.getItem(currentEditedNoteIndex);
+            callEditNoteActivityForResult(task);
+            return false;
         }));
 
         adapter.notifyDataSetChanged();
         final FabSpawnerFab fabSpawner = findViewById(R.id.fab_add_notes);
         FloatingActionButton fab =  findViewById(R.id.fab_text_note);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO make sure a text note is created
-                callEditNoteActivityForResult();
-                fabSpawner.callOnClick();
-            }
+        fab.setOnClickListener(view -> {
+            // TODO make sure a text note is created
+            callEditNoteActivityForResult();
+            fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
         fab = findViewById(R.id.fab_task_note);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList<BaseTask> list = new ArrayList<>();
-                // TODO use string resources
-                TaskNote testNote = new TaskNote(UUID.randomUUID(),"",list);
-                callEditNoteActivityForResult(testNote);
-                fabSpawner.callOnClick();
-            }
+        fab.setOnClickListener(view -> {
+            ArrayList<BaseTask> list12 = new ArrayList<>();
+            // TODO use string resources
+            TaskNote testNote = new TaskNote(UUID.randomUUID(),"", list12);
+            callEditNoteActivityForResult(testNote);
+            fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
         // TODO add fab for new types
@@ -164,27 +140,18 @@ public class MainActivity extends AppCompatActivity {
 
         // init settings view
 
-        Settings.registerOnSharedPreferenceListener(this, new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                // TODO only react on change of theme
-                onThemeChange();
-            }
+        Settings.registerOnSharedPreferenceListener(this, (sharedPreferences, s) -> {
+            // TODO only react on change of theme
+            onThemeChange();
         });
         SettingsFragment settingsFragment = new SettingsFragment();
-        settingsFragment.registerPreferenceClickListener(R.string.pref_key_feedback, new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                onSendFeedBack();
-                return false;
-            }
+        settingsFragment.registerPreferenceClickListener(R.string.pref_key_feedback, preference -> {
+            onSendFeedBack();
+            return false;
         });
-        settingsFragment.registerPreferenceClickListener(R.string.pref_key_privacy_notice, new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                // TODO show privacy notice
-                return false;
-            }
+        settingsFragment.registerPreferenceClickListener(R.string.pref_key_privacy_notice, preference -> {
+            // TODO show privacy notice
+            return false;
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.nav_view_content,settingsFragment).commit();
         onThemeChange();
@@ -222,11 +189,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         // TODO update view model data on click
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            model.getData().getValue().values().forEach(new Consumer<DatabaseStorable>() {
-                @Override
-                public void accept(DatabaseStorable storable) {
-                    if (storable instanceof TaskNote) model.updateData(storable);
-                }
+            model.getData().getValue().values().forEach(storable -> {
+                if (storable instanceof TaskNote) model.updateData(storable);
             });
         }
         Settings.unregisterOnSharedPreferenceListeners(this);

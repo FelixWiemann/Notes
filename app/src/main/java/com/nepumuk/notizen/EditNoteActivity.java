@@ -3,16 +3,13 @@ package com.nepumuk.notizen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -65,19 +62,9 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         // init UI components
         // TODO move buttons to action bar
         Button btSave = findViewById(R.id.btSave);
-        btSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                save();
-            }
-        });
+        btSave.setOnClickListener(v -> save());
         Button discardExit = findViewById(R.id.bt_discard_exit);
-        discardExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                discardAndExit();
-            }
-        });
+        discardExit.setOnClickListener(view -> discardAndExit());
 
         // setup fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -111,12 +98,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         originalData = data.getDataString();
         mViewModel = new ViewModelProvider(this).get(EditNoteViewModel.class);
         mViewModel.setNote(data);
-        mViewModel.observe(this, new Observer<DatabaseStorable>() {
-            @Override
-            public void onChanged(@Nullable DatabaseStorable o) {
-                wasChanged = true;
-            }
-        });
+        mViewModel.observe(this, o -> wasChanged = true);
     }
 
     /**

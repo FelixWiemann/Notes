@@ -31,19 +31,13 @@ public class SwipableRecyclerAdapter<T extends StorageObject> extends SortableRe
     @Override
     public ViewHolderInterface<T> onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
         final SwipableView view = new SwipableView(viewGroup.getContext(), inCompoundAdapter);
-        view.setOnClickListeners(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (OnLeftClick != null) {
-                    OnLeftClick.onClick(v, view);
-                }
+        view.setOnClickListeners(v -> {
+            if (OnLeftClick != null) {
+                OnLeftClick.onClick(v, view);
             }
-        }, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (OnRightClick != null) {
-                    OnRightClick.onClick(v, view);
-                }
+        }, v -> {
+            if (OnRightClick != null) {
+                OnRightClick.onClick(v, view);
             }
         }, new View.OnTouchListener() {
             /**
