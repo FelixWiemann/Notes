@@ -51,7 +51,7 @@ jobs:
     steps:
     - task: PowerShell@2
       env:
-      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
       inputs:
         targetType: 'filePath'
         filePath: '$(System.DefaultWorkingDirectory)/ci/generateReleaseNotes.ps1'
