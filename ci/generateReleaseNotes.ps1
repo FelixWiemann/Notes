@@ -38,7 +38,7 @@ foreach ($WiRelation in $Result.workItemRelations) {
 		}
 	}
 }
-"" | Set-Content -Path $Path
+"<en-US>" | Set-Content -Path $Path
 if ($NewFeatures.Length -gt 0){
 	"#New Features" | Add-Content -Path $Path
 	foreach ($Feature in $NewFeatures) {
@@ -60,3 +60,4 @@ if ($FixedBugs.Length -gt 0){
 		"*" + $Bugfix.SubString(5,$Bugfix.length - 5-6)  | Add-Content -Path $Path
 	}
 }
+"</en-US>" | Add-Content -Path $Path
