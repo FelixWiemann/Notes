@@ -84,10 +84,12 @@ public class SortProviderTest extends AndroidTest{
         assertTrue(SortProvider.SortTasksDone.compare(object4, object2)>0);
         assertTrue(SortProvider.SortTasksDone.compare(object3, object1)<0);
         assertTrue(SortProvider.SortTasksDone.compare(object1, object3)>0);
+        assertTrue( SortProvider.SortTasksDone.compare(object3, object7)>0);
         assertEquals(0, SortProvider.SortTasksDone.compare(object5, object2));
         assertEquals(0, SortProvider.SortTasksDone.compare(object3, object6));
         assertEquals(0, SortProvider.SortTasksDone.compare(object3, object3));
         assertEquals(0, SortProvider.SortTasksDone.compare(object1, object1));
+
 
     }
 
@@ -108,6 +110,7 @@ public class SortProviderTest extends AndroidTest{
         assertTrue(SortProvider.SortByType.compare(object3, object6)<0);
         assertTrue(SortProvider.SortByType.compare(object3, object1)<0);
         assertTrue(SortProvider.SortByType.compare(object1, object3)>0);
+        assertTrue(SortProvider.SortByType.compare(object3, object7)>0);
         assertEquals(0, SortProvider.SortByType.compare(object4, object2));
         assertEquals(0, SortProvider.SortByType.compare(object3, object3));
         assertEquals(0, SortProvider.SortByType.compare(object1, object1));

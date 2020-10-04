@@ -31,7 +31,7 @@ public class SortableObject extends JsonObject {
     /**
      * map to hold all sortables, needs to be private
      */
-    private HashMap<SortCategory<?>, SortAble<?>> sortAbleHashMap = new HashMap<>();
+    private final HashMap<SortCategory<?>, SortAble<?>> sortAbleHashMap = new HashMap<>();
 
 
     SortableObject() {

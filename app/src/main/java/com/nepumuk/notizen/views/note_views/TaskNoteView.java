@@ -21,10 +21,6 @@ public class TaskNoteView extends NoteDisplayView<TaskNote> {
 
     NestedRecyclerView noteViewContainer;
 
-    SortableRecyclerAdapter<BaseTask> adapter;
-
-    NestedScrollView view;
-
     public TaskNoteView(Context context) {
         super(context,R.layout.task_note_view);
     }
@@ -39,40 +35,4 @@ public class TaskNoteView extends NoteDisplayView<TaskNote> {
     public void onShrink() {
     }
 
-    @Override
-    public void update(){
-        super.update();
-        if (isInitialized()) {
-            updateData();
-        }
-    }
-
-    /**
-     * gets called, after the super is initialized.
-     * out your code to initialize the child view in here!
-     */
-    @Override
-    public void onInitialization() {
-        noteViewContainer = findViewById(R.id.lvContentHolder);
-        view = findViewById(R.id.NestedScrollView);
-        view.setNestedScrollingEnabled(false);
-        adapter = new SortableRecyclerAdapter<>(getContent().getTaskList(), 0);
-        adapter.filter(new FilterHideDone());
-        noteViewContainer.setAdapter(adapter);
-        noteViewContainer.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        noteViewContainer.setNestedScrollingEnabled(false);
-        updateData();
-    }
-
-    /**
-     * first clears all views and then adds all tasks of the content
-     */
-    private void updateData(){
-        adapter.replace(getContent().getTaskList());
-        adapter.notifyDataSetChanged();
-        if (adapter.getItemCount()>1) {
-            requestNewLayout(adapter.getItemCount() * 120 + 75);
-        }
-    }
 }

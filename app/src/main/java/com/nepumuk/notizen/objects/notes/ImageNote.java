@@ -15,10 +15,6 @@ import java.util.UUID;
 public class ImageNote extends Note {
 
     private static final String LOG_TAG = "ImageNote";
-    /**
-     * identifier of class
-     */
-    public static String aTYPE = "cImageNote";
 
     /**
      * location of the image of the note

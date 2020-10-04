@@ -46,7 +46,7 @@ public class StoragePackerFactoryTest extends AndroidTest {
 
 
     @Test
-    public void addToIntent() throws Exception {
+    public void addToIntent() {
         Intent prevIntent = new Intent("");
         StorableFactory.addToIntent(prevIntent,null);
 

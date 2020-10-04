@@ -29,7 +29,7 @@ import java.util.UUID;
 
 public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements RequiresFabFragment {
 
-    private static final String TAG = "TaskNoteFragment";
+    private static final String LOG_TAG = "TaskNoteFragment";
     /**
      * task has been created, but not yet added to the taskNote
      */

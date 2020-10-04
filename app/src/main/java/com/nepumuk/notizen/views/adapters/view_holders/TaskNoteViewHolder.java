@@ -15,7 +15,7 @@ import com.nepumuk.notizen.views.adapters.SortableRecyclerAdapter;
 
 public class TaskNoteViewHolder extends ViewHolderInterface<TaskNote> {
 
-    private RecyclerView task;
+    private final RecyclerView task;
 
 
     public TaskNoteViewHolder(@NonNull View itemView) {

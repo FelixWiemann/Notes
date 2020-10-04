@@ -25,9 +25,9 @@ public class BaseTaskTest extends AndroidTest {
 
     private BaseTask task;
 
-    private String title = "title";
-    private String text = "text";
-    private boolean initDoneState = false;
+    private final String title = "title";
+    private final String text = "text";
+    private final boolean initDoneState = false;
 
     @Before
     public void setUp() throws Exception {

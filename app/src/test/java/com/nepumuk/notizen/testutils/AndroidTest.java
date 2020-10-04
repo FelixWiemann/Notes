@@ -38,9 +38,6 @@ public abstract class AndroidTest {
     @Mock
     public Intent mockedIntent;
 
-    @Mock
-    private ResourceManger mockedResources;
-
     public final String ResourcesGetStringValue = "DEFAULT_TEST_STRING";
 
     @CallSuper
@@ -52,10 +49,9 @@ public abstract class AndroidTest {
             /**
              * @param invocation the invocation on the mock.
              * @return the value to be returned
-             * @throws Throwable the throwable to be thrown
              */
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 String TAG = invocation.getArgument(0);
                 String Message = invocation.getArgument(1);
 

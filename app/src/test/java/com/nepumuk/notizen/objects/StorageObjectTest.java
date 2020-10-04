@@ -100,7 +100,6 @@ public class StorageObjectTest extends AndroidTest {
         assertTrue(json.contains("lastChangedDate"));
     }
 
-    @SuppressWarnings("UnconstructableJUnitTestCase")
     @Ignore ("test support class, not to be tested")
     static class StorageObjectImpl extends StorageObject {
         StorageObjectImpl(){
@@ -110,10 +109,6 @@ public class StorageObjectTest extends AndroidTest {
         @Override
         public int getVersion() {
             return 1;
-        }
-        @Test
-        public void test(){
-
         }
     }
 }

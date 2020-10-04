@@ -7,7 +7,6 @@ import com.nepumuk.notizen.objects.StorageObject;
  * but can be used for testing when a DatabaseStorable is needed
  * warnings suppressed, as test class
  */
-@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
 public class DataBaseStorableTestImpl extends StorageObject {
     public static final String DATA_STRING = "{\"lastChangedDate\":1594896550151,\"title\":\"title\",\"creationDate\":1594896550151,\"idString\":\"bb4bb4a3-51e2-4fd4-b96e-5b7a3a132be2\"}";
     public static final String DATA_TYPE = DataBaseStorableTestImpl.class.getCanonicalName();
@@ -29,6 +28,9 @@ public class DataBaseStorableTestImpl extends StorageObject {
      */
     @Override
     public boolean equals(Object that) {
+        if (this.getClass() != that.getClass()){
+            return false;
+        }
         // use hash code, as the content is for all the same
         // (except for the creation, last use times; however they are not reliably different)
         return that.hashCode() == this.hashCode();

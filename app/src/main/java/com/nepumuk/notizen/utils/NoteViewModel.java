@@ -15,18 +15,18 @@ import java.util.HashMap;
  * on creation of an instance, all data will be loaded
  */
 public class NoteViewModel extends ViewModel {
-    private static final String TAG = "NoteViewModel";
+    private static final String LOG_TAG = "NoteViewModel";
 
     /**
      * life data content
      */
-    private MutableLiveData<HashMap<String, DatabaseStorable>> data;
-    private HashMap<String, DatabaseStorable> dataMap;
+    private final MutableLiveData<HashMap<String, DatabaseStorable>> data;
+    private final HashMap<String, DatabaseStorable> dataMap;
 
     /**
      * thread for fetching the data from the Database
      */
-    private Thread dataFetcher;
+    private final Thread dataFetcher;
 
     /**
      * creates an instance of view model containing data stored in the database

@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
@@ -81,7 +82,7 @@ public class EditNoteActivity extends AppCompatActivity implements SaveDataFragm
         // setup fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        NoteDisplayFragment headerFragment = new NoteDisplayHeaderFragment();
+        NoteDisplayFragment<StorageObject> headerFragment = new NoteDisplayHeaderFragment();
         fragmentTransaction.add(R.id.fragmentHeader, headerFragment);
         NoteDisplayFragment fragmentContent = NoteDisplayFragmentFactory.generateFragment(mViewModel.getValue());
         fragmentTransaction.add(R.id.fragmentHolder, fragmentContent);

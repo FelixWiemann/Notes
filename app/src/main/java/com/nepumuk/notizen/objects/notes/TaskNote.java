@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 public class TaskNote extends Note {
 
-    private static final String TASK_NOTE_LOG_TAG = "TaskNote";
+    private static final String LOG_TAG = "TaskNote";
 
     /**
      * list of tasks stored in this note

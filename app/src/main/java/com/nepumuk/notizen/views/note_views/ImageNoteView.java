@@ -14,21 +14,12 @@ public class ImageNoteView extends NoteDisplayView<ImageNote> {
 
     @Override
     public void onExpand() {
-        ((ImageView) findViewById(R.id.image_view_image)).setImageResource(R.drawable.importance1);
     }
 
     @Override
     public void onShrink() {
-        ((ImageView)findViewById(R.id.image_view_image)).setImageResource(R.drawable.importance2);
     }
 
-    /**
-     * gets called, after the super is initialized.
-     * out your code to initialize the child view in here!
-     */
-    @Override
-    public void onInitialization() {
-        onShrink();
-    }
+
 
 }

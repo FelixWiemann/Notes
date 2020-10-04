@@ -10,12 +10,10 @@ public class AbstractAdditionalView extends LinearLayout{
 
     public AbstractAdditionalView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0);
     }
 
     public AbstractAdditionalView(Context context, AttributeSet attrs, int resourceId) {
         super(context, attrs);
-        init(attrs, 0);
         inflateChildView(resourceId);
     }
 
@@ -26,15 +24,7 @@ public class AbstractAdditionalView extends LinearLayout{
 
     public AbstractAdditionalView(Context context, AttributeSet attrs, int defStyle, int resourceId) {
         super(context, attrs, defStyle);
-        init(attrs, defStyle);
         inflateChildView(resourceId);
-    }
-
-    private void init(AttributeSet attrs, int defStyle) {
-        // Load attributes
-        /*final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.cAbstractAdditionalView, defStyle, 0);
-        a.recycle();*/
     }
 
     private void inflateChildView(int resourceId){

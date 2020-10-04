@@ -205,7 +205,7 @@ public class DBDataHandlerTest extends AndroidTest {
      */
     private static class ContentValuesImpl {
 
-        HashMap<String, Object> map = new HashMap<>();
+        final HashMap<String, Object> map = new HashMap<>();
 
         public void put(String key, Object value){
             map.put(key,value);

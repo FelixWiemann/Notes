@@ -19,7 +19,7 @@ public class CompoundAdapter<T extends StorageObject> extends SortableRecyclerAd
     /**
      * List of adapters and the view they need to fill
      */
-    HashMap<BaseRecyclerAdapter<T>, Integer> recyclerAdapters;
+    private final HashMap<BaseRecyclerAdapter<T>, Integer> recyclerAdapters;
 
     private final int ViewId;
 

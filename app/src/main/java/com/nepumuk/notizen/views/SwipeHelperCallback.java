@@ -25,7 +25,7 @@ import static com.nepumuk.notizen.views.SwipeHelperCallback.BUTTON_STATE.GONE;
  */
 public class SwipeHelperCallback extends ItemTouchHelper.Callback {
 
-    private static final String TAG = "NOTES_TOUCH_HELPER";
+    private static final String LOG_TAG = "NOTES_TOUCH_HELPER";
 
     enum BUTTON_STATE {
         GONE, LEFT, RIGHT
@@ -152,7 +152,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
                     // we need to show buttons
                     if (currentButtonState != GONE) {
                         // make sure to be able to undo stuff
-                        setTouchUpListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                        setTouchUpListener(c, recyclerView, viewHolder, dY, actionState, isCurrentlyActive);
                     }
                 }
                 // activate or deactivate the item touch handler of the recycler view depending on button states
@@ -167,7 +167,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
     private void setTouchUpListener(final Canvas c,
                                     final RecyclerView recyclerView,
                                     final RecyclerView.ViewHolder viewHolder,
-                                    final float dX, final float dY,
+                                    final float dY,
                                     final int actionState, final boolean isCurrentlyActive) {
 
         currentCanvas = c;

@@ -25,7 +25,7 @@ public class IdObject extends SortableObject {
     @JsonProperty("title")
     private String mTitle;
 
-    private static final String TAG = IdObject.class.getSimpleName();
+    private static final String LOG_TAG = "IdObject";
 
     /**
      * creates a new object with an id and a title

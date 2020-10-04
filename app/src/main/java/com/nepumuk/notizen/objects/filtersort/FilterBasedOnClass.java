@@ -6,7 +6,7 @@ import com.nepumuk.notizen.objects.SortableObject;
 
 public class FilterBasedOnClass extends ViewFilter {
 
-    private Class clazz;
+    private final Class clazz;
 
     public FilterBasedOnClass(Class clazz){
         super();

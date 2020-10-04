@@ -7,7 +7,7 @@ import com.nepumuk.notizen.views.SwipableView;
 
 public class SwipableViewHolder<T> extends ViewHolderInterface<T> {
 
-    public ViewHolderInterface<T> viewHolderInterface;
+    public final ViewHolderInterface<T> viewHolderInterface;
 
     public SwipableViewHolder(@NonNull View itemView, ViewHolderInterface<T> viewHolderInterface) {
         super(itemView);

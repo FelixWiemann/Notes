@@ -17,7 +17,7 @@ public class Settings {
 
     private static final String INVALID = "INVALID_VALUE";
 
-    private static ArrayList<SharedPreferences.OnSharedPreferenceChangeListener> listeners = new ArrayList<>();
+    private final static ArrayList<SharedPreferences.OnSharedPreferenceChangeListener> listeners = new ArrayList<>();
 
     public static String Get(Context context, @StringRes int resource, String def){
         return PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(resource),def);

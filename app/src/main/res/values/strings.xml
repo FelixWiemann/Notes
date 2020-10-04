@@ -4,22 +4,6 @@
       -->
     <string name="app_name_base">Notes</string>
     <string name="app_name_debug">Notes.DEBUG</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_bla">title</string>
-    <string name="ChangeCatFragmentCatColor"> -65536</string>
-    <string name="ChangeCatFragmentCatDesc">Description</string>
-    <string name="ChangeCatFragmentCatTitle">Title</string>
-    <string name="ChangeFragmentSaveButton">save</string>
-    <string name="TitleCreateNewCategory">create new</string>
-    <string name="FGM_Change_Cat_Title">choose category</string>
-
-    <string name="action_share">Share</string>
-    <string name="action_reply">Reply</string>
-    <string name="toolbar_menu_create_note_save">Save</string>
-    <string name="toolbar_menu_create_note_cancel">Cancel</string>
-    <string name="title_activity_act_new_photo_note">New Photo Note</string>
-    <string name="bt_retake_pic">Retake</string>
-    <string name="bt_cancel_pic">Cancel</string>
 
     <string name="btSave">save</string>
     <string name="list_view_header_text">notes</string>
@@ -30,7 +14,6 @@
     <string name="unchanged_data">Data has been changed without a save, what do you want to do?</string>
     <string name="save_and_exit">save</string>
     <string name="discard_exit">discard</string>
-    <string name="title_activity_test_acitivity" translatable="false">testAcitivity</string>
 
     <!--image content descriptions-->
     <string name="image_exclamation_mark">exclamation mark</string>
@@ -41,7 +24,6 @@
     <string name="content_create_text_note">create a note</string>
     <string name="content_create_task_note">create a note with tasks</string>
     <string name="content_add_task">add a task</string>
-    <string name="content_note_title">title of the note</string>
     <string name="content_note_message">content of the note</string>
     <string name="content_note_tasks">tasks of the note</string>
     <string name="content_task_title">title of the task</string>
@@ -75,7 +57,5 @@
     <string name="preference_name_theme_system" >Use system settings</string>
     <string name="preference_name_theme_dark" >dark theme</string>
     <string name="preference_name_theme_light" >light theme</string>
-    <string name="preference_title_exception_test" translatable="false">Test Exception</string>
-    <string name="preference_summary_exception_test" translatable="false">throws a test exception to crash the system</string>
 
 </resources>

@@ -13,7 +13,7 @@ import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 import java.util.List;
 
 public class SwipableRecyclerAdapter<T extends StorageObject> extends SortableRecyclerAdapter<T> {
-    private String TAG = "ADAPTER";
+    private String LOG_TAG = "ADAPTER";
 
 
     public OnSwipeableClickListener OnLeftClick;

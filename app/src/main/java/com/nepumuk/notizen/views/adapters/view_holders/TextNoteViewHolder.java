@@ -10,7 +10,7 @@ import com.nepumuk.notizen.utils.ResourceManger;
 
 public class TextNoteViewHolder extends ViewHolderInterface<TextNote> {
 
-    TextView message ;
+    private final TextView message ;
 
     public TextNoteViewHolder(@NonNull View itemView) {
         super(itemView);

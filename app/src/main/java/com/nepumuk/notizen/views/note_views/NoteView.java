@@ -12,8 +12,6 @@ import com.nepumuk.notizen.objects.notes.TextNote;
 
 public class NoteView extends NoteDisplayView<TextNote> {
 
-    TextView messageView;
-
     public NoteView(Context context) {
         super(context,R.layout.note_view);
     }
@@ -25,23 +23,4 @@ public class NoteView extends NoteDisplayView<TextNote> {
     @Override
     public void onShrink() {
     }
-
-    @Override
-    public void update(){
-        super.update();
-        if (isInitialized()) {
-            messageView.setText(this.getContent().getMessage());
-        }
-    }
-
-    /**
-     * gets called, after the super is initialized.
-     * out your code to initialize the child view in here!
-     */
-    @Override
-    public void onInitialization() {
-        messageView = findViewById(R.id.note_view_tv);
-        messageView.setText(this.getContent().getMessage());
-    }
-
 }

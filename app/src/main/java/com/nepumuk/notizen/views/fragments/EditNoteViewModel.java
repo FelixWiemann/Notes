@@ -16,7 +16,7 @@ import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
  */
 public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
 
-    private MutableLiveData<T> note = new MutableLiveData<>();
+    private final MutableLiveData<T> note = new MutableLiveData<>();
 
     public void setNote(T note) {
         this.note.setValue(note);

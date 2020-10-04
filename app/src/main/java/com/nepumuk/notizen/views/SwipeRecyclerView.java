@@ -18,7 +18,7 @@ import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE;
 
 public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerView {
 
-    private static final String TAG = "NOTESRECYCLER";
+    private static final String LOG_TAG = "NOTESRECYCLER";
 
     /**
      * whether the swipe menu is active
@@ -57,7 +57,7 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
         setLayoutManager(layoutManager);
         // divider decoration
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
-        dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.rv_line_divider));
+        dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.rv_line_divider, null));
         this.addItemDecoration(dividerItemDecoration);
     }
 

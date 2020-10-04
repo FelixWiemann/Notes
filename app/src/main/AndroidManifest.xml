@@ -9,20 +9,6 @@
         android:supportsRtl="false">
         <!-- RTL support once translations are available -->
         <activity
-            android:name=".testAcitivity"
-            android:label="@string/title_activity_test_acitivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
-        <activity
             android:name=".EditNoteActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize">

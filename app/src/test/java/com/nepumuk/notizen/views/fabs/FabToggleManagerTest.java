@@ -18,7 +18,7 @@ public class FabToggleManagerTest {
     FabToggleManager toggleManager;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         toggleManager = new FabToggleManager();
         fabMock = mock(FloatingActionButton.class);
     }

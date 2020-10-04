@@ -28,7 +28,7 @@ public class NoteDisplayViewFactory {
 
     private static NoteDisplayViewFactory instance;
 
-    private HashMap<Class<?>, Class <? extends NoteDisplayView<?>>> objectToDisplayView;
+    private final HashMap<Class<?>, Class <? extends NoteDisplayView<?>>> objectToDisplayView;
 
     private NoteDisplayViewFactory() {
         super();
@@ -54,10 +54,6 @@ public class NoteDisplayViewFactory {
 
     private void registerNewDisplayObject(Class<? extends StorageObject> objectClass, Class<? extends NoteDisplayView<?>> displayClass){
         objectToDisplayView.put(objectClass, displayClass);
-    }
-
-    public static NoteDisplayViewFactory getInstance(){
-        return instance;
     }
 
     public static NoteDisplayView<?> getView(Context context, StorageObject object){

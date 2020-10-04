@@ -10,7 +10,7 @@ import com.nepumuk.notizen.utils.ResourceManger;
 
 public class TitleViewHolder<T extends StorageObject> extends ViewHolderInterface<T> {
 
-    TextView title;
+    private final TextView title;
 
     public TitleViewHolder(@NonNull View itemView) {
         super(itemView);

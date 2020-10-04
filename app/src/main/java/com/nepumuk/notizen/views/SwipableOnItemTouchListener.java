@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 public class SwipableOnItemTouchListener extends RecyclerView.SimpleOnItemTouchListener {
 
-    private View.OnTouchListener onTouchListener;
-    private static final String TAG="RecyclerView.SimpleOnItemTouch";
+    private final View.OnTouchListener onTouchListener;
+    private static final String LOG_TAG="RecyclerView.SimpleOnItemTouch";
     private float tapDistance ;
     private boolean initialized = false;
 
@@ -39,6 +39,7 @@ public class SwipableOnItemTouchListener extends RecyclerView.SimpleOnItemTouchL
         boolean childIntercept = false;
         boolean inter = false;
         if (!initialized) {
+            // TODO proper, device independent handling based on ViewConfiguration
             int mSlop = vc.getScaledTouchSlop();
             float scale = rv.getContext().getResources().getDisplayMetrics().density;
             tapDistance = 10; //(int) (mSlop * scale + 0.5f);

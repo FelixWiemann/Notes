@@ -15,9 +15,9 @@ import com.nepumuk.notizen.utils.ResourceManger;
  */
 public class TaskViewHolder extends ViewHolderInterface<BaseTask>{
 
-    private TextView title;
-    private TextView message;
-    private CheckBox done;
+    private final TextView title;
+    private final TextView message;
+    private final CheckBox done;
 
 
     public TaskViewHolder(@NonNull View itemView) {

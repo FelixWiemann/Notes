@@ -34,7 +34,7 @@ public class ViewHolderFactoryTest {
         Integer type = UNKNOWN_TYPE;
         View v = mock(View.class);
         // when; expecting error
-        ViewHolderInterface inter = ViewHolderFactory.getNewViewHolderInstance(type,v);
+        ViewHolderFactory.getNewViewHolderInstance(type,v);
         // then
 
     }

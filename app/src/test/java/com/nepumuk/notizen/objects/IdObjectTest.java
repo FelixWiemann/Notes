@@ -15,13 +15,12 @@ import static org.junit.Assert.assertTrue;
  * Created as part of notes in package com.nepumuk.notizen.test.FrontEnd
  * by Felix "nepumuk" Wiemann on 29/04/17.
  */
-@SuppressWarnings("unused")
 public class IdObjectTest extends AndroidTest {
 
     private IdObject object;
 
     private String idString;
-    private String testTitle = "test title";
+    private final String testTitle = "test title";
 
     @Before
     public void setUp() throws Exception {
@@ -45,7 +44,7 @@ public class IdObjectTest extends AndroidTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void setId() throws Exception {
+    public void setId() {
         String ID_string = UUID.randomUUID().toString();
         object.setId(UUID.fromString(ID_string));
     }

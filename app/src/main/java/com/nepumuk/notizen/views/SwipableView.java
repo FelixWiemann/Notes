@@ -20,7 +20,7 @@ import com.nepumuk.notizen.R;
  */
 public class SwipableView extends RelativeLayout{
 
-    private static final String TAG = "SWIPABLEVIEW";
+    private static final String LOG_TAG = "SWIPABLEVIEW";
     /**
      * background view on the left
      */
@@ -110,18 +110,6 @@ public class SwipableView extends RelativeLayout{
             mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             Placeholder.addView(MainView);
         }
-    }
-
-    /**
-     * setter for animation for swiping/moving the main view out of the way
-     * @param newX new x position of the main view
-     */
-    public void setMainX(float newX){
-        if (MainView != null){
-            MainView.setX(newX);
-        }
-        // show the background views based on position
-        showBackground(newX);
     }
 
     /**

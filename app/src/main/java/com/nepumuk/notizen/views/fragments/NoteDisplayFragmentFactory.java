@@ -22,7 +22,7 @@ public class NoteDisplayFragmentFactory {
 
     private static NoteDisplayFragmentFactory factory;
 
-    private HashMap<Class<? extends DatabaseStorable>, Class <? extends NoteDisplayFragment>> storableToFragment;
+    private final HashMap<Class<? extends DatabaseStorable>, Class <? extends NoteDisplayFragment>> storableToFragment;
 
     private NoteDisplayFragmentFactory() {
         super();
@@ -35,7 +35,7 @@ public class NoteDisplayFragmentFactory {
         storableToFragment.put(storableType, fragmentType);
     }
 
-    private NoteDisplayFragment getFragmentForStorableType(Class<? extends DatabaseStorable> storableType) throws InstantiationException, IllegalAccessException {
+    private NoteDisplayFragment<DatabaseStorable> getFragmentForStorableType(Class<? extends DatabaseStorable> storableType) throws InstantiationException, IllegalAccessException {
         if (storableToFragment.containsKey(storableType)) {
             return storableToFragment.get(storableType).newInstance();
         }
@@ -56,11 +56,11 @@ public class NoteDisplayFragmentFactory {
      * @param noteType storable for which a Fragment needs to be created
      * @return generated Fragment
      */
-    public static NoteDisplayFragment generateFragment(DatabaseStorable noteType){
+    public static NoteDisplayFragment<DatabaseStorable> generateFragment(DatabaseStorable noteType){
         if (factory == null){
             factory = new NoteDisplayFragmentFactory();
         }
-        NoteDisplayFragment fragment = null;
+        NoteDisplayFragment<DatabaseStorable> fragment = null;
         try {
             fragment = factory.getFragmentForStorableType(noteType.getClass());
         } catch (InstantiationException | IllegalAccessException e) {

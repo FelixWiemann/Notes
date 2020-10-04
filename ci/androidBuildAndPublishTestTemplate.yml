@@ -21,7 +21,6 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'clean assemble${{parameters.BUILD_TYPE}} jacocoTest${{parameters.BUILD_TYPE}}UnitTestReport'
 
-# TODO publish code coverage again
 - task: PublishCodeCoverageResults@1
   condition: always()
   inputs:

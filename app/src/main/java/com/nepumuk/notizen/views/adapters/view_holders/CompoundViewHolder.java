@@ -30,21 +30,28 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
          * State = -1
          */
         FIRSTINFLATE(-1);
-        public int State;
+
+        /**
+         * state of the enum value
+         * 1 = expanded
+         * 0 = shrinked
+         * -1 =  first time inflated
+         */
+        public final int State;
         ExpandState(int state){
             State = state;
         }
     }
 
-    private int aSizeUnExpanded = 200;
-    private int aSizeExpanded = 650;
+    private final int aSizeUnExpanded = 200;
+    private final int aSizeExpanded = 650;
 
 
     ExpandState currentState = ExpandState.FIRSTINFLATE;
 
-    private HashMap<Class,ViewHolderInterface<T>> interfaces;
+    private final HashMap<Class,ViewHolderInterface<T>> interfaces;
 
-    private Button expandButton;
+    private final Button expandButton;
 
 
     public CompoundViewHolder(@NonNull View itemView) {

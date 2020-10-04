@@ -25,8 +25,8 @@ public class ViewHolderFactory {
 
     private static ViewHolderFactory instance;
 
-    private HashMap<Integer , Class<? extends ViewHolderInterface>> typeToViewHolder;
-    private HashMap<Class<? extends DatabaseStorable>, Integer > classToType;
+    private final HashMap<Integer , Class<? extends ViewHolderInterface>> typeToViewHolder;
+    private final HashMap<Class<? extends DatabaseStorable>, Integer > classToType;
 
     /**
      * a type unknown to the factory is represented by this constant

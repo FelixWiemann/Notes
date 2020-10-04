@@ -40,7 +40,6 @@ public class NoteViewModelTest extends AndroidTest {
     DatabaseStorable storable3;
     HashMap<String, DatabaseStorable> storables;
     MutableLiveData<HashMap<String, DatabaseStorable>> liveData;
-    NoteViewModel.helper helper;
 
     @Before
     public void setUp() throws Exception {
@@ -48,7 +47,6 @@ public class NoteViewModelTest extends AndroidTest {
         // init mocks
         handler = mock(DbDataHandler.class);
         liveData = mock(MutableLiveData.class);
-        helper = mock(NoteViewModel.helper.class);
 
         // create a list stored in Database
         storables = new HashMap<>();

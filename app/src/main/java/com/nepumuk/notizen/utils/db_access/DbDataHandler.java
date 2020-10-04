@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  */
 public class DbDataHandler {
     private static final String TAG = "DB DataHandler";
-    private DbHelper aHelper;
+    private final DbHelper aHelper;
 
     /**
      * create a handler
