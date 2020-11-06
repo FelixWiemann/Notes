@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.nepumuk.notizen.views.adapters.view_holders.CompoundViewHolder;

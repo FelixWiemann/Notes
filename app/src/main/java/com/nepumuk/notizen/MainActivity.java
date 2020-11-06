@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.objects.StorageObject;
@@ -33,6 +34,7 @@ import com.nepumuk.notizen.views.adapters.BaseRecyclerAdapter;
 import com.nepumuk.notizen.views.adapters.CompoundAdapter;
 import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 import com.nepumuk.notizen.views.adapters.TitleAdapter;
+import com.nepumuk.notizen.views.adapters.view_holders.CompoundViewHolder;
 import com.nepumuk.notizen.views.fabs.FabSpawnerFab;
 
 import java.util.ArrayList;
@@ -106,9 +108,18 @@ public class MainActivity extends AppCompatActivity {
         adapter.sort(SortProvider.SortByType);
         recyclerView.setAdapter(adapter);
         // TODO this item touch helper blocks scrolling of inner recycler views...
-        recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener((v, e) -> {
-            currentEditedNoteIndex = recyclerView.getChildAdapterPosition(recyclerView.findChildViewUnder(e.getX(),e.getY()));
-            if (currentEditedNoteIndex==-1) return false;
+        recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener(recyclerView,(e) -> {
+            View childView = recyclerView.findChildViewUnder(e.getX(),e.getY());
+            currentEditedNoteIndex = recyclerView.getChildAdapterPosition(childView);
+            // no view, do nothing
+            if (currentEditedNoteIndex== RecyclerView.NO_POSITION) return false;
+
+            CompoundViewHolder holder = (CompoundViewHolder) recyclerView.getChildViewHolder(childView);
+            if (holder.invertWasClicked){
+                // supress view click if invert was clicked
+                holder.invertWasClicked = false;
+                return false;
+            }
             StorageObject task = adapter.getItem(currentEditedNoteIndex);
             callEditNoteActivityForResult(task);
             return false;

@@ -47,6 +47,8 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
     private final int aSizeExpanded = 650;
 
 
+    public boolean invertWasClicked = false;
+
     ExpandState currentState = ExpandState.FIRSTINFLATE;
 
     private final HashMap<Class,ViewHolderInterface<T>> interfaces;
@@ -96,8 +98,10 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
      * inverts the shrinking state
      */
     private void invertShrink(){
+        invertWasClicked = true;
         if (currentState== ExpandState.FIRSTINFLATE){
             currentState = ExpandState.EXPANDED;
+            invertWasClicked = false;
         }
         if (currentState == ExpandState.EXPANDED){
             setHeight(aSizeUnExpanded);

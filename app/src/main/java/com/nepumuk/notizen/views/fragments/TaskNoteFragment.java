@@ -67,26 +67,15 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
             deleteTask(task);
             taskHolder.resetSwipeState();
         };
-        taskHolder.addOnItemTouchListener(new SwipableOnItemTouchListener(new View.OnTouchListener() {
-
-            /**
-             * Called when a touch event is dispatched to a view. This allows listeners to
-             * get a chance to respond before the target view.
-             *
-             * @param v     The view the touch event has been dispatched to.
-             * @param e The MotionEvent object containing full information about
-             *              the event.
-             * @return True if the listener has consumed the event, false otherwise.
-             */
-            @Override
-            public boolean onTouch(View v, MotionEvent e) {
-                currentEditedNoteIndex = taskHolder.getChildAdapterPosition(taskHolder.findChildViewUnder(e.getX(),e.getY()));
-                if (currentEditedNoteIndex==-1) return true;
+        taskHolder.addOnItemTouchListener(new SwipableOnItemTouchListener(taskHolder, (e)->
+            {
+                currentEditedNoteIndex = taskHolder.getChildAdapterPosition(taskHolder.findChildViewUnder(e.getX(), e.getY()));
+                if (currentEditedNoteIndex == -1) return true;
                 BaseTask task = adapter.getItem(currentEditedNoteIndex);
                 callEditTaskFragment(task);
                 return false;
-            }
-        }));
+            })
+        );
         return v;
     }
 
