@@ -28,11 +28,11 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-@PrepareForTest({DbDataHandler.class, NoteViewModel.class})
-public class NoteViewModelTest extends AndroidTest {
+@PrepareForTest({DbDataHandler.class, MainViewModel.class})
+public class MainViewModelTest extends AndroidTest {
 
     DbDataHandler handler;
-    NoteViewModel modelUnderTest;
+    MainViewModel modelUnderTest;
     DatabaseStorable storable1;
     DatabaseStorable storable2;
     DatabaseStorable storable3;
@@ -60,7 +60,7 @@ public class NoteViewModelTest extends AndroidTest {
 
         // init handler
         when(handler.read()).thenReturn(new ArrayList<>(storables.values()));
-        mockStatic(NoteViewModel.helper.class, invocation -> {
+        mockStatic(MainViewModel.helper.class, invocation -> {
             switch (invocation.getMethod().getName()){
                 case "getLiveData":
                     return liveData;
@@ -71,7 +71,7 @@ public class NoteViewModelTest extends AndroidTest {
             return null;
         });
 
-        modelUnderTest = new NoteViewModel();
+        modelUnderTest = new MainViewModel();
 
         when(liveData.getValue()).thenReturn(storables);
         // wait for the loading to finish
@@ -108,7 +108,7 @@ public class NoteViewModelTest extends AndroidTest {
     @Test
     public void updateOrCreateKnown() {
         // given
-        NoteViewModel modelSpy = spy(modelUnderTest);
+        MainViewModel modelSpy = spy(modelUnderTest);
         // when
         modelSpy.updateOrCreate(storable1);
         // then
@@ -118,7 +118,7 @@ public class NoteViewModelTest extends AndroidTest {
     @Test
     public void updateOrCreateUnKnown() {
         // given
-        NoteViewModel modelSpy = spy(modelUnderTest);
+        MainViewModel modelSpy = spy(modelUnderTest);
         DatabaseStorable storableMock = mock(DatabaseStorable.class);
         when(storableMock.getId()).thenReturn(UUID.randomUUID().toString());
         // when

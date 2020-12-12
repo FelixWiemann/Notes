@@ -8,8 +8,8 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical">
-        <include layout="@layout/activity_main_content"/>
+        android:orientation="vertical"
+        android:id="@+id/main_fragment_placeholder">
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

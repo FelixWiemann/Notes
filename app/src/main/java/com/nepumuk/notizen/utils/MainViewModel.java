@@ -14,7 +14,7 @@ import java.util.HashMap;
  * View Model that contains all views stored in the database
  * on creation of an instance, all data will be loaded
  */
-public class NoteViewModel extends ViewModel {
+public class MainViewModel extends ViewModel {
     private static final String LOG_TAG = "NoteViewModel";
 
     /**
@@ -34,7 +34,7 @@ public class NoteViewModel extends ViewModel {
      * <p>
      * a Map with no data in it will be already added before fetching, so no null pointer here
      */
-    public NoteViewModel() {
+    public MainViewModel() {
         super();
         data = helper.getLiveData();
         dataMap = new HashMap<>();

@@ -22,11 +22,21 @@ public class Settings {
     public static String Get(Context context, @StringRes int resource, String def){
         return PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(resource),def);
     }
-    public static Boolean Get(Context context, @StringRes int resource, boolean def){
+    public static Boolean Get(Context context, @StringRes int resource, Boolean def){
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(resource),def);
     }
-    public static Integer Get(Context context, @StringRes int resource, int def){
+    public static Integer Get(Context context, @StringRes int resource, Integer def){
         return PreferenceManager.getDefaultSharedPreferences(context).getInt(context.getString(resource),def);
+    }
+
+    public static String Get(Context context, String resource, String def){
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(resource,def);
+    }
+    public static Boolean Get(Context context, String resource, Boolean def){
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(resource,def);
+    }
+    public static Integer Get(Context context, String resource, Integer def){
+        return PreferenceManager.getDefaultSharedPreferences(context).getInt(resource,def);
     }
 
     public static boolean Is(Context context, @StringRes int prefResource, @StringRes int value){
@@ -43,5 +53,4 @@ public class Settings {
             PreferenceManager.getDefaultSharedPreferences(context).unregisterOnSharedPreferenceChangeListener(listener);
         }
     }
-
 }
