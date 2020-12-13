@@ -57,10 +57,10 @@ public abstract class NoteDisplayFragment<T extends DatabaseStorable> extends Fr
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         // get the view model of the parent activity
-        mViewModel = new ViewModelProvider(getActivity()).get(EditNoteViewModel.class);
+        mViewModel = new ViewModelProvider(getParentFragment()).get(EditNoteViewModel.class);
         // let this observe the view model
         mViewModel.observe(this, updatedData -> {
             // since we are updating based on the changed data, set the state
@@ -69,6 +69,12 @@ public abstract class NoteDisplayFragment<T extends DatabaseStorable> extends Fr
             // and reset after update
             updatingUI = false;
         });
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     /**

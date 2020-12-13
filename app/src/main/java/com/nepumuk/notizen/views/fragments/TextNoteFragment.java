@@ -1,14 +1,15 @@
 package com.nepumuk.notizen.views.fragments;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.notes.TextNote;
@@ -28,9 +29,9 @@ public class TextNoteFragment extends  NoteDisplayFragment<TextNote>{
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        EditText tv = getView().findViewById(R.id.ndf_tv);
+    public void onViewCreated(View view,
+                              Bundle savedInstanceState) {
+        EditText tv = view.findViewById(R.id.ndf_tv);
         tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

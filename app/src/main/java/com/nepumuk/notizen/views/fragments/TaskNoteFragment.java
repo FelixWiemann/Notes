@@ -1,9 +1,9 @@
 package com.nepumuk.notizen.views.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -96,8 +96,8 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
         // get the view model of the parent activity
         taskViewModel = new ViewModelProvider(TaskNoteFragment.this).get(EditNoteViewModel.class);
         // let this observe the view model

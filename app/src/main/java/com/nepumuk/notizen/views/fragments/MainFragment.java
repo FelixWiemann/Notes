@@ -56,12 +56,11 @@ public class MainFragment extends Fragment {
 
     public static final int REQUEST_EDIT_NOTE = 1;
     public int currentEditedNoteIndex = 0;
+    private boolean deleteWasClicked = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View content =  inflater.inflate(R.layout.activity_main_content, container, false);
-
-
         initFragment(content);
         return content;
     }
@@ -92,10 +91,11 @@ public class MainFragment extends Fragment {
         SwipableRecyclerAdapter<StorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true, R.layout.swipable_left, R.layout.swipable_right);
         swipeAdapter.OnLeftClick = (clickedOn, parentView) -> {
             currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
-            if (currentEditedNoteIndex==-1) return;
+            if (currentEditedNoteIndex == RecyclerView.NO_POSITION) return;
             StorageObject task = adapter.getItem(currentEditedNoteIndex);
             model.deleteData(task);
             recyclerView.resetSwipeState();
+            deleteWasClicked = true;
         };
         adapter.registerAdapter(swipeAdapter,R.id.compound_content);
         final NoteListViewHeaderView headerView = content.findViewById(R.id.headerView);
@@ -128,8 +128,11 @@ public class MainFragment extends Fragment {
         adapter.filter(new FilterShowAll());
         adapter.sort(SortProvider.SortByType);
         recyclerView.setAdapter(adapter);
-        // TODO this item touch helper blocks scrolling of inner recycler views...
         recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener(recyclerView,(e) -> {
+            if (deleteWasClicked){
+                deleteWasClicked = false;
+                return false;
+            }
             View childView = recyclerView.findChildViewUnder(e.getX(),e.getY());
             currentEditedNoteIndex = recyclerView.getChildAdapterPosition(childView);
             // no view, do nothing
