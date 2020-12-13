@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,7 +45,7 @@ import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends NavHostFragment {
 
     private static final String TAG = "MainFragment";
 
@@ -145,7 +145,7 @@ public class MainFragment extends Fragment {
                 return false;
             }
             StorageObject task = adapter.getItem(currentEditedNoteIndex);
-            callEditNoteActivityForResult(task);
+            callEditNoteActivityForResult(recyclerView, task);
             return false;
         }));
 
@@ -154,7 +154,7 @@ public class MainFragment extends Fragment {
         FloatingActionButton fab =  content.findViewById(R.id.fab_text_note);
         fab.setOnClickListener(view -> {
             // TODO make sure a text note is created
-            callEditNoteActivityForResult();
+            callEditNoteActivityForResult(view);
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
@@ -163,7 +163,7 @@ public class MainFragment extends Fragment {
             ArrayList<BaseTask> list12 = new ArrayList<>();
             // TODO use string resources
             TaskNote testNote = new TaskNote(UUID.randomUUID(),"", list12);
-            callEditNoteActivityForResult(testNote);
+            callEditNoteActivityForResult(view, testNote);
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
@@ -175,19 +175,26 @@ public class MainFragment extends Fragment {
      * calles the edit note activity with a null-note and thus creating a new one,
      * as defined in the currently set DefaultStorable {@link StorableFactory#getDefaultStorable()}
      */
-    private void callEditNoteActivityForResult(){
+    private void callEditNoteActivityForResult(View view){
         // create a new default text note and directly edit it.
-        callEditNoteActivityForResult(new DefaultTextNoteStrategy().createDefault());
+        callEditNoteActivityForResult(view, new DefaultTextNoteStrategy().createDefault());
     }
 
     /**
      * calls the edit note activity with the given note for editing purposes
      * @param storable note to be edited
      */
-    public void callEditNoteActivityForResult(DatabaseStorable storable){
+    public void callEditNoteActivityForResult(View v, DatabaseStorable storable) {
         Intent intent = new Intent(getContext(), EditNoteActivity.class);
         intent = StorableFactory.addToIntent(intent, storable);
         startActivityForResult(intent,REQUEST_EDIT_NOTE);
+        /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragmentManager().findFragmentById(R.id.main_fragment_placeholder);
+
+        NavController navController = navHostFragment.getNavController();
+        NavDirections action = MainFragmentDirections.actionMainFragmentToEditNoteFragment();
+        Navigation.findNavController(v).navigate(action);
+        NavBackStackEntry entry = navController.getBackStackEntry(R.id.editNoteFragment);
+        new ViewModelProvider(entry).get(EditNoteViewModel.class).setNote(storable);*/
     }
 
 

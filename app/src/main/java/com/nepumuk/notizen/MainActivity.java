@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.objects.notes.TaskNote;
@@ -18,7 +16,6 @@ import com.nepumuk.notizen.utils.ContextManager;
 import com.nepumuk.notizen.utils.ContextManagerException;
 import com.nepumuk.notizen.utils.MainViewModel;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.views.fragments.MainFragment;
 
 import java.util.UUID;
 
@@ -35,21 +32,15 @@ public class MainActivity extends AppCompatActivity {
         } catch (ContextManagerException e) {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
+
+        setContentView(R.layout.activity_main);
         // create settings
         SettingsFragment settingsFragment = new SettingsFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.nav_view_content,settingsFragment).commit();
 
-        // setup main fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        MainFragment mainFragment = new MainFragment();
-        fragmentTransaction.add(R.id.main_fragment_placeholder, mainFragment);
-        fragmentTransaction.commit();
-
         model = new ViewModelProvider(this).get(MainViewModel.class);
-        setContentView(R.layout.activity_main);
         DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(getIntent());
-        if (fromIntent != null) mainFragment.callEditNoteActivityForResult(fromIntent);
+        //if (fromIntent != null) mainFragment.callEditNoteActivityForResult(fromIntent);
     }
 
 
