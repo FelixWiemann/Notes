@@ -56,6 +56,13 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         return content;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        loadData();
+    }
+
     /**
      * Called when a fragment is first attached to its context.
      * {@link #onCreate(Bundle)} will be called after this.
@@ -65,9 +72,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
     }
-
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -78,7 +83,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     }
 
     public void discardAndExit() {
-        getActivity().onBackPressed();
+        mViewModel.getSaveState().save = false;
     }
 
     @Override
@@ -102,7 +107,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      * loads the data from the intent and initializes the view model
      */
     private void loadData(){
-        Intent intent = getActivity().getIntent();
+        /*Intent intent = getActivity().getIntent();
         DatabaseStorable data = null;
         try {
             data = StorableFactory.storableFromIntent(intent);
@@ -112,11 +117,20 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         }
         if (data == null){
             data = new TextNote(UUID.randomUUID(),"" , "");
-        }
-        originalData = data.getDataString();
-        mViewModel = new ViewModelProvider(this).get(EditNoteViewModel.class);
-        mViewModel.setNote(data);
+        }*/
+
+       // originalData = data.getDataString();
+        mViewModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
+        //mViewModel.setNote(data);
         mViewModel.observe(this, o -> wasChanged = true);
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        NoteDisplayFragment<StorageObject> headerFragment = new NoteDisplayHeaderFragment();
+        fragmentTransaction.add(R.id.fragmentHeader, headerFragment);
+        NoteDisplayFragment fragmentContent = NoteDisplayFragmentFactory.generateFragment(mViewModel.getValue());
+        fragmentTransaction.add(R.id.fragmentHolder, fragmentContent);
+        fragmentTransaction.commit();
     }
 
     /**
@@ -126,13 +140,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     private void initFragment(@NonNull View content){
 
         // setup fragments
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        NoteDisplayFragment<StorageObject> headerFragment = new NoteDisplayHeaderFragment();
-        fragmentTransaction.add(R.id.fragmentHeader, headerFragment);
-        NoteDisplayFragment fragmentContent = NoteDisplayFragmentFactory.generateFragment(mViewModel.getValue());
-        fragmentTransaction.add(R.id.fragmentHolder, fragmentContent);
-        fragmentTransaction.commit();
+
         if (fabToBeProvided == null){
             fabToBeProvided = content.findViewById(R.id.provided_fab);
             fabToBeProvided.hide();
@@ -168,9 +176,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      * setting the result of the currently stored data in the view model
      */
     private void save(){
-        Intent result = StorableFactory.addToIntent(new Intent(),mViewModel.getValue());
-        getActivity().setResult(AppCompatActivity.RESULT_OK, result);
-        getActivity().finish();
+        mViewModel.getSaveState().save = true;
     }
 
 }

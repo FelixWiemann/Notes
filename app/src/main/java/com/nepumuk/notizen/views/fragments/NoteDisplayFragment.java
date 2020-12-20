@@ -60,12 +60,12 @@ public abstract class NoteDisplayFragment<T extends DatabaseStorable> extends Fr
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // get the view model of the parent activity
-        mViewModel = new ViewModelProvider(getParentFragment()).get(EditNoteViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
         // let this observe the view model
         mViewModel.observe(this, updatedData -> {
             // since we are updating based on the changed data, set the state
             updatingUI = true;
-            updateUI(updatedData);
+            updateUI(updatedData.data);
             // and reset after update
             updatingUI = false;
         });

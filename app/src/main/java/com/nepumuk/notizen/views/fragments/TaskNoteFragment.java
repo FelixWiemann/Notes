@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.R;
@@ -99,11 +100,15 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // get the view model of the parent activity
-        taskViewModel = new ViewModelProvider(TaskNoteFragment.this).get(EditNoteViewModel.class);
+        taskViewModel = new ViewModelProvider(this).get(EditNoteViewModel.class);
         // let this observe the view model
-        taskViewModel.observe(this, this::updateTask);
+        taskViewModel.observe(this, data-> {
+            data.save = true;
+            if (data.save) {
+                updateTask(data.data);
+            }
+        });
     }
-
 
     /**
      * update the displayed task note with the given task
@@ -130,7 +135,9 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
 
     private void callEditTaskFragment(BaseTask taskToEdit){
         taskViewModel.setNote(taskToEdit);
-        CreateTaskDialogFragment fragment = new CreateTaskDialogFragment();
+        CreateTaskDialogFragment fragment = new CreateTaskDialogFragment(this);
+        /*getChildFragmentManager().setFragmentResultListener("CREATE_TASK", this, (requestKey, result) -> {
+        });*/
         fragment.setTargetFragment(this,1337);
         fragment.show(getParentFragmentManager(), "CREATE_TASK");
     }

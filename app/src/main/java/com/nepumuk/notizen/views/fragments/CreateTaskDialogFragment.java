@@ -12,7 +12,9 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
@@ -29,6 +31,11 @@ public class CreateTaskDialogFragment extends DialogFragment {
     private boolean isUpdate = false;
     private boolean isTyping = false;
 
+    public CreateTaskDialogFragment(ViewModelStoreOwner owner){
+        super();
+        taskViewModel = new ViewModelProvider(owner).get(EditNoteViewModel.class);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,7 +46,6 @@ public class CreateTaskDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        taskViewModel = new ViewModelProvider(getTargetFragment()).get(EditNoteViewModel.class);
         textTaskTitle = view.findViewById(R.id.task_title);
         taskViewModel.observe(this, task -> {
             if (task ==null) return;
@@ -48,8 +54,8 @@ public class CreateTaskDialogFragment extends DialogFragment {
                 return;
             }
             isUpdate = true;
-            textTaskMessage.setText(task.getText());
-            textTaskTitle.setText(task.getTitle());
+            textTaskMessage.setText(task.data.getText());
+            textTaskTitle.setText(task.data.getTitle());
             isUpdate = false;
         });
 

@@ -1,7 +1,6 @@
 package com.nepumuk.notizen.views.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,14 +10,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.nepumuk.notizen.EditNoteActivity;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
-import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.objects.notes.TaskNote;
@@ -43,15 +42,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static android.app.Activity.RESULT_OK;
-
 public class MainFragment extends NavHostFragment {
 
     private static final String TAG = "MainFragment";
 
 
     private SwipeRecyclerView recyclerView;
-    private MainViewModel model;
+    private MainViewModel mainViewModel;
 
 
     public static final int REQUEST_EDIT_NOTE = 1;
@@ -81,7 +78,7 @@ public class MainFragment extends NavHostFragment {
      * @param content already created content view
      */
     private void initFragment(@NonNull View content){
-        model = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         // setup views
         recyclerView = content.findViewById(R.id.adapterView);
         ArrayList<StorageObject> list = new ArrayList<>();
@@ -93,14 +90,14 @@ public class MainFragment extends NavHostFragment {
             currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
             if (currentEditedNoteIndex == RecyclerView.NO_POSITION) return;
             StorageObject task = adapter.getItem(currentEditedNoteIndex);
-            model.deleteData(task);
+            mainViewModel.deleteData(task);
             recyclerView.resetSwipeState();
             deleteWasClicked = true;
         };
         adapter.registerAdapter(swipeAdapter,R.id.compound_content);
         final NoteListViewHeaderView headerView = content.findViewById(R.id.headerView);
         // update list view adapter on changes of the view model
-        model.observeForEver(map -> {
+        mainViewModel.observeForEver(map -> {
             List<StorageObject> list1 = new ArrayList<>();
             try {
                 if (map == null) {
@@ -121,7 +118,7 @@ public class MainFragment extends NavHostFragment {
                 Log.e(TAG, "onChanged: got a concurrentmodex", ex);
                 Log.e(TAG, "map data: " + map );
                 Log.e(TAG, "list data: " + list1);
-                Log.e(TAG, "is fetching " + model.isCurrentlyFetchingDataFromDB());
+                Log.e(TAG, "is fetching " + mainViewModel.isCurrentlyFetchingDataFromDB());
                 throw new RuntimeException("fail");
             }
         });
@@ -145,7 +142,7 @@ public class MainFragment extends NavHostFragment {
                 return false;
             }
             StorageObject task = adapter.getItem(currentEditedNoteIndex);
-            callEditNoteActivityForResult(recyclerView, task);
+            callEditNoteActivityForResult(task);
             return false;
         }));
 
@@ -154,7 +151,7 @@ public class MainFragment extends NavHostFragment {
         FloatingActionButton fab =  content.findViewById(R.id.fab_text_note);
         fab.setOnClickListener(view -> {
             // TODO make sure a text note is created
-            callEditNoteActivityForResult(view);
+            callEditNoteActivityForResult();
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
@@ -163,7 +160,7 @@ public class MainFragment extends NavHostFragment {
             ArrayList<BaseTask> list12 = new ArrayList<>();
             // TODO use string resources
             TaskNote testNote = new TaskNote(UUID.randomUUID(),"", list12);
-            callEditNoteActivityForResult(view, testNote);
+            callEditNoteActivityForResult( testNote);
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
@@ -175,44 +172,32 @@ public class MainFragment extends NavHostFragment {
      * calles the edit note activity with a null-note and thus creating a new one,
      * as defined in the currently set DefaultStorable {@link StorableFactory#getDefaultStorable()}
      */
-    private void callEditNoteActivityForResult(View view){
+    private void callEditNoteActivityForResult(){
         // create a new default text note and directly edit it.
-        callEditNoteActivityForResult(view, new DefaultTextNoteStrategy().createDefault());
+        callEditNoteActivityForResult(new DefaultTextNoteStrategy().createDefault());
     }
+
+    EditNoteViewModel<DatabaseStorable> editNoteModel;
 
     /**
      * calls the edit note activity with the given note for editing purposes
      * @param storable note to be edited
      */
-    public void callEditNoteActivityForResult(View v, DatabaseStorable storable) {
-        Intent intent = new Intent(getContext(), EditNoteActivity.class);
-        intent = StorableFactory.addToIntent(intent, storable);
-        startActivityForResult(intent,REQUEST_EDIT_NOTE);
-        /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragmentManager().findFragmentById(R.id.main_fragment_placeholder);
+    public void callEditNoteActivityForResult( DatabaseStorable storable) {
 
-        NavController navController = navHostFragment.getNavController();
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragmentManager().findFragmentById(R.id.main_fragment_placeholder);
         NavDirections action = MainFragmentDirections.actionMainFragmentToEditNoteFragment();
-        Navigation.findNavController(v).navigate(action);
-        NavBackStackEntry entry = navController.getBackStackEntry(R.id.editNoteFragment);
-        new ViewModelProvider(entry).get(EditNoteViewModel.class).setNote(storable);*/
-    }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_EDIT_NOTE) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                try {
-                    DatabaseStorable storable = StorableFactory.storableFromIntent(data);
-                    model.updateOrCreate(storable);
-                } catch (UnpackingDataException e) {
-                    Log.e(TAG, "onActivityResult: ", e);
-                }
+        Navigation.findNavController(this.getActivity(),R.id.main_fragment_placeholder).navigate(action);
+        editNoteModel = null;
+        editNoteModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
+        editNoteModel.setNote(storable);
+        editNoteModel.observe(this,state ->{
+            state.save = true;
+            if(state.save){
+                mainViewModel.updateOrCreate(state.data);
             }
-        }
+        });
     }
 
 }

@@ -16,10 +16,19 @@ import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
  */
 public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
 
-    private final MutableLiveData<T> note = new MutableLiveData<>();
+    private final MutableLiveData<SaveState<T>> note = new MutableLiveData<>();
 
     public void setNote(T note) {
-        this.note.setValue(note);
+        // first time set it, afterwards post it asynchronously
+        if (this.note.getValue()== null){
+            this.note.setValue(new SaveState<>(note));
+        }else{
+            this.note.postValue(new SaveState<>(note));
+        }
+    }
+
+    public SaveState<T> getSaveState(){
+        return note.getValue();
     }
 
     /**
@@ -27,7 +36,7 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
      * @return value of MutableLiveData
      */
     public T getValue(){
-        return note.getValue();
+        return note.getValue().data;
     }
 
     /**
@@ -35,8 +44,16 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
      * @param owner of the lifecycle
      * @param observer observing changes
      */
-    public void observe(LifecycleOwner owner, Observer<T> observer){
+    public void observe(LifecycleOwner owner, Observer<SaveState<T>> observer){
         note.observe(owner, observer);
+    }
+
+    static class SaveState<Y extends DatabaseStorable>{
+        public boolean save = false;
+        public Y data;
+        public SaveState(Y data){
+            this.data = data;
+        }
     }
 
 
