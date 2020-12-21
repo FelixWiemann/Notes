@@ -57,5 +57,4 @@
     <string name="preference_name_theme_system" >Use system settings</string>
     <string name="preference_name_theme_dark" >dark theme</string>
     <string name="preference_name_theme_light" >light theme</string>
-
 </resources>

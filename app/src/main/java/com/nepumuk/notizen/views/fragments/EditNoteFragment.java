@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nepumuk.notizen.MainActivity;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.UnpackingDataException;
@@ -107,22 +108,14 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      * loads the data from the intent and initializes the view model
      */
     private void loadData(){
-        /*Intent intent = getActivity().getIntent();
-        DatabaseStorable data = null;
-        try {
-            data = StorableFactory.storableFromIntent(intent);
-        } catch (UnpackingDataException e) {
-            // TODO handle packing error
-            Log.e(TAG, "loadData: ", e);
-        }
-        if (data == null){
-            data = new TextNote(UUID.randomUUID(),"" , "");
-        }*/
 
-       // originalData = data.getDataString();
         mViewModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
-        //mViewModel.setNote(data);
         mViewModel.observe(this, o -> wasChanged = true);
+
+        if (!mViewModel.isValueSet()) {
+            DatabaseStorable data = MainActivity.IntentHandler.handleExtra(getArguments());
+            mViewModel.setNote(data);
+        }
 
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

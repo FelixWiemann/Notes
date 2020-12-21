@@ -73,12 +73,23 @@ public class MainFragment extends NavHostFragment {
         super.onAttach(context);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
     /**
      * init the fragment with the created content view
      * @param content already created content view
      */
     private void initFragment(@NonNull View content){
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        editNoteModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
+        if (editNoteModel.isValueSet()){
+            // if created via deeplink
+            mainViewModel.updateOrCreate(editNoteModel.getValue());
+        }
         // setup views
         recyclerView = content.findViewById(R.id.adapterView);
         ArrayList<StorageObject> list = new ArrayList<>();
@@ -189,8 +200,6 @@ public class MainFragment extends NavHostFragment {
         NavDirections action = MainFragmentDirections.actionMainFragmentToEditNoteFragment();
 
         Navigation.findNavController(this.getActivity(),R.id.main_fragment_placeholder).navigate(action);
-        editNoteModel = null;
-        editNoteModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
         editNoteModel.setNote(storable);
         editNoteModel.observe(this,state ->{
             state.save = true;

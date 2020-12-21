@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/editNoteFragment"
         android:name="com.nepumuk.notizen.views.fragments.EditNoteFragment"
-        android:label="EditNoteFragment" />
+        android:label="EditNoteFragment">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="nepumuk://com.notizen/create" />
+    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.nepumuk.notizen.views.fragments.MainFragment"

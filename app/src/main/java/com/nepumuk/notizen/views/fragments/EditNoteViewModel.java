@@ -39,6 +39,10 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
         return note.getValue().data;
     }
 
+    public boolean isValueSet(){
+        return  note.getValue()!=null;
+    }
+
     /**
      * utility function to wrap MutableLiveData.observe
      * @param owner of the lifecycle

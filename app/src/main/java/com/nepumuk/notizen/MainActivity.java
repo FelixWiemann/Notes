@@ -1,12 +1,20 @@
 package com.nepumuk.notizen;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDeepLinkBuilder;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.navigation.NavigationView;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
@@ -32,17 +40,39 @@ public class MainActivity extends AppCompatActivity {
         } catch (ContextManagerException e) {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
-
         setContentView(R.layout.activity_main);
-        // create settings
-        SettingsFragment settingsFragment = new SettingsFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.nav_view_content,settingsFragment).commit();
 
         model = new ViewModelProvider(this).get(MainViewModel.class);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment_placeholder);
+        NavController navController = navHost.getNavController();
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).setOpenableLayout(findViewById(R.id.drawerLayout)).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
+
+        NavigationUI.setupWithNavController((NavigationView) findViewById(R.id.navview),navController);
+
+
+
+
         DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(getIntent());
-        //if (fromIntent != null) mainFragment.callEditNoteActivityForResult(fromIntent);
+        if (fromIntent != null) {
+            try {
+                navController.createDeepLink().setDestination(R.id.editNoteFragment).setArguments(getIntent().getExtras()).createPendingIntent().send();
+            } catch (PendingIntent.CanceledException e) {
+                Log.e(TAG, "onCreate: could not navigate to intent", e);
+            }
+        }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     protected void onStop() {
@@ -56,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         Settings.unregisterOnSharedPreferenceListeners(this);
     }
 
-    private static class IntentHandler{
-        static DatabaseStorable StorableFromIntent(Intent intent){
+    public static class IntentHandler{
+        public static DatabaseStorable StorableFromIntent(Intent intent){
             if (intent == null || intent.getAction()==null) return null;
             switch (intent.getAction()){
                 case Intent.ACTION_SEND:
@@ -68,15 +98,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        public static DatabaseStorable handleExtra(Bundle extra){
+            String text = extra.containsKey(Intent.EXTRA_TEXT) ? extra.getString(Intent.EXTRA_TEXT) : "retrieving data failed";
+            // empty default title for easier title manipulation
+            String title = extra.containsKey(Intent.EXTRA_TITLE) ? extra.getString(Intent.EXTRA_TITLE) : "";
+            return new TextNote(UUID.randomUUID(), title, text);
+        }
+
         private static DatabaseStorable handleMimeType(Intent intent){
             final String MIME_TYPE = intent.getType();
             // could not determine Mime-Type
             if (MIME_TYPE == null) return StorableFactory.getDefaultStorable();
             if (MIME_TYPE.startsWith("text/")){
-                String text = intent.hasExtra(Intent.EXTRA_TEXT) ? intent.getStringExtra(Intent.EXTRA_TEXT) : "retrieving data failed";
-                // empty default title for easier title manipulation
-                String title = intent.hasExtra(Intent.EXTRA_TITLE) ? intent.getStringExtra(Intent.EXTRA_TITLE) : "";
-                return new TextNote(UUID.randomUUID(), title, text);
+                handleExtra(intent.getExtras());
             }
             // could not be handled, return default storable
             return StorableFactory.getDefaultStorable();

@@ -3,29 +3,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:gravity="top"
+        android:layout_height="20dp"
+        android:layout_width="match_parent" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
         android:id="@+id/main_fragment_placeholder"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_graph_main_fragment"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph_main_fragment" >
-
-
-    </androidx.fragment.app.FragmentContainerView>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true" >
-        <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/navview"
+        android:fitsSystemWindows="true">
+        <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/nav_view_content"/>
+            android:id="@+id/navigation_fragment_container"
+            android:name="com.nepumuk.notizen.settings.SettingsFragment"/>
     </com.google.android.material.navigation.NavigationView>
 
 

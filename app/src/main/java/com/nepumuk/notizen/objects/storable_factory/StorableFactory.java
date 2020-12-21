@@ -1,6 +1,7 @@
 package com.nepumuk.notizen.objects.storable_factory;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.objects.UnpackingDataError;
