@@ -22,9 +22,8 @@
     <string name="content_add_notes">Notiz hinzufügen</string>
     <string name="content_create_text_note">Erstelle eine Notiz</string>
     <string name="content_create_task_note">Erstelle eine Notiz mit Aufgaben</string>
-    <string name="content_add_task">Aufgabe hinzufügen</string><![CDATA[
-    >
-    ]]>
+    <string name="content_add_task">Aufgabe hinzufügen</string>
+
     <string name="content_note_message">Inhalt der Notiz</string>
     <string name="content_note_tasks">Aufgaben in der Notiz</string>
     <string name="content_task_title">Titel der Aufgabe</string>
@@ -39,7 +38,16 @@
     <string name="hint_note_title">Titel der Neuen Notiz</string>
     <string name="hint_note_message">Text der Notiz</string>
 
+    <!--error messages-->
+    <string name="error_generic_message">OUPS, etwas ist schiefgelaufen</string>
 
+    <!--shortcut descriptions-->
+    <string name="shortcut_lblshort_create_tasknote">Aufgabennotiz</string>
+    <string name="shortcut_lbllong_create_tasknote">erstelle neue Aufgabennotiz</string>
+    <string name="shortcut_lblshort_create_textnote">Textnotiz</string>
+    <string name="shortcut_lbllong_create_textnote">erstelle neue Textnotiz</string>
+
+    <!-- Preferences-->
     <string name="preference_category_theme">Theme</string>
     <string name="preference_category_about">Über</string>
     <string name="preference_title_feedback">Feedback senden</string>
@@ -51,6 +59,4 @@
     <string name="preference_title_privacy_notice">Datenschutzhinweise</string>
     <string name="preference_summary_privacy_notice">Zeigt die Datenschutzhinweise an</string>
 
-    <!--error messages-->
-    <string name="error_generic_message">OUPS, etwas ist schiefgelaufen</string>
 </resources>

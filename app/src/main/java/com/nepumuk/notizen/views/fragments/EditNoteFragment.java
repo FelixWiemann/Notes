@@ -1,19 +1,16 @@
 package com.nepumuk.notizen.views.fragments;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.ShortcutManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentOnAttachListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,10 +18,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.MainActivity;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
-import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
-import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
+import com.nepumuk.notizen.objects.storable_factory.DefaultTaskNoteStrategy;
+import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
+import com.nepumuk.notizen.utils.ShortCutHelper;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
 import java.util.ArrayList;
@@ -64,7 +62,6 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     @Override
     public void onStart() {
         super.onStart();
-
         loadData();
     }
 
@@ -115,12 +112,17 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
 
         if (!mViewModel.isValueSet()) {
             DatabaseStorable data;
+            // intents from shortcut
             switch (Objects.requireNonNull(EditNoteFragmentArgs.fromBundle(requireArguments()).getType())) {
                 case "TaskNote":
-                    data = new TaskNote(UUID.randomUUID(), "", new ArrayList<>());
+                    data = DefaultTaskNoteStrategy.create();
+                    // report shortcut usage
+                    new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TASK_NOTE);
                     break;
                 case "TextNote":
-                    data = new TextNote(UUID.randomUUID(), "", "");
+                    data = DefaultTextNoteStrategy.create();
+                    // report shortcut usage
+                    new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TEXT_NOTE);
                     break;
                 default:
                     data = MainActivity.IntentHandler.handleExtra(requireArguments());

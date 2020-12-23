@@ -3,12 +3,9 @@
     <shortcut
         android:shortcutId="new_text_note"
         android:enabled="true"
-
-        android:shortcutShortLabel="@string/error_generic_message"
-        android:shortcutLongLabel="@string/error_generic_message"
-        android:shortcutDisabledMessage=
-            "@string/error_generic_message"
-        android:icon="@drawable/ic_cancel">
+        android:shortcutShortLabel="@string/shortcut_lblshort_create_textnote"
+        android:shortcutLongLabel="@string/shortcut_lbllong_create_textnote"
+        android:icon="@drawable/ic_create_text_note">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="nepumuk://notizen/create/TextNote" />
@@ -17,12 +14,9 @@
     <shortcut
         android:shortcutId="new_task_note"
         android:enabled="true"
-
-        android:shortcutShortLabel="@string/error_generic_message"
-        android:shortcutLongLabel="@string/error_generic_message"
-        android:shortcutDisabledMessage=
-            "@string/error_generic_message"
-        android:icon="@drawable/ic_cancel">
+        android:shortcutShortLabel="@string/shortcut_lblshort_create_tasknote"
+        android:shortcutLongLabel="@string/shortcut_lbllong_create_tasknote"
+        android:icon="@drawable/ic_create_task_note">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="nepumuk://notizen/create/TaskNote" />

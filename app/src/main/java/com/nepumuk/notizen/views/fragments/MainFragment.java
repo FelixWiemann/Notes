@@ -21,10 +21,13 @@ import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.notes.TextNote;
+import com.nepumuk.notizen.objects.storable_factory.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.utils.MainViewModel;
+import com.nepumuk.notizen.utils.ShortCutHelper;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.views.NoteListViewHeaderView;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
@@ -161,31 +164,22 @@ public class MainFragment extends NavHostFragment {
         final FabSpawnerFab fabSpawner = content.findViewById(R.id.fab_add_notes);
         FloatingActionButton fab =  content.findViewById(R.id.fab_text_note);
         fab.setOnClickListener(view -> {
-            // TODO make sure a text note is created
-            callEditNoteActivityForResult();
+            callEditNoteActivityForResult(DefaultTextNoteStrategy.create());
+            // report as per https://developer.android.com/guide/topics/ui/shortcuts/best-practices
+            new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TEXT_NOTE);
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
         fab = content.findViewById(R.id.fab_task_note);
         fab.setOnClickListener(view -> {
-            ArrayList<BaseTask> list12 = new ArrayList<>();
-            // TODO use string resources
-            TaskNote testNote = new TaskNote(UUID.randomUUID(),"", list12);
-            callEditNoteActivityForResult( testNote);
+            // report as per https://developer.android.com/guide/topics/ui/shortcuts/best-practices
+            new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TASK_NOTE);
+            callEditNoteActivityForResult(DefaultTaskNoteStrategy.create());
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
         // TODO add fab for new types
         //  e.g. camera
-    }
-
-    /**
-     * calles the edit note activity with a null-note and thus creating a new one,
-     * as defined in the currently set DefaultStorable {@link StorableFactory#getDefaultStorable()}
-     */
-    private void callEditNoteActivityForResult(){
-        // create a new default text note and directly edit it.
-        callEditNoteActivityForResult(new DefaultTextNoteStrategy().createDefault());
     }
 
     EditNoteViewModel<DatabaseStorable> editNoteModel;

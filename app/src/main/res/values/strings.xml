@@ -45,6 +45,11 @@
     <string name="ph_generic" translatable="false">PLACEHOLDER</string>
     <string name="ph_debug" translatable="false">DEBUG NEEDS TO BE DELETED</string>
 
+    <!--shortcut descriptions-->
+    <string name="shortcut_lblshort_create_tasknote">task note</string>
+    <string name="shortcut_lbllong_create_tasknote">create new task note</string>
+    <string name="shortcut_lblshort_create_textnote">text note</string>
+    <string name="shortcut_lbllong_create_textnote">create new text note</string>
 
     <!-- Preferences-->
     <string name="preference_category_theme">Theme</string>
