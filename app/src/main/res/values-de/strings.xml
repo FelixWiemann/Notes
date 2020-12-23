@@ -59,4 +59,8 @@
     <string name="preference_title_privacy_notice">Datenschutzhinweise</string>
     <string name="preference_summary_privacy_notice">Zeigt die Datenschutzhinweise an</string>
 
+
+    <string name="lbl_edit_note">editieren</string>
+    <string name="lbl_home" />
+
 </resources>

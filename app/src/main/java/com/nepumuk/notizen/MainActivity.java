@@ -50,13 +50,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHost.getNavController();
         AppBarConfiguration appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph()).setOpenableLayout(findViewById(R.id.drawerLayout)).build();
-        NavigationUI.setupWithNavController(
-                toolbar, navController, appBarConfiguration);
+        NavigationUI.setupActionBarWithNavController(this, navController,appBarConfiguration);
+        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
 
         NavigationUI.setupWithNavController((NavigationView) findViewById(R.id.navview),navController);
-
-
-
 
         DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(getIntent());
         if (fromIntent != null) {
