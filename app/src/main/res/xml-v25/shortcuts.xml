@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="NewDonutDialogFragment"
+        android:shortcutId="new_text_note"
         android:enabled="true"
 
         android:shortcutShortLabel="@string/error_generic_message"
@@ -11,6 +11,20 @@
         android:icon="@drawable/ic_cancel">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="nepumuk://com.notizen/create" />
+            android:data="nepumuk://notizen/create/TextNote" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="new_task_note"
+        android:enabled="true"
+
+        android:shortcutShortLabel="@string/error_generic_message"
+        android:shortcutLongLabel="@string/error_generic_message"
+        android:shortcutDisabledMessage=
+            "@string/error_generic_message"
+        android:icon="@drawable/ic_cancel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="nepumuk://notizen/create/TaskNote" />
     </shortcut>
 </shortcuts>

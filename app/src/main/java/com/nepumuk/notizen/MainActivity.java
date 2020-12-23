@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDeepLinkBuilder;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -19,12 +18,12 @@ import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.settings.Settings;
-import com.nepumuk.notizen.settings.SettingsFragment;
 import com.nepumuk.notizen.utils.ContextManager;
 import com.nepumuk.notizen.utils.ContextManagerException;
 import com.nepumuk.notizen.utils.MainViewModel;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             // could not determine Mime-Type
             if (MIME_TYPE == null) return StorableFactory.getDefaultStorable();
             if (MIME_TYPE.startsWith("text/")){
-                handleExtra(intent.getExtras());
+                handleExtra(Objects.requireNonNull(intent.getExtras()));
             }
             // could not be handled, return default storable
             return StorableFactory.getDefaultStorable();

@@ -18,6 +18,20 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
 
     private final MutableLiveData<SaveState<T>> note = new MutableLiveData<>();
 
+    /**
+     * replaces the currently stored value with the given one
+     * @param note
+     */
+    public void replace(T note){
+        this.note.setValue(new SaveState<>(note));
+    }
+
+    /**
+     * sets the given value as the data
+     * synchronously if value was null, otherwise async.
+     * use {@link EditNoteViewModel#replace(DatabaseStorable)} if setting shall be made immediately and cannot wait
+     * @param note
+     */
     public void setNote(T note) {
         // first time set it, afterwards post it asynchronously
         if (this.note.getValue()== null){

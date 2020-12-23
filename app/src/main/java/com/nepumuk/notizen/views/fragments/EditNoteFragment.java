@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,10 +22,13 @@ import com.nepumuk.notizen.MainActivity;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.UnpackingDataException;
+import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class EditNoteFragment extends Fragment implements SaveDataFragmentListener , FabProvider{
@@ -73,14 +77,11 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-    }
-
-    @Override
-    public void onAttachFragment(@NonNull Fragment fragment) {
-        super.onAttachFragment(fragment);
-        if(fragment instanceof RequiresFabFragment) {
-            ((RequiresFabFragment) fragment).registerFabProvider(this);
-        }
+        getChildFragmentManager().addFragmentOnAttachListener((fragmentManager, fragment) -> {
+            if(fragment instanceof RequiresFabFragment) {
+                ((RequiresFabFragment) fragment).registerFabProvider(this);
+            }
+        });
     }
 
     public void discardAndExit() {
@@ -113,15 +114,26 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         mViewModel.observe(this, o -> wasChanged = true);
 
         if (!mViewModel.isValueSet()) {
-            DatabaseStorable data = MainActivity.IntentHandler.handleExtra(getArguments());
+            DatabaseStorable data;
+            switch (Objects.requireNonNull(EditNoteFragmentArgs.fromBundle(requireArguments()).getType())) {
+                case "TaskNote":
+                    data = new TaskNote(UUID.randomUUID(), "", new ArrayList<>());
+                    break;
+                case "TextNote":
+                    data = new TextNote(UUID.randomUUID(), "", "");
+                    break;
+                default:
+                    data = MainActivity.IntentHandler.handleExtra(requireArguments());
+            }
+
             mViewModel.setNote(data);
         }
-
+        originalData = mViewModel.getValue().getDataString();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         NoteDisplayFragment<StorageObject> headerFragment = new NoteDisplayHeaderFragment();
         fragmentTransaction.add(R.id.fragmentHeader, headerFragment);
-        NoteDisplayFragment fragmentContent = NoteDisplayFragmentFactory.generateFragment(mViewModel.getValue());
+        NoteDisplayFragment<DatabaseStorable> fragmentContent = NoteDisplayFragmentFactory.generateFragment(mViewModel.getValue());
         fragmentTransaction.add(R.id.fragmentHolder, fragmentContent);
         fragmentTransaction.commit();
     }
@@ -131,9 +143,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      * @param content already created content view
      */
     private void initFragment(@NonNull View content){
-
         // setup fragments
-
         if (fabToBeProvided == null){
             fabToBeProvided = content.findViewById(R.id.provided_fab);
             fabToBeProvided.hide();
@@ -142,7 +152,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
 
     /**
      * returns false, if user has not made a decision yet
-     * @return
+     * @return true if user wants to change
      */
     public boolean saveDialogIfChanged(){
         // if it was changed and the original deviates from the currently stored values
@@ -158,7 +168,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     }
 
 
-    public EditNoteViewModel getModel(){
+    public EditNoteViewModel<DatabaseStorable> getModel(){
         return mViewModel;
     }
 

@@ -196,11 +196,10 @@ public class MainFragment extends NavHostFragment {
      */
     public void callEditNoteActivityForResult( DatabaseStorable storable) {
 
-        NavHostFragment navHostFragment = (NavHostFragment) getParentFragmentManager().findFragmentById(R.id.main_fragment_placeholder);
         NavDirections action = MainFragmentDirections.actionMainFragmentToEditNoteFragment();
 
         Navigation.findNavController(this.getActivity(),R.id.main_fragment_placeholder).navigate(action);
-        editNoteModel.setNote(storable);
+        editNoteModel.replace(storable);
         editNoteModel.observe(this,state ->{
             state.save = true;
             if(state.save){

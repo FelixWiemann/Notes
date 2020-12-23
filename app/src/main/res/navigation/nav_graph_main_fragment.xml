@@ -10,8 +10,13 @@
         android:name="com.nepumuk.notizen.views.fragments.EditNoteFragment"
         android:label="EditNoteFragment">
         <deepLink
-            android:id="@+id/deepLink"
-            app:uri="nepumuk://com.notizen/create" />
+            android:id="@+id/deeplink_create_textnote"
+            app:uri="nepumuk://notizen/create/{type}" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"

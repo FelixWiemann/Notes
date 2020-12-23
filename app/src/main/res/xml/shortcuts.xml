@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="NewDonutDialogFragment"
         android:enabled="true"
         android:icon="@drawable/ic_cancel">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="nepumuk://com.notizen/create" />
+            android:data="nepumuk://notizen/create/textnote" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_cancel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="nepumuk://notizen/create/tasknote" />
     </shortcut>
 </shortcuts>
