@@ -1,9 +1,10 @@
 package com.nepumuk.notizen.views.fragments;
 
 import android.content.Context;
-import android.content.pm.ShortcutManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,16 +19,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.MainActivity;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
-import com.nepumuk.notizen.objects.notes.TaskNote;
-import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.utils.ShortCutHelper;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.UUID;
 
 public class EditNoteFragment extends Fragment implements SaveDataFragmentListener , FabProvider{
 
@@ -55,6 +52,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View content =  inflater.inflate(R.layout.fragment_edit_note, container, false);
         initFragment(content);
+        setHasOptionsMenu(true);
         return content;
     }
 
@@ -185,4 +183,10 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         mViewModel.getSaveState().save = true;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.edit_note_fragment_menu, menu);
+    }
 }

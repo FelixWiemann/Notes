@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,12 +22,8 @@ import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
-import com.nepumuk.notizen.objects.notes.TaskNote;
-import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
-import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
-import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.utils.MainViewModel;
 import com.nepumuk.notizen.utils.ShortCutHelper;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
@@ -43,7 +41,6 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class MainFragment extends NavHostFragment {
 
@@ -62,6 +59,7 @@ public class MainFragment extends NavHostFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View content =  inflater.inflate(R.layout.activity_main_content, container, false);
         initFragment(content);
+        setHasOptionsMenu(true);
         return content;
     }
 
@@ -200,6 +198,14 @@ public class MainFragment extends NavHostFragment {
                 mainViewModel.updateOrCreate(state.data);
             }
         });
+    }
+
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_fragment_menu, menu);
     }
 
 }
