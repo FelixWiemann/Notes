@@ -54,7 +54,6 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View content =  inflater.inflate(R.layout.fragment_edit_note, container, false);
-        loadData();
         initFragment(content);
         return content;
     }
@@ -134,9 +133,11 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         NoteDisplayFragment<StorageObject> headerFragment = new NoteDisplayHeaderFragment();
-        fragmentTransaction.add(R.id.fragmentHeader, headerFragment);
+        // replace possible previously added fragments
+        fragmentTransaction.replace(R.id.fragmentHeader, headerFragment);
         NoteDisplayFragment<DatabaseStorable> fragmentContent = NoteDisplayFragmentFactory.generateFragment(mViewModel.getValue());
-        fragmentTransaction.add(R.id.fragmentHolder, fragmentContent);
+        // replace possible previously added fragments
+        fragmentTransaction.replace(R.id.fragmentHolder, fragmentContent);
         fragmentTransaction.commit();
     }
 
