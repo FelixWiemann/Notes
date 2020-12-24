@@ -51,7 +51,7 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
         setLayoutManager(layoutManager);
         helperCallback = new SwipeHelperCallback(SwipeHelperCallback.NO_BUTTON, SwipeHelperCallback.NO_BUTTON);
         // set default adapter
-        adapter = new SwipableRecyclerAdapter<>(new ArrayList<T>(), 0, false, R.layout.swipable_left, R.layout.swipable_right);
+        adapter = new SwipableRecyclerAdapter<>(new ArrayList<T>(), 0, false, R.layout.swipable_left, R.layout.swipable_empty);
         this.setAdapter(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
         itemTouchHelper.attachToRecyclerView(this);

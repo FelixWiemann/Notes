@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
+import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.SwipableView;
 import com.nepumuk.notizen.views.adapters.view_holders.SwipableViewHolder;
@@ -27,6 +28,17 @@ public class SwipableRecyclerAdapter<T extends StorageObject> extends SortableRe
     private final int leftSwipeMenu;
     private final int rightSwipeMenu;
 
+    /**
+     * <p>creates a new SwipableView based on given context.
+     * </p><p>
+     * </p><p>set inCompoundAdapter to true if it is created from within {@link com.nepumuk.notizen.views.adapters.CompoundAdapter} or shall be used in one
+     * </p><p>if either leftSwipeMenu or rightSwipeMenu are set to {@link R.layout#swipable_empty}, the menu is ignored
+     * @param itemList
+     * @param SortOrder
+     * @param inCompoundAdapter
+     * @param leftSwipeMenu
+     * @param rightSwipeMenu
+     */
     public SwipableRecyclerAdapter(List<T> itemList, int SortOrder, boolean inCompoundAdapter, @LayoutRes int leftSwipeMenu, @LayoutRes int rightSwipeMenu) {
         super(itemList,SortOrder);
         this.inCompoundAdapter = inCompoundAdapter;

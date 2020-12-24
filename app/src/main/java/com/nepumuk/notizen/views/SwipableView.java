@@ -49,6 +49,16 @@ public class SwipableView extends RelativeLayout{
         init();
     }
 
+    /**
+     * <p>creates a new SwipableView based on given context.
+     * </p><p>
+     * </p><p>set fromCompoundAdapter to true if it is created from within {@link com.nepumuk.notizen.views.adapters.CompoundAdapter} or shall be used in one
+     * </p><p>if either swipeMenuLeft or swipeMenuRight are set to {@link R.layout#swipable_empty}, the menu is ignored
+     * @param context
+     * @param fromCompoundAdapter
+     * @param swipeMenuLeft
+     * @param swipeMenuRight
+     */
     public SwipableView(Context context, boolean fromCompoundAdapter, @LayoutRes int swipeMenuLeft, @LayoutRes int swipeMenuRight) {
         super(context);
         this.fromCompoundAdapter = fromCompoundAdapter;
@@ -83,31 +93,21 @@ public class SwipableView extends RelativeLayout{
         Placeholder.setClickable(false);
         RelativeLayout parent = swipeParent.findViewById(R.id.parent);
 
-        if (swipeMenuLeft != -1) {
+        if (swipeMenuLeft != R.layout.swipable_empty) {
             BackgroundLeft = mInflater.inflate(swipeMenuLeft, parent, false);
             RelativeLayout.LayoutParams paramLeft = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
             paramLeft.addRule(ALIGN_PARENT_START, TRUE);
             paramLeft.addRule(CENTER_VERTICAL, TRUE);
             parent.addView(BackgroundLeft, paramLeft);
-            BackgroundLeft.post(new Runnable() {
-                @Override
-                public void run() {
-                    LayoutHelper.LayoutHelper.updateSize(BackgroundLeft.getWidth(), LayoutHelper.LayoutHelper.getSwipableRightSize());
-                }
-            });
+            BackgroundLeft.post(() -> LayoutHelper.LayoutHelper.updateSize(BackgroundLeft.getWidth(), LayoutHelper.LayoutHelper.getSwipableRightSize()));
         }
-        if (swipeMenuRight != -1) {
+        if (swipeMenuRight != R.layout.swipable_empty) {
             BackgroundRight = mInflater.inflate(swipeMenuRight, parent, false);
             RelativeLayout.LayoutParams paramRight = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
             paramRight.addRule(ALIGN_PARENT_END, TRUE);
             paramRight.addRule(CENTER_VERTICAL, TRUE);
             parent.addView(BackgroundRight, paramRight);
-            BackgroundRight.post(new Runnable() {
-                @Override
-                public void run() {
-                    LayoutHelper.LayoutHelper.updateSize(LayoutHelper.LayoutHelper.getSwipableLeftSize(), BackgroundRight.getWidth());
-                }
-            });
+            BackgroundRight.post(() -> LayoutHelper.LayoutHelper.updateSize(LayoutHelper.LayoutHelper.getSwipableLeftSize(), BackgroundRight.getWidth()));
         }
         // init visibility
         showBackground(0);
