@@ -1,7 +1,9 @@
-package com.nepumuk.notizen.objects;
+package com.nepumuk.notizen.objects.storable_factory;
 
 import android.content.Intent;
 
+import com.nepumuk.notizen.objects.UnpackingDataError;
+import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
