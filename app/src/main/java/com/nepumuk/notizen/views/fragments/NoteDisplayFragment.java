@@ -71,12 +71,6 @@ public abstract class NoteDisplayFragment<T extends DatabaseStorable> extends Fr
         });
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
     /**
      * will be called after the activity has been created and the fragment has been added.
      * now initialization or updatingUI data can happen

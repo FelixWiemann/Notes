@@ -64,4 +64,7 @@
     <string name="preference_name_theme_light" >light theme</string>
     <string name="lbl_edit_note">edit</string>
     <string name="lbl_home" />
+    <string name="action_cancel">cancel</string>
+    <string name="action_save">save</string>
+    <string name="action_favourite">toggle favourite</string>
 </resources>

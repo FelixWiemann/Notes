@@ -20,10 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
+import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
+import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.utils.MainViewModel;
 import com.nepumuk.notizen.utils.ShortCutHelper;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
@@ -87,7 +89,7 @@ public class MainFragment extends NavHostFragment {
     private void initFragment(@NonNull View content){
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         editNoteModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
-        if (editNoteModel.isValueSet()){
+        if (editNoteModel.isValueSet()&&editNoteModel.getSaveState().origin != EditNoteViewModel.SaveState.Origin.MAIN){
             // if created via deeplink
             mainViewModel.updateOrCreate(editNoteModel.getValue());
         }
@@ -154,7 +156,7 @@ public class MainFragment extends NavHostFragment {
                 return false;
             }
             StorageObject task = adapter.getItem(currentEditedNoteIndex);
-            callEditNoteActivityForResult(task);
+            callEditNote(task);
             return false;
         }));
 
@@ -162,7 +164,7 @@ public class MainFragment extends NavHostFragment {
         final FabSpawnerFab fabSpawner = content.findViewById(R.id.fab_add_notes);
         FloatingActionButton fab =  content.findViewById(R.id.fab_text_note);
         fab.setOnClickListener(view -> {
-            callEditNoteActivityForResult(DefaultTextNoteStrategy.create());
+            callEditNote(DefaultTextNoteStrategy.create());
             // report as per https://developer.android.com/guide/topics/ui/shortcuts/best-practices
             new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TEXT_NOTE);
             fabSpawner.callOnClick();
@@ -172,7 +174,7 @@ public class MainFragment extends NavHostFragment {
         fab.setOnClickListener(view -> {
             // report as per https://developer.android.com/guide/topics/ui/shortcuts/best-practices
             new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TASK_NOTE);
-            callEditNoteActivityForResult(DefaultTaskNoteStrategy.create());
+            callEditNote(DefaultTaskNoteStrategy.create());
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
@@ -180,22 +182,32 @@ public class MainFragment extends NavHostFragment {
         //  e.g. camera
     }
 
-    EditNoteViewModel<DatabaseStorable> editNoteModel;
+    static EditNoteViewModel<DatabaseStorable> editNoteModel;
 
     /**
      * calls the edit note activity with the given note for editing purposes
      * @param storable note to be edited
      */
-    public void callEditNoteActivityForResult( DatabaseStorable storable) {
+    public void callEditNote(DatabaseStorable storable) {
 
         NavDirections action = MainFragmentDirections.actionMainFragmentToEditNoteFragment();
 
-        Navigation.findNavController(this.getActivity(),R.id.main_fragment_placeholder).navigate(action);
-        editNoteModel.replace(storable);
+        Navigation.findNavController(this.getActivity(),R.id.main_nav_host).navigate(action);
+        try {
+            // TODO do I have to go via storable factory?
+            //  implement deep clone?
+            //  is ref enough?
+            EditNoteViewModel.SaveState saveState = new EditNoteViewModel.SaveState(StorableFactory.createFromData(storable.getId(),storable.getType(),storable.getDataString(),storable.getVersion()));
+            saveState.origin = EditNoteViewModel.SaveState.Origin.MAIN;
+            editNoteModel.replace(saveState);
+        } catch (UnpackingDataException e) {
+            Log.e(TAG, "callEditNote: ", e);
+        }
+        editNoteModel.getSaveState().save = false;
         editNoteModel.observe(this,state ->{
-            state.save = true;
             if(state.save){
                 mainViewModel.updateOrCreate(state.data);
+                state.save = false;
             }
         });
     }

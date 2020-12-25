@@ -3,8 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:title="test"
+
+    <item
+        android:id="@+id/mnu_edit_note_cancel"
+        android:icon="@drawable/ic_cancel"
+        android:title="@string/action_cancel"
         app:showAsAction="ifRoom"/>
 
-    <!--TODO add fav-icon, save and discard icons + functionality-->
+    <item
+        android:id="@+id/mnu_edit_note_save"
+        android:icon="@drawable/ic_save"
+        android:title="@string/action_save"
+        app:showAsAction="ifRoom"/>
+<!--
+    <item
+        android:id="@+id/mnu_edit_note_fav"
+        android:icon="@drawable/ic_favorite_border_black"
+        android:title="@string/action_favourite"
+        app:showAsAction="ifRoom"/>-->
+    <!--TODO add fav-icon + functionality-->
 </menu>

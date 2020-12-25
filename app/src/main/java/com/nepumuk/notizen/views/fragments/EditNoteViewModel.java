@@ -19,25 +19,34 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
     private final MutableLiveData<SaveState<T>> note = new MutableLiveData<>();
 
     /**
+     * forces an update on the live data stored in this view model
+     */
+    public void update(){
+        // TODO should probably moved to base ViewModel, that needs an observable...
+        //   e.g. https://stackoverflow.com/questions/48020377/livedata-update-on-object-field-change
+        note.setValue(note.getValue());
+    }
+
+    /**
      * replaces the currently stored value with the given one
      * @param note
      */
-    public void replace(T note){
-        this.note.setValue(new SaveState<>(note));
+    public void replace(SaveState<T> note){
+        this.note.setValue(note);
     }
 
     /**
      * sets the given value as the data
      * synchronously if value was null, otherwise async.
-     * use {@link EditNoteViewModel#replace(DatabaseStorable)} if setting shall be made immediately and cannot wait
+     * use {@link EditNoteViewModel#replace(SaveState)} if setting shall be made immediately and cannot wait
      * @param note
      */
-    public void setNote(T note) {
+    public void setNote(SaveState<T> note) {
         // first time set it, afterwards post it asynchronously
         if (this.note.getValue()== null){
-            this.note.setValue(new SaveState<>(note));
+            this.note.setValue(note);
         }else{
-            this.note.postValue(new SaveState<>(note));
+            this.note.postValue(note);
         }
     }
 
@@ -66,11 +75,31 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
         note.observe(owner, observer);
     }
 
-    static class SaveState<Y extends DatabaseStorable>{
+    /**
+     * helper class for keeping track of data state before it is saved
+     * @param <Y> type param
+     */
+    public static class SaveState<Y extends DatabaseStorable>{
         public boolean save = false;
         public Y data;
-        public SaveState(Y data){
+        public Origin origin = null;
+        public SaveState(Y data) {
+            super();
             this.data = data;
+        }
+
+        /**
+         * enum as definition on who is the creator
+         */
+        public enum  Origin{
+            /**
+             * was created by an editor
+             */
+            EDIT,
+            /**
+             * was created from main
+             */
+            MAIN
         }
     }
 

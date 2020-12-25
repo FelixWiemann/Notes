@@ -42,9 +42,8 @@ public class TextNoteFragment extends  NoteDisplayFragment<TextNote>{
                     // we are not updating the UI, so we are sure that the changes are made by the user
                     typingInMessage = true;
                     // update view model after setting the new message text to the note
-                    TextNote note = mViewModel.getValue();
-                    note.setMessage(s.toString());
-                    mViewModel.setNote(note);
+                    mViewModel.getValue().setMessage(s.toString());
+                    mViewModel.update();
                 }
             }
 

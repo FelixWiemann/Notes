@@ -12,7 +12,6 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -76,9 +75,9 @@ public class CreateTaskDialogFragment extends DialogFragment {
                     return;
                 }
                 isTyping = true;
-                BaseTask task = taskViewModel.getValue();
-                task.setTitle(s.toString());
-                taskViewModel.setNote(task);
+                taskViewModel.getSaveState().data.setTitle(s.toString());
+                taskViewModel.getSaveState().save=true;
+                taskViewModel.update();
             }
         });
         Window window = getDialog().getWindow();
@@ -101,9 +100,9 @@ public class CreateTaskDialogFragment extends DialogFragment {
                     return;
                 }
                 isTyping = true;
-                BaseTask task = taskViewModel.getValue();
-                task.setText(s.toString());
-                taskViewModel.setNote(task);
+                taskViewModel.getSaveState().data.setText(s.toString());
+                taskViewModel.getSaveState().save=true;
+                taskViewModel.update();
             }
         });
     }

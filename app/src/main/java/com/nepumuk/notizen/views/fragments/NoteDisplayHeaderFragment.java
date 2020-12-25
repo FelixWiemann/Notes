@@ -50,9 +50,8 @@ public class NoteDisplayHeaderFragment extends NoteDisplayFragment<StorageObject
                     // we are not updating the UI, so we are sure that the changes are made by the user
                     typingInMessage = true;
                     // update view model after setting the new message text to the note
-                    StorageObject note = mViewModel.getValue();
-                    note.setTitle(s.toString());
-                    mViewModel.setNote(note);
+                    mViewModel.getSaveState().data.setTitle(s.toString());
+                    mViewModel.update();
                 }
             }
 

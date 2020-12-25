@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nepumuk.notizen.R;
@@ -103,7 +102,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         taskViewModel = new ViewModelProvider(this).get(EditNoteViewModel.class);
         // let this observe the view model
         taskViewModel.observe(this, data-> {
-            data.save = true;
             if (data.save) {
                 updateTask(data.data);
             }
@@ -116,25 +114,26 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
      */
     private void updateTask(BaseTask updated){
         if (updated == null) return;
-        TaskNote data = mViewModel.getValue();
+        EditNoteViewModel.SaveState<TaskNote> state = mViewModel.getSaveState();
         if (currentEditedNoteIndex == INVALID_INDEX){
             currentEditedNoteIndex = NOT_YET_INDEXED;
-            data.addTask(updated);
+            state.data.addTask(updated);
         }else {
-            data.updateTask(updated);
+            state.data.updateTask(updated);
         }
-        mViewModel.setNote(data);
+        mViewModel.setNote(state);
     }
 
     private void deleteTask(BaseTask updated){
         if (updated == null) return;
-        TaskNote data = mViewModel.getValue();
-        data.deleteTask(updated);
-        mViewModel.setNote(data);
+        mViewModel.getSaveState().data.deleteTask(updated);
+        mViewModel.update();
     }
 
     private void callEditTaskFragment(BaseTask taskToEdit){
-        taskViewModel.setNote(taskToEdit);
+        EditNoteViewModel.SaveState<BaseTask> saveState = new EditNoteViewModel.SaveState<>(taskToEdit);
+        saveState.origin = EditNoteViewModel.SaveState.Origin.MAIN;
+        taskViewModel.setNote(saveState);
         CreateTaskDialogFragment fragment = new CreateTaskDialogFragment(this);
         /*getChildFragmentManager().setFragmentResultListener("CREATE_TASK", this, (requestKey, result) -> {
         });*/

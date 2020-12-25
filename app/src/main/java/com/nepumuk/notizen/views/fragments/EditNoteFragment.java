@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.MainActivity;
@@ -78,8 +80,18 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         });
     }
 
-    public void discardAndExit() {
+    public void discard() {
         mViewModel.getSaveState().save = false;
+        mViewModel.update();
+    }
+
+    /**
+     * saves the data and exits the activity to the caller
+     * setting the result of the currently stored data in the view model
+     */
+    private void save(){
+        mViewModel.getSaveState().save = true;
+        mViewModel.update();
     }
 
     @Override
@@ -107,6 +119,8 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         mViewModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
         mViewModel.observe(this, o -> wasChanged = true);
 
+        EditNoteViewModel.SaveState.Origin creator = mViewModel.getSaveState().origin;
+
         if (!mViewModel.isValueSet()) {
             DatabaseStorable data;
             // intents from shortcut
@@ -115,18 +129,22 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
                     data = DefaultTaskNoteStrategy.create();
                     // report shortcut usage
                     new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TASK_NOTE);
+                    creator = EditNoteViewModel.SaveState.Origin.EDIT;
                     break;
                 case "TextNote":
                     data = DefaultTextNoteStrategy.create();
                     // report shortcut usage
                     new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TEXT_NOTE);
+                    creator = EditNoteViewModel.SaveState.Origin.EDIT;
                     break;
                 default:
                     data = MainActivity.IntentHandler.handleExtra(requireArguments());
             }
-
-            mViewModel.setNote(data);
+            EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
+            saveState.origin = EditNoteViewModel.SaveState.Origin.EDIT;
+            mViewModel.setNote(saveState);
         }
+        mViewModel.getSaveState().origin = creator;
         originalData = mViewModel.getValue().getDataString();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -168,25 +186,28 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         return true;
     }
 
-
     public EditNoteViewModel<DatabaseStorable> getModel(){
         return mViewModel;
     }
-
-
-
-    /**
-     * saves the data and exits the activity to the caller
-     * setting the result of the currently stored data in the view model
-     */
-    private void save(){
-        mViewModel.getSaveState().save = true;
-    }
-
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.edit_note_fragment_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.mnu_edit_note_cancel) {
+            discard();
+            Navigation.findNavController(requireActivity(),R.id.main_nav_host).navigateUp();
+            return true;
+        } else if (itemId == R.id.mnu_edit_note_save) {
+            save();
+            Navigation.findNavController(requireActivity(), R.id.main_nav_host).navigateUp();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
