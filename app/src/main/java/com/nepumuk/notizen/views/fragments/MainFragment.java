@@ -51,6 +51,7 @@ public class MainFragment extends NavHostFragment {
 
     private SwipeRecyclerView recyclerView;
     private MainViewModel mainViewModel;
+    private EditNoteViewModel<DatabaseStorable> editNoteModel;
 
 
     public static final int REQUEST_EDIT_NOTE = 1;
@@ -181,8 +182,6 @@ public class MainFragment extends NavHostFragment {
         // TODO add fab for new types
         //  e.g. camera
     }
-
-    static EditNoteViewModel<DatabaseStorable> editNoteModel;
 
     /**
      * calls the edit note activity with the given note for editing purposes

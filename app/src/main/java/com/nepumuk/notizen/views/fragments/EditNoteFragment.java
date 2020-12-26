@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -49,6 +50,24 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      */
     private boolean wasChanged = false;
 
+    OnBackPressedCallback callback;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // This callback will only be called when MyFragment is at least Started.
+        callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                if (!saveDialogIfChanged()) {
+                    return;
+                }
+                // Handle the back button event
+                Navigation.findNavController(requireActivity(), R.id.main_nav_host).navigateUp();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,6 +116,8 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     @Override
     public void saveAndExit() {
         save();
+        // Handle the back button event
+        Navigation.findNavController(requireActivity(), R.id.main_nav_host).navigateUp();
     }
 
     @Override
@@ -119,8 +140,6 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         mViewModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
         mViewModel.observe(this, o -> wasChanged = true);
 
-        EditNoteViewModel.SaveState.Origin creator = mViewModel.getSaveState().origin;
-
         if (!mViewModel.isValueSet()) {
             DatabaseStorable data;
             // intents from shortcut
@@ -129,22 +148,19 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
                     data = DefaultTaskNoteStrategy.create();
                     // report shortcut usage
                     new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TASK_NOTE);
-                    creator = EditNoteViewModel.SaveState.Origin.EDIT;
                     break;
                 case "TextNote":
                     data = DefaultTextNoteStrategy.create();
                     // report shortcut usage
                     new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TEXT_NOTE);
-                    creator = EditNoteViewModel.SaveState.Origin.EDIT;
                     break;
                 default:
                     data = MainActivity.IntentHandler.handleExtra(requireArguments());
             }
             EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
-            saveState.origin = EditNoteViewModel.SaveState.Origin.EDIT;
             mViewModel.setNote(saveState);
+            mViewModel.getSaveState().origin = EditNoteViewModel.SaveState.Origin.EDIT;
         }
-        mViewModel.getSaveState().origin = creator;
         originalData = mViewModel.getValue().getDataString();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

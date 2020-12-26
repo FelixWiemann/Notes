@@ -13,7 +13,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.navigation.NavigationView;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
         setContentView(R.layout.activity_main);
-
         model = new ViewModelProvider(this).get(MainViewModel.class);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -49,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host);
         NavController navController = navHost.getNavController();
         AppBarConfiguration appBarConfiguration =
-                new AppBarConfiguration.Builder(navController.getGraph()).setOpenableLayout(findViewById(R.id.drawerLayout)).build();
-        NavigationUI.setupActionBarWithNavController(this, navController,appBarConfiguration);
-        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+                new AppBarConfiguration.Builder(navController.getGraph())
+                        .setOpenableLayout(findViewById(R.id.drawerLayout))
+                        .build();
 
-        NavigationUI.setupWithNavController((NavigationView) findViewById(R.id.navview),navController);
+
+        NavigationUI.setupWithNavController(toolbar, navController,findViewById(R.id.drawerLayout));
+        NavigationUI.setupActionBarWithNavController(this, navController,appBarConfiguration);
 
         DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(getIntent());
         if (fromIntent != null) {
