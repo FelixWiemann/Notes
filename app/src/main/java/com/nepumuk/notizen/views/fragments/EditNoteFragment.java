@@ -1,5 +1,6 @@
 package com.nepumuk.notizen.views.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -62,8 +64,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
                 if (!saveDialogIfChanged()) {
                     return;
                 }
-                // Handle the back button event
-                Navigation.findNavController(requireActivity(), R.id.main_nav_host).navigateUp();
+                exit();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -113,11 +114,18 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         mViewModel.update();
     }
 
+    private void exit(){
+        // Handle the back button event
+        Navigation.findNavController(requireActivity(), R.id.main_nav_host).navigateUp();
+        // hide keyboard
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
+
     @Override
     public void saveAndExit() {
         save();
-        // Handle the back button event
-        Navigation.findNavController(requireActivity(), R.id.main_nav_host).navigateUp();
+        exit();
     }
 
     @Override
@@ -217,11 +225,11 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         int itemId = item.getItemId();
         if (itemId == R.id.mnu_edit_note_cancel) {
             discard();
-            Navigation.findNavController(requireActivity(),R.id.main_nav_host).navigateUp();
+            exit();
             return true;
         } else if (itemId == R.id.mnu_edit_note_save) {
             save();
-            Navigation.findNavController(requireActivity(), R.id.main_nav_host).navigateUp();
+            exit();
             return true;
         }
         return super.onOptionsItemSelected(item);
