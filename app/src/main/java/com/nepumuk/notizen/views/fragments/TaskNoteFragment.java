@@ -135,9 +135,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         saveState.origin = EditNoteViewModel.SaveState.Origin.MAIN;
         taskViewModel.setNote(saveState);
         CreateTaskDialogFragment fragment = new CreateTaskDialogFragment(this);
-        /*getChildFragmentManager().setFragmentResultListener("CREATE_TASK", this, (requestKey, result) -> {
-        });*/
-        fragment.setTargetFragment(this,1337);
         fragment.show(getParentFragmentManager(), "CREATE_TASK");
     }
 
