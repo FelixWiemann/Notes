@@ -16,7 +16,6 @@ import androidx.preference.PreferenceManager;
 import com.nepumuk.notizen.R;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -50,7 +49,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     }
 
-    private void registerPreferenceListener(String PrefId, Preference.OnPreferenceClickListener prefClickListener,Preference.OnPreferenceChangeListener prefChangeListener){
+    protected void registerPreferenceListener(String PrefId, Preference.OnPreferenceClickListener prefClickListener,Preference.OnPreferenceChangeListener prefChangeListener){
         if(!isCreated){
             // Fragment is not yet properly created, put listeners in a queue to register later on
             clickListenersToRegister.put(PrefId,prefClickListener);
@@ -75,13 +74,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
      * @param prefClickListener
      */
     public void registerPreferenceListener(@StringRes int PrefId, Preference.OnPreferenceClickListener prefClickListener, Preference.OnPreferenceChangeListener prefChangeListener){
-        String prefName;
-        try {
-            prefName = Objects.requireNonNull(getString(PrefId));
-            registerPreferenceListener(prefName, prefClickListener, prefChangeListener);
-        }catch (NullPointerException ex){
-            throw new IllegalArgumentException("trying to register unknown pref id");
-        }
+        registerPreferenceListener(getString(PrefId), prefClickListener, prefChangeListener);
     }
 
     public Preference findPreference(@StringRes int PrefId){
