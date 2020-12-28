@@ -1,9 +1,9 @@
 package com.nepumuk.notizen.objects.notes;
 
+import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.tasks.Task;
-import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.testutils.AndroidTest;
 
 import org.junit.Before;
@@ -15,7 +15,6 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.spy;
@@ -68,7 +67,6 @@ public class TaskNoteTest extends AndroidTest {
         testNote.addTask(mockedTask2);
         // then
         assertTrue(testNote.getTaskList().contains(mockedTask2));
-        verify(testNote,atLeastOnce()).updateData();
     }
 
     @Test
@@ -137,7 +135,6 @@ public class TaskNoteTest extends AndroidTest {
         testNote.updateTask(task1);
         // then
         assertTrue(testNote.getTaskAtPos(0).isDone());
-        verify(testNote,atLeastOnce()).updateData();
     }
 
     @Test
@@ -148,7 +145,6 @@ public class TaskNoteTest extends AndroidTest {
         testNote.deleteTask(task1);
         // then
         assertEquals(expectedSize, testNote.getTaskList().size());
-        verify(testNote,atLeastOnce()).updateData();
     }
 
 

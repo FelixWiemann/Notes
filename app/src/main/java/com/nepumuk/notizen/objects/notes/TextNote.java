@@ -49,7 +49,6 @@ public class TextNote extends Note {
      */
     public void setMessage(String mMessage) {
         this.mMessage = mMessage;
-        onDataChanged();
     }
 
     /**

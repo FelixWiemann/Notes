@@ -1,6 +1,5 @@
 package com.nepumuk.notizen.objects;
 
-import com.nepumuk.notizen.utils.OnUpdateCallback;
 import com.nepumuk.notizen.objects.filtersort.SortCategory;
 import com.nepumuk.notizen.testutils.AndroidTest;
 
@@ -70,25 +69,9 @@ public class StorageObjectTest extends AndroidTest {
     }
 
     @Test
-    public void onDataChanged() {
-        StorageObjectImpl testImpl = Mockito.spy(object);
-        testImpl.onDataChanged();
-        Mockito.verify(testImpl, Mockito.times(1)).updateData();
-    }
-
-    @Test
-    public void updateData() {
-        OnUpdateCallback callback = Mockito.mock(OnUpdateCallback.class);
-        object.setOnChangeListener(callback);
-        Mockito.verify(callback, Mockito.times(1)).update();
-    }
-
-    @Test
     public void setTitle() {
         StorageObjectImpl testImpl = Mockito.spy(object);
-       // Mockito.when(testImpl.setTitle(anyString())).thenCallRealMethod();
         testImpl.setTitle("new title");
-        Mockito.verify(testImpl, Mockito.times(1)).updateData();
         assertEquals("new title", testImpl.getTitle());
     }
 

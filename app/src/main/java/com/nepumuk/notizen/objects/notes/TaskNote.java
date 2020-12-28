@@ -68,7 +68,6 @@ public class TaskNote extends Note {
      */
     public void addTask(BaseTask taskToAdd){
         mTaskList.add(taskToAdd);
-        this.updateData();
     }
 
     /**
@@ -94,7 +93,6 @@ public class TaskNote extends Note {
         }
         // clear the list
         mTaskList.clear();
-        this.updateData();
     }
 
 
@@ -116,7 +114,6 @@ public class TaskNote extends Note {
         clearTaskList();
         // set tasklist
         this.mTaskList = pTaskList;
-        this.updateData();
     }
 
     @Override

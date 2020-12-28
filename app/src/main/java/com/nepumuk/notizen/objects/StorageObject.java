@@ -1,10 +1,9 @@
 package com.nepumuk.notizen.objects;
 
-import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
-import com.nepumuk.notizen.utils.DateStrategy;
-import com.nepumuk.notizen.utils.OnUpdateCallback;
-import com.nepumuk.notizen.objects.filtersort.SortCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nepumuk.notizen.objects.filtersort.SortCategory;
+import com.nepumuk.notizen.utils.DateStrategy;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
 import java.util.UUID;
 
@@ -61,27 +60,9 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
         return super.getTitle();
     }
 
-    /**
-     * to be called, if the data in your implementation have been changed.
-     * e.g. due to changes by the user
-     */
-    protected void onDataChanged(){
-        updateData();
-    }
-
-    /**
-     * update all depending listeners
-     */
-    public void updateData(){
-        if (callback != null) {
-            callback.update();
-        }
-    }
-
     @Override
     public void setTitle(String pTitle){
         super.setTitle(pTitle);
-        onDataChanged();
     }
 
     /**
@@ -102,7 +83,6 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
      * @see DateStrategy#getCurrentTime()
      */
     public void setLastChangedDate(){
-        // TODO do I need to onDataChanged here as well?
         mLastChangedDate = DateStrategy.getCurrentTime();
     }
 
@@ -130,20 +110,6 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
      */
     protected void setCreationDate(){
         mCreationDate = DateStrategy.getCurrentTime();
-        onDataChanged();
     }
 
-    // TODO probably remove and put somewhere display related
-    //  Update: can be removed once everything is done in view holders needed for recycler view...
-    private OnUpdateCallback callback;
-
-    /**
-     * set the listener for updates and immediately informs him of the current state
-     * @param onChangeListener new listener
-     */
-    public void setOnChangeListener(OnUpdateCallback onChangeListener) {
-        callback = onChangeListener;
-        // make sure callback already knows sth has changed
-        updateData();
-    }
 }
