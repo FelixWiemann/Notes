@@ -122,7 +122,6 @@ public class DbDataHandler {
      * @param objectId of object to delete
      */
     public void delete(String objectId) {
-        Log.i(TAG, "deleting " + objectId);
         String selection = DbHelper.aDB_COLUMN_ID + " LIKE ?";
         String[] selectionArgs = {objectId};
         aHelper.delete(selection,selectionArgs);

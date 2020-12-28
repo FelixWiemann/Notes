@@ -34,7 +34,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        Log.i(TAG, "creating DB Master");
         init();
     }
 
@@ -57,7 +56,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.i(TAG, "Database Created");
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
     }
 
