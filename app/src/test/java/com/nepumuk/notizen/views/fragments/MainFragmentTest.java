@@ -7,8 +7,6 @@ import com.nepumuk.notizen.testutils.FragmentTest;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 @Ignore("FAB needs: The style on this component requires your app theme to be Theme.AppCompat (or a descendant).")
 public class MainFragmentTest extends FragmentTest<MainFragment> {
 

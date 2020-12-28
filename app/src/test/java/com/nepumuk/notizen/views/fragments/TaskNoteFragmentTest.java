@@ -6,8 +6,6 @@ import com.nepumuk.notizen.testutils.FragmentTest;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class TaskNoteFragmentTest extends FragmentTest<TaskNoteFragment> {
 
     @Test

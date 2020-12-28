@@ -29,7 +29,7 @@ public class NoteDisplayHeaderFragment extends NoteDisplayFragment<StorageObject
      * state if the message field is being changed
      * if it is being changed we don't want the changed data being updated by the view model again
      */
-    private boolean typingInMessage = false;
+    protected boolean typingInMessage = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,24 +40,7 @@ public class NoteDisplayHeaderFragment extends NoteDisplayFragment<StorageObject
     public void onViewCreated(View view,
                               Bundle savedInstanceState) {
         EditText tv = view.findViewById(R.id.et_Title);
-        tv.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!updatingUI) {
-                    // we are not updating the UI, so we are sure that the changes are made by the user
-                    typingInMessage = true;
-                    // update view model after setting the new message text to the note
-                    mViewModel.getSaveState().data.setTitle(s.toString());
-                    mViewModel.update();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
+        tv.addTextChangedListener(textWatcher);
     }
 
     @Override
@@ -72,5 +55,24 @@ public class NoteDisplayHeaderFragment extends NoteDisplayFragment<StorageObject
         typingInMessage = false;
     }
 
+
+    public TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!updatingUI) {
+                // we are not updating the UI, so we are sure that the changes are made by the user
+                typingInMessage = true;
+                // update view model after setting the new message text to the note
+                mViewModel.getSaveState().data.setTitle(s.toString());
+                mViewModel.update();
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {}
+    };
 
 }
