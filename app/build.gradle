@@ -115,8 +115,8 @@ dependencies {
     testImplementation "org.powermock:powermock-core:1.7.3"
     testImplementation "org.powermock:powermock-module-junit4:1.7.3"
     testImplementation "org.powermock:powermock-api-mockito2:1.7.3"
-    testImplementation "androidx.fragment:fragment-testing:1.2.5"
-    debugImplementation "androidx.fragment:fragment-testing:1.2.5"
+    // TODO figure out a better way to test fragments in release build
+    implementation "androidx.fragment:fragment-testing:1.2.5"
 }
 repositories {
     mavenCentral()
