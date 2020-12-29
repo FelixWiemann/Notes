@@ -2,6 +2,7 @@ package com.nepumuk.notizen.views.adapters.view_holders;
 
 import android.view.View;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ public class TaskNoteViewHolder extends ViewHolderInterface<TaskNote> {
     private final RecyclerView task;
 
 
+    @Keep
     public TaskNoteViewHolder(@NonNull View itemView) {
         super(itemView);
         task = itemView.findViewById(R.id.lvContentHolder);

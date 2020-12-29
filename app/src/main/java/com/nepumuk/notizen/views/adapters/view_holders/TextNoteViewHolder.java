@@ -1,8 +1,10 @@
 package com.nepumuk.notizen.views.adapters.view_holders;
 
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.notes.TextNote;
@@ -12,6 +14,7 @@ public class TextNoteViewHolder extends ViewHolderInterface<TextNote> {
 
     private final TextView message ;
 
+    @Keep
     public TextNoteViewHolder(@NonNull View itemView) {
         super(itemView);
         message = itemView.findViewById(R.id.note_view_tv);

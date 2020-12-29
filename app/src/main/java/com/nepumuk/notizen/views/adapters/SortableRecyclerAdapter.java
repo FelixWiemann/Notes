@@ -1,21 +1,24 @@
 package com.nepumuk.notizen.views.adapters;
 
+import androidx.annotation.Keep;
+
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.objects.filtersort.FilterShowAll;
+import com.nepumuk.notizen.objects.filtersort.Sorter;
 import com.nepumuk.notizen.objects.filtersort.ViewFilter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+@Keep
 public class SortableRecyclerAdapter<T extends StorageObject> extends BaseRecyclerAdapter<T> {
 
     private ArrayList<T> filteredOut;
 
     private ViewFilter<T> currentFilter;
 
-    private Comparator<T> currentComparator;
+    private Sorter<T> currentComparator;
 
 
     public SortableRecyclerAdapter(List<T> itemList, int SortOrder) {
@@ -66,6 +69,7 @@ public class SortableRecyclerAdapter<T extends StorageObject> extends BaseRecycl
     /**
      * sort the data based on the currently set comparator
      */
+    @Keep
     public void sort(){
         if (currentComparator == null) return;
         Collections.sort(itemList, currentComparator);
@@ -76,7 +80,7 @@ public class SortableRecyclerAdapter<T extends StorageObject> extends BaseRecycl
      * sort the data based on the given comparator.
      * this also sets it for future #SortableAdapter::sort() calls
      */
-    public void sort(Comparator<T> sortBy){
+    public void sort(Sorter<T> sortBy){
         currentComparator = sortBy;
         sort();
     }

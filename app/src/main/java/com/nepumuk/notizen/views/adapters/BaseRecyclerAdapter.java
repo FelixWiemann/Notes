@@ -1,12 +1,13 @@
 package com.nepumuk.notizen.views.adapters;
 
-import androidx.annotation.CallSuper;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.nepumuk.notizen.objects.StorageObject;
 import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderFactory;

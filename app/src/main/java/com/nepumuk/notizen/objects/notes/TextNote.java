@@ -1,5 +1,7 @@
 package com.nepumuk.notizen.objects.notes;
 
+import androidx.annotation.Keep;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
@@ -7,6 +9,7 @@ import java.util.UUID;
 /**
  * a Text Note is a traditional note containing only a title and a message
  */
+@Keep
 public class TextNote extends Note {
 
     /**

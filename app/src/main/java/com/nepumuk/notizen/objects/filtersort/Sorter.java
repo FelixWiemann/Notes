@@ -1,9 +1,12 @@
 package com.nepumuk.notizen.objects.filtersort;
 
+import androidx.annotation.Keep;
+
 import com.nepumuk.notizen.objects.SortableObject;
 
 import java.util.Comparator;
 
+@Keep
 public interface Sorter<T extends SortableObject> extends Comparator<T>, CompareTypeSpec<T> {
 
     int GREATER = 1;

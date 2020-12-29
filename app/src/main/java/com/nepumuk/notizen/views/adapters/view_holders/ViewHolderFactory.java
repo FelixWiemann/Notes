@@ -1,12 +1,13 @@
 package com.nepumuk.notizen.views.adapters.view_holders;
 
+import android.util.Log;
 import android.view.View;
 
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.notes.TextNote;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
+import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;

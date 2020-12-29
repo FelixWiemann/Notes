@@ -1,5 +1,6 @@
 package com.nepumuk.notizen.objects.notes;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,12 +13,10 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- *
- *
- *
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
  */
+@Keep
 public class TaskNote extends Note {
 
     private static final String LOG_TAG = "TaskNote";

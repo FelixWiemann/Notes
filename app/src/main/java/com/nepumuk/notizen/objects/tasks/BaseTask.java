@@ -1,5 +1,7 @@
 package com.nepumuk.notizen.objects.tasks;
 
+import androidx.annotation.Keep;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -17,6 +19,7 @@ import static com.nepumuk.notizen.objects.filtersort.SortCategory.TASK_DONE_TIME
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
  */
+@Keep
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "className")
 public abstract class BaseTask extends StorageObject {
 

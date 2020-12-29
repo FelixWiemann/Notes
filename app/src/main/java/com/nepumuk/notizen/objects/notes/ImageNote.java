@@ -1,6 +1,8 @@
 package com.nepumuk.notizen.objects.notes;
 
 
+import androidx.annotation.Keep;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
@@ -12,6 +14,7 @@ import java.util.UUID;
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
  */
+@Keep
 public class ImageNote extends Note {
 
     private static final String LOG_TAG = "ImageNote";

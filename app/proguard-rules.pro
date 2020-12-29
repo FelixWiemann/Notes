@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-printconfiguration './full-r8-config.txt'
+-keepattributes LineNumberTable,SourceFile
+-keep public class androidx.navigation.fragment.NavHostFragment
+-keep public class com.nepumuk.notizen.settings.SettingsFragment

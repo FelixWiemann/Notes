@@ -1,5 +1,7 @@
 package com.nepumuk.notizen.objects.tasks;
 
+import androidx.annotation.Keep;
+
 import java.util.UUID;
 
 /**
@@ -8,6 +10,7 @@ import java.util.UUID;
  * Created as part of notes in package com.nepumuk.notizen.FrontEnd.Task
  * by Felix "nepumuk" Wiemann on 15/07/17.
  */
+@Keep
 public class Task extends BaseTask {
 
     /**

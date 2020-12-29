@@ -33,6 +33,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "@string/app_name_base"
         }
@@ -40,6 +41,14 @@ android {
             applicationIdSuffix '.debug'
             resValue "string", "app_name", "@string/app_name_debug"
         }
+        debugminify {
+            initWith debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationIdSuffix '.debug'
+        }
+
     }
     testOptions {
         unitTests.includeAndroidResources = true
