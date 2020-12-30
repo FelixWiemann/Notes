@@ -31,7 +31,6 @@ public abstract class FragmentTest<T extends Fragment> {
     @Before
     public void before() throws Exception {
         setUp();
-        scenario.moveToState(Lifecycle.State.CREATED);
     }
 
     @After

@@ -17,6 +17,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null" />
+        <action
+            android:id="@+id/action_editNoteFragment_to_createTaskDialogFragment"
+            app:destination="@id/createTaskDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -26,4 +29,9 @@
             android:id="@+id/action_mainFragment_to_editNoteFragment"
             app:destination="@id/editNoteFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/createTaskDialogFragment"
+        android:name="com.nepumuk.notizen.views.fragments.CreateTaskDialogFragment"
+        android:label="CreateTaskDialogFragment" >
+    </dialog>
 </navigation>

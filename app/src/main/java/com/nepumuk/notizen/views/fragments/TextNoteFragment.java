@@ -1,7 +1,6 @@
 package com.nepumuk.notizen.views.fragments;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.notes.TextNote;
+import com.nepumuk.notizen.utils.SimpleTextWatcher;
 
 
 public class TextNoteFragment extends  NoteDisplayFragment<TextNote>{
@@ -47,23 +47,14 @@ public class TextNoteFragment extends  NoteDisplayFragment<TextNote>{
         typingInMessage = false;
     }
 
-    protected TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (!updatingUI) {
-                // we are not updating the UI, so we are sure that the changes are made by the user
-                typingInMessage = true;
-                // update view model after setting the new message text to the note
-                mViewModel.getValue().setMessage(s.toString());
-                mViewModel.update();
-            }
+    private final TextWatcher textWatcher = new SimpleTextWatcher(editable->{
+        if (!updatingUI) {
+            // we are not updating the UI, so we are sure that the changes are made by the user
+            typingInMessage = true;
+            // update view model after setting the new message text to the note
+            mViewModel.getValue().setMessage(editable.toString());
+            mViewModel.update();
         }
-
-        @Override
-        public void afterTextChanged(Editable s) {}
-    };
+    });
 
 }

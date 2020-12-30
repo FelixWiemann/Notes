@@ -1,6 +1,5 @@
 package com.nepumuk.notizen.views.adapters.view_holders;
 
-import android.util.Log;
 import android.view.View;
 
 import com.nepumuk.notizen.R;

@@ -52,21 +52,20 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      */
     private boolean wasChanged = false;
 
-    OnBackPressedCallback callback;
+    OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        @Override
+        public void handleOnBackPressed() {
+            if (!saveDialogIfChanged()) {
+                return;
+            }
+            exit();
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // This callback will only be called when MyFragment is at least Started.
-        callback = new OnBackPressedCallback(true /* enabled by default */) {
-            @Override
-            public void handleOnBackPressed() {
-                if (!saveDialogIfChanged()) {
-                    return;
-                }
-                exit();
-            }
-        };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
@@ -116,7 +115,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
 
     private void exit(){
         // Handle the back button event
-        Navigation.findNavController(requireActivity(), R.id.main_nav_host).navigateUp();
+        Navigation.findNavController(requireView()).navigateUp();
         // hide keyboard
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
@@ -167,7 +166,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
             }
             EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
             mViewModel.setNote(saveState);
-            mViewModel.getSaveState().origin = EditNoteViewModel.SaveState.Origin.EDIT;
+            mViewModel.getSaveState().origin = EditNoteViewModel.SaveState.Origin.EDITOR;
         }
         originalData = mViewModel.getValue().getDataString();
         FragmentManager fragmentManager = getChildFragmentManager();

@@ -1,7 +1,6 @@
 package com.nepumuk.notizen.views.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
@@ -67,8 +68,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
             deleteTask(task);
             taskHolder.resetSwipeState();
         };
-        taskHolder.addOnItemTouchListener(new SwipableOnItemTouchListener(taskHolder, (e)->
-            {
+        taskHolder.addOnItemTouchListener(new SwipableOnItemTouchListener(taskHolder, (e)-> {
                 currentEditedNoteIndex = taskHolder.getChildAdapterPosition(taskHolder.findChildViewUnder(e.getX(), e.getY()));
                 if (currentEditedNoteIndex == -1) return true;
                 BaseTask task = adapter.getItem(currentEditedNoteIndex);
@@ -77,6 +77,21 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
             })
         );
         return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // TODO dependency injection!
+        NavController controller = testController==null?Navigation.findNavController(requireActivity(),R.id.main_nav_host):testController;
+        // get the view model of the parent activity
+        taskViewModel = new ViewModelProvider(controller.getCurrentBackStackEntry()).get(EditNoteViewModel.class);
+        // let this observe the view model
+        taskViewModel.observe(this, data-> {
+            if (data.save) {
+                updateTask(data.data);
+            }
+        });
     }
 
     /**
@@ -92,20 +107,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         taskHolder.setAdapter(adapter);
         adapter.sort(SortProvider.SortTasksDone);
         adapter.notifyDataSetChanged();
-    }
-
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        // get the view model of the parent activity
-        taskViewModel = new ViewModelProvider(this).get(EditNoteViewModel.class);
-        // let this observe the view model
-        taskViewModel.observe(this, data-> {
-            if (data.save) {
-                updateTask(data.data);
-            }
-        });
     }
 
     /**
@@ -132,10 +133,9 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
 
     private void callEditTaskFragment(BaseTask taskToEdit){
         EditNoteViewModel.SaveState<BaseTask> saveState = new EditNoteViewModel.SaveState<>(taskToEdit);
-        saveState.origin = EditNoteViewModel.SaveState.Origin.MAIN;
+        saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
         taskViewModel.setNote(saveState);
-        CreateTaskDialogFragment fragment = new CreateTaskDialogFragment(this);
-        fragment.show(getParentFragmentManager(), "CREATE_TASK");
+        Navigation.findNavController(requireView()).navigate(R.id.createTaskDialogFragment);
     }
 
     @Override
@@ -149,5 +149,15 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
             currentEditedNoteIndex = INVALID_INDEX;
             callEditTaskFragment(new Task(UUID.randomUUID(),"","",false));
         });
+    }
+
+    NavController testController;
+    public void setNavigationController(NavController controller) {
+        try {
+            Class.forName("org.junit.Test");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalAccessError("Access outside of test");
+        }
+        this.testController = controller;
     }
 }

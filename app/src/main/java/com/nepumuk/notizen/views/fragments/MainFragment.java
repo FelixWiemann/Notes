@@ -90,7 +90,7 @@ public class MainFragment extends NavHostFragment {
     private void initFragment(@NonNull View content){
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         editNoteModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
-        if (editNoteModel.isValueSet()&&editNoteModel.getSaveState().origin != EditNoteViewModel.SaveState.Origin.MAIN){
+        if (editNoteModel.isValueSet()&&editNoteModel.getSaveState().origin != EditNoteViewModel.SaveState.Origin.PARENT){
             // if created via deeplink
             mainViewModel.updateOrCreate(editNoteModel.getValue());
         }
@@ -191,13 +191,13 @@ public class MainFragment extends NavHostFragment {
 
         NavDirections action = MainFragmentDirections.actionMainFragmentToEditNoteFragment();
 
-        Navigation.findNavController(this.getActivity(),R.id.main_nav_host).navigate(action);
+        Navigation.findNavController(requireActivity(),R.id.main_nav_host).navigate(action);
         try {
             // TODO do I have to go via storable factory?
             //  implement deep clone?
             //  is ref enough?
             EditNoteViewModel.SaveState saveState = new EditNoteViewModel.SaveState(StorableFactory.createFromData(storable.getId(),storable.getType(),storable.getDataString(),storable.getVersion()));
-            saveState.origin = EditNoteViewModel.SaveState.Origin.MAIN;
+            saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
             editNoteModel.replace(saveState);
         } catch (UnpackingDataException e) {
             Log.e(TAG, "callEditNote: ", e);

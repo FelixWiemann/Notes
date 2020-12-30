@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
 
 /**
- * View Model containing an instance of a note of type T extending DatabaseStorable
+ * <p>View model containing an instance of a note of type <code>T</code> extending  {@link  DatabaseStorable}</p>
  *
- * the note is being held in a MutableLiveData
+ * </p><p>the note is being held in a {@link MutableLiveData}</p>
  *
- * @param <T> Type of the DatabaseStorable to be hold
+ * @param <T> Type of the {@link  DatabaseStorable} to be hold
  */
 public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
 
@@ -55,7 +55,7 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
     }
 
     /**
-     * utility function to wrap MutableLiveData.getValue()
+     * utility function to wrap {@link MutableLiveData#getValue()}
      * @return value of MutableLiveData
      */
     public T getValue(){
@@ -67,7 +67,7 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
     }
 
     /**
-     * utility function to wrap MutableLiveData.observe
+     * utility function to wrap {@link MutableLiveData#observe}
      * @param owner of the lifecycle
      * @param observer observing changes
      */
@@ -80,9 +80,23 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
      * @param <Y> type param
      */
     public static class SaveState<Y extends DatabaseStorable>{
+        /**
+         * <p>whether the changed data have to be saved in some way</p>
+         * <p></p>
+         * <p>this should be set to true for any instance ( = {@link Origin#EDITOR}) that changed the value and wants to have it saved</p>
+         * <p></p>
+         * <p>this should be used for any instance ( = {@link Origin#PARENT}) that called another one ( = {@link Origin#EDITOR}) to change data</p>
+         */
         public boolean save = false;
+        /**
+         * held data
+         */
         public Y data;
+        /**
+         * {@link Origin} of the data
+         */
         public Origin origin = null;
+
         public SaveState(Y data) {
             super();
             this.data = data;
@@ -93,13 +107,13 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
          */
         public enum  Origin{
             /**
-             * was created by an editor
+             * created by the editor, the instance changing the {@link #data}
              */
-            EDIT,
+            EDITOR,
             /**
-             * was created from main
+             * created by the parent to request changes to {@link #data} before it called the editor
              */
-            MAIN
+            PARENT
         }
     }
 

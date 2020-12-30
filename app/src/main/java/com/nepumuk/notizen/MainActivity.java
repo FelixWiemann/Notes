@@ -8,7 +8,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
+import androidx.navigation.NavHostController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host);
-        NavController navController = navHost.getNavController();
+        NavHostController navController = (NavHostController) navHost.getNavController();
+        //navController.enableOnBackPressed(true);
         AppBarConfiguration appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph())
                         .setOpenableLayout(findViewById(R.id.drawerLayout))
