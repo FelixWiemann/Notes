@@ -5,7 +5,11 @@ import android.os.Build;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.nepumuk.notizen.utils.ContextManager;
+import com.nepumuk.notizen.utils.ContextManagerException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +34,9 @@ public abstract class FragmentTest<T extends Fragment> {
 
     @Before
     public void before() throws Exception {
+        try {
+            ContextManager.getInstance().setUp(ApplicationProvider.getApplicationContext());
+        }catch (ContextManagerException ex){};
         setUp();
     }
 

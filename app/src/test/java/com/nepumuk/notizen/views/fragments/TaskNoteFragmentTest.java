@@ -18,8 +18,6 @@ import com.nepumuk.notizen.objects.notes.TaskNote;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.tasks.Task;
 import com.nepumuk.notizen.testutils.FragmentTest;
-import com.nepumuk.notizen.utils.ContextManager;
-import com.nepumuk.notizen.utils.ContextManagerException;
 import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
 
 import org.junit.Ignore;
@@ -83,11 +81,6 @@ public class TaskNoteFragmentTest extends FragmentTest<TaskNoteFragment> {
             FabProvider provider = mock(FabProvider.class);
             FloatingActionButton button = mock(FloatingActionButton.class);
             when(provider.getFab()).thenReturn(button);
-            try {
-                ContextManager.getInstance().setUp(fragment.getActivity().getApplicationContext());
-            } catch (ContextManagerException e) {
-                throw new RuntimeException(e);
-            }
             // when
             fragment.registerFabProvider(provider);
             // then
@@ -135,10 +128,6 @@ public class TaskNoteFragmentTest extends FragmentTest<TaskNoteFragment> {
                 return f;
             }
         };
-        scenario = FragmentScenario.launch(TaskNoteFragment.class,null,R.style.Theme_AppCompat_Light_NoActionBar,factory);
-        scenario.onFragment(fragment -> {
-            Navigation.setViewNavController(fragment.requireView(), navController);
-        });
-
+        scenario = FragmentScenario.launchInContainer(TaskNoteFragment.class,null,R.style.Theme_AppCompat_Light_NoActionBar,factory);
     }
 }

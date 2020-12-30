@@ -1,5 +1,6 @@
 package com.nepumuk.notizen.views.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,7 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
@@ -53,13 +54,13 @@ public class CreateTaskDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.create_task_fragment,container);
+        return inflater.inflate(R.layout.create_task_fragment,container,false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NavBackStackEntry entry = Navigation.findNavController(getParentFragment().requireActivity(),R.id.main_nav_host).getPreviousBackStackEntry();
+        NavBackStackEntry entry = NavHostFragment.findNavController(this).getPreviousBackStackEntry();
         taskViewModel = new ViewModelProvider(entry).get(EditNoteViewModel.class);
         textTaskTitle = view.findViewById(R.id.task_title);
         taskViewModel.observe(this, task -> {
@@ -75,9 +76,13 @@ public class CreateTaskDialogFragment extends DialogFragment {
         });
 
         textTaskTitle.addTextChangedListener(taskTitleWatcher);
-        Window window = getDialog().getWindow();
-        if (window!=null) {
-            window.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE);
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            // when testing, the dialog fragment is not part of a dialog, get dialog returns null.
+            Window window = dialog.getWindow();
+            if (window != null) {
+                window.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE);
+            }
         }
         textTaskMessage = view.findViewById(R.id.task_message);
 
