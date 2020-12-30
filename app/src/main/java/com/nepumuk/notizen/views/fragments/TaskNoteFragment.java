@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
@@ -48,17 +49,10 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         currentEditedNoteIndex = INVALID_INDEX;
     }
 
-
-    /**
-     * override to provide custom layout resource and view group container for the fragment
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
+        // TODO move view init out of here, as per recommendation
         taskHolder = v.findViewById(R.id.task_holder);
         final SwipableRecyclerAdapter<BaseTask> adapter = taskHolder.getAdapter();
         adapter.OnLeftClick = (clickedOn, parentView) -> {
@@ -82,8 +76,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // TODO dependency injection!
-        NavController controller = testController==null?Navigation.findNavController(requireActivity(),R.id.main_nav_host):testController;
+        NavController controller = NavHostFragment.findNavController(this);
         // get the view model of the parent activity
         taskViewModel = new ViewModelProvider(controller.getCurrentBackStackEntry()).get(EditNoteViewModel.class);
         // let this observe the view model
@@ -104,7 +97,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     protected void updateUI(TaskNote updatedData) {
         SwipableRecyclerAdapter<BaseTask> adapter = taskHolder.getAdapter();
         adapter.replace(updatedData.getTaskList());
-        taskHolder.setAdapter(adapter);
+        //taskHolder.setAdapter(adapter);
         adapter.sort(SortProvider.SortTasksDone);
         adapter.notifyDataSetChanged();
     }
@@ -149,15 +142,5 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
             currentEditedNoteIndex = INVALID_INDEX;
             callEditTaskFragment(new Task(UUID.randomUUID(),"","",false));
         });
-    }
-
-    NavController testController;
-    public void setNavigationController(NavController controller) {
-        try {
-            Class.forName("org.junit.Test");
-        } catch (ClassNotFoundException e) {
-            throw new IllegalAccessError("Access outside of test");
-        }
-        this.testController = controller;
     }
 }

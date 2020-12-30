@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +44,7 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Map;
 
-public class MainFragment extends NavHostFragment {
+public class MainFragment extends Fragment {
 
     private static final String TAG = "MainFragment";
 
@@ -191,7 +191,7 @@ public class MainFragment extends NavHostFragment {
 
         NavDirections action = MainFragmentDirections.actionMainFragmentToEditNoteFragment();
 
-        Navigation.findNavController(requireActivity(),R.id.main_nav_host).navigate(action);
+        NavHostFragment.findNavController(this).navigate(action);
         try {
             // TODO do I have to go via storable factory?
             //  implement deep clone?
