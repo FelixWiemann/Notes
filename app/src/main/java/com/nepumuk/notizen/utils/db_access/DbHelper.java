@@ -30,15 +30,20 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     private static DbHelper mMasterInstance = null;
-    private static SQLiteDatabase mDB;
+    /**
+     * this database instance will be open the entire time the application runs.<p></p>
+     * it will be cleaned up by the GC of the system, the {@link SQLiteDatabase#close} will never be called by this helper.<p></p>
+     * see <a href=https://stackoverflow.com/a/7739454>this answer on StackOverflow</a> for more details
+     */
+    private SQLiteDatabase mDB;
 
-    private DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        init();
-    }
-
-    private void init(){
-        mDB = this.getReadableDatabase();
+        // if from static, the context will be always set
+        // otherwise we get it from the test injected
+        if(context!=null) {
+            mDB = this.getReadableDatabase();
+        }
     }
 
     /**
@@ -97,37 +102,14 @@ public class DbHelper extends SQLiteOpenHelper {
         return mDB.rawQuery(query, null);
     }
 
-    public String getDBPAth(){
-        return  mDB.getPath();
-    }
-
-    /**
-     * opens database connection, if not already open
-     * @throws DbMasterException, if connection is already open
-     */
-    public void openDB() throws DbMasterException {
-        if (mDB!=null){
-            throw new DbMasterException(DbMasterException.aSQL_CONNECTION_ALREADY_OPEN,null);
-        }else{
-            mDB = mMasterInstance.getReadableDatabase();
-        }
-    }
-    /**
-     * closes the DB-connection
-     */
-    public void closeDB(){
-        mDB.close();
-        mDB = null;
-    }
-
-    private static final String SQL_CREATE_ENTRIES =
+    static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + aDB_TABLE_NAME + " (" +
                     aDB_COLUMN_ID + " TEXT PRIMARY KEY," +
                     aDB_COLUMN_TYPE + " TEXT," +
                     aDB_COLUMN_JSONDATA + " TEXT," +
                     aDB_COLUMN_TYPEVERSION + " INTEGER)";
 
-    private static final String SQL_DELETE_ENTRIES =
+    static final String SQL_DELETE_ENTRIES =
            "DROP TABLE IF EXISTS '" + aDB_TABLE_NAME + "'";
 
 }

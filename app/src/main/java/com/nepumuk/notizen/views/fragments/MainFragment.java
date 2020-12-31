@@ -98,7 +98,7 @@ public class MainFragment extends Fragment {
         recyclerView = content.findViewById(R.id.adapterView);
         ArrayList<StorageObject> list = new ArrayList<>();
         final CompoundAdapter<StorageObject> adapter = new CompoundAdapter<>(list, R.layout.compound_view);
-        adapter.registerAdapter(new TitleAdapter(list,2),R.id.titleid);
+        adapter.registerAdapter(new TitleAdapter<>(list,2),R.id.titleid);
         adapter.registerAdapter(new BaseRecyclerAdapter<>(list,1), R.id.content);
         SwipableRecyclerAdapter<StorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true, R.layout.swipable_left, R.layout.swipable_empty);
         swipeAdapter.OnLeftClick = (clickedOn, parentView) -> {
