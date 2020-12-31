@@ -20,13 +20,18 @@ public class MainViewModel extends ViewModel {
     /**
      * life data content
      */
-    private final MutableLiveData<HashMap<String, DatabaseStorable>> data;
-    private final HashMap<String, DatabaseStorable> dataMap;
+    MutableLiveData<HashMap<String, DatabaseStorable>> liveData;
+    HashMap<String, DatabaseStorable> dataMap;
 
     /**
      * thread for fetching the data from the Database
      */
-    private final Thread dataFetcher;
+    Thread dataFetcher;
+
+    /**
+     * reference to Db
+     */
+    DbDataHandler handler;
 
     /**
      * creates an instance of view model containing data stored in the database
@@ -36,11 +41,16 @@ public class MainViewModel extends ViewModel {
      */
     public MainViewModel() {
         super();
-        data = helper.getLiveData();
+        liveData = new MutableLiveData<>();
         dataMap = new HashMap<>();
-        data.setValue(dataMap);
-        // do an async read of the DB
         dataFetcher = new Thread(this::readFromDatabase);
+        handler = new DbDataHandler();
+        init();
+    }
+
+    void init(){
+        // do an async read of the DB
+        liveData.setValue(dataMap);
         dataFetcher.start();
     }
 
@@ -64,10 +74,10 @@ public class MainViewModel extends ViewModel {
      * reads from the database and sets the values into the MutableLiveData
      */
     private void readFromDatabase(){
-        for (DatabaseStorable storable : helper.getDBHandler().read()) {
+        for (DatabaseStorable storable : handler.read()) {
             dataMap.put(storable.getId(), storable);
         }
-        data.postValue(dataMap);
+        liveData.postValue(dataMap);
     }
 
     /**
@@ -75,7 +85,7 @@ public class MainViewModel extends ViewModel {
      * @return data
      */
     public MutableLiveData<HashMap<String, DatabaseStorable>> getData(){
-        return data;
+        return liveData;
     }
 
     /**
@@ -104,8 +114,8 @@ public class MainViewModel extends ViewModel {
      */
     public void updateData(DatabaseStorable storable) {
         dataMap.put(storable.getId(), storable);
-        data.setValue(dataMap);
-        helper.getDBHandler().update(storable);
+        liveData.setValue(dataMap);
+        handler.update(storable);
     }
 
     /**
@@ -116,8 +126,8 @@ public class MainViewModel extends ViewModel {
      */
     public void deleteData(final DatabaseStorable storable) {
         dataMap.remove(storable.getId());
-        data.setValue(dataMap);
-        helper.getDBHandler().delete(storable);
+        liveData.setValue(dataMap);
+        handler.delete(storable);
     }
 
 
@@ -129,8 +139,8 @@ public class MainViewModel extends ViewModel {
      */
     public void createData(final DatabaseStorable storable) {
         dataMap.put(storable.getId(), storable);
-        data.setValue(dataMap);
-        helper.getDBHandler().insert(storable);
+        liveData.setValue(dataMap);
+        handler.insert(storable);
     }
 
     /**
@@ -140,7 +150,7 @@ public class MainViewModel extends ViewModel {
      * @param observer to be notified of changes
      */
     public void observe(LifecycleOwner owner, Observer<HashMap<String, DatabaseStorable>> observer) {
-        data.observe(owner, observer);
+        liveData.observe(owner, observer);
     }
 
     /**
@@ -149,21 +159,7 @@ public class MainViewModel extends ViewModel {
      * @param observer to be notified of changes
      */
     public void observeForEver(Observer<HashMap<String, DatabaseStorable>> observer) {
-        data.observeForever(observer);
-    }
-
-    /**
-     * helper class to be able to swap new calls to mocks for testing
-     */
-    static class helper{
-
-        static DbDataHandler getDBHandler() {
-            return new DbDataHandler();
-        }
-
-        static MutableLiveData<HashMap<String, DatabaseStorable>> getLiveData() {
-            return new MutableLiveData<>();
-        }
+        liveData.observeForever(observer);
     }
 
 }
