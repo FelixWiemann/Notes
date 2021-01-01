@@ -142,7 +142,7 @@ dependencies {
     testImplementation  'androidx.test.ext:junit:1.1.2'
 
 
-    testImplementation "org.robolectric:robolectric:4.5-alpha-1" // TODO move to release once released
+    testImplementation "org.robolectric:robolectric:4.5-alpha-3" // TODO move to release once released
     /**Power mock**/
     testImplementation "org.powermock:powermock-core:1.7.3"
     testImplementation "org.powermock:powermock-module-junit4:1.7.3"
