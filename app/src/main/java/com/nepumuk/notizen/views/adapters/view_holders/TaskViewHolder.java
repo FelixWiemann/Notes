@@ -41,7 +41,10 @@ public class TaskViewHolder extends ViewHolderInterface<BaseTask>{
         done.setChecked(toBind.isDone());
         done.setContentDescription(ResourceManger.getString(R.string.content_task_status) + " " + toBind.getTitle() + ": " + toBind.getStateDescription());
         // before adding the listener to avoid unclear state
-        done.setOnCheckedChangeListener((buttonView, isChecked) -> toBind.setDone(isChecked));
+        done.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            toBind.setDone(isChecked);
+            wasClickHandledByChildView = true;
+        });
     }
 
 }

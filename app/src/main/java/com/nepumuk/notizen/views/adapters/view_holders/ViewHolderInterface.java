@@ -1,8 +1,9 @@
 package com.nepumuk.notizen.views.adapters.view_holders;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 /**
  * recycler view holder to bind typed Objects
@@ -19,4 +20,18 @@ public abstract class ViewHolderInterface<T> extends RecyclerView.ViewHolder {
 
     public abstract void bind(T toBind);
 
+    /**
+     * set to true, if you detected a click to one of this instance's children
+     * if so, the parent recycler view may look at this state and decide whether to show perform it's onItemTouch action
+     */
+    protected boolean wasClickHandledByChildView = false;
+
+
+    public boolean wasChildClicked() {
+        return wasClickHandledByChildView;
+    }
+
+    public void resetChildClickedState() {
+        wasClickHandledByChildView = false;
+    }
 }

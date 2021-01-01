@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
@@ -22,6 +23,7 @@ import com.nepumuk.notizen.utils.ResourceManger;
 import com.nepumuk.notizen.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.views.SwipeRecyclerView;
 import com.nepumuk.notizen.views.adapters.SwipableRecyclerAdapter;
+import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 
 import java.util.UUID;
 
@@ -44,6 +46,8 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
 
     private int currentEditedNoteIndex;
 
+    private boolean wasActionOnView = false;
+
     public TaskNoteFragment() {
         super();
         currentEditedNoteIndex = INVALID_INDEX;
@@ -58,16 +62,30 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         adapter.OnLeftClick = (clickedOn, parentView) -> {
             currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
             if (currentEditedNoteIndex==-1) return;
+            wasActionOnView = true;
             BaseTask task = adapter.getItem(currentEditedNoteIndex);
             deleteTask(task);
             taskHolder.resetSwipeState();
         };
         taskHolder.addOnItemTouchListener(new SwipableOnItemTouchListener(taskHolder, (e)-> {
-                currentEditedNoteIndex = taskHolder.getChildAdapterPosition(taskHolder.findChildViewUnder(e.getX(), e.getY()));
-                if (currentEditedNoteIndex == -1) return true;
-                BaseTask task = adapter.getItem(currentEditedNoteIndex);
-                callEditTaskFragment(task);
+            if (wasActionOnView){
+                wasActionOnView = false;
                 return false;
+            }
+            View childView = taskHolder.findChildViewUnder(e.getX(), e.getY());
+            currentEditedNoteIndex = taskHolder.getChildAdapterPosition(childView);
+            if (currentEditedNoteIndex == -1) return true;
+            RecyclerView.ViewHolder holder = taskHolder.getChildViewHolder(childView);
+            if (holder instanceof ViewHolderInterface){
+                ViewHolderInterface<TaskNote> holderInterface = (ViewHolderInterface<TaskNote>)holder;
+                if(holderInterface.wasChildClicked()){
+                    holderInterface.resetChildClickedState();
+                    return false;
+                }
+            }
+            BaseTask task = adapter.getItem(currentEditedNoteIndex);
+            callEditTaskFragment(task);
+            return false;
             })
         );
         return v;
