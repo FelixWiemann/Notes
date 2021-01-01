@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
-import com.nepumuk.notizen.views.note_views.NoteDisplayView;
 
 import java.util.HashMap;
 
@@ -106,16 +105,10 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
         if (currentState == ExpandState.EXPANDED){
             setHeight(aSizeUnExpanded);
             currentState = ExpandState.SHRINKED;
-            if (itemView instanceof NoteDisplayView){
-                ((NoteDisplayView) itemView).onShrink();
-            }
         }else {
             setHeight(aSizeExpanded);
             // TODO get expand size of child and limit it to max size depending on Screen size
             currentState = ExpandState.EXPANDED;
-            if (itemView instanceof NoteDisplayView){
-                ((NoteDisplayView) itemView).onExpand();
-            }
         }
         // TODO animate
         expandButton.setRotationX((currentState.State*180)%360);
