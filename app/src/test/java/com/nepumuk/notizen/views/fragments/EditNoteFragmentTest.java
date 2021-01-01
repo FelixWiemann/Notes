@@ -11,14 +11,22 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.testutils.FragmentTest;
+import com.nepumuk.notizen.views.InterceptableNavigationToolbar;
 
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
 public class EditNoteFragmentTest extends FragmentTest<EditNoteFragment> {
+
+    @Mock
+    private InterceptableNavigationToolbar toolbar;
 
     @Test
     public void onCreate() {
@@ -28,11 +36,13 @@ public class EditNoteFragmentTest extends FragmentTest<EditNoteFragment> {
             fragment.requireActivity().onBackPressed();
             // then
             verify(fragment.callback,times(1)).handleOnBackPressed();
+            verify(toolbar,times(1)).addInterceptUpNavigationListener(any());
         });
     }
 
     @Override
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         // Create a TestNavHostController
         TestNavHostController navController = new TestNavHostController(
                 ApplicationProvider.getApplicationContext());
@@ -44,11 +54,15 @@ public class EditNoteFragmentTest extends FragmentTest<EditNoteFragment> {
             @Override
             public Fragment instantiate(@NonNull ClassLoader classLoader, @NonNull String className) {
                 EditNoteFragment f = (EditNoteFragment) super.instantiate(classLoader, className);
+                // set navController before onCreateView is called
                 f.getViewLifecycleOwnerLiveData().observeForever(viewLifecycleOwner -> {
                     if (viewLifecycleOwner != null) {
                         Navigation.setViewNavController(f.requireView(), navController);
                     }
                 });
+                // inject mocked toolbar
+                f.toolbar = toolbar;
+                // spy on the registered callback
                 f.callback = spy(f.callback);
                 return f;
             }
@@ -56,5 +70,10 @@ public class EditNoteFragmentTest extends FragmentTest<EditNoteFragment> {
 
         EditNoteFragmentArgs args = new EditNoteFragmentArgs.Builder().setType("TextNote").build();
         scenario = FragmentScenario.launchInContainer(EditNoteFragment.class,args.toBundle(), R.style.Theme_AppCompat_Light_NoActionBar,factory);
+    }
+
+    @Override
+    public void tearDown() {
+        verify(toolbar,atLeastOnce()).removeInterceptUpNavigationListener(any());
     }
 }

@@ -28,10 +28,11 @@ import com.nepumuk.notizen.objects.storable_factory.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.objects.storable_factory.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.utils.ShortCutHelper;
 import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.views.InterceptableNavigationToolbar;
 
 import java.util.Objects;
 
-public class EditNoteFragment extends Fragment implements SaveDataFragmentListener , FabProvider{
+public class EditNoteFragment extends Fragment implements SaveDataFragmentListener , FabProvider, InterceptableNavigationToolbar.NavigationUpInterceptor {
 
 
     private static final String TAG = "EditNoteFragment";
@@ -45,6 +46,8 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      * stored as STRING to avoid the cloning thingy
      */
     private String originalData;
+
+    InterceptableNavigationToolbar toolbar;
 
 
     /**
@@ -67,6 +70,17 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         super.onCreate(savedInstanceState);
         // This callback will only be called when MyFragment is at least Started.
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+        // TODO better way to get the toolbar
+        if (toolbar==null) {
+            toolbar = ((InterceptableNavigationToolbar) requireActivity().findViewById(R.id.toolbar));
+        }
+        toolbar.addInterceptUpNavigationListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        toolbar.removeInterceptUpNavigationListener(this);
     }
 
     @Override
@@ -81,6 +95,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     public void onStart() {
         super.onStart();
         loadData();
+
     }
 
     /**
@@ -232,5 +247,10 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean interceptUpNav(View view) {
+        return !saveDialogIfChanged();
     }
 }

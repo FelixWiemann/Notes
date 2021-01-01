@@ -42,8 +42,8 @@ public abstract class FragmentTest<T extends Fragment> {
 
     @After
     public void after() throws Exception{
-        tearDown();
         scenario.moveToState(Lifecycle.State.DESTROYED);
+        tearDown();
         shadowOf(getMainLooper()).idle();
     }
 
