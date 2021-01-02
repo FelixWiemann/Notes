@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Ui.Text" parent="@style/Base.TextAppearance.AppCompat">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">@dimen/ui_component_text_size</item>
+        <item name="android:textStyle">normal</item>
+        <item name="enforceTextAppearance">true</item>
+    </style>
+    <style name="Ui.Text.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Ui.Text.Small">
+        <item name="android:textSize">@dimen/ui_component_text_size_small</item>
+    </style>
+
+    <style name="Ui.Text.Large">
+        <item name="android:textSize">@dimen/ui_component_text_size_large</item>
+    </style>
+
+    <style name="Ui.Text.Large.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Ui.Text.Huge">
+        <item name="android:textSize">@dimen/ui_component_text_size_huge</item>
+    </style>
+    <style name="Ui.Text.Huge.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

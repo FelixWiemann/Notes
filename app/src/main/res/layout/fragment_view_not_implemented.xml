@@ -13,10 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:text="@string/error_generic_message"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textAlignment="center" />
 
     <ImageView
         android:id="@+id/imageView"

@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/mnu_edit_note_cancel"
-        android:icon="@drawable/ic_cancel"
+        android:icon="@drawable/ic_cancel_accent"
         android:title="@string/action_cancel"
         app:showAsAction="ifRoom"/>
 

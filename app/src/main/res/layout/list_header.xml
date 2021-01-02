@@ -5,6 +5,7 @@
     android:layout_height="155dp">
 
     <TextView
+        style="@style/Ui.Components.TextView.Huge.Bold"
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,11 +13,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
-        android:text="@string/ph_debug"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:text="@string/ph_debug" />
 
     <TextView
+        style="@style/Ui.Components.TextView"
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

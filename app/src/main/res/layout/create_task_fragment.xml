@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <EditText
-        style="@style/Ui.Components.EditText"
         android:id="@+id/task_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -20,7 +19,6 @@
         android:importantForAutofill="no" />
 
     <EditText
-        style="@style/Ui.Components.EditText"
         android:id="@+id/task_message"
         android:layout_width="match_parent"
         android:layout_height="180dp"
@@ -34,27 +32,4 @@
         android:importantForAutofill="no"
         android:inputType="textShortMessage|textLongMessage|textAutoCorrect|textMultiLine|textPhonetic|textCapSentences|textAutoComplete|textPostalAddress" />
 
-    <Button
-        style="@style/Ui.Components.Button"
-        android:id="@+id/negative_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/task_message"
-        android:layout_alignTop="@+id/positive_action"
-        android:layout_alignBottom="@+id/positive_action"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        android:text="@string/action_cancel" />
-
-    <Button
-        style="@style/Ui.Components.Button"
-        android:id="@+id/positive_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/task_message"
-        android:layout_alignEnd="@+id/task_message"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/action_save" />
 </RelativeLayout>

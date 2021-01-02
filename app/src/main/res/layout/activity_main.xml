@@ -11,12 +11,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <com.nepumuk.notizen.views.InterceptableNavigationToolbar
+            android:background="@color/colorIconPrimary"
             android:id="@+id/toolbar"
             android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:elevation="4dp" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_nav_host"

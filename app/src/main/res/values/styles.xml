@@ -3,49 +3,41 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="fontFamily">sans-serif-light</item> <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+
+        <item name="colorSecondary">@color/highlightme</item>
+        <!-- <item name="colorControlActivated">@color/highlightme</item>
+        <item name="colorControlNormal">@color/secondaryColor</item>
+         <item name="colorPrimary">@color/colorPrimary</item>
+         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+         <item name="android:fontFamily">sans-serif-light</item>
+         <item name="fontFamily">sans-serif-light</item>--> <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
+
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="fontFamily">sans-serif-light</item> <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
+        <!--<item name="preferenceStyle">@style/Ui.Preferences</item>
+        <item name="preferenceCategoryStyle">@style/Ui.Preferences.Category</item>
+        <item name="preferenceFragmentListStyle">@style/Ui.Preferences.Fragment.List</item>
+         <item name="preferenceFragmentStyle">@style/Ui.Preferences.Fragment.List</item>
+        <item name="dialogPreferenceStyle">@style/Ui.Preferences.Fragment.Dialog</item>
+        <item name="alertDialogStyle">@style/Ui.AlertDialog</item>
+        <item name="alertDialogTheme">@style/Ui.AlertDialog.Theme</item>
+   <item name="buttonBarNegativeButtonStyle">@style/Ui.Components.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Ui.Components.Button</item>-->
     </style>
 
+    <style name="Ui.App" parent="AppTheme.NoActionBar"/>
+
     <style name="Ui">
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">@dimen/ui_component_text_size</item>
+        <item name="android:textAppearance">@style/Ui.Text</item>
+        <item name="enforceMaterialTheme">true</item>
     </style>
 
     <style name="Ui.Components" />
-
-    <style name="Ui.Components.Button" parent="@style/Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textSize">@dimen/ui_component_text_size</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:scrollbars">none</item>
-        <item name="minHeight">@dimen/ui_component_button_min_height</item>
-    </style>
-
-    <style name="Ui.Components.Button.Small">
-        <item name="android:textSize">@dimen/ui_component_text_size_small</item>
-        <item name="minHeight">@dimen/ui_component_button_min_height_small</item>
-    </style>
-
-    <style name="Ui.Components.Button.Large">
-        <item name="android:textSize">@dimen/ui_component_text_size_large</item>
-        <item name="minHeight">@dimen/ui_component_button_min_height_large</item>
-    </style>
-
-    <style name="Ui.Components.EditText">
-
-    </style>
 
 </resources>

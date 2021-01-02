@@ -1,13 +1,10 @@
 package com.nepumuk.notizen.views.fragments;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -21,8 +18,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.utils.SimpleTextWatcher;
-
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
 
 /**
  * <p>
@@ -52,6 +47,44 @@ public class CreateTaskDialogFragment extends DialogFragment {
     private boolean isUpdate = false;
     private boolean isTyping = false;
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        View view = getLayoutInflater().inflate(R.layout.create_task_fragment,null);
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                .setView(view)
+                .setPositiveButton(R.string.action_save, (dialog, which) -> {
+                    taskViewModel.getSaveState().save=true;
+                    taskViewModel.update();
+                })
+                .setNegativeButton(R.string.action_cancel,(dialog, which) -> {
+                    taskViewModel.getSaveState().save=false;
+                    taskViewModel.update();
+                })
+                .create();
+        setCancelable(false);
+        textTaskTitle = view.findViewById(R.id.task_title);
+        textTaskTitle.addTextChangedListener(taskTitleWatcher);
+        textTaskMessage = view.findViewById(R.id.task_message);
+        textTaskMessage.addTextChangedListener(taskTextWatcher);
+        NavBackStackEntry entry = NavHostFragment.findNavController(this).getPreviousBackStackEntry();
+        taskViewModel = new ViewModelProvider(entry).get(EditNoteViewModel.class);
+        taskViewModel.observe(this, task -> {
+            if (task ==null) return;
+            if (isTyping) {
+                isTyping = false;
+                return;
+            }
+            isUpdate = true;
+            textTaskMessage.setText(task.data.getText());
+            textTaskTitle.setText(task.data.getTitle());
+            isUpdate = false;
+        });
+        return alertDialog;
+        //return super.onCreateDialog(savedInstanceState);
+    }
+
+    /*
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,7 +138,7 @@ public class CreateTaskDialogFragment extends DialogFragment {
         textTaskMessage = view.findViewById(R.id.task_message);
 
         textTaskMessage.addTextChangedListener(taskTextWatcher);
-    }
+    }*/
 
     private final TextWatcher taskTitleWatcher = new SimpleTextWatcher(s -> {
             if (isInitialSetup || isUpdate) {

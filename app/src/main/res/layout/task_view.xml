@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <CheckBox
@@ -16,6 +17,7 @@
         android:scaleY="1.5" />
 
     <TextView
+        style="@style/Ui.Components.TextView.Bold"
         android:id="@+id/title_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,12 +25,10 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="-10dp"
         android:layout_toEndOf="@+id/task_view_cb"
-        android:text="@string/ph_generic"
-        android:textAlignment="viewStart"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:text="@string/ph_generic" />
 
     <TextView
+        style="@style/Ui.Components.TextView"
         android:id="@+id/content_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +36,5 @@
         android:layout_alignStart="@+id/title_view"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:text="@string/ph_generic"
-        android:textAlignment="viewStart" />
+        android:text="@string/ph_generic" />
 </RelativeLayout>

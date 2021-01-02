@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF0A369D</color>
-    <color name="colorPrimaryDark">#FF081664</color>
+  <!--  <color name="colorPrimary">#e0e0e0</color>
+    <color name="colorPrimaryDark">#494848</color>
     <color name="colorAccent">#FFD54F</color>
+    <color name="colorAccentDark">#8C6C08</color>
+    <color name="colorOnSurface">#FF98a3aa</color>-->
+
     <color name="colorGrey">#FF98a3aa</color>
+    <color name="colorBlack">#000000</color>
     <color name="colorDeleteBackground">#D5FF0000</color>
+
+    <color name="textColorPrimary">#000000</color>
+
+    <color name="colorIconPrimary">@color/primaryColor</color>
+    <color name="colorIconPrimaryDark">@color/primaryDarkColor</color>
+    <color name="colorIconPrimaryAccent">@color/secondaryColor</color>
+    <color name="dividerColor">@color/colorGrey</color>
+
+
+    <color name="primaryColor">#e0e0e0</color>
+    <color name="primaryLightColor">#ffffff</color>
+    <color name="primaryDarkColor">#aeaeae</color>
+    <color name="secondaryColor">#00838f</color>
+    <color name="highlightme">#ff00ff</color>
+    <color name="secondaryLightColor">#4fb3bf</color>
+    <color name="secondaryDarkColor">#005662</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#ffffff</color>
 </resources>

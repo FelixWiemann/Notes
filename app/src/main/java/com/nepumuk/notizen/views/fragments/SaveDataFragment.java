@@ -1,13 +1,12 @@
 package com.nepumuk.notizen.views.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.nepumuk.notizen.R;
 
@@ -20,34 +19,27 @@ import com.nepumuk.notizen.R;
  */
 public class SaveDataFragment extends DialogFragment {
 
-    Button saveExit;
-    Button cancelExit;
-
-
     SaveDataFragmentListener listener;
 
     public void setListener(SaveDataFragmentListener listener){
         this.listener = listener;
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.save_data_fragment,container);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        return new AlertDialog.Builder(getContext())
+                .setMessage(R.string.unchanged_data)
+                .setNegativeButton(R.string.discard_exit,((dialog, which) -> {
+                    listener.cancelExit();
+                    SaveDataFragment.this.dismiss();
+                }))
+                .setPositiveButton(R.string.save_and_exit,((dialog, which) -> {
+                    listener.saveAndExit();
+                    SaveDataFragment.this.dismiss();
+                }))
+                .setNeutralButton(R.string.action_cancel,((dialog, which) -> {}))
+                .create();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        saveExit = view.findViewById(R.id.bt_save_exit);
-        saveExit.setOnClickListener(view1 -> {
-            listener.saveAndExit();
-            SaveDataFragment.this.dismiss();
-        });
-        cancelExit = view.findViewById(R.id.bt_cancel_exit);
-        cancelExit.setOnClickListener(view2 -> {
-            listener.cancelExit();
-            SaveDataFragment.this.dismiss();
-        });
-    }
 }
