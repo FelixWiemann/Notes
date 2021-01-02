@@ -70,6 +70,11 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         super.onCreate(savedInstanceState);
         // This callback will only be called when MyFragment is at least Started.
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // TODO better way to get the toolbar
         if (toolbar==null) {
             toolbar = ((InterceptableNavigationToolbar) requireActivity().findViewById(R.id.toolbar));
