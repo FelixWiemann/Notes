@@ -15,8 +15,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nepumuk.notizen.R;
+import com.nepumuk.notizen.objects.UnpackingDataException;
 import com.nepumuk.notizen.objects.filtersort.SortProvider;
 import com.nepumuk.notizen.objects.notes.TaskNote;
+import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.objects.tasks.BaseTask;
 import com.nepumuk.notizen.objects.tasks.Task;
 import com.nepumuk.notizen.utils.ResourceManger;
@@ -115,7 +117,6 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     protected void updateUI(TaskNote updatedData) {
         SwipableRecyclerAdapter<BaseTask> adapter = taskHolder.getAdapter();
         adapter.replace(updatedData.getTaskList());
-        //taskHolder.setAdapter(adapter);
         adapter.sort(SortProvider.SortTasksDone);
         adapter.notifyDataSetChanged();
     }
@@ -143,10 +144,21 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     }
 
     private void callEditTaskFragment(BaseTask taskToEdit){
-        EditNoteViewModel.SaveState<BaseTask> saveState = new EditNoteViewModel.SaveState<>(taskToEdit);
-        saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
-        taskViewModel.setNote(saveState);
-        Navigation.findNavController(requireView()).navigate(R.id.createTaskDialogFragment);
+        EditNoteViewModel.SaveState<BaseTask> saveState = null;
+        try {
+            saveState = new EditNoteViewModel.SaveState
+                    (StorableFactory.createFromData(
+                            taskToEdit.getId(),
+                            taskToEdit.getType(),
+                            taskToEdit.getDataString(),
+                            taskToEdit.getVersion()));
+            saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
+            taskViewModel.setNote(saveState);
+            Navigation.findNavController(requireView()).navigate(R.id.createTaskDialogFragment);
+        } catch (UnpackingDataException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

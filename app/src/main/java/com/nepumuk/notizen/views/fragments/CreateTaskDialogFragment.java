@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -60,6 +61,23 @@ public class CreateTaskDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // cannot cancel
+        setCancelable(false);
+
+        Button positive = view.findViewById(R.id.positive_action);
+        positive.setOnClickListener(v -> {
+            taskViewModel.getSaveState().save=true;
+            taskViewModel.update();
+            dismiss();
+        });
+        Button negative = view.findViewById(R.id.negative_action);
+        negative.setOnClickListener(v -> {
+            taskViewModel.getSaveState().save=false;
+            taskViewModel.update();
+            dismiss();
+        });
+
+
         NavBackStackEntry entry = NavHostFragment.findNavController(this).getPreviousBackStackEntry();
         taskViewModel = new ViewModelProvider(entry).get(EditNoteViewModel.class);
         textTaskTitle = view.findViewById(R.id.task_title);
@@ -96,7 +114,6 @@ public class CreateTaskDialogFragment extends DialogFragment {
             }
             isTyping = true;
             taskViewModel.getSaveState().data.setTitle(s.toString());
-            taskViewModel.getSaveState().save=true;
             taskViewModel.update();
         }
     );
@@ -107,8 +124,7 @@ public class CreateTaskDialogFragment extends DialogFragment {
                 return;
             }
             isTyping = true;
-            taskViewModel.getSaveState().data.setTitle(s.toString());
-            taskViewModel.getSaveState().save=true;
+            taskViewModel.getSaveState().data.setText(s.toString());
             taskViewModel.update();
         }
     );
