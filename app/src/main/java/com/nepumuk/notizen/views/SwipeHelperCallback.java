@@ -2,11 +2,6 @@ package com.nepumuk.notizen.views;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
-import android.util.Log;
 import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
@@ -192,7 +187,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
         isResettable = true;
         // undo touch handler
         recyclerView.setOnTouchListener((v, event) -> {
-            if ((event.getAction() == MotionEvent.ACTION_UP)){
+            if ((event.getAction() == MotionEvent.ACTION_DOWN)){
                 resetSwipeState(actionState,isCurrentlyActive);
             }
             return false;
