@@ -30,15 +30,12 @@ public class SaveDataFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         return new AlertDialog.Builder(getContext())
                 .setMessage(R.string.unchanged_data)
-                .setNegativeButton(R.string.discard_exit,((dialog, which) -> {
-                    listener.cancelExit();
-                    SaveDataFragment.this.dismiss();
-                }))
-                .setPositiveButton(R.string.save_and_exit,((dialog, which) -> {
-                    listener.saveAndExit();
-                    SaveDataFragment.this.dismiss();
-                }))
-                .setNeutralButton(R.string.action_cancel,((dialog, which) -> {}))
+                .setNegativeButton(R.string.discard_exit,
+                        ((dialog, which) -> listener.discardAndExit()))
+                .setPositiveButton(R.string.save_and_exit,
+                        ((dialog, which) -> listener.saveAndExit()))
+                .setNeutralButton(R.string.action_cancel,
+                        ((dialog, which) -> listener.cancelExit()))
                 .create();
     }
 

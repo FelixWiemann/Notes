@@ -45,7 +45,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      * original data that was sent to this activity,
      * stored as STRING to avoid the cloning thingy
      */
-    private String originalData;
+    private String originalData = "";
 
     InterceptableNavigationToolbar toolbar;
 
@@ -54,6 +54,9 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      * state if the content has been changed
      */
     private boolean wasChanged = false;
+
+    private final String BUNDLE_WAS_CHANGED = "BUNDLE_WAS_CHANGED";
+    private final String BUNDLE_ORIGINAL_DATA = "BUNDLE_ORIGINAL_DATA";
 
     OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
         @Override
@@ -66,10 +69,23 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     };
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (outState!=null) {
+            outState.putBoolean(BUNDLE_WAS_CHANGED, wasChanged);
+            outState.putString(BUNDLE_ORIGINAL_DATA,originalData);
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // This callback will only be called when MyFragment is at least Started.
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+        if (savedInstanceState!=null) {
+            wasChanged = savedInstanceState.getBoolean(BUNDLE_WAS_CHANGED, false);
+            originalData = savedInstanceState.getString(BUNDLE_ORIGINAL_DATA, "");
+        }
     }
 
     @Override
@@ -139,6 +155,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         // hide keyboard
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        originalData = "";
     }
 
     @Override
@@ -150,6 +167,12 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     @Override
     public void cancelExit() {
         // do nothing, as cancel was called
+    }
+
+    @Override
+    public void discardAndExit() {
+        discard();
+        exit();
     }
 
     FloatingActionButton fabToBeProvided;
@@ -188,7 +211,9 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
             mViewModel.setNote(saveState);
             mViewModel.getSaveState().origin = EditNoteViewModel.SaveState.Origin.EDITOR;
         }
-        originalData = mViewModel.getValue().getDataString();
+        if ("".equals(originalData)) {
+            originalData = mViewModel.getValue().getDataString();
+        }
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         NoteDisplayFragment<StorageObject> headerFragment = new NoteDisplayHeaderFragment();

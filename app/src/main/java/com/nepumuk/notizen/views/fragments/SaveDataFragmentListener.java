@@ -14,4 +14,9 @@ public interface SaveDataFragmentListener {
      * cancel the currently active exit request
      */
     void cancelExit();
+
+    /**
+     * discard currently changed data and exit request
+     */
+    void discardAndExit();
 }
