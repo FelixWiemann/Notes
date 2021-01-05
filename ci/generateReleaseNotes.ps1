@@ -41,24 +41,24 @@ Write-Host "creating release notes"
 
 # "<en-US>" | Set-Content -Path $Path
 if ($NewFeatures.Length -gt 0){
-	"#New Features" | Add-Content -Path $Path
+	"# New Features" | Add-Content -Path $Path
 	foreach ($Feature in $NewFeatures) {
-		"*" + $Feature.SubString(5,$Feature.length - 5-6)  | Add-Content -Path $Path
+		"* " + $Feature.SubString(5,$Feature.length - 5-6)  | Add-Content -Path $Path
 	}
 	"" | Add-Content -Path $Path
 }
 
 if ($NewImprovements.Length -gt 0){
-	"#Improvements"  | Add-Content -Path $Path
+	"# What's new"  | Add-Content -Path $Path
 	foreach ($Improvement in $NewImprovements) {
-		"*" + $Improvement.SubString(5,$Improvement.length - 5-6) | Add-Content -Path $Path
+		"* " + $Improvement.SubString(5,$Improvement.length - 5-6) | Add-Content -Path $Path
 	}
 	"" | Add-Content -Path $Path
 }
 if ($FixedBugs.Length -gt 0){
-	"#Bugfixes"  | Add-Content -Path $Path
+	"# What's fixed"  | Add-Content -Path $Path
 	foreach ($Bugfix in $FixedBugs) {
-		"*" + $Bugfix.SubString(5,$Bugfix.length - 5-6)  | Add-Content -Path $Path
+		"* " + $Bugfix.SubString(5,$Bugfix.length - 5-6)  | Add-Content -Path $Path
 	}
 }
 # "</en-US>" | Add-Content -Path $Path
