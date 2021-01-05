@@ -13,8 +13,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Ui.App" parent="AppTheme.NoActionBar"/>
-
     <style name="Ui">
         <item name="android:textAppearance">@style/Ui.Text</item>
         <item name="enforceMaterialTheme">true</item>

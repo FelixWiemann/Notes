@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Ui.Components.Button">
-        <item name="android:textAppearance">@style/Ui.Text</item>
-        <item name="android:background">@empty</item>
-        <item name="cornerRadius">@null</item>
-        <item name="borderWidth">@null</item>
-        <item name="android:scrollbars">none</item>
-        <item name="elevation">@dimen/mtrl_btn_elevation</item>
-        <item name="iconPadding">@dimen/mtrl_btn_icon_padding</item>
-        <item name="iconTint">@color/mtrl_btn_text_color_selector</item>
-        <item name="rippleColor">@color/mtrl_btn_ripple_color</item>
-        <item name="backgroundTint">@color/mtrl_btn_bg_color_selector</item>
-        <item name="minHeight">@dimen/ui_component_button_min_height</item>
-    </style>
-
-    <style name="Ui.Components.Button.Small">
-        <item name="android:textAppearance">@style/Ui.Text.Small</item>
-        <item name="minHeight">@dimen/ui_component_button_min_height_small</item>
-    </style>
-
-    <style name="Ui.Components.Button.Large">
-        <item name="android:textAppearance">@style/Ui.Text.Huge.Bold</item>
-        <item name="minHeight">@dimen/ui_component_button_min_height_large</item>
-    </style>
-
-    <style name="Ui.Components.EditText">
-        <item name="android:textAppearance">@style/Ui.Text</item>
-        <item name="minHeight">@dimen/ui_component_editText_min_height</item>
-    </style>
 
     <style name="Ui.Components.TextView">
         <item name="minHeight">@dimen/ui_component_textView_min_height</item>
@@ -54,15 +26,5 @@
         <item name="android:textAppearance">@style/Ui.Text.Large.Bold</item>
     </style>
 
-
-    <style name="Ui.Components.Checkbox" />
-
-
-    <style name="Ui.AlertDialog.Theme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="buttonBarNegativeButtonStyle">@style/Ui.Components.Button.Large</item>
-    </style>
-    <style name="Ui.AlertDialog" parent="Base.AlertDialog.AppCompat">
-        <item name="android:textAppearance">@style/Ui.Text.Small</item>
-    </style>
 
 </resources>
