@@ -69,6 +69,16 @@
     <string name="action_favourite">Favouriten toggeln</string>
     <string name="action_delete">löschen</string>
     <string name="confirm_delete_note">Soll die Notiz wirklich gelöscht werden?</string>
-    <string name="action_expand">Anzeige vergrößern</string>>
+    <string name="action_expand">Anzeige vergrößern</string>
+
+    <string name="privacy_notice">
+        <p>Es werden keinerlei vom Benutzer eingegebenen Daten erhoben und an den Entwickler gesendet.</p><p />
+        <p />
+        <p>Wenn sie die Feedbackfunktion innerhalb der App verwenden, wird dies zusammen mit der verwendeten Mail-Adresse gespeichert. </p>
+        <p>Die Feedbacks sind nur für den Verfasser des Feedbacks und für den Entwickler sichtbar. Andere App-Nutzer oder Dritte können das Feedback nicht sehen.</p>
+        <p />
+        <p>Da die App über den Google Play Store verteilt wird, werden z.B. Informationen zu App Nutzung, zu den Geräten auf denen die App läuft oder zu App Abstürzen entsprechend der Google-Richtlinie erhoben.<br/>
+            Die aktuelle Datenschutzrichtline von Google kann <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a> entnommen werden</p>
+    </string>
 
 </resources>

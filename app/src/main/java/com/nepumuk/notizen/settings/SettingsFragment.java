@@ -1,9 +1,16 @@
 package com.nepumuk.notizen.settings;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.util.Linkify;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -16,6 +23,8 @@ import androidx.preference.PreferenceManager;
 import com.nepumuk.notizen.R;
 
 import java.util.HashMap;
+
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -92,7 +101,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return false;
         }, null);
         this.registerPreferenceListener(R.string.pref_key_privacy_notice, preference -> {
-            // TODO show privacy notice
+            View view  = getLayoutInflater().inflate(R.layout.privacy_notice,null);
+            TextView tv = view.findViewById(R.id.tv_PrivacyNoticeText);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Spanned spanned =  Html.fromHtml(getString(R.string.privacy_notice), FROM_HTML_MODE_LEGACY);
+                tv.setText(spanned);
+                Linkify.addLinks(tv,Linkify.ALL);
+            }else {
+                tv.setText(R.string.privacy_notice);
+            }
+            new AlertDialog.Builder(getContext()).setView(view).create().show();
             return false;
         }, null);
     }
