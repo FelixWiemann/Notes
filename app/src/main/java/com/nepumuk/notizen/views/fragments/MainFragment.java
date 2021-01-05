@@ -1,5 +1,6 @@
 package com.nepumuk.notizen.views.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -104,10 +105,17 @@ public class MainFragment extends Fragment {
         swipeAdapter.OnLeftClick = (clickedOn, parentView) -> {
             currentEditedNoteIndex = recyclerView.getChildAdapterPosition((View)parentView.getParent().getParent());
             if (currentEditedNoteIndex == RecyclerView.NO_POSITION) return;
-            StorageObject task = adapter.getItem(currentEditedNoteIndex);
-            mainViewModel.deleteData(task);
-            recyclerView.resetSwipeState();
             deleteWasClicked = true;
+            new AlertDialog.Builder(getContext())
+                    .setMessage(R.string.confirm_delete_note)//
+                    .setNegativeButton(R.string.image_delete,((dialog, which) -> {
+                        StorageObject task = adapter.getItem(currentEditedNoteIndex);
+                        mainViewModel.deleteData(task);
+                        recyclerView.resetSwipeState();
+                    }))
+                    .setPositiveButton(R.string.action_cancel,((dialog, which) -> {
+
+                    })).create().show();
         };
         adapter.registerAdapter(swipeAdapter,R.id.compound_content);
         final NoteListViewHeaderView headerView = content.findViewById(R.id.headerView);
