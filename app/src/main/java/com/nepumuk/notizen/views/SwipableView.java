@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.utils.LayoutHelper;
@@ -91,7 +92,7 @@ public class SwipableView extends RelativeLayout{
         View swipeParent = mInflater.inflate(R.layout.swipe_action_view, this);
         Placeholder = swipeParent.findViewById(R.id.layout_to_be_swiped);
         Placeholder.setClickable(false);
-        RelativeLayout parent = swipeParent.findViewById(R.id.parent);
+        CardView parent = swipeParent.findViewById(R.id.parent);
 
         if (swipeMenuLeft != R.layout.swipable_empty) {
             BackgroundLeft = mInflater.inflate(swipeMenuLeft, parent, false);

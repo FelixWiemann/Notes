@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -55,10 +54,6 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
         this.setAdapter(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
         itemTouchHelper.attachToRecyclerView(this);
-        // divider decoration
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
-        dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.rv_line_divider, null));
-        this.addItemDecoration(dividerItemDecoration);
     }
 
     /**
