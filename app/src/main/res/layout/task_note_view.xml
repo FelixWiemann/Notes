@@ -16,6 +16,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:contentDescription="@string/content_list_of_tasks"
         android:layout_marginBottom="5dp" />
 
 
