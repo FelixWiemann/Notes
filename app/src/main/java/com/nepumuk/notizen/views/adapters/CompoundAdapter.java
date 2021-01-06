@@ -8,6 +8,7 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 import com.nepumuk.notizen.objects.StorageObject;
+import com.nepumuk.notizen.views.ExpandableView;
 import com.nepumuk.notizen.views.adapters.view_holders.CompoundViewHolder;
 import com.nepumuk.notizen.views.adapters.view_holders.ViewHolderInterface;
 
@@ -46,7 +47,7 @@ public class CompoundAdapter<T extends StorageObject> extends SortableRecyclerAd
     public ViewHolderInterface<T> onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
 
         // inflate configured compound ViewGroup
-        ViewGroup compoundView = (ViewGroup) LayoutInflater.from(viewGroup.getContext()).inflate(ViewId,viewGroup,false);
+        ExpandableView compoundView = (ExpandableView) LayoutInflater.from(viewGroup.getContext()).inflate(ViewId,viewGroup,false);
         // create compound view holder
         CompoundViewHolder<T> compoundVH = new CompoundViewHolder<>(compoundView);
         TreeMap<BaseRecyclerAdapter<T>, Integer> sorted = new TreeMap<>(recyclerAdapters);

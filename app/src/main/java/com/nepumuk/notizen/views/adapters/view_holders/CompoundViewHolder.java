@@ -1,65 +1,27 @@
 package com.nepumuk.notizen.views.adapters.view_holders;
 
-import android.view.View;
-import android.widget.Button;
-
 import androidx.annotation.NonNull;
 
-import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.objects.StorageObject;
+import com.nepumuk.notizen.views.ExpandableView;
 
 import java.util.HashMap;
 
+/**
+ * View Holder to combine many
+ * @param <T>
+ */
 public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInterface<T> {
-
-    /**
-     * expansion state of an Expandable View
-     */
-    enum ExpandState{
-        /**
-         * is expanded, State = 1
-         */
-        EXPANDED(1),
-        /**
-         * is shrinked, State = 0
-         */
-        SHRINKED(0),
-        /**
-         * is just inflated, hasn't changed the state yet.
-         * State = -1
-         */
-        FIRSTINFLATE(-1);
-
-        /**
-         * state of the enum value
-         * 1 = expanded
-         * 0 = shrinked
-         * -1 =  first time inflated
-         */
-        public final int State;
-        ExpandState(int state){
-            State = state;
-        }
-    }
-
-    private final int aSizeUnExpanded = 200;
-    private final int aSizeExpanded = 650;
-
 
     public boolean invertWasClicked = false;
 
-    ExpandState currentState = ExpandState.FIRSTINFLATE;
-
     private final HashMap<Class,ViewHolderInterface<T>> interfaces;
 
-    private final Button expandButton;
 
-
-    public CompoundViewHolder(@NonNull View itemView) {
+    public CompoundViewHolder(@NonNull ExpandableView itemView) {
         super(itemView);
         interfaces = new HashMap<>();
-        expandButton = itemView.findViewById(R.id.expand_button);
-        expandButton.setOnClickListener(view -> invertShrink());
+        itemView.setOnExpandChangeListener(newState -> invertWasClicked = true);
     }
 
     @Override
@@ -67,8 +29,7 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
         for (ViewHolderInterface<T> vhf: interfaces.values()) {
             vhf.bind(toBind);
         }
-        currentState = ExpandState.FIRSTINFLATE;
-        invertShrink();
+        ((ExpandableView)itemView).resetExpandState();
     }
 
     public void addViewHolderInterface(ViewHolderInterface<T> viewHolderInterface, Class clazz){
@@ -92,31 +53,4 @@ public class CompoundViewHolder<T extends StorageObject> extends ViewHolderInter
         }
         return array;
     }
-
-    /**
-     * inverts the shrinking state
-     */
-    private void invertShrink(){
-        invertWasClicked = true;
-        if (currentState== ExpandState.FIRSTINFLATE){
-            currentState = ExpandState.EXPANDED;
-            invertWasClicked = false;
-        }
-        if (currentState == ExpandState.EXPANDED){
-            setHeight(aSizeUnExpanded);
-            currentState = ExpandState.SHRINKED;
-        }else {
-            setHeight(aSizeExpanded);
-            // TODO get expand size of child and limit it to max size depending on Screen size
-            currentState = ExpandState.EXPANDED;
-        }
-        // TODO animate
-        expandButton.setRotationX((currentState.State*180)%360);
-    }
-
-    private void setHeight(int newHeight){
-        itemView.getLayoutParams().height = newHeight;
-        itemView.requestLayout();
-    }
-
 }

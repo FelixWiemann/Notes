@@ -15,5 +15,10 @@
     <!-- button style -->
     <dimen name="ui_component_textView_min_height">30dp</dimen>
     <dimen name="ui_component_textView_min_height_large">40dp</dimen>
+
+    <dimen name="ui_component_expandableView_expanded">200dp</dimen>
+    <dimen name="ui_component_expandableView_unexpanded">100dp</dimen>
+    <dimen name="ui_component_create_task_text_height">180dp</dimen>
+    <dimen name="ui_component_edit_title_heightmin">20dp</dimen>
     <!-- button style -->
 </resources>

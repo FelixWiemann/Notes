@@ -134,7 +134,7 @@ public class SwipableView extends RelativeLayout{
         MainView = mainView;
         if (!fromCompoundAdapter) {
            // MainView.setOnTouchListener(MiddleClick);
-            mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            mainView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
             Placeholder.addView(MainView);
         }
     }
