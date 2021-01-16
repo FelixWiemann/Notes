@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="ExpandableView">
-        <!-- size of the expanded view. this size is used, when the user clicks on the expand button to expand the view -->
-        <attr name="sizeExpanded" format="dimension|reference" />
-        <!-- size of the unexpanded view. this size is used, when the user clicks on the expand button to unexpand the view -->
-        <attr name="sizeUnExpanded" format="dimension|reference" />
-    </declare-styleable>
-</resources>

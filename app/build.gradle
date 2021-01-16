@@ -1,3 +1,4 @@
+apply plugin: 'java-test-fixtures'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'jacoco-android'
@@ -38,6 +39,9 @@ android {
             resValue "string", "app_name", "@string/app_name_base"
         }
         debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationIdSuffix '.debug'
             resValue "string", "app_name", "@string/app_name_debug"
         }
@@ -93,7 +97,20 @@ jacocoAndroidUnitTestReport {
     xml.enabled true
 }
 
+task runall{
+
+    dependsOn ":app:tasks:testDebugUnitTest"
+    dependsOn ":app:core:testDebugUnitTest"
+    dependsOn ":app:textnotes:testDebugUnitTest"
+    dependsOn ":app:testDebugUnitTest"
+}
+
 dependencies {
+
+    implementation project(":app:core")
+    implementation project(":app:tasks")
+    implementation project(":app:textnotes")
+
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // kotlin
@@ -119,10 +136,10 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
     implementation 'androidx.navigation:navigation-fragment:2.3.2'
     implementation 'androidx.navigation:navigation-ui:2.3.2'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     // Testing Navigation
     testImplementation "androidx.navigation:navigation-testing:$nav_version"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha04"
 

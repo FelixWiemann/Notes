@@ -1,0 +1,87 @@
+<resources>
+
+    <!--
+      -->
+    <string name="app_name_base">Notes</string>
+    <string name="app_name_debug">Notes.DEBUG</string>
+
+    <string name="btSave">save</string>
+    <string name="list_view_header_text">notes</string>
+    <plurals name="notes">
+        <item quantity="one">%d note</item>
+        <item quantity="other">%d notes</item>
+    </plurals>
+    <string name="unchanged_data">Data has been changed without a save, what do you want to do?</string>
+    <string name="save_and_exit">save</string>
+    <string name="discard_exit">discard</string>
+
+    <!--image content descriptions-->
+    <string name="image_exclamation_mark">exclamation mark</string>
+    <string name="image_note_content">image of the note</string>
+    <string name="image_delete">delete element</string>
+    <string name="content_list_of_notes">list of notes</string>
+    <string name="content_list_of_tasks">list of tasks</string>
+    <string name="content_add_notes">add a note</string>
+    <string name="content_create_text_note">create a note</string>
+    <string name="content_create_task_note">create a note with tasks</string>
+    <string name="content_add_task">add a task</string>
+    <string name="content_note_message">content of the note</string>
+    <string name="content_note_tasks">tasks of the note</string>
+    <string name="content_task_title">title of the task</string>
+    <string name="content_task_message">message of the task</string>
+    <string name="content_task_status">status of the task</string>
+    <string name="content_task_done">done</string>
+    <string name="content_task_open">open</string>
+
+    <!--hints-->
+    <string name="hint_task_title">title of your task</string>
+    <string name="hint_task_message">text of your task</string>
+    <string name="hint_note_title">enter the title of your new note</string>
+    <string name="hint_note_message">enter the text of your note</string>
+
+    <!--error messages-->
+    <string name="error_generic_message">OUPS, sth. went wrong</string>
+
+    <!--placeholder/debug texts-->
+    <string name="ph_generic" translatable="false">PLACEHOLDER</string>
+    <string name="ph_debug" translatable="false">DEBUG NEEDS TO BE DELETED</string>
+
+    <!--shortcut descriptions-->
+    <string name="shortcut_lblshort_create_tasknote">task note</string>
+    <string name="shortcut_lbllong_create_tasknote">create new task note</string>
+    <string name="shortcut_lblshort_create_textnote">text note</string>
+    <string name="shortcut_lbllong_create_textnote">create new text note</string>
+
+    <!-- Preferences-->
+    <string name="preference_category_theme">Theme</string>
+    <string name="preference_category_about">About</string>
+    <string name="preference_title_theme" >Theme</string>
+    <string name="preference_title_feedback">Send feedback</string>
+    <string name="preference_summary_feedback">Report technical issues or suggest new features</string>
+    <string name="preference_title_privacy_notice">Privacy Notice</string>
+    <string name="preference_summary_privacy_notice">View the privacy notice</string>
+    <string name="preference_name_theme_system" >Use system settings</string>
+    <string name="preference_name_theme_dark" >dark theme</string>
+    <string name="preference_name_theme_light" >light theme</string>
+    <string name="lbl_edit_note">edit</string>
+    <string name="lbl_home" />
+
+
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">save</string>
+    <string name="action_favourite">toggle favourite</string>
+    <string name="action_delete">delete</string>
+    <string name="confirm_delete_note">Are you sure you want to delete this note?</string>
+    <string name="action_expand">expand the view</string>
+
+    <string name="privacy_notice">
+        <p>No data from user input will be sent to the developer.</p><p />
+        <p />
+        <p>When using the feedback functionality within the app, the feedback will be stored together with your mail-information. </p>
+        <p>The feedback is only available for the author and the developer. Other users or any third parties cannot see the feedback.</p>
+        <p />
+        <p>Since the app is distributed via GooglePlay Store, some data (e.g. information on app usage, devices running the app or crashes) is collected according to the Google Privacy Notice<br/>
+            The latest Privacy Notice from Google can be found at <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></p>
+    </string>
+
+</resources>

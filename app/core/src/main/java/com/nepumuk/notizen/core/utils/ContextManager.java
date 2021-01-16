@@ -1,0 +1,63 @@
+package com.nepumuk.notizen.core.utils;
+
+import android.content.Context;
+
+/**
+ * mContext manager for storing the mContext of the app and making it accessible throughout the app
+ * to be set up at app start / start of first service
+ *
+ * Created as part of notes in package com.nepumuk.notizen.BackEnd
+ * by Felix "nepumuk" Wiemann on 04/06/17.
+ */
+public class ContextManager {
+    /**
+     * mContext variable
+     */
+    private Context mContext;
+
+    /**
+     * mContext of application
+     */
+    private static final ContextManager mContextManagerInstance = new ContextManager();
+
+    /**
+     * get the instance of ContextManager
+     * @return instance of context manager
+     */
+    public static ContextManager getInstance() {
+        return mContextManagerInstance;
+    }
+
+    private ContextManager() {
+        super();
+    }
+
+    /**
+     * sets up the context manager for storing the context
+     * @param context context to be stored
+     * @throws ContextManagerException if context already set
+     */
+    public void setUp(Context context) throws ContextManagerException {
+        // only set context, if not set already
+        if (mContext == null) {
+            // getting application context avoids leaks, as the application context
+            // lives through the app lifecycle and is destroyed afterwards
+            this.mContext = context.getApplicationContext();
+        }
+        else {
+            // otherwise throw exception
+            throw new ContextManagerException(ContextManagerException.aCONTEXT_ALREADY_SET,null);
+        }
+    }
+
+    /**
+     * get the context of the application
+     * @return context
+     */
+    public Context getContext(){
+        return mContext;
+    }
+
+
+
+}

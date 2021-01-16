@@ -13,19 +13,20 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.nepumuk.notizen.objects.notes.TaskNote;
-import com.nepumuk.notizen.objects.notes.TextNote;
-import com.nepumuk.notizen.objects.storable_factory.StorableFactory;
-import com.nepumuk.notizen.settings.Settings;
-import com.nepumuk.notizen.utils.ContextManager;
-import com.nepumuk.notizen.utils.ContextManagerException;
-import com.nepumuk.notizen.utils.MainViewModel;
-import com.nepumuk.notizen.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
+import com.nepumuk.notizen.core.utils.ContextManager;
+import com.nepumuk.notizen.core.utils.ContextManagerException;
+import com.nepumuk.notizen.core.utils.MainViewModel;
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.core.views.ToolbarProvider;
+import com.nepumuk.notizen.core.settings.Settings;
+import com.nepumuk.notizen.tasks.objects.TaskNote;
+import com.nepumuk.notizen.textnotes.objects.TextNote;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ToolbarProvider {
 
     private static final String TAG = "MAINACTIVITY";
     private MainViewModel model;
@@ -39,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
         setContentView(R.layout.activity_main);
+        try {
+            // Module setup
+            // TODO module manifests, aab to detect which modules are installed and used
+            //  check latest before creating image notes with camera!
+            com.nepumuk.notizen.core.Main.initModule();
+            com.nepumuk.notizen.tasks.Main.initModule();
+            com.nepumuk.notizen.textnotes.Main.initModule();
+        }catch (IllegalArgumentException ex){
+            Log.e(TAG, "onCreate: modules already set up", ex);
+        }
         model = new ViewModelProvider(this).get(MainViewModel.class);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -78,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
         Settings.unregisterOnSharedPreferenceListeners(this);
     }
 
+    @Override
+    public InterceptableNavigationToolbar getToolbar() {
+        return findViewById(R.id.toolbar);
+    }
+
     public static class IntentHandler{
         public static DatabaseStorable StorableFromIntent(Intent intent){
             if (intent == null || intent.getAction()==null) return null;
@@ -100,12 +116,12 @@ public class MainActivity extends AppCompatActivity {
         private static DatabaseStorable handleMimeType(Intent intent){
             final String MIME_TYPE = intent.getType();
             // could not determine Mime-Type
-            if (MIME_TYPE == null) return StorableFactory.getDefaultStorable();
+            if (MIME_TYPE == null) return null;
             if (MIME_TYPE.startsWith("text/")){
-                handleExtra(Objects.requireNonNull(intent.getExtras()));
+                return handleExtra(Objects.requireNonNull(intent.getExtras()));
             }
             // could not be handled, return default storable
-            return StorableFactory.getDefaultStorable();
+            return null;
         }
     }
 }

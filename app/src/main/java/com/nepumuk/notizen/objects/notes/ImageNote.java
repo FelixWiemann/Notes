@@ -4,6 +4,7 @@ package com.nepumuk.notizen.objects.notes;
 import androidx.annotation.Keep;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nepumuk.notizen.core.objects.Note;
 
 import java.util.UUID;
 

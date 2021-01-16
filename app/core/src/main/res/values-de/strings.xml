@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_base">Notizen</string>
+    <string name="app_name_debug">Notizen.DEBUG</string>
+
+    <string name="btSave">speichern</string>
+    <plurals name="notes">
+        <item quantity="one">%d Notiz</item>
+        <item quantity="other">%d Notizen</item>
+    </plurals>
+    <string name="list_view_header_text">Notizen</string>
+    <string name="unchanged_data">Seit des letztes Speicherns wurden die Daten geändert, wie weiter?</string>
+    <string name="save_and_exit">speichern</string>
+    <string name="discard_exit">Verwerfen</string>
+
+
+    <!--image content descriptions-->
+    <string name="image_exclamation_mark">Ausrufezeichen</string>
+    <string name="image_note_content">Bild der Notiz</string>
+    <string name="image_delete">Element löschen</string>
+    <string name="content_list_of_notes">Liste der Notizen</string>
+    <string name="content_list_of_tasks">Liste der Aufgaben</string>
+    <string name="content_add_notes">Notiz hinzufügen</string>
+    <string name="content_create_text_note">Erstelle eine Notiz</string>
+    <string name="content_create_task_note">Erstelle eine Notiz mit Aufgaben</string>
+    <string name="content_add_task">Aufgabe hinzufügen</string>
+
+    <string name="content_note_message">Inhalt der Notiz</string>
+    <string name="content_note_tasks">Aufgaben in der Notiz</string>
+    <string name="content_task_title">Titel der Aufgabe</string>
+    <string name="content_task_message">Inhalt der Aufgabe</string>
+    <string name="content_task_status">Status der Aufgabe</string>
+    <string name="content_task_done">erledigt</string>
+    <string name="content_task_open">offen</string>
+
+    <!--hints-->
+    <string name="hint_task_title">Titel der Aufgabe</string>
+    <string name="hint_task_message">Text der Aufgabe</string>
+    <string name="hint_note_title">Titel der Neuen Notiz</string>
+    <string name="hint_note_message">Text der Notiz</string>
+
+    <!--error messages-->
+    <string name="error_generic_message">OUPS, etwas ist schiefgelaufen</string>
+
+    <!--shortcut descriptions-->
+    <string name="shortcut_lblshort_create_tasknote">Aufgabennotiz</string>
+    <string name="shortcut_lbllong_create_tasknote">erstelle neue Aufgabennotiz</string>
+    <string name="shortcut_lblshort_create_textnote">Textnotiz</string>
+    <string name="shortcut_lbllong_create_textnote">erstelle neue Textnotiz</string>
+
+    <!-- Preferences-->
+    <string name="preference_category_theme">Theme</string>
+    <string name="preference_category_about">Über</string>
+    <string name="preference_title_feedback">Feedback senden</string>
+    <string name="preference_summary_feedback">Probleme melden oder neue Features vorschlagen</string>
+    <string name="preference_name_theme_system">Systemeinstellungen verwenden</string>
+    <string name="preference_name_theme_dark">Dark Theme</string>
+    <string name="preference_name_theme_light">Light Theme</string>
+    <string name="preference_title_theme" >Theme</string>
+    <string name="preference_title_privacy_notice">Datenschutzhinweise</string>
+    <string name="preference_summary_privacy_notice">Zeigt die Datenschutzhinweise an</string>
+
+
+    <string name="lbl_edit_note">editieren</string>
+    <string name="lbl_home" />
+
+    <string name="action_cancel">abbrechen</string>
+    <string name="action_save">speichern</string>
+    <string name="action_favourite">Favouriten toggeln</string>
+    <string name="action_delete">löschen</string>
+    <string name="confirm_delete_note">Soll die Notiz wirklich gelöscht werden?</string>
+    <string name="action_expand">Anzeige vergrößern</string>
+
+    <string name="privacy_notice">
+        <p>Es werden keinerlei vom Benutzer eingegebenen Daten erhoben und an den Entwickler gesendet.</p><p />
+        <p />
+        <p>Wenn sie die Feedbackfunktion innerhalb der App verwenden, wird dies zusammen mit der verwendeten Mail-Adresse gespeichert. </p>
+        <p>Die Feedbacks sind nur für den Verfasser des Feedbacks und für den Entwickler sichtbar. Andere App-Nutzer oder Dritte können das Feedback nicht sehen.</p>
+        <p />
+        <p>Da die App über den Google Play Store verteilt wird, werden z.B. Informationen zu App Nutzung, zu den Geräten auf denen die App läuft oder zu App Abstürzen entsprechend der Google-Richtlinie erhoben.<br/>
+            Die aktuelle Datenschutzrichtline von Google kann <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a> entnommen werden</p>
+    </string>
+
+</resources>

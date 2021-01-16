@@ -1,0 +1,129 @@
+plugins {
+    id 'com.android.library'
+}
+apply plugin: 'kotlin-android'
+apply plugin: 'jacoco-android'
+apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'java-test-fixtures'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion '30.0.3'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debugminify {
+            initWith debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        releaseminify {
+            initWith release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+}
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/JaCoCoReports")
+}
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    // copied from https://stackoverflow.com/a/36130467
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+        exceptionFormat = 'full'
+        showCauses = true
+        showExceptions = true
+        showStackTraces = true
+    }
+    maxParallelForks = 4
+    forkEvery=0
+}
+
+jacocoAndroidUnitTestReport {
+    csv.enabled false
+    html.enabled false
+    xml.enabled true
+}
+dependencies {
+
+    implementation project(":app:core")
+    
+    // navigation components
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.2"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.2"
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.3.2"
+    implementation 'androidx.navigation:navigation-fragment:2.3.2'
+    implementation 'androidx.navigation:navigation-ui:2.3.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // Testing Navigation
+    testImplementation "androidx.navigation:navigation-testing:2.3.2"
+
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-rc01'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    testImplementation 'junit:junit:4.+'
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+
+    // Testing Navigation
+    testImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    /**test dependencies**/
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'androidx.test:core:1.3.0'
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation  'androidx.test.ext:junit:1.1.2'
+    testImplementation  'androidx.test.ext:junit:1.1.2'
+
+
+    testImplementation "org.robolectric:robolectric:4.5-alpha-3" // TODO move to release once released
+    /**Power mock**/
+    testImplementation "org.powermock:powermock-core:1.7.3"
+    testImplementation "org.powermock:powermock-module-junit4:1.7.3"
+    testImplementation "org.powermock:powermock-api-mockito2:1.7.3"
+    // TODO figure out a better way to test fragments in release build
+    implementation "androidx.fragment:fragment-testing:1.2.5"
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
+}

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/headerView"/>
 
-    <com.nepumuk.notizen.views.SwipeRecyclerView
+    <com.nepumuk.notizen.core.views.SwipeRecyclerView
         android:id="@+id/adapterView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

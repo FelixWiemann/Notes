@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/editNoteFragment"
-        android:name="com.nepumuk.notizen.views.fragments.EditNoteFragment"
+        android:name="com.nepumuk.notizen.core.views.fragments.EditNoteFragment"
         android:label="@string/lbl_edit_note">
         <deepLink
             android:id="@+id/deeplink_create_textnote"
@@ -31,7 +31,7 @@
     </fragment>
     <dialog
         android:id="@+id/createTaskDialogFragment"
-        android:name="com.nepumuk.notizen.views.fragments.CreateTaskDialogFragment"
+        android:name="com.nepumuk.notizen.tasks.CreateTaskDialogFragment"
         android:label="CreateTaskDialogFragment" >
     </dialog>
 </navigation>

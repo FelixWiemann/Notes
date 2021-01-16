@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
+        <item name="note_title_style">@style/Ui.Components.TextView.Large.Bold</item>
+
+        <item name="create_task_text_height">@dimen/ui_component_create_task_text_height</item>
+        <item name="task_title_style">@style/Ui.Components.TextView.Bold</item>
+        <item name="task_message_style">@style/Ui.Components.TextView</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,5 +24,7 @@
     </style>
 
     <style name="Ui.Components" />
+
+
 
 </resources>

@@ -19,4 +19,4 @@
 -printconfiguration './full-r8-config.txt'
 -keepattributes LineNumberTable,SourceFile
 -keep public class androidx.navigation.fragment.NavHostFragment
--keep public class com.nepumuk.notizen.settings.SettingsFragment
+-keep public class com.nepumuk.notizen.core.settings.SettingsFragment

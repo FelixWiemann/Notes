@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TODO move to proper styles-->
+    <attr name="note_title_style" format="reference" />
+    <style name="note_title_style" />
+
+    <attr name="task_title_style" format="reference"/>
+    <style name="task_title_style" />
+    <attr name="task_message_style" format="reference"/>
+    <style name="task_message_style" />
+
+    <attr name="icon_size" format="reference|dimension" />
+
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/preference_category_theme">
+
+        <ListPreference
+            app:icon="@drawable/ic_brightness_medium"
+            app:defaultValue="@string/pref_value_theme_system"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:key="@string/pref_key_theme"
+            app:title="@string/preference_title_theme"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:title="@string/preference_category_about"
+        app:key="@string/pref_key_category_about">
+        <Preference
+            app:icon="@drawable/ic_privacy_tip"
+            app:defaultValue=""
+            app:key="@string/pref_key_privacy_notice"
+            app:title="@string/preference_title_privacy_notice"
+            app:summary="@string/preference_summary_privacy_notice"
+            />
+        <Preference
+            app:icon="@drawable/ic_feedback"
+            app:defaultValue=""
+            app:key="@string/pref_key_feedback"
+            app:title="@string/preference_title_feedback"
+            app:summary="@string/preference_summary_feedback"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

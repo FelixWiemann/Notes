@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorIconPrimaryAccent">#ffffff</color>
+    <color name="colorIconPrimaryDark">#ffffff</color>
+    <color name="colorIconPrimary">#ffffff</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="colorDeleteBackground">#D5FF0000</color>
+    <dimen name="icon_size">12dp</dimen>
+    <integer name="icon_canvas_size">12</integer>
+</resources>
