@@ -1,5 +1,7 @@
 package com.nepumuk.notizen.tasks;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentFactory;
@@ -14,11 +16,14 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.views.adapters.SwipableRecyclerAdapter;
+import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderFactory;
+import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderInterface;
 import com.nepumuk.notizen.core.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.core.views.fragments.FabProvider;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
 import com.nepumuk.notizen.tasks.objects.Task;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
+import com.nepumuk.notizen.tasks.testutils.FragmentTest;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,12 +35,14 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.FragmentTest<TaskNoteFragment> {
+public class TaskNoteFragmentTest extends FragmentTest<TaskNoteFragment> {
 
     @Test
     public void onCreateView() {
@@ -65,11 +72,11 @@ public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.Fr
             // when
             fragment.updateUI(note);
             // then
-            /* TODO setting the mock above apparently doesn't work
+             //TODO setting the mock above apparently doesn't work
             verify(adapter,times(1)).replace(eq(note.getTaskList()));
             verify(adapter,times(1)).sort(any());
             verify(adapter,times(1)).notifyDataSetChanged();
-            */
+
         });
     }
 
@@ -93,15 +100,20 @@ public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.Fr
 
     @Test
     public void testFragmentIsUpdatedOnViewModelDataChange(){
+        // we want to only test the TaskNoteFragment, not the Viewholders of Task.
+        // therefore we insert a tesetimplementation of the taskviewholder
+        ViewHolderFactory.registerNewViewHolder(R.layout.task_note_display_fragment,Task.class,TaskViewHolderTestImpl.class);
         scenario.onFragment(fragment ->{
+            // given
             NavController controller = NavHostFragment.findNavController(fragment);
-
             EditNoteViewModel<TaskNote> mViewModel = new ViewModelProvider(fragment.requireActivity()).get(EditNoteViewModel.class);
+            // when
             mViewModel.setNote(new EditNoteViewModel.SaveState<>(new TaskNote(UUID.randomUUID(),"",new ArrayList<>())));
             EditNoteViewModel<BaseTask> model = new ViewModelProvider(controller.getCurrentBackStackEntry()).get(EditNoteViewModel.class);
             EditNoteViewModel.SaveState<BaseTask> state = new EditNoteViewModel.SaveState<>(new Task(UUID.randomUUID(),"","",false));
             state.save = true;
             model.setNote(state);
+            // then
             // TODO verify note is only updated, when state.save = true
         });
     }
@@ -129,5 +141,19 @@ public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.Fr
             }
         };
         scenario = FragmentScenario.launchInContainer(TaskNoteFragment.class,null,R.style.Theme_AppCompat_Light_NoActionBar,factory);
+    }
+
+    /**
+     * test implementation for a task viwe holder
+     */
+    public static class TaskViewHolderTestImpl extends ViewHolderInterface<BaseTask> {
+        public TaskViewHolderTestImpl(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public void bind(BaseTask toBind) {
+
+        }
     }
 }
