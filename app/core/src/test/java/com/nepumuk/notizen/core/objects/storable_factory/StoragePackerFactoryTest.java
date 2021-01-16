@@ -1,6 +1,5 @@
 package com.nepumuk.notizen.core.objects.storable_factory;
 
-import com.nepumuk.notizen.core.objects.UnpackingDataError;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
 import com.nepumuk.notizen.core.testutils.AndroidTest;
 
@@ -15,12 +14,12 @@ public class StoragePackerFactoryTest extends AndroidTest {
          StorableFactory.createFromData("","","",1);
     }
 
-    @Test(expected = UnpackingDataError.class)
+    @Test(expected = UnpackingDataException.class)
     public void createFromData_expectNoDatabaseStorable() throws Exception {
         StorableFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.nepumuk.notizen.core.objects.IdObject","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
     }
 
-    @Test(expected = UnpackingDataError.class)
+    @Test(expected = UnpackingDataException.class)
     public void createFromData_expectAssertionError() throws Exception {
         StorableFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.nepumuk.notizen.tasks.TaskNote","{\"titleas\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
     }

@@ -93,7 +93,6 @@ public class DbHelperTest {
     }
 
     @Test
-    @Ignore("get rid of the log warn")
     public void getAll(){
         // given
         // when

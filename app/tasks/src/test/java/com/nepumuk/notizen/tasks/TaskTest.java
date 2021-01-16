@@ -32,7 +32,7 @@ public class TaskTest extends com.nepumuk.notizen.tasks.testutils.AndroidTest {
     @Test
     public void getVersion() {
         // given
-        int expected = 1;
+        int expected = 2;
         // when
         int actual = testTask.getVersion();
         // then

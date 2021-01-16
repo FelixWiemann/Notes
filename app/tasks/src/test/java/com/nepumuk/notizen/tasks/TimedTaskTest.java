@@ -44,7 +44,7 @@ public class TimedTaskTest extends com.nepumuk.notizen.tasks.testutils.AndroidTe
 
     @Test
     public void getVersion() {
-        assertEquals(1, testTask.getVersion());
+        assertEquals(2, testTask.getVersion());
     }
 
     @Test

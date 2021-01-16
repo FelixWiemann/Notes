@@ -45,7 +45,7 @@ public class BaseRecyclerAdapterTest {
         // when
         // then
         int actualCount = adapterUnderTest.getItemCount();
-        //assertEquals(expectedCount, actualCount);
+        // assertEquals(expectedCount, actualCount);
         verify(adapterUnderTest,times(actualCount)).notifyDataSetChanged();
     }
 

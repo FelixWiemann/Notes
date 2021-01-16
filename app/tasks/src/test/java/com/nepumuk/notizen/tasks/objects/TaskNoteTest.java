@@ -83,7 +83,7 @@ public class TaskNoteTest extends com.nepumuk.notizen.tasks.testutils.AndroidTes
     @Test
     public void getVersion() {
         // given
-        int expected = 1;
+        int expected = 2;
         // when
         int actual = testNote.getVersion();
         // then

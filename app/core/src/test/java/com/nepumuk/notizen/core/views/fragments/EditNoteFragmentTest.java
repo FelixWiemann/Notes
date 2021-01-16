@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentFactory;
 import androidx.fragment.app.testing.FragmentScenario;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.navigation.Navigation;
 import androidx.navigation.testing.TestNavHostController;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.nepumuk.notizen.core.R;
+import com.nepumuk.notizen.core.testutils.DataBaseStorableTestImpl;
 import com.nepumuk.notizen.core.testutils.FragmentTest;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
 
@@ -28,6 +30,8 @@ public class EditNoteFragmentTest extends FragmentTest<EditNoteFragment> {
 
     @Mock
     private InterceptableNavigationToolbar toolbar;
+
+    private EditNoteViewModel.SaveState saveState;
 
     @Test
     public void onCreate() {
@@ -48,8 +52,7 @@ public class EditNoteFragmentTest extends FragmentTest<EditNoteFragment> {
         TestNavHostController navController = new TestNavHostController(
                 ApplicationProvider.getApplicationContext());
         navController.setViewModelStore(new ViewModelStore());
-        //navController.setGraph(R.navigation.nav_graph_main_fragment);
-
+        saveState = new EditNoteViewModel.SaveState(new DataBaseStorableTestImpl());
         FragmentFactory factory = new FragmentFactory(){
             @NonNull
             @Override
@@ -59,6 +62,7 @@ public class EditNoteFragmentTest extends FragmentTest<EditNoteFragment> {
                 f.getViewLifecycleOwnerLiveData().observeForever(viewLifecycleOwner -> {
                     if (viewLifecycleOwner != null) {
                         Navigation.setViewNavController(f.requireView(), navController);
+                        new ViewModelProvider(f.requireActivity()).get(EditNoteViewModel.class).setNote(saveState);
                     }
                 });
                 // inject mocked toolbar
@@ -70,7 +74,11 @@ public class EditNoteFragmentTest extends FragmentTest<EditNoteFragment> {
         };
 
         EditNoteFragmentArgs args = new EditNoteFragmentArgs.Builder().setType("TextNote").build();
-        scenario = FragmentScenario.launchInContainer(EditNoteFragment.class,args.toBundle(), R.style.Theme_AppCompat_Light_NoActionBar,factory);
+        scenario = FragmentScenario.launch(EditNoteFragment.class,args.toBundle(), R.style.Theme_AppCompat_Light_NoActionBar,factory);
+
+        scenario.onFragment(fragment -> {
+            //new ViewModelProvider(fragment.requireActivity()).get(EditNoteViewModel.class).setNote();
+        });
     }
 
     @Override

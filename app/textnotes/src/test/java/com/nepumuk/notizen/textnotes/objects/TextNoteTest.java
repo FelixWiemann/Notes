@@ -89,6 +89,6 @@ public class TextNoteTest extends AndroidTest {
         // - update database
         // - ...
         // - update test at last
-        assertEquals(testNote.getVersion(),1);
+        assertEquals(testNote.getVersion(),2);
     }
 }
