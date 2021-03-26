@@ -9,17 +9,12 @@ buildscript {
     repositories {
         jcenter()
         google()
-        maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' } // TODO find a maintained jacoco plugin
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
-        // before upgrading gradle, make sure a new or different jacoco implementation is available
-        // https://github.com/arturdm/jacoco-android-gradle-plugin
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.5-SNAPSHOT' // TODO find a maintained jacoco plugin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
-
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -34,5 +29,12 @@ allprojects {
 }
 
 task clean(type: Delete) {
+    allprojects{
+        beforeEvaluate { project ->
+            println("deleting " + project.buildDir)
+            delete project.buildDir
+        }
+    }
+    println("deleting " + project.buildDir)
     delete rootProject.buildDir
 }

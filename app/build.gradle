@@ -1,7 +1,6 @@
 apply plugin: 'java-test-fixtures'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'jacoco-android'
 apply plugin: "androidx.navigation.safeargs"
 
 android {
@@ -65,13 +64,7 @@ android {
     }
 }
 
-jacoco {
-    toolVersion = "0.8.5"
-    reportsDir = file("$buildDir/JaCoCoReports")
-}
-
 tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
     // copied from https://stackoverflow.com/a/36130467
     testLogging {
         afterSuite { desc, result ->
@@ -91,26 +84,11 @@ tasks.withType(Test) {
     forkEvery=0
 }
 
-jacocoAndroidUnitTestReport {
-    csv.enabled false
-    html.enabled false
-    xml.enabled true
-}
-
-task runall{
-
-    dependsOn ":app:tasks:testDebugUnitTest"
-    dependsOn ":app:core:testDebugUnitTest"
-    dependsOn ":app:textnotes:testDebugUnitTest"
-    dependsOn ":app:testDebugUnitTest"
-}
-
 dependencies {
 
     implementation project(":app:core")
     implementation project(":app:tasks")
     implementation project(":app:textnotes")
-
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // kotlin
