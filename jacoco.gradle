@@ -1,0 +1,154 @@
+// copied from https://medium.com/wandera-engineering/android-kotlin-code-coverage-with-jacoco-sonar-and-gradle-plugin-6-x-3933ed503a6e
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.5"
+    // Custom reports directory can be specfied like this:
+    // reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+    // see related issue https://github.com/gradle/gradle/issues/5184#issuecomment-457865951
+}
+
+project.afterEvaluate {
+    ext.getCodeCoverageReportTask={variantName->
+        if (!rootProject.tasks.findByName("codeCoverageReport${variantName.capitalize()}")) {
+            println("generating new coverage report for ${variantName.capitalize()}")
+            rootProject.tasks.register("codeCoverageReport${variantName.capitalize()}", JacocoReport) {
+                // enable the different report types (html, xml, csv)
+                reports {
+                    // xml is usually used to integrate code coverage with
+                    // other tools like SonarQube, Coveralls or Codecov
+                    xml{
+                        enabled true
+                        destination file("${rootProject.buildDir}/jacocoXml")
+                    }
+                    // HTML reports can be used to see code coverage
+                    // without any external tools
+                    html{
+                        enabled true
+                        destination file("${rootProject.buildDir}/jacocoHtml")
+                    }
+                    csv.enabled = false
+                }
+                println("${rootProject.buildDir}")
+                executionData fileTree(dir: "${rootProject.projectDir}", includes: ["**/jacoco.exec"])
+            }
+        }
+        def report = rootProject.tasks.findByName("codeCoverageReport${variantName.capitalize()}")
+        report
+    }
+
+    ext.getCodeCoverageMergeTask={variantName->
+        if (!rootProject.tasks.findByName("codeCoverageMerge${variantName.capitalize()}")) {
+            println("generating new coverage merge for ${variantName.capitalize()}")
+            def mergeTask = rootProject.tasks.register("codeCoverageMerge${variantName.capitalize()}", JacocoMerge) {
+                executionData files()
+            }
+            def reportTask = getCodeCoverageReportTask(variantName)
+            reportTask.dependsOn mergeTask
+        }
+        def mergeTask = rootProject.tasks.findByName("codeCoverageMerge${variantName.capitalize()}")
+        mergeTask
+    }
+    (android.hasProperty('applicationVariants') ? android.'applicationVariants' : android.'libraryVariants')
+        .all { variant ->
+            def variantName = variant.name
+            def unitTestTask = "test${variantName.capitalize()}UnitTest"
+            def androidTestCoverageTask = "create${variantName.capitalize()}CoverageReport"
+
+            def rootCoverageMerge = getCodeCoverageMergeTask(variantName)
+            def rootCoverageReport = getCodeCoverageReportTask(variantName)
+
+            def coverageReport = tasks.create(name: "${unitTestTask}Coverage", type: JacocoReport, dependsOn: [
+                    "$unitTestTask",
+                    "$androidTestCoverageTask"
+            ]) {
+                group = "Reporting"
+                description = "Generate Jacoco coverage reports for the ${variantName.capitalize()} build"
+
+                reports {
+                    html.enabled = true
+                    xml.enabled = false
+                    csv.enabled = false
+                }
+
+                def excludes = [
+                        // data binding
+                        'android/databinding/**/*.class',
+                        '**/android/databinding/*Binding.class',
+                        '**/android/databinding/*',
+                        '**/androidx/databinding/*',
+                        '**/BR.*',
+                        // android
+                        '**/R.class',
+                        '**/R$*.class',
+                        '**/BuildConfig.*',
+                        '**/Manifest*.*',
+                        '**/*Test*.*',
+                        'android/**/*.*',
+                        // butterKnife
+                        '**/*$ViewInjector*.*',
+                        '**/*$ViewBinder*.*',
+                        // dagger
+                        '**/*_MembersInjector.class',
+                        '**/Dagger*Component.class',
+                        '**/Dagger*Component$Builder.class',
+                        '**/*Module_*Factory.class',
+                        '**/di/module/*',
+                        '**/*_Factory*.*',
+                        '**/*Module*.*',
+                        '**/*Dagger*.*',
+                        '**/*Hilt*.*',
+                        // kotlin
+                        '**/*MapperImpl*.*',
+                        '**/*$ViewInjector*.*',
+                        '**/*$ViewBinder*.*',
+                        '**/BuildConfig.*',
+                        '**/*Component*.*',
+                        '**/*BR*.*',
+                        '**/Manifest*.*',
+                        '**/*$Lambda$*.*',
+                        '**/*Companion*.*',
+                        '**/*Module*.*',
+                        '**/*Dagger*.*',
+                        '**/*Hilt*.*',
+                        '**/*MembersInjector*.*',
+                        '**/*_MembersInjector.class',
+                        '**/*_Factory*.*',
+                        '**/*_Provide*Factory*.*',
+                        '**/*Extensions*.*',
+                        // sealed and data classes
+                        '**/*$Result.*',
+                        '**/*$Result$*.*'
+                ]
+
+                def javaClasses = fileTree(dir: variant.javaCompileProvider.get().destinationDir,
+                        excludes: excludes)
+                def kotlinClasses = fileTree(dir: "${buildDir}/tmp/kotlin-classes/${variantName}",
+                        excludes: excludes)
+
+                classDirectories.setFrom(files([
+                        javaClasses,
+                        kotlinClasses
+                ]))
+                rootCoverageReport.classDirectories.from(classDirectories)
+
+                def variantSourceSets = variant.sourceSets.java.srcDirs.collect { it.path }.flatten()
+                sourceDirectories.from(project.files(variantSourceSets))
+
+                def androidTestsData = fileTree(dir: "${buildDir}/outputs/code_coverage/${variantName}AndroidTest/connected/", includes: ["**/*.ec"])
+                def execTestsData = fileTree(dir: "${project.projectDir}/", includes: ["**/jacoco.exec"])
+
+                executionData(files([
+                        execTestsData,
+                        //"$project.buildDir/jacoco/${unitTestTask}.exec",
+                        androidTestsData
+                ]))
+            }
+            rootCoverageMerge.dependsOn coverageReport
+        }
+}

@@ -17,9 +17,6 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null" />
-        <action
-            android:id="@+id/action_editNoteFragment_to_createTaskDialogFragment"
-            app:destination="@id/createTaskDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"

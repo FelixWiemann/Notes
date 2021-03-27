@@ -1,6 +1,13 @@
 package com.nepumuk.notizen;
 
+import org.junit.Test;
+
 public class FabToggleManagerTest {
+    @Test
+    public void test(){
+
+    }
+
 /*
 
     FloatingActionButton fabMock;

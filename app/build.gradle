@@ -36,6 +36,7 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "@string/app_name_base"
+            testCoverageEnabled true
         }
         debug {
             minifyEnabled false
@@ -43,6 +44,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationIdSuffix '.debug'
             resValue "string", "app_name", "@string/app_name_debug"
+            testCoverageEnabled true
         }
         debugminify {
             initWith debug
