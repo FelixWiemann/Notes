@@ -19,13 +19,13 @@ steps:
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'clean assemble${{parameters.BUILD_TYPE}} jacocoTest${{parameters.BUILD_TYPE}}UnitTestReport'
+    tasks: 'clean assemble${{parameters.BUILD_TYPE}} codeCoverageReportDebug${{parameters.BUILD_TYPE}}'
 
 - task: PublishCodeCoverageResults@1
   condition: always()
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/JaCoCo/**.xml'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/build/jacoco.xml'
     pathToSources: '$(System.DefaultWorkingDirectory)/app/src/main/java'
     # reportDirectory: '$(System.DefaultWorkingDirectory)./app/build/JaCoCoReports/*${{parameters.BUILD_TYPE}}*/html/'
 

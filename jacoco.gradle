@@ -24,12 +24,12 @@ project.afterEvaluate {
                     // other tools like SonarQube, Coveralls or Codecov
                     xml{
                         enabled true
-                        destination file("${rootProject.buildDir}/jacocoXml")
+                        destination file("${rootProject.buildDir}/jacoco.xml")
                     }
                     // HTML reports can be used to see code coverage
                     // without any external tools
                     html{
-                        enabled true
+                        enabled false
                         destination file("${rootProject.buildDir}/jacocoHtml")
                     }
                     csv.enabled = false
