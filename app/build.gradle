@@ -86,8 +86,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.google.firebase:firebase-appindexing:19.1.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.firebase:firebase-appindexing:19.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -100,14 +100,14 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-    implementation 'androidx.navigation:navigation-fragment:2.3.2'
-    implementation 'androidx.navigation:navigation-ui:2.3.2'
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
     // Testing Navigation
     testImplementation "androidx.navigation:navigation-testing:$nav_version"
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     // Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha04"
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha09"
 
 
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
@@ -115,7 +115,7 @@ dependencies {
 
 
     /**test dependencies**/
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.test:core:$androidxtest_version"
 
     // AndroidJUnitRunner and JUnit Rules
