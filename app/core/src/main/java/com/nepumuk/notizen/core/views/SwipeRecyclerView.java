@@ -51,23 +51,9 @@ public class SwipeRecyclerView<T extends StorageObject> extends NestedRecyclerVi
         helperCallback = new SwipeHelperCallback(SwipeHelperCallback.NO_BUTTON, SwipeHelperCallback.NO_BUTTON);
         // set default adapter
         adapter = new SwipableRecyclerAdapter<>(new ArrayList<T>(), 0, false, R.layout.swipable_left, R.layout.swipable_empty);
-        super.setAdapter(adapter);
+        this.setAdapter(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(helperCallback);
         itemTouchHelper.attachToRecyclerView(this);
-    }
-
-    public void setAdapter(@Nullable SwipableRecyclerAdapter<T> adapter) {
-        super.setAdapter(adapter);
-        this.adapter = adapter;
-    }
-
-    @Override
-    public void setAdapter(@Nullable Adapter adapter) {
-        if (adapter instanceof SwipableRecyclerAdapter){
-            setAdapter((SwipableRecyclerAdapter) adapter);
-            return;
-        }
-        throw new IllegalArgumentException("got adapter of type " + adapter.getClass().getCanonicalName() + " but require adapter of type " + SwipableRecyclerAdapter.class.getCanonicalName());
     }
 
     /**
