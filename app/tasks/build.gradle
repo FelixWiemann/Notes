@@ -51,26 +51,6 @@ android {
     }
 }
 
-tasks.withType(Test) {
-    // copied from https://stackoverflow.com/a/36130467
-    testLogging {
-        afterSuite { desc, result ->
-            if (!desc.parent) { // will match the outermost suite
-                def output = "${project.name} Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
-                def startItem = '|  ', endItem = '  |'
-                def repeatLength = startItem.length() + output.length() + endItem.length()
-                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
-            }
-        }
-        exceptionFormat = 'full'
-        showCauses = true
-        showExceptions = true
-        showStackTraces = true
-    }
-    maxParallelForks = 4
-    forkEvery=0
-}
-
 dependencies {
 
     implementation project(":app:core")
