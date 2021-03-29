@@ -14,12 +14,14 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.views.adapters.SwipableRecyclerAdapter;
+import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderFactory;
 import com.nepumuk.notizen.core.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.core.views.fragments.FabProvider;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
 import com.nepumuk.notizen.tasks.objects.Task;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
 
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -92,11 +94,9 @@ public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.Fr
     }
 
     @Test
-    @Ignore
     public void testFragmentIsUpdatedOnViewModelDataChange(){
         scenario.onFragment(fragment ->{
             NavController controller = NavHostFragment.findNavController(fragment);
-
             EditNoteViewModel<TaskNote> mViewModel = new ViewModelProvider(fragment.requireActivity()).get(EditNoteViewModel.class);
             mViewModel.setNote(new EditNoteViewModel.SaveState<>(new TaskNote(UUID.randomUUID(),"",new ArrayList<>())));
             EditNoteViewModel<BaseTask> model = new ViewModelProvider(controller.getCurrentBackStackEntry()).get(EditNoteViewModel.class);
@@ -105,6 +105,12 @@ public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.Fr
             model.setNote(state);
             // TODO verify note is only updated, when state.save = true
         });
+    }
+
+    @BeforeClass
+    public static void beforeClass(){
+        // set up ViewHolderFactory
+        ViewHolderFactory.registerNewViewHolder(R.layout.task_view, BaseTask.class, TaskViewHolder.class);
     }
 
     @Override
@@ -129,6 +135,7 @@ public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.Fr
                 return f;
             }
         };
+
         scenario = FragmentScenario.launchInContainer(TaskNoteFragment.class,null,R.style.Theme_AppCompat_Light_NoActionBar,factory);
     }
 }
