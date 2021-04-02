@@ -1,11 +1,16 @@
 package com.nepumuk.notizen.core.filtersort;
 
+import com.nepumuk.notizen.core.objects.SortableObject;
 import com.nepumuk.notizen.core.objects.StorageObject;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class FilterQueueTest {
 
@@ -20,27 +25,25 @@ public class FilterQueueTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @Ignore("get basic notes to filter")
     public void filter() {
         // given
-        //Task task = new Task(UUID.randomUUID(),"","", false);
+        StorageObject task = mock(StorageObject.class);
         FilterQueue<StorageObject> filterQueue = new FilterQueue<>();
         // when
-        //filterQueue.filter(task);
+        filterQueue.filter(task);
         // then expect exception
     }
 
     @Test
-    @Ignore("get basic notes to filter")
     public void testFilter() {
         // given these objects
-        /*SortableObject obj1 = new DataBaseStorableTestImpl();
-        SortableObject obj2 = new TextNote(UUID.randomUUID(),"","");
-        SortableObject obj3 = new TaskNote(UUID.randomUUID(),"",new ArrayList<>());
-        SortableObject obj4 = new Task(UUID.randomUUID(),"","",false);
-        SortableObject obj5 = new Task(UUID.randomUUID(),"","",true);
-        SortableObject obj6 = new TimedTask(UUID.randomUUID(),"","",false);
-        SortableObject obj7 = new TimedTask(UUID.randomUUID(),"","",true);
+        StorageObject obj1 = mock(StorageObject.class);
+        StorageObject obj2 = mock(StorageObject.class);
+        StorageObject obj3 = mock(StorageObject.class);
+        StorageObject obj4 = mock(StorageObject.class);
+        StorageObject obj5 = mock(StorageObject.class);
+        StorageObject obj6 = mock(StorageObject.class);
+        StorageObjectTestImpl obj7 = new StorageObjectTestImpl();
         // in this array
         ArrayList<SortableObject> toSort = new ArrayList<>();
         toSort.add(obj1);
@@ -56,8 +59,7 @@ public class FilterQueueTest {
         // with this FilterQueue config
         FilterQueue<SortableObject> queue = new FilterQueue<>()
                 .appendFilter(new FilterShowAll<>())
-                .appendFilter(new FilterHideDone<>())
-                .appendFilter(new HideAllOfType<>(TimedTask.class));
+                .appendFilter(new HideAllOfType<>(StorageObjectTestImpl.class));
         // when
         queue.filter(toSort,kept,removed);
         // then
@@ -68,21 +70,17 @@ public class FilterQueueTest {
         assertTrue(kept.contains(obj2));
         assertTrue(kept.contains(obj3));
         assertTrue(kept.contains(obj4));
-        // obj5 is done
-        assertFalse(kept.contains(obj5));
-        // all of type TimedTask
-        assertFalse(kept.contains(obj6));
-        assertFalse(kept.contains(obj6));
-        // these where removed
-        assertFalse(removed.contains(obj1));
-        assertFalse(removed.contains(obj2));
-        assertFalse(removed.contains(obj3));
-        assertFalse(removed.contains(obj4));
-        // obj5 is done
-        assertTrue(removed.contains(obj5));
-        // all of type TimedTask
-        assertTrue(removed.contains(obj6));
-        assertTrue(removed.contains(obj6));*/
+        assertTrue(kept.contains(obj5));
+        assertTrue(kept.contains(obj6));
+        assertFalse(kept.contains(obj7));
+    }
+
+    class StorageObjectTestImpl extends StorageObject{
+
+        @Override
+        public int getVersion() {
+            return 0;
+        }
     }
 
 }
