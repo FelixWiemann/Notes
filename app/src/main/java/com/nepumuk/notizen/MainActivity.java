@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.nepumuk.notizen.core.objects.storable_factory.DefaultStorableStrategy;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
 import com.nepumuk.notizen.core.utils.ContextManager;
 import com.nepumuk.notizen.core.utils.ContextManagerException;
@@ -94,7 +95,15 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
         return findViewById(R.id.toolbar);
     }
 
-    public static class IntentHandler{
+    public static class IntentHandler implements DefaultStorableStrategy<DatabaseStorable> {
+
+        private Bundle extra;
+
+        public IntentHandler(Bundle extra) {
+            super();
+            this.extra = extra;
+        }
+
         public static DatabaseStorable StorableFromIntent(Intent intent){
             if (intent == null || intent.getAction()==null) return null;
             switch (intent.getAction()){
@@ -122,6 +131,11 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
             }
             // could not be handled, return default storable
             return null;
+        }
+
+        @Override
+        public DatabaseStorable createDefault() {
+            return handleExtra(extra);
         }
     }
 }

@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.pm.ShortcutManager;
 import android.os.Build;
 
+import com.nepumuk.notizen.core.objects.storable_factory.DefaultStorableStrategy;
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
+
+import java.util.HashMap;
+
 /**
  * helper class for handling shortcuts
  * it handles the minimum required version code internally
@@ -40,6 +45,22 @@ public class ShortCutHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             shortcutManager.reportShortcutUsed(ID);
         }
+    }
+
+    static HashMap<String, DefaultStorableStrategy<DatabaseStorable>> strategyMap = new HashMap<>();
+    static HashMap<String, String> shortCutIdMap = new HashMap<>();
+
+    public DatabaseStorable createAndReportUsage(String ShortCutVariableName){
+        if (strategyMap.containsKey(ShortCutVariableName)) {
+            reportUsage(shortCutIdMap.get(ShortCutVariableName));
+            return strategyMap.get(ShortCutVariableName).createDefault();
+        }
+        return null;
+    }
+
+    public static void registerShortcut(DefaultStorableStrategy strategy, String ShortCutID, String ShortCutVariableName){
+        strategyMap.put(ShortCutVariableName,strategy);
+        shortCutIdMap.put(ShortCutVariableName,ShortCutID);
     }
 
 }

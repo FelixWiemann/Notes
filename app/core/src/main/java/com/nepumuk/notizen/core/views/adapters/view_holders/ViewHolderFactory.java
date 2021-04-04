@@ -49,8 +49,13 @@ public class ViewHolderFactory {
         return instance;
     }
 
+    /**
+     * register a new view holder, the type (layout resource ID to be inflated by the view holder) and the class of the items the viewholder represents
+     * @param type
+     * @param objectType
+     * @param ViewHolderClass
+     */
     public static void registerNewViewHolder(Integer type, Class<? extends DatabaseStorable> objectType, Class<? extends ViewHolderInterface<?>> ViewHolderClass){
-
         // register new View Types here
         getInstance().registerViewHolder(type, objectType, ViewHolderClass);
     }

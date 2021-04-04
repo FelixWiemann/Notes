@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
+import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
 
@@ -186,25 +187,10 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         mViewModel.observe(this, o -> wasChanged = true);
 
         if (!mViewModel.isValueSet()) {
-            DatabaseStorable data;
-            // intents from shortcut TODO re-enable shortcuts
-            /*switch (Objects.requireNonNull(EditNoteFragmentArgs.fromBundle(requireArguments()).getType())) {
-                case "TaskNote":
-                    data = DefaultTaskNoteStrategy.create();
-                    // report shortcut usage
-                    new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TASK_NOTE);
-                    break;
-                case "TextNote":
-                    data = DefaultTextNoteStrategy.create();
-                    // report shortcut usage
-                    new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TEXT_NOTE);
-                    break;
-                default:
-                    data = MainActivity.IntentHandler.handleExtra(requireArguments());
-            }*/
-           // EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
-            //mViewModel.setNote(saveState);
-            //mViewModel.getSaveState().origin = EditNoteViewModel.SaveState.Origin.EDITOR;
+            DatabaseStorable data = new ShortCutHelper(getContext()).createAndReportUsage(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
+            EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
+            mViewModel.setNote(saveState);
+            mViewModel.getSaveState().origin = EditNoteViewModel.SaveState.Origin.EDITOR;
         }
         if ("".equals(originalData)) {
             originalData = mViewModel.getValue().getDataString();
