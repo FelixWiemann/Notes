@@ -4,7 +4,10 @@ import com.nepumuk.notizen.core.objects.StorageObject;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class FilterQueueTest {
@@ -18,13 +21,21 @@ public class FilterQueueTest {
         assertEquals(1, filterQueue.filters.size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void filter() {
         // given
         StorageObject task = mock(StorageObject.class);
-        AndFilter<StorageObject> filterQueue = new AndFilter<>();
+        FilterQueueTestImplementation filterQueue = new FilterQueueTestImplementation();
         // when
-        filterQueue.filter(task);
-        // then expect exception
+        boolean contains = filterQueue.filter(task);
+        // then
+        assertTrue(contains);
+    }
+
+    static class FilterQueueTestImplementation extends FilterQueue<StorageObject>{
+        @Override
+        public void filter(List<StorageObject> toFilter, List<StorageObject> keep, List<StorageObject> discard) {
+            keep.addAll(toFilter);
+        }
     }
 }

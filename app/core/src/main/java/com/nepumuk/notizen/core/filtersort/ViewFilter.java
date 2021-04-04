@@ -40,6 +40,4 @@ public abstract class ViewFilter <T extends SortableObject>{
         }
     }
 
-
-
 }
