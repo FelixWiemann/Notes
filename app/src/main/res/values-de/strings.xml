@@ -80,5 +80,6 @@
         <p>Da die App über den Google Play Store verteilt wird, werden z.B. Informationen zu App Nutzung, zu den Geräten auf denen die App läuft oder zu App Abstürzen entsprechend der Google-Richtlinie erhoben.<br/>
             Die aktuelle Datenschutzrichtline von Google kann <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a> entnommen werden</p>
     </string>
+    <string name="action_search">suchen</string>
 
 </resources>

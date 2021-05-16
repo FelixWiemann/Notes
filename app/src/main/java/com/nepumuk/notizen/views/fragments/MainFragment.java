@@ -22,11 +22,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.core.filtersort.FilterShowAll;
 import com.nepumuk.notizen.core.filtersort.SortProvider;
+import com.nepumuk.notizen.core.filtersort.TextFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
 import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.MainViewModel;
+import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.core.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.core.views.SwipeRecyclerView;
 import com.nepumuk.notizen.core.views.adapters.BaseRecyclerAdapter;
 import com.nepumuk.notizen.core.views.adapters.CompoundAdapter;
@@ -36,9 +39,8 @@ import com.nepumuk.notizen.core.views.adapters.view_holders.CompoundViewHolder;
 import com.nepumuk.notizen.core.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.tasks.objects.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.textnotes.DefaultTextNoteStrategy;
-import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.views.NoteListViewHeaderView;
-import com.nepumuk.notizen.core.views.SwipableOnItemTouchListener;
+import com.nepumuk.notizen.views.SearchView;
 import com.nepumuk.notizen.views.fabs.FabSpawnerFab;
 
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ public class MainFragment extends Fragment {
     public static final int REQUEST_EDIT_NOTE = 1;
     public int currentEditedNoteIndex = 0;
     private boolean deleteWasClicked = false;
+    private CompoundAdapter<StorageObject> adapter ;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,11 +82,6 @@ public class MainFragment extends Fragment {
         super.onAttach(context);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
     /**
      * init the fragment with the created content view
@@ -99,7 +97,7 @@ public class MainFragment extends Fragment {
         // setup views
         recyclerView = content.findViewById(R.id.adapterView);
         ArrayList<StorageObject> list = new ArrayList<>();
-        final CompoundAdapter<StorageObject> adapter = new CompoundAdapter<>(list, R.layout.compound_view);
+        adapter = new CompoundAdapter<>(list, R.layout.compound_view);
         adapter.registerAdapter(new TitleAdapter<>(list,2),R.id.titleid);
         adapter.registerAdapter(new BaseRecyclerAdapter<>(list,1), R.id.content);
         SwipableRecyclerAdapter<StorageObject> swipeAdapter = new SwipableRecyclerAdapter<>(list,0, true, R.layout.swipable_left, R.layout.swipable_empty);
@@ -226,6 +224,9 @@ public class MainFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.main_fragment_menu, menu);
+        ((SearchView) menu.findItem(R.id.app_bar_search).getActionView()).watcher = phrase -> {
+            adapter.filter(new TextFilter(phrase));
+        };
     }
 
 }

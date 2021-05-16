@@ -83,5 +83,6 @@
         <p>Since the app is distributed via GooglePlay Store, some data (e.g. information on app usage, devices running the app or crashes) is collected according to the Google Privacy Notice<br/>
             The latest Privacy Notice from Google can be found at <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></p>
     </string>
+    <string name="action_search">search</string>
 
 </resources>

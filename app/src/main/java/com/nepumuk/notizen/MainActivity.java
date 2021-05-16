@@ -14,13 +14,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.nepumuk.notizen.core.objects.storable_factory.DefaultStorableStrategy;
+import com.nepumuk.notizen.core.settings.Settings;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
 import com.nepumuk.notizen.core.utils.ContextManager;
 import com.nepumuk.notizen.core.utils.ContextManagerException;
 import com.nepumuk.notizen.core.utils.MainViewModel;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
-import com.nepumuk.notizen.core.settings.Settings;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
 import com.nepumuk.notizen.textnotes.objects.TextNote;
 
