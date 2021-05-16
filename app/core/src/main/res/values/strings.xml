@@ -84,4 +84,6 @@
             The latest Privacy Notice from Google can be found at <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></p>
     </string>
 
+    <string name="action_search">search</string>
+
 </resources>

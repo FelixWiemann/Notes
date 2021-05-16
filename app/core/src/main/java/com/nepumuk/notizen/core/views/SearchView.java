@@ -1,4 +1,4 @@
-package com.nepumuk.notizen.views;
+package com.nepumuk.notizen.core.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -6,7 +6,7 @@ import com.nepumuk.notizen.core.objects.StorageObject;
 
 import java.util.HashMap;
 
-public class TextFilter extends ViewFilter<StorageObject> {
+public class TextFilter<T extends StorageObject> extends ViewFilter<T> {
 
     public static final String SEP = "@!@!";
 

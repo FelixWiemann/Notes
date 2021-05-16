@@ -26,7 +26,10 @@ import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.core.views.SearchView;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
+
+import org.jetbrains.annotations.NotNull;
 
 public class EditNoteFragment extends Fragment implements SaveDataFragmentListener , FabProvider, InterceptableNavigationToolbar.NavigationUpInterceptor {
 
@@ -258,6 +261,40 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean SeachFieldVisible = false;
+    private SearchView.SearchWatcher watcher;
+
+    public void setSearchVisible(boolean visible){
+        SeachFieldVisible = visible;
+    }
+    public void setSearchVisible(boolean visible, SearchView.SearchWatcher watcher){
+        SeachFieldVisible = visible;
+        this.watcher = watcher;
+    }
+
+    /**
+     * Prepare the Fragment host's standard options menu to be displayed.  This is
+     * called right before the menu is shown, every time it is shown.  You can
+     * use this method to efficiently enable/disable items or otherwise
+     * dynamically modify the contents.  See
+     * {@link Activity#onPrepareOptionsMenu(Menu) Activity.onPrepareOptionsMenu}
+     * for more information.
+     *
+     * @param menu The options menu as last shown or first initialized by
+     *             onCreateOptionsMenu().
+     * @see #setHasOptionsMenu
+     * @see #onCreateOptionsMenu
+     */
+    @Override
+    public void onPrepareOptionsMenu(@NonNull @NotNull Menu menu) {
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        if (searchItem!=null) {
+            searchItem.setVisible(SeachFieldVisible);
+            ((SearchView) searchItem.getActionView()).watcher = watcher;
+        }
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override

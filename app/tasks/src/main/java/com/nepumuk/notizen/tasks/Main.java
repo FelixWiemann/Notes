@@ -7,6 +7,7 @@ import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderFactory;
 import com.nepumuk.notizen.core.views.fragments.NoteDisplayFragmentFactory;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
 import com.nepumuk.notizen.tasks.objects.DefaultTaskNoteStrategy;
+import com.nepumuk.notizen.tasks.objects.Task;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
 
 import static com.nepumuk.notizen.core.filtersort.TextFilter.SEP;
@@ -25,5 +26,7 @@ public class Main {
             }
             return builder.toString();
         });
+        TextFilter.addMapping(BaseTask.class, object -> object.getText() + SEP + object.getTitle());
+        TextFilter.addMapping(Task.class, object -> object.getText() + SEP + object.getTitle());
     }
 }

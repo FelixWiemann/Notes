@@ -40,7 +40,7 @@ import com.nepumuk.notizen.core.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.tasks.objects.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.textnotes.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.views.NoteListViewHeaderView;
-import com.nepumuk.notizen.views.SearchView;
+import com.nepumuk.notizen.core.views.SearchView;
 import com.nepumuk.notizen.views.fabs.FabSpawnerFab;
 
 import java.util.ArrayList;
@@ -218,14 +218,12 @@ public class MainFragment extends Fragment {
         });
     }
 
-
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.main_fragment_menu, menu);
         ((SearchView) menu.findItem(R.id.app_bar_search).getActionView()).watcher = phrase -> {
-            adapter.filter(new TextFilter(phrase));
+            adapter.filter(new TextFilter<>(phrase));
         };
     }
 

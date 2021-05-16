@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nepumuk.notizen.core.filtersort.TextFilter;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
 import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.ResourceManger;
@@ -21,6 +22,7 @@ import com.nepumuk.notizen.core.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.core.views.SwipeRecyclerView;
 import com.nepumuk.notizen.core.views.adapters.SwipableRecyclerAdapter;
 import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderInterface;
+import com.nepumuk.notizen.core.views.fragments.EditNoteFragment;
 import com.nepumuk.notizen.core.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.core.views.fragments.FabProvider;
 import com.nepumuk.notizen.core.views.fragments.NoteDisplayFragment;
@@ -52,6 +54,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     private int currentEditedNoteIndex;
 
     private boolean wasActionOnView = false;
+    private SwipableRecyclerAdapter<BaseTask> adapter;
 
     public TaskNoteFragment() {
         super();
@@ -63,7 +66,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         View v = createView(inflater,container, R.layout.task_note_display_fragment);
         // TODO move view init out of here, as per recommendation
         taskHolder = v.findViewById(R.id.task_holder);
-        final SwipableRecyclerAdapter<BaseTask> adapter = taskHolder.getAdapter();
+        adapter = taskHolder.getAdapter();
         adapter.OnLeftClick = (clickedOn, parentView) -> {
             currentEditedNoteIndex = taskHolder.getChildAdapterPosition(parentView);
             if (currentEditedNoteIndex==-1) return;
@@ -99,6 +102,8 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if ((getParentFragment() instanceof EditNoteFragment))
+            ((EditNoteFragment)getParentFragment()).setSearchVisible(true,phrase -> adapter.filter(new TextFilter<>(phrase)));
         NavController controller = NavHostFragment.findNavController(this);
         // get the view model of the parent activity
         taskViewModel = new ViewModelProvider(controller.getCurrentBackStackEntry()).get(EditNoteViewModel.class);
