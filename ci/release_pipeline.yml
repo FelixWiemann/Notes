@@ -30,7 +30,6 @@ jobs:
           apksignerKeystoreAlias: 'azure pipeline'
           apksignerKeyPassword: '$(KeyPass)'
           apksignerArguments: '--verbose'
-          zipalign: false
       
       # copy & rename signed package
       - task: Bash@3
