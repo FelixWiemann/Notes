@@ -29,12 +29,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            testCoverageEnabled true
+            testCoverageEnabled rootProject.ext.testCoverage
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            testCoverageEnabled true
+            testCoverageEnabled rootProject.ext.testCoverage
         }
         debugminify {
             initWith debug
