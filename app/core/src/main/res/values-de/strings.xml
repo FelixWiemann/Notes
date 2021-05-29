@@ -81,5 +81,7 @@
             Die aktuelle Datenschutzrichtline von Google kann <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a> entnommen werden</p>
     </string>
     <string name="action_search">Suchen</string>
+    <string name="hint_search_notes">Notizen durchsuchen</string>
+    <string name="hint_search_tasks">Aufgaben durchsuchen</string>
 
 </resources>

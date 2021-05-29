@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,6 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
+import com.nepumuk.notizen.core.utils.ResourceManger;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.SearchView;
@@ -265,9 +267,14 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
 
     private boolean SeachFieldVisible = false;
     private SearchView.SearchWatcher watcher;
+    private String SearchHintText;
 
     public void setSearchVisible(boolean visible){
         SeachFieldVisible = visible;
+    }
+    public void setSearchVisible(boolean visible, SearchView.SearchWatcher watcher, @StringRes int SearchHintText){
+        setSearchVisible(visible, watcher);
+        this.SearchHintText= ResourceManger.getString(SearchHintText);
     }
     public void setSearchVisible(boolean visible, SearchView.SearchWatcher watcher){
         SeachFieldVisible = visible;
@@ -293,6 +300,9 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         if (searchItem!=null) {
             searchItem.setVisible(SeachFieldVisible);
             ((SearchView) searchItem.getActionView()).watcher = watcher;
+            if (!SearchHintText.equals("")) {
+                ((SearchView) searchItem.getActionView()).setQueryHint(SearchHintText);
+            }
         }
         super.onPrepareOptionsMenu(menu);
     }

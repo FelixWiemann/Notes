@@ -85,5 +85,7 @@
     </string>
 
     <string name="action_search">search</string>
+    <string name="hint_search_notes">search notes</string>
+    <string name="hint_search_tasks">search tasks</string>
 
 </resources>

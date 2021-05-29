@@ -103,7 +103,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if ((getParentFragment() instanceof EditNoteFragment))
-            ((EditNoteFragment)getParentFragment()).setSearchVisible(true,phrase -> adapter.filter(new TextFilter<>(phrase)));
+            ((EditNoteFragment)getParentFragment()).setSearchVisible(true,phrase -> adapter.filter(new TextFilter<>(phrase)), R.string.hint_search_tasks);
         NavController controller = NavHostFragment.findNavController(this);
         // get the view model of the parent activity
         taskViewModel = new ViewModelProvider(controller.getCurrentBackStackEntry()).get(EditNoteViewModel.class);
