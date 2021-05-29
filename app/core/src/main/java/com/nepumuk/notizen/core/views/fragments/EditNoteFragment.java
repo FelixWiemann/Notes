@@ -267,7 +267,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
 
     private boolean SeachFieldVisible = false;
     private SearchView.SearchWatcher watcher;
-    private String SearchHintText;
+    private String SearchHintText="";
 
     public void setSearchVisible(boolean visible){
         SeachFieldVisible = visible;
