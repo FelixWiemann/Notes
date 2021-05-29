@@ -19,7 +19,8 @@ steps:
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'clean assemble${{parameters.BUILD_TYPE}} codeCoverageReport${{parameters.BUILD_TYPE}}'
+    tasks: 'clean assemble${{parameters.BUILD_TYPE}}'
+    # currently disabled, as not working correctly: codeCoverageReport${{parameters.BUILD_TYPE}}
 
 - task: PublishCodeCoverageResults@1
   condition: always()

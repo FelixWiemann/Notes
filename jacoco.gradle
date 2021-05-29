@@ -16,8 +16,9 @@ tasks.withType(Test) {
 project.afterEvaluate {
     ext.getCodeCoverageReportTask={variantName->
         if (!rootProject.tasks.findByName("codeCoverageReport${variantName.capitalize()}")) {
-            println("generating new coverage report for ${variantName.capitalize()}")
+            logger.debug("generating new coverage report task for ${variantName.capitalize()}")
             rootProject.tasks.register("codeCoverageReport${variantName.capitalize()}", JacocoReport) {
+                logger.debug("configuring coverage report")
                 // enable the different report types (html, xml, csv)
                 reports {
                     // xml is usually used to integrate code coverage with
@@ -34,7 +35,6 @@ project.afterEvaluate {
                     }
                     csv.enabled = false
                 }
-                println("${rootProject.buildDir}")
                 executionData fileTree(dir: "${rootProject.projectDir}", includes: ["**/jacoco.exec"])
             }
         }
@@ -44,35 +44,44 @@ project.afterEvaluate {
 
     ext.getCodeCoverageMergeTask={variantName->
         if (!rootProject.tasks.findByName("codeCoverageMerge${variantName.capitalize()}")) {
-            println("generating new coverage merge for ${variantName.capitalize()}")
+            logger.debug("generating new coverage merge task for ${variantName.capitalize()}")
             def mergeTask = rootProject.tasks.register("codeCoverageMerge${variantName.capitalize()}", JacocoMerge) {
+                logger.debug("executing code coverage merge")
                 executionData files()
             }
-            def reportTask = getCodeCoverageReportTask(variantName)
-            reportTask.dependsOn mergeTask
+            //def reportTask = getCodeCoverageReportTask(variantName)
+            //reportTask.dependsOn "test${variantName.capitalize()}UnitTest"
         }
         def mergeTask = rootProject.tasks.findByName("codeCoverageMerge${variantName.capitalize()}")
         mergeTask
     }
     (android.hasProperty('applicationVariants') ? android.'applicationVariants' : android.'libraryVariants')
         .all { variant ->
+            logger.debug("generating coverage report task")
             def variantName = variant.name
             def unitTestTask = "test${variantName.capitalize()}UnitTest"
-            def androidTestCoverageTask = "create${variantName.capitalize()}CoverageReport"
+            //def androidTestCoverageTask = "create${variantName.capitalize()}CoverageReport"
 
             def rootCoverageMerge = getCodeCoverageMergeTask(variantName)
             def rootCoverageReport = getCodeCoverageReportTask(variantName)
-
+            println("$rootCoverageMerge")
             def coverageReport = tasks.create(name: "${unitTestTask}Coverage", type: JacocoReport, dependsOn: [
-                    "$unitTestTask",
-                    "$androidTestCoverageTask"
+                    "$unitTestTask"
+                    //,"$rootCoverageMerge"
+                   // "$androidTestCoverageTask"
             ]) {
                 group = "Reporting"
                 description = "Generate Jacoco coverage reports for the ${variantName.capitalize()} build"
 
                 reports {
-                    html.enabled = true
-                    xml.enabled = false
+                    html {
+                        enabled = true
+                        destination file("${rootProject.buildDir}/jacocoHtml")
+                    }
+                    xml {
+                        enabled = true
+                        destination file("${rootProject.buildDir}/jacocoXml")
+                    }
                     csv.enabled = false
                 }
 
@@ -140,13 +149,12 @@ project.afterEvaluate {
                 def variantSourceSets = variant.sourceSets.java.srcDirs.collect { it.path }.flatten()
                 sourceDirectories.from(project.files(variantSourceSets))
 
-                def androidTestsData = fileTree(dir: "${buildDir}/outputs/code_coverage/${variantName}AndroidTest/connected/", includes: ["**/*.ec"])
-                def execTestsData = fileTree(dir: "${project.projectDir}/", includes: ["**/jacoco.exec"])
-
+                //def androidTestsData = fileTree(dir: "${buildDir}/outputs/code_coverage/${variantName}AndroidTest/connected/", includes: ["**/*.ec"])
+                def execTestsData = fileTree(dir: "${project.projectDir}/", includes: ["**/*.exec"])
+                println(execTestsData)
                 executionData(files([
-                        execTestsData,
-                        //"$project.buildDir/jacoco/${unitTestTask}.exec",
-                        androidTestsData
+                        execTestsData                       //"$project.buildDir/jacoco/${unitTestTask}.exec",
+                        //androidTestsData
                 ]))
             }
             rootCoverageMerge.dependsOn coverageReport
