@@ -8,11 +8,9 @@ import java.util.HashMap;
 
 public class TextFilter<T extends StorageObject> extends ViewFilter<T> {
 
-    public static final String SEP = "@!@!";
+    private static HashMap<Class, TextContainsVisitor> textMapping = new HashMap<>();
 
-    private static HashMap<Class, GetTextVisitor> textMapping = new HashMap<>();
-
-    public static <T extends StorageObject> void addMapping(Class <T> clazz, GetTextVisitor<T> visitor){
+    public static <T extends StorageObject> void addMapping(Class <T> clazz, TextContainsVisitor<T> visitor){
         textMapping.put(clazz,visitor);
     }
 
@@ -20,7 +18,7 @@ public class TextFilter<T extends StorageObject> extends ViewFilter<T> {
 
     public TextFilter(String searchPhrase) {
         super();
-        this.searchPhrase = searchPhrase;
+        this.searchPhrase = searchPhrase.toLowerCase();
     }
 
     /**
@@ -37,10 +35,10 @@ public class TextFilter<T extends StorageObject> extends ViewFilter<T> {
         // don't show if the data is not available
         if (!textMapping.containsKey(toFilter.getClass())) return false;
         // show if matches
-        return textMapping.get(toFilter.getClass()).getText(toFilter).contains(searchPhrase);
+        return textMapping.get(toFilter.getClass()).contains(toFilter,searchPhrase);
     }
 
-    public interface GetTextVisitor <T extends StorageObject>{
-        String getText(@NonNull T object);
+    public interface TextContainsVisitor<T extends StorageObject>{
+        boolean contains(@NonNull T object, String text);
     }
 }

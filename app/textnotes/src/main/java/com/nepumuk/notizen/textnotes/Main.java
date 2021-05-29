@@ -7,8 +7,6 @@ import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderFactory;
 import com.nepumuk.notizen.core.views.fragments.NoteDisplayFragmentFactory;
 import com.nepumuk.notizen.textnotes.objects.TextNote;
 
-import static com.nepumuk.notizen.core.filtersort.TextFilter.SEP;
-
 public class Main {
 
     public static void initModule(){
@@ -16,6 +14,12 @@ public class Main {
         Migration.addMigrationService("com.nepumuk.notizen.objects.notes.TextNote",new TextNoteMigrationService(),1);
         NoteDisplayFragmentFactory.addMapping(TextNote.class, TextNoteFragment.class);
         ShortCutHelper.registerShortcut(new DefaultTextNoteStrategy(),ShortCutHelper.ID_NEW_TEXT_NOTE,"TextNote");
-        TextFilter.addMapping(TextNote.class, object -> object.getMessage() + SEP +object.getTitle());
+        TextFilter.addMapping(TextNote.class, (object, text) -> {
+            // text in title
+            if(object.getTitle().toLowerCase().contains(text)) return true;
+            // text in message
+            if(object.getMessage().toLowerCase().contains(text)) return true;
+            return false;
+        });
     }
 }

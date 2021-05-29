@@ -10,8 +10,6 @@ import com.nepumuk.notizen.tasks.objects.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.tasks.objects.Task;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
 
-import static com.nepumuk.notizen.core.filtersort.TextFilter.SEP;
-
 public class Main {
     public static void initModule(){
         ViewHolderFactory.registerNewViewHolder(R.layout.task_view, BaseTask.class, TaskViewHolder.class);
@@ -19,14 +17,31 @@ public class Main {
         NoteDisplayFragmentFactory.addMapping(TaskNote.class, TaskNoteFragment.class);
         Migration.addMigrationService("com.nepumuk.notizen.objects.notes.TaskNote",new TaskNoteMigrationService(),1);
         ShortCutHelper.registerShortcut(new DefaultTaskNoteStrategy(),ShortCutHelper.ID_NEW_TASK_NOTE,"TaskNote");
-        TextFilter.addMapping(TaskNote.class, object -> {
-            StringBuilder builder = new StringBuilder(object.getTitle()).append(SEP);
+        TextFilter.addMapping(TaskNote.class, (object, text) -> {
+            // if text in title
+            if (object.getTitle().toLowerCase().contains(text)) return true;
             for (BaseTask task: object.getTaskList()) {
-                builder.append(task.getTitle()).append(SEP).append(task.getText()).append(SEP);
+                // in any task
+                if (new TextFilter<BaseTask>(text).filter(task)) return true;
             }
-            return builder.toString();
+            // not found
+            return false;
         });
-        TextFilter.addMapping(BaseTask.class, object -> object.getText() + SEP + object.getTitle());
-        TextFilter.addMapping(Task.class, object -> object.getText() + SEP + object.getTitle());
+        TextFilter.addMapping(BaseTask.class, (object, text) -> {
+            // text in title
+            if (object.getTitle().toLowerCase().contains(text)) return true;
+            // in text
+            if (object.getText().toLowerCase().contains(text)) return true;
+            // not found
+            return false;
+        });
+        TextFilter.addMapping(Task.class,(object, text) -> {
+            // text in title
+            if (object.getTitle().toLowerCase().contains(text)) return true;
+            // in text
+            if (object.getText().toLowerCase().contains(text)) return true;
+            // not found
+            return false;
+        });
     }
 }
