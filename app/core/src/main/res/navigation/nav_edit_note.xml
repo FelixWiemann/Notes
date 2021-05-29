@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_edit_note">
+    android:id="@+id/nav_edit_note"
+    app:startDestination="@id/editNoteFragment">
+    
     <fragment
         android:id="@+id/editNoteFragment"
         android:name="com.nepumuk.notizen.core.views.fragments.EditNoteFragment"

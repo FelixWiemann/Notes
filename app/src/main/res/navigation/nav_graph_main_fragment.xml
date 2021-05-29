@@ -5,6 +5,8 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
+    <include app:graph="@navigation/nav_edit_note"/>
+
     <fragment
         android:id="@+id/editNoteFragment"
         android:name="com.nepumuk.notizen.core.views.fragments.EditNoteFragment"
