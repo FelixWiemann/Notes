@@ -36,7 +36,8 @@
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/navigation_fragment_container"/>
+            android:id="@+id/navigation_fragment_container"
+            android:name="com.nepumuk.notizen.views.fragments.FilterFragment"/>
     </com.google.android.material.navigation.NavigationView>
 
 

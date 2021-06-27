@@ -25,6 +25,7 @@ import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.core.filtersort.FilterShowAll;
 import com.nepumuk.notizen.core.filtersort.SortProvider;
 import com.nepumuk.notizen.core.filtersort.TextFilter;
+import com.nepumuk.notizen.core.filtersort.ViewFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
 import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
@@ -148,7 +149,8 @@ public class MainFragment extends Fragment {
                 throw new RuntimeException("fail");
             }
         });
-        adapter.filter(new FilterShowAll());
+        adapter.filter(new FilterShowAll<>());
+
         adapter.sort(SortProvider.SortByType);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener(recyclerView,(e) -> {
@@ -249,5 +251,9 @@ public class MainFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(requireView())) || super.onOptionsItemSelected(item);
+    }
+
+    public void filter(ViewFilter<StorageObject> filter){
+        adapter.filter(filter);
     }
 }

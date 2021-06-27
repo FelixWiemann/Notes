@@ -55,14 +55,14 @@
     <!-- Preferences-->
     <string name="preference_category_theme">Theme</string>
     <string name="preference_category_about">About</string>
-    <string name="preference_title_theme" >Theme</string>
+    <string name="preference_title_theme">Theme</string>
     <string name="preference_title_feedback">Send feedback</string>
     <string name="preference_summary_feedback">Report technical issues or suggest new features</string>
     <string name="preference_title_privacy_notice">Privacy Notice</string>
     <string name="preference_summary_privacy_notice">View the privacy notice</string>
-    <string name="preference_name_theme_system" >Use system settings</string>
-    <string name="preference_name_theme_dark" >dark theme</string>
-    <string name="preference_name_theme_light" >light theme</string>
+    <string name="preference_name_theme_system">Use system settings</string>
+    <string name="preference_name_theme_dark">dark theme</string>
+    <string name="preference_name_theme_light">light theme</string>
     <string name="lbl_edit_note">edit</string>
     <string name="lbl_home" />
 

@@ -19,6 +19,7 @@ import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
 import com.nepumuk.notizen.core.utils.ContextManager;
 import com.nepumuk.notizen.core.utils.ContextManagerException;
 import com.nepumuk.notizen.core.utils.MainViewModel;
+import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // init Room database
+        AppDataBaseHelper.getInstance(getApplicationContext());
 
         NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host);
         NavHostController navController = (NavHostController) navHost.getNavController();

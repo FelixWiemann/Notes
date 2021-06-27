@@ -79,6 +79,9 @@ dependencies {
     implementation project(":app:textnotes")
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
