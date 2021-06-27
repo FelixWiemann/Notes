@@ -18,7 +18,7 @@
     <!--image content descriptions-->
     <string name="image_exclamation_mark">exclamation mark</string>
     <string name="image_note_content">image of the note</string>
-    <string name="image_delete">delete element</string>
+    <string name="image_delete">delete note</string>
     <string name="content_list_of_notes">list of notes</string>
     <string name="content_list_of_tasks">list of tasks</string>
     <string name="content_add_notes">add a note</string>

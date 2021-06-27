@@ -17,7 +17,7 @@
     <!--image content descriptions-->
     <string name="image_exclamation_mark">Ausrufezeichen</string>
     <string name="image_note_content">Bild der Notiz</string>
-    <string name="image_delete">Element löschen</string>
+    <string name="image_delete">Notiz löschen</string>
     <string name="content_list_of_notes">Liste der Notizen</string>
     <string name="content_list_of_tasks">Liste der Aufgaben</string>
     <string name="content_add_notes">Notiz hinzufügen</string>
