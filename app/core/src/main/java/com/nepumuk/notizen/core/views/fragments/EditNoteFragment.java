@@ -194,7 +194,8 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         if (!mViewModel.isValueSet()) {
             DatabaseStorable data = new ShortCutHelper(getContext()).createAndReportUsage(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
             EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
-            mViewModel.setNote(saveState);
+            // using replace to make sure we have a value immediately after setting
+            mViewModel.replace(saveState);
             mViewModel.getSaveState().origin = EditNoteViewModel.SaveState.Origin.EDITOR;
         }
         if ("".equals(originalData)) {
