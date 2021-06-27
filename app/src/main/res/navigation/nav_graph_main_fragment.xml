@@ -7,22 +7,27 @@
 
     <include app:graph="@navigation/nav_edit_note"/>
 
-    <fragment
-        android:id="@+id/editNoteFragment"
-        android:name="com.nepumuk.notizen.core.views.fragments.EditNoteFragment"
-        android:label="@string/lbl_edit_note">
-    </fragment>
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.nepumuk.notizen.views.fragments.MainFragment"
         android:label="@string/lbl_home" >
         <action
-            android:id="@+id/action_mainFragment_to_editNoteFragment"
-            app:destination="@id/editNoteFragment" />
+                android:id="@+id/action_mainFragment_to_nav_edit_note"
+                app:destination="@id/nav_edit_note" />
+
+        <action
+                android:id="@+id/action_mainFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
     </fragment>
+
     <dialog
-        android:id="@+id/createTaskDialogFragment"
-        android:name="com.nepumuk.notizen.tasks.CreateTaskDialogFragment"
-        android:label="CreateTaskDialogFragment" >
+            android:id="@+id/createTaskDialogFragment"
+            android:name="com.nepumuk.notizen.tasks.CreateTaskDialogFragment"
+            android:label="CreateTaskDialogFragment" >
     </dialog>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.nepumuk.notizen.core.settings.SettingsFragment"
+        android:label="@string/settings" />
 </navigation>

@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.R;
@@ -263,7 +264,8 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
             exit();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+
+        return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(requireView())) || super.onOptionsItemSelected(item);
     }
 
     private boolean SeachFieldVisible = false;

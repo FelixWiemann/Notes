@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,7 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +31,7 @@ import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.MainViewModel;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
+import com.nepumuk.notizen.core.views.SearchView;
 import com.nepumuk.notizen.core.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.core.views.SwipeRecyclerView;
 import com.nepumuk.notizen.core.views.adapters.BaseRecyclerAdapter;
@@ -40,8 +43,9 @@ import com.nepumuk.notizen.core.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.tasks.objects.DefaultTaskNoteStrategy;
 import com.nepumuk.notizen.textnotes.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.views.NoteListViewHeaderView;
-import com.nepumuk.notizen.core.views.SearchView;
 import com.nepumuk.notizen.views.fabs.FabSpawnerFab;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -196,9 +200,8 @@ public class MainFragment extends Fragment {
      */
     public void callEditNote(DatabaseStorable storable) {
 
-        NavDirections action = MainFragmentDirections.actionMainFragmentToEditNoteFragment();
-
-        NavHostFragment.findNavController(this).navigate(action);
+        NavDirections action = MainFragmentDirections.actionMainFragmentToNavEditNote();
+        Navigation.findNavController(requireView()).navigate(action);
         try {
             // TODO do I have to go via storable factory?
             //  implement deep clone?
@@ -227,4 +230,24 @@ public class MainFragment extends Fragment {
         };
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     * The default implementation simply returns false to have the normal
+     * processing happen (calling the item's Runnable or sending a message to
+     * its Handler as appropriate).  You can use this method for any items
+     * for which you would like to do processing without those other
+     * facilities.
+     *
+     * <p>Derived classes should call through to the base class for it to
+     * perform the default menu handling.
+     *
+     * @param item The menu item that was selected.
+     * @return boolean Return false to allow normal menu processing to
+     * proceed, true to consume it here.
+     * @see #onCreateOptionsMenu
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+        return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(requireView())) || super.onOptionsItemSelected(item);
+    }
 }

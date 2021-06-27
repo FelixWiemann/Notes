@@ -83,5 +83,6 @@
     <string name="action_search">Suchen</string>
     <string name="hint_search_notes">Notizen durchsuchen</string>
     <string name="hint_search_tasks">Aufgaben durchsuchen</string>
+    <string name="settings">Einstellungen</string>
 
 </resources>
