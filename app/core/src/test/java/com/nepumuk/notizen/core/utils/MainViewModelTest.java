@@ -38,7 +38,7 @@ public class MainViewModelTest extends AndroidTest {
     @Mock(name = "liveData")
     MutableLiveData<HashMap<String, DatabaseStorable>> liveData;
     @Mock(name = "dataFetcher")
-    Thread dataFetcher;
+    BackgroundWorker dataFetcher;
     @Mock
     DatabaseStorable storable1;
     @Mock
