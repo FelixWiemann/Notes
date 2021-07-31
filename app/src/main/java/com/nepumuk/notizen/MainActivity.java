@@ -15,7 +15,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.nepumuk.notizen.core.objects.storable_factory.DefaultStorableStrategy;
 import com.nepumuk.notizen.core.settings.Settings;
+import com.nepumuk.notizen.core.settings.SettingsManager;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
+import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.ContextManager;
 import com.nepumuk.notizen.core.utils.ContextManagerException;
 import com.nepumuk.notizen.core.utils.MainViewModel;
@@ -42,16 +44,18 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
         setContentView(R.layout.activity_main);
-        try {
-            // Module setup
-            // TODO module manifests, aab to detect which modules are installed and used
-            //  check latest before creating image notes with camera!
-            com.nepumuk.notizen.core.Main.initModule();
-            com.nepumuk.notizen.tasks.Main.initModule();
-            com.nepumuk.notizen.textnotes.Main.initModule();
-        }catch (IllegalArgumentException ex){
-            Log.e(TAG, "onCreate: modules already set up", ex);
-        }
+        new BackgroundWorker(()-> {
+            try {
+                // Module setup
+                // TODO module manifests, aab to detect which modules are installed and used
+                //  check latest before creating image notes with camera!
+                com.nepumuk.notizen.core.Main.initModule();
+                com.nepumuk.notizen.tasks.Main.initModule();
+                com.nepumuk.notizen.textnotes.Main.initModule();
+            } catch (IllegalArgumentException ex) {
+                Log.e(TAG, "onCreate: modules already set up", ex);
+            }
+        }).start();
         model = new ViewModelProvider(this).get(MainViewModel.class);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
                         .setOpenableLayout(findViewById(R.id.drawerLayout))
                         .build();
 
-
         NavigationUI.setupWithNavController(toolbar, navController,findViewById(R.id.drawerLayout));
         NavigationUI.setupActionBarWithNavController(this, navController,appBarConfiguration);
 
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
                 Log.e(TAG, "onCreate: could not navigate to intent", e);
             }
         }
+        new BackgroundWorker(()-> SettingsManager.getInstance().init()).start();
     }
 
     @Override

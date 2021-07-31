@@ -14,13 +14,13 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 
 import com.nepumuk.notizen.core.R;
+import com.nepumuk.notizen.core.utils.BackgroundWorker;
 
 import java.util.HashMap;
 
@@ -37,14 +37,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isCreated = true;
-        for (String key : clickListenersToRegister.keySet()){
-            registerPreferenceListener(key, clickListenersToRegister.get(key), changeListenersToRegister.get(key));
-        }
-        clickListenersToRegister = null;
-        changeListenersToRegister = null;
-        initSettings();
-        // TODO put in again once privacy notice is included
-        //removePreference(R.string.pref_key_category_about,R.string.pref_key_privacy_notice);
+        new BackgroundWorker(()-> {
+            for (String key : clickListenersToRegister.keySet()) {
+                registerPreferenceListener(key, clickListenersToRegister.get(key), changeListenersToRegister.get(key));
+            }
+            clickListenersToRegister = null;
+            changeListenersToRegister = null;
+            initSettings();
+        }).start();
     }
 
     @Override
@@ -128,20 +128,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private boolean onThemeChange(Preference preference, Object newValue){
-
-        String value = (String) newValue;
-        // set values
-        if(value.equals(getString(R.string.pref_value_theme_dark))){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        else if(value.equals(getString(R.string.pref_value_theme_light))){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        else {
-            // default should be follow system, but you can force it as well
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        }
-        return true;
+        return ThemeSetting.getInstance().apply((String) newValue);
     }
 
 }
