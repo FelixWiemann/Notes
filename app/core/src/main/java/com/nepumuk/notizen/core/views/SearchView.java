@@ -47,6 +47,7 @@ public class SearchView extends android.widget.SearchView {
             public boolean onQueryTextChange(String s) {
                 if (watcher!=null){
                     watcher.search(s);
+                    SearchView.this.setContentDescription(getResources().getString(R.string.content_search_for,s));
                 }
                 return false;
             }

@@ -93,4 +93,7 @@
     <string name="filter_show_task_notes">Only show task notes</string>
     <string name="filter_show_text_notes">Only show text notes</string>
     <string name="filter_show_favourites">Show Favourites</string>
+
+
+    <string name="content_search_for">search for: %s</string>
 </resources>

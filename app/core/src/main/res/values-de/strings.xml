@@ -89,5 +89,6 @@
     <string name="filter_show_task_notes">Zeige nur Aufgabennotizen</string>
     <string name="filter_show_text_notes">Zeige nur Textnotizen</string>
     <string name="filter_show_favourites">Zeige Favouriten</string>
+    <string name="content_search_for">Suche nach: %s</string>
 
 </resources>
