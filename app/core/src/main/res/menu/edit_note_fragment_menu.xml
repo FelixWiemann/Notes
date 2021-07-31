@@ -10,7 +10,7 @@
         android:title="@string/action_search" />
     <item
             android:id="@+id/mnu_edit_note_fav"
-            android:icon="@drawable/ic_favorite_border_black"
+            android:icon="@drawable/ic_favorite_border"
             android:title="@string/action_favourite"
             app:showAsAction="ifRoom"/>
     <item

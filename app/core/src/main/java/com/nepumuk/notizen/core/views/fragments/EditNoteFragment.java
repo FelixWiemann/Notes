@@ -299,9 +299,9 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
                 MenuItem item = menu.findItem(R.id.mnu_edit_note_fav);
                 if (item != null) {
                     if (isFav){
-                        item.setIcon(R.drawable.ic_favorite_black);
+                        item.setIcon(R.drawable.ic_favorite);
                     }else {
-                        item.setIcon(R.drawable.ic_favorite_border_black);
+                        item.setIcon(R.drawable.ic_favorite_border);
                     }
                 }
             }
