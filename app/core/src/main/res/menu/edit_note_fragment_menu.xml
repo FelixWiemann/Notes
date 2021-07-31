@@ -9,6 +9,11 @@
         app:showAsAction="always"
         android:title="@string/action_search" />
     <item
+            android:id="@+id/mnu_edit_note_fav"
+            android:icon="@drawable/ic_favorite_border_black"
+            android:title="@string/action_favourite"
+            app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/mnu_edit_note_cancel"
         android:icon="@drawable/ic_cancel_accent"
         android:title="@string/action_cancel"
@@ -19,11 +24,5 @@
         android:icon="@drawable/ic_save"
         android:title="@string/action_save"
         app:showAsAction="ifRoom"/>
-<!--
-    <item
-        android:id="@+id/mnu_edit_note_fav"
-        android:icon="@drawable/ic_favorite_border_black"
-        android:title="@string/action_favourite"
-        app:showAsAction="ifRoom"/>-->
-    <!--TODO add fav-icon + functionality-->
+
 </menu>

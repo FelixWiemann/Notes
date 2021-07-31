@@ -24,10 +24,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.R;
+import com.nepumuk.notizen.core.favourites.Favourite;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
+import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.ResourceManger;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
+import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.SearchView;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
@@ -51,11 +54,12 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
 
     InterceptableNavigationToolbar toolbar;
 
-
     /**
      * state if the content has been changed
      */
     private boolean wasChanged = false;
+
+    private boolean isFav = false;
 
     private final String BUNDLE_WAS_CHANGED = "BUNDLE_WAS_CHANGED";
     private final String BUNDLE_ORIGINAL_DATA = "BUNDLE_ORIGINAL_DATA";
@@ -211,6 +215,11 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         // replace possible previously added fragments
         fragmentTransaction.replace(R.id.fragmentHolder, fragmentContent);
         fragmentTransaction.commit();
+
+        new BackgroundWorker(()-> {
+            isFav = AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().findFavourite(mViewModel.getValue().getId()) != null;
+            changeFavouriteIcon(isFav);
+        }).start();
     }
 
     /**
@@ -246,10 +255,14 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         return mViewModel;
     }
 
+    Menu menu;
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.edit_note_fragment_menu, menu);
+        this.menu = menu;
+
     }
 
     @Override
@@ -263,9 +276,36 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
             save();
             exit();
             return true;
+        } else if (itemId == R.id.mnu_edit_note_fav){
+            new BackgroundWorker(()-> {
+                if (isFav) {
+                    AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().delete(new Favourite(mViewModel.getValue().getId()));
+                    isFav = false;
+                } else {
+                    AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().createOrUpdate(new Favourite(mViewModel.getValue().getId()));
+                    isFav = true;
+                }
+                changeFavouriteIcon(isFav);
+            }).start();
+            return true;
         }
 
         return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(requireView())) || super.onOptionsItemSelected(item);
+    }
+
+    public void changeFavouriteIcon(boolean isFav){
+        new BackgroundWorker(requireActivity(),() -> {
+            if (menu != null) {
+                MenuItem item = menu.findItem(R.id.mnu_edit_note_fav);
+                if (item != null) {
+                    if (isFav){
+                        item.setIcon(R.drawable.ic_favorite_black);
+                    }else {
+                        item.setIcon(R.drawable.ic_favorite_border_black);
+                    }
+                }
+            }
+        }).start();
     }
 
     private boolean SeachFieldVisible = false;
