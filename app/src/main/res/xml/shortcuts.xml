@@ -5,13 +5,13 @@
         android:icon="@drawable/ic_cancel">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="nepumuk://notizen/create/textnote" />
+            android:data="nepumuk://notizen/create/TextNote" />
     </shortcut>
     <shortcut
         android:enabled="true"
         android:icon="@drawable/ic_cancel">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="nepumuk://notizen/create/tasknote" />
+            android:data="nepumuk://notizen/create/TaskNote" />
     </shortcut>
 </shortcuts>

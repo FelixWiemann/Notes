@@ -55,7 +55,9 @@ public class ShortCutHelper {
             reportUsage(shortCutIdMap.get(ShortCutVariableName));
             return strategyMap.get(ShortCutVariableName).createDefault();
         }
-        return null;
+        // if this exception comes, check if case-sensitive error
+        // or argument was not added with registerShortcut
+        throw new IllegalArgumentException("Cannot create DataBaseStorable of type " + ShortCutVariableName);
     }
 
     public static void registerShortcut(DefaultStorableStrategy strategy, String ShortCutID, String ShortCutVariableName){
