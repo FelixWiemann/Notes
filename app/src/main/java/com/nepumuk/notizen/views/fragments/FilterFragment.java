@@ -21,7 +21,6 @@ import com.nepumuk.notizen.core.filtersort.ShowAllOfType;
 import com.nepumuk.notizen.core.filtersort.ShowFavourites;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
-import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.ResourceManger;
 import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
@@ -71,7 +70,7 @@ public class FilterFragment extends Fragment {
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_text_notes, new ShowAllOfType<>(TextNote.class));
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_task_notes, new ShowAllOfType<>(TaskNote.class));
         // db-access need time, therefore we add it in background
-        new BackgroundWorker(()-> addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>(AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().getAll()))).start();
+        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>(this, AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().getAll()));
     }
 
     MyArrayAdapter listAdapter;

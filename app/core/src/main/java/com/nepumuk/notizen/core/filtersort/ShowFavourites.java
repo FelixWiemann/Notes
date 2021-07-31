@@ -1,6 +1,8 @@
 package com.nepumuk.notizen.core.filtersort;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
 import com.nepumuk.notizen.core.favourites.Favourite;
 import com.nepumuk.notizen.core.objects.IdObject;
@@ -9,13 +11,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public  class ShowFavourites<T extends IdObject> extends ViewFilter<T>{
+public class ShowFavourites<T extends IdObject> extends ViewFilter<T>{
 
     private List<Favourite> ids;
+    LiveData<List<Favourite>> data ;
 
     public ShowFavourites(List<Favourite> ids){
         super();
         this.ids = ids;
+    }
+
+    public ShowFavourites(Fragment owner, LiveData<List<Favourite>> data){
+        super();
+        ids = data.getValue();
+        this.data = data;
+        data.observe(owner, (list) -> ids = list);
     }
 
     /**

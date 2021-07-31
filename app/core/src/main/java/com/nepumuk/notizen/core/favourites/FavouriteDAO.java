@@ -1,5 +1,6 @@
 package com.nepumuk.notizen.core.favourites;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -17,7 +18,7 @@ public abstract class FavouriteDAO {
      * @return list of all favourites
      */
     @Query("SELECT * FROM favourite")
-    public abstract List<Favourite> getAll();
+    public abstract LiveData<List<Favourite>> getAll();
 
     /**
      * returns a specific favourite specified by id
