@@ -1,6 +1,8 @@
 package com.nepumuk.notizen.core.utils;
 
-import android.app.Activity;
+import android.os.Looper;
+
+import androidx.core.os.HandlerCompat;
 
 // todo do proper background handling
 
@@ -10,8 +12,8 @@ import android.app.Activity;
  */
 public class BackgroundWorker {
     Runnable runnable;
-    Activity activity = null;
     Thread runner = null;
+    boolean runOnUiThread;
 
     /**
      * create a worker that will run the given runnable in background
@@ -24,12 +26,12 @@ public class BackgroundWorker {
 
     /**
      * create a worker that will run the given runnable on the UI thread of the provided activity
-     * @param activity whose UI thread will be used to run the runnable
+     * @param runOnMain whether to run on main thread
      * @param runnable runnable to run on UI thread
      */
-    public BackgroundWorker(Activity activity, Runnable runnable) {
+    public BackgroundWorker(boolean runOnMain, Runnable runnable) {
         super();
-        this.activity = activity;
+        runOnUiThread = runOnMain;
         this.runnable = runnable;
     }
 
@@ -38,11 +40,11 @@ public class BackgroundWorker {
      */
     public void start(){
         // no activity supplied, run in background
-        if (activity == null) {
+        if (!runOnUiThread) {
             runner = new Thread(runnable);
             runner.start();
         }else{
-            activity.runOnUiThread(runnable);
+            HandlerCompat.createAsync(Looper.getMainLooper()).post(runnable);
         }
     }
 

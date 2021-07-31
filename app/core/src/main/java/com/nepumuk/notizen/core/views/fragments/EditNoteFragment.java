@@ -294,7 +294,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     }
 
     public void changeFavouriteIcon(boolean isFav){
-        new BackgroundWorker(requireActivity(),() -> {
+        new BackgroundWorker(true,() -> {
             if (menu != null) {
                 MenuItem item = menu.findItem(R.id.mnu_edit_note_fav);
                 if (item != null) {
