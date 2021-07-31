@@ -88,4 +88,9 @@
     <string name="hint_search_notes">search notes</string>
     <string name="hint_search_tasks">search tasks</string>
     <string name="settings">settings</string>
+
+    <string name="filter_show_all">show all</string>
+    <string name="filter_show_task_notes">Only show task notes</string>
+    <string name="filter_show_text_notes">Only show text notes</string>
+    <string name="filter_show_favourites">Show Favourites</string>
 </resources>

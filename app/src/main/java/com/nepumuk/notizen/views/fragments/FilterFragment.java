@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -21,6 +22,7 @@ import com.nepumuk.notizen.core.filtersort.ShowFavourites;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.utils.BackgroundWorker;
+import com.nepumuk.notizen.core.utils.ResourceManger;
 import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
 import com.nepumuk.notizen.textnotes.objects.TextNote;
@@ -58,39 +60,29 @@ public class FilterFragment extends Fragment {
         ListView listView = view.findViewById(com.nepumuk.notizen.core.R.id.filterselect);
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             NavHostFragment navHostFragment = (NavHostFragment) getParentFragmentManager().findFragmentById(R.id.main_nav_host);
-            new BackgroundWorker(()-> {
-                if (navHostFragment.getChildFragmentManager().getFragments().get(0) instanceof MainFragment){
-                    ViewFilter<StorageObject> filter;
-                    switch (i){
-                        case 1:
-                            filter = new ShowFavourites<>(AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().getAll());
-                            break;
-                        case 2:
-                            filter = new ShowAllOfType<>(TaskNote.class);
-                            break;
-                        case 3:
-                            filter = new ShowAllOfType<>(TextNote.class);
-                            break;
-                        default:
-                            filter = new FilterShowAll<>();
-
-                    }
-                    new BackgroundWorker(requireActivity(),
-                            ()-> ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).filter(filter)
-                    ).start();
-                }
-            }).start();
+            if (navHostFragment.getChildFragmentManager().getFragments().get(0) instanceof MainFragment){
+                ViewFilter<StorageObject> filter  = filterList.get(i);
+                ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).filter(filter);
+            }
         });
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("show all");
-        arrayList.add("Show Favourites");
-        arrayList.add("Only show task notes");
-        arrayList.add("Only show text notes");
-        MyArrayAdapter listAdapter = new MyArrayAdapter(requireContext(), com.nepumuk.notizen.core.R.layout.favlist_rowlayout,arrayList);
+        listAdapter = new MyArrayAdapter(requireContext(), com.nepumuk.notizen.core.R.layout.favlist_rowlayout, titleList);
         listView.setAdapter(listAdapter);
-        listAdapter.notifyDataSetChanged();
-
+        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_all, new FilterShowAll<>());
+        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_text_notes, new ShowAllOfType<>(TextNote.class));
+        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_task_notes, new ShowAllOfType<>(TaskNote.class));
+        // db-access need time, therefore we add it in background
+        new BackgroundWorker(()-> addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>(AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().getAll()))).start();
     }
+
+    MyArrayAdapter listAdapter;
+    private void addFilterSelect(@StringRes int TextRes, ViewFilter<StorageObject> filter){
+        titleList.add(ResourceManger.getString(TextRes));
+        filterList.add(filter);
+        listAdapter.notifyDataSetChanged();
+    }
+    ArrayList<String> titleList = new ArrayList<>();
+    ArrayList<ViewFilter<StorageObject>> filterList = new ArrayList<>();
+
 
     class MyArrayAdapter extends ArrayAdapter<String> {
 
