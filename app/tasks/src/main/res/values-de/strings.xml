@@ -81,4 +81,11 @@
             Die aktuelle Datenschutzrichtline von Google kann <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a> entnommen werden</p>
     </string>
 
+    <plurals name="content_task_list">
+        <item quantity="zero">Liste ohne Aufgaben</item>
+        <item quantity="one">Liste mit einer Aufgabe</item>
+        <item quantity="other">Liste mit %d Aufgaben</item>
+    </plurals>
+
+
 </resources>

@@ -66,6 +66,12 @@
     <string name="lbl_edit_note">edit</string>
     <string name="lbl_home" />
 
+    <plurals name="content_task_list">
+        <item quantity="zero">list containing no tasks</item>
+        <item quantity="one">list containing one task</item>
+        <item quantity="other">list containing %d tasks</item>
+    </plurals>
+
 
     <string name="action_cancel">Cancel</string>
     <string name="action_save">save</string>

@@ -125,6 +125,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     protected void updateUI(TaskNote updatedData) {
         SwipableRecyclerAdapter<BaseTask> adapter = taskHolder.getAdapter();
         adapter.replace(updatedData.getTaskList());
+        taskHolder.setContentDescription(getResources().getQuantityString(R.plurals.content_task_list,updatedData.getTaskList().size()));
         adapter.sort(SortProvider.SortTasksDone);
         adapter.notifyDataSetChanged();
     }
