@@ -26,7 +26,7 @@ public class MainViewModel extends ViewModel {
     /**
      * thread for fetching the data from the Database
      */
-    Thread dataFetcher;
+    BackgroundWorker dataFetcher;
 
     /**
      * reference to Db
@@ -43,7 +43,7 @@ public class MainViewModel extends ViewModel {
         super();
         liveData = new MutableLiveData<>();
         dataMap = new HashMap<>();
-        dataFetcher = new Thread(this::readFromDatabase);
+        dataFetcher = new BackgroundWorker(this::readFromDatabase);
         handler = new DbDataHandler();
         init();
     }

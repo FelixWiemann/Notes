@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.objects.StorageObject;
+import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.core.views.SwipableView;
 
@@ -25,7 +26,7 @@ public class SwipableViewHolder<T> extends ViewHolderInterface<T> {
     public void bind(T toBind) {
         ((SwipableView)this.itemView).setMainView(viewHolderInterface.itemView);
         viewHolderInterface.bind(toBind);
-        new Thread(() -> {
+        new BackgroundWorker(() -> {
             Drawable drawable = null;
             if (AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().findFavourite(((StorageObject)toBind).getIdString())!=null) {
                 drawable = itemView.getContext().getDrawable(R.drawable.favourite_border);

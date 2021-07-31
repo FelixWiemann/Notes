@@ -20,6 +20,7 @@ import com.nepumuk.notizen.core.filtersort.ShowAllOfType;
 import com.nepumuk.notizen.core.filtersort.ShowFavourites;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
+import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
 import com.nepumuk.notizen.textnotes.objects.TextNote;
@@ -57,7 +58,7 @@ public class FilterFragment extends Fragment {
         ListView listView = view.findViewById(com.nepumuk.notizen.core.R.id.filterselect);
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             NavHostFragment navHostFragment = (NavHostFragment) getParentFragmentManager().findFragmentById(R.id.main_nav_host);
-            new Thread(()-> {
+            new BackgroundWorker(()-> {
                 if (navHostFragment.getChildFragmentManager().getFragments().get(0) instanceof MainFragment){
                     ViewFilter<StorageObject> filter;
                     switch (i){
@@ -74,7 +75,9 @@ public class FilterFragment extends Fragment {
                             filter = new FilterShowAll<>();
 
                     }
-                    requireActivity().runOnUiThread(()-> ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).filter(filter));
+                    new BackgroundWorker(requireActivity(),
+                            ()-> ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).filter(filter)
+                    ).start();
                 }
             }).start();
         });
