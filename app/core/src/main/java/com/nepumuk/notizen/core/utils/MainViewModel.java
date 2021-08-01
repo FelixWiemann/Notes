@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.nepumuk.notizen.core.favourites.Favourite;
+import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.utils.db_access.DbDataHandler;
 
@@ -130,6 +132,7 @@ public class MainViewModel extends ViewModel {
         dataMap.remove(storable.getId());
         liveData.setValue(dataMap);
         handler.delete(storable);
+        AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().delete(new Favourite(storable.getId()));
     }
 
 
