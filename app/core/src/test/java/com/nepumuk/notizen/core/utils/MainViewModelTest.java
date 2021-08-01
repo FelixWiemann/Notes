@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.nepumuk.notizen.core.favourites.Favourite;
 import com.nepumuk.notizen.core.favourites.FavouriteDAO;
 import com.nepumuk.notizen.core.testutils.AndroidTest;
 import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
@@ -169,7 +170,7 @@ public class MainViewModelTest extends AndroidTest {
         // then
         verify(handler).delete(storable1);
         verify(liveData).setValue(any(HashMap.class));
-        verify(favouriteDAO, atLeastOnce()).delete(any());
+        verify(favouriteDAO, atLeastOnce()).delete(any(Favourite.class));
     }
 
     @Test
