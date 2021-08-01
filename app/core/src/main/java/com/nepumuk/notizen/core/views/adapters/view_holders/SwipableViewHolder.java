@@ -28,7 +28,7 @@ public class SwipableViewHolder<T> extends ViewHolderInterface<T> {
         viewHolderInterface.bind(toBind);
         new BackgroundWorker(() -> {
             Drawable drawable = null;
-            if (AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().findFavourite(((StorageObject)toBind).getIdString())!=null) {
+            if (AppDataBaseHelper.getFavouriteDao().findFavourite(((StorageObject)toBind).getIdString())!=null) {
                 drawable = itemView.getContext().getDrawable(R.drawable.favourite_border);
             }
             Drawable finalDrawable = drawable;

@@ -217,7 +217,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         fragmentTransaction.commit();
 
         new BackgroundWorker(()-> {
-            isFav = AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().findFavourite(mViewModel.getValue().getId()) != null;
+            isFav = AppDataBaseHelper.getFavouriteDao().findFavourite(mViewModel.getValue().getId()) != null;
             changeFavouriteIcon(isFav);
         }).start();
     }
@@ -279,10 +279,10 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         } else if (itemId == R.id.mnu_edit_note_fav){
             new BackgroundWorker(()-> {
                 if (isFav) {
-                    AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().delete(new Favourite(mViewModel.getValue().getId()));
+                    AppDataBaseHelper.getFavouriteDao().delete(new Favourite(mViewModel.getValue().getId()));
                     isFav = false;
                 } else {
-                    AppDataBaseHelper.getInstance().appDataBase.favouriteDAO().createOrUpdate(new Favourite(mViewModel.getValue().getId()));
+                    AppDataBaseHelper.getFavouriteDao().createOrUpdate(new Favourite(mViewModel.getValue().getId()));
                     isFav = true;
                 }
                 changeFavouriteIcon(isFav);

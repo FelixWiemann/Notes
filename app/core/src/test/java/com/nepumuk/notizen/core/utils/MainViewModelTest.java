@@ -4,7 +4,9 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.nepumuk.notizen.core.favourites.FavouriteDAO;
 import com.nepumuk.notizen.core.testutils.AndroidTest;
+import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.utils.db_access.DbDataHandler;
 
@@ -53,6 +55,9 @@ public class MainViewModelTest extends AndroidTest {
     @InjectMocks
     MainViewModel modelUnderTest;
 
+    @Mock
+    FavouriteDAO favouriteDAO;
+
 
     @Before
     public void setUp() throws Exception {
@@ -76,6 +81,8 @@ public class MainViewModelTest extends AndroidTest {
         // wait for the loading to finish
         // in reality will be in background, cannot have for reliable/replicable testing
         modelUnderTest.waitForFetchToFinish();
+
+        when(AppDataBaseHelper.getFavouriteDao()).thenReturn(favouriteDAO);
     }
 
     @After
@@ -162,6 +169,7 @@ public class MainViewModelTest extends AndroidTest {
         // then
         verify(handler).delete(storable1);
         verify(liveData).setValue(any(HashMap.class));
+        verify(favouriteDAO, atLeastOnce()).delete(any());
     }
 
     @Test

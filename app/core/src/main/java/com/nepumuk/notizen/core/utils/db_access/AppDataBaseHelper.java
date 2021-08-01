@@ -4,10 +4,15 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.nepumuk.notizen.core.favourites.FavouriteDAO;
+
+/**
+ * helper class for accessing the app database
+ */
 public class AppDataBaseHelper {
 
     private static AppDataBaseHelper helper;
-    public AppDataBase appDataBase;
+    private final AppDataBase appDataBase;
 
     public static AppDataBaseHelper getInstance(Context context){
         if (helper ==null){
@@ -26,6 +31,14 @@ public class AppDataBaseHelper {
     private AppDataBaseHelper(Context context) {
         super();
         appDataBase = Room.databaseBuilder(context,AppDataBase.class,"app_database").build();
+    }
+
+    /**
+     * get the favourite DAO
+     * @return fav dao
+     */
+    public static FavouriteDAO getFavouriteDao(){
+        return helper.appDataBase.favouriteDAO();
     }
 
 
