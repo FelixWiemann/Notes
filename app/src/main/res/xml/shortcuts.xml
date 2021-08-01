@@ -2,14 +2,14 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_cancel">
+        android:icon="@drawable/ic_create_text_note">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="nepumuk://notizen/create/TextNote" />
     </shortcut>
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_cancel">
+        android:icon="@drawable/ic_create_task_note">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="nepumuk://notizen/create/TaskNote" />
