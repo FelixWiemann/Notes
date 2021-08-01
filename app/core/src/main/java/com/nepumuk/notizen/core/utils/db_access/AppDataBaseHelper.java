@@ -22,9 +22,7 @@ public class AppDataBaseHelper {
     }
 
     public static AppDataBaseHelper getInstance(){
-        if (helper == null){
-            throw new IllegalStateException("trying to access Database while database is not initialized");
-        }
+        checkState();
         return helper;
     }
 
@@ -38,9 +36,14 @@ public class AppDataBaseHelper {
      * @return fav dao
      */
     public static FavouriteDAO getFavouriteDao(){
+        checkState();
         return helper.appDataBase.favouriteDAO();
     }
 
-
+    private static void checkState(){
+        if (helper == null){
+            throw new IllegalStateException("trying to access Database while database is not initialized");
+        }
+    }
 
 }
