@@ -27,8 +27,6 @@ import com.nepumuk.notizen.core.filtersort.SortProvider;
 import com.nepumuk.notizen.core.filtersort.TextFilter;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
-import com.nepumuk.notizen.core.objects.UnpackingDataException;
-import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.MainViewModel;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
@@ -204,16 +202,9 @@ public class MainFragment extends Fragment {
 
         NavDirections action = MainFragmentDirections.actionMainFragmentToNavEditNote();
         Navigation.findNavController(requireView()).navigate(action);
-        try {
-            // TODO do I have to go via storable factory?
-            //  implement deep clone?
-            //  is ref enough?
-            EditNoteViewModel.SaveState saveState = new EditNoteViewModel.SaveState(StorableFactory.createFromData(storable.getId(),storable.getType(),storable.getDataString(),storable.getVersion()));
-            saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
-            editNoteModel.replace(saveState);
-        } catch (UnpackingDataException e) {
-            Log.e(TAG, "callEditNote: ", e);
-        }
+        EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(storable.deepCopy());
+        saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
+        editNoteModel.replace(saveState);
         editNoteModel.getSaveState().save = false;
         editNoteModel.observe(this,state ->{
             if(state.save){

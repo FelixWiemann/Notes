@@ -91,6 +91,11 @@ public class NoteDisplayFragmentFactoryTest extends AndroidTest {
         public String getId() {
             return null;
         }
+
+        @Override
+        public DatabaseStorable deepCopy() {
+            return this;
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.nepumuk.notizen.core.objects;
 
 import com.nepumuk.notizen.core.filtersort.SortCategory;
 import com.nepumuk.notizen.core.testutils.AndroidTest;
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -92,6 +93,11 @@ public class StorageObjectTest extends AndroidTest {
         @Override
         public int getVersion() {
             return 1;
+        }
+
+        @Override
+        public DatabaseStorable deepCopy() {
+            return this;
         }
     }
 }

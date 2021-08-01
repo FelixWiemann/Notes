@@ -21,6 +21,18 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
         setCreationDate();
         setLastChangedDate();
     }
+    /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    public StorageObject(StorageObject other) {
+        super(other);
+        this.mCreationDate = other.mCreationDate;
+        this.mLastChangedDate = other.mLastChangedDate;
+        initSortables();
+    }
 
     public StorageObject() {
         super();

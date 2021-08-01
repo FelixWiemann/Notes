@@ -7,6 +7,7 @@ import androidx.fragment.app.testing.FragmentScenario;
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.testutils.FragmentTest;
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
 import org.junit.Test;
 
@@ -27,6 +28,11 @@ public class NoteDisplayHeaderFragmentTest extends FragmentTest<NoteDisplayHeade
         @Override
         public int getVersion() {
             return 0;
+        }
+
+        @Override
+        public DatabaseStorable deepCopy() {
+            return this;
         }
     };
 

@@ -22,6 +22,17 @@ public class TimedTask extends BaseTask {
     private final static String LOG_TAG = "TIMED_TASK";
 
     /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    public TimedTask(TimedTask other) {
+        super(other);
+        this.mTaskDueDate = other.mTaskDueDate;
+    }
+
+    /**
      * returns the date when the task is due in ms since January 1, 1970 00:00:00 GMT
      * @see DateStrategy#getCurrentTime()
      * @return due date
@@ -69,6 +80,16 @@ public class TimedTask extends BaseTask {
     @Override
     public void deleteTask() {
         // TODO: delete timer
+    }
+
+    /**
+     * create a deep copy of itself
+     *
+     * @return deep copy
+     */
+    @Override
+    public BaseTask deepCopy() {
+        return new TimedTask(this);
     }
 
 

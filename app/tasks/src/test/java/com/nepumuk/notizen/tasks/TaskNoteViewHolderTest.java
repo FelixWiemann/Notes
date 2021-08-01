@@ -24,7 +24,9 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -76,4 +78,5 @@ public class TaskNoteViewHolderTest extends AndroidTest {
         underTest.bind(taskNote);
 
     }
+
 }

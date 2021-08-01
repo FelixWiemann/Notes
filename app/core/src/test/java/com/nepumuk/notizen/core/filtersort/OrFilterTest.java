@@ -2,6 +2,7 @@ package com.nepumuk.notizen.core.filtersort;
 
 import com.nepumuk.notizen.core.objects.SortableObject;
 import com.nepumuk.notizen.core.objects.StorageObject;
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
 import org.junit.Test;
 
@@ -63,6 +64,11 @@ public class OrFilterTest {
         @Override
         public int getVersion() {
             return 0;
+        }
+
+        @Override
+        public DatabaseStorable deepCopy() {
+            return this;
         }
     }
 }

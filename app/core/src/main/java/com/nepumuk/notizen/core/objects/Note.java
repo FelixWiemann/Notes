@@ -17,6 +17,15 @@ public abstract class Note extends StorageObject {
         super(pID,pTitle);
     }
 
+    /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    public Note(Note other){
+        super(other);
+    }
 
     public Note() {
         super();

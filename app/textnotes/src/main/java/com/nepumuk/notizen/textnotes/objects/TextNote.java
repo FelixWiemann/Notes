@@ -32,6 +32,17 @@ public class TextNote extends Note {
     }
 
     /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    public TextNote(TextNote other){
+        super(other);
+        this.mMessage = other.mMessage;
+    }
+
+    /**
      * default constructor needed for JACKSON JSON
      */
     public TextNote() {
@@ -67,5 +78,15 @@ public class TextNote extends Note {
     @Override
     public int getVersion() {
         return 2;
+    }
+
+    /**
+     * create a deep copy of itself
+     *
+     * @return deep copy
+     */
+    @Override
+    public TextNote deepCopy() {
+        return new TextNote(this);
     }
 }

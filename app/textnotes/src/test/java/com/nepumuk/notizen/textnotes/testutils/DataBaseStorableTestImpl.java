@@ -1,6 +1,7 @@
 package com.nepumuk.notizen.textnotes.testutils;
 
 import com.nepumuk.notizen.core.objects.StorageObject;
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
 /**
  * Database Storable test implementation that contains no data,
@@ -54,5 +55,10 @@ public class DataBaseStorableTestImpl extends StorageObject {
     @Override
     public String getId() {
         return DATA_ID;
+    }
+
+    @Override
+    public DatabaseStorable deepCopy() {
+        return this;
     }
 }

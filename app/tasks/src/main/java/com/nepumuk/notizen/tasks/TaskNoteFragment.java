@@ -15,8 +15,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nepumuk.notizen.core.filtersort.TextFilter;
-import com.nepumuk.notizen.core.objects.UnpackingDataException;
-import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.ResourceManger;
 import com.nepumuk.notizen.core.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.core.views.SwipeRecyclerView;
@@ -154,20 +152,10 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
 
     private void callEditTaskFragment(BaseTask taskToEdit){
         EditNoteViewModel.SaveState<BaseTask> saveState = null;
-        try {
-            saveState = new EditNoteViewModel.SaveState
-                    (StorableFactory.createFromData(
-                            taskToEdit.getId(),
-                            taskToEdit.getType(),
-                            taskToEdit.getDataString(),
-                            taskToEdit.getVersion()));
-            saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
-            taskViewModel.setNote(saveState);
-            Navigation.findNavController(requireView()).navigate(R.id.createTaskDialogFragment);
-        } catch (UnpackingDataException e) {
-            e.printStackTrace();
-        }
-
+        saveState = new EditNoteViewModel.SaveState<>(taskToEdit.deepCopy());
+        saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
+        taskViewModel.setNote(saveState);
+        Navigation.findNavController(requireView()).navigate(R.id.createTaskDialogFragment);
     }
 
     @Override

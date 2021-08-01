@@ -3,6 +3,8 @@ package com.nepumuk.notizen.core.objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.UUID;
 
 /**
@@ -37,6 +39,18 @@ public class IdObject extends SortableObject {
         super();
         this.mID = mID;
         this.mTitle = mTitle;
+    }
+
+    /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    IdObject(@NotNull IdObject other) {
+        super();
+        this.mID = other.mID;
+        this.mTitle = other.mTitle;
     }
 
     /**

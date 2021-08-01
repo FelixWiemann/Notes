@@ -44,6 +44,18 @@ public class TaskNote extends Note {
         super(pID, pTitle);
         this.setTaskList(pTaskList);
     }
+    /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    public TaskNote(TaskNote other){
+        super(other);
+        for (BaseTask task:other.mTaskList) {
+            mTaskList.add(task.deepCopy());
+        }
+    }
 
     /**
      * constructors needed for JACKSON JSON
@@ -118,6 +130,16 @@ public class TaskNote extends Note {
     @Override
     public int getVersion() {
         return 2;
+    }
+
+    /**
+     * create a deep copy of itself
+     *
+     * @return deep copy
+     */
+    @Override
+    public TaskNote deepCopy() {
+        return new TaskNote(this);
     }
 
     /**

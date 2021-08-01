@@ -21,7 +21,7 @@ public interface DatabaseStorable {
     /**
      * get the type of the object.
      * will be saved in the database for deserialization
-     * @return
+     * @return class name of the object
      */
     @JsonIgnore
     String getType();
@@ -29,9 +29,16 @@ public interface DatabaseStorable {
     /**
      * id of the object
      * primary key of the database
-     * @return
+     * @return string representation of UUID
      */
     @JsonIgnore
     String getId();
+
+    /**
+     * create a deep copy of itself
+     * @return deep copy
+     */
+    @JsonIgnore
+    DatabaseStorable deepCopy();
 
 }

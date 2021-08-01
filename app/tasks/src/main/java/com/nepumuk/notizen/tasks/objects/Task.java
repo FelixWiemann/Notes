@@ -31,6 +31,16 @@ public class Task extends BaseTask {
         super();
     }
 
+    /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    public Task(Task other) {
+        super(other);
+    }
+
 
     /**
      * abstract method to implement in each inherited task type.
@@ -40,6 +50,16 @@ public class Task extends BaseTask {
     @Override
     public void deleteTask() {
 
+    }
+
+    /**
+     * create a deep copy of itself
+     *
+     * @return deep copy
+     */
+    @Override
+    public BaseTask deepCopy() {
+        return new Task(this);
     }
 
     @Override

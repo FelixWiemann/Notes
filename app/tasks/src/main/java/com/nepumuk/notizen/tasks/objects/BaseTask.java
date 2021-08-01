@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.nepumuk.notizen.core.filtersort.SortCategory;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.utils.DateStrategy;
-import com.nepumuk.notizen.tasks.R;
-import com.nepumuk.notizen.core.utils.ResourceManger;
 
 import java.util.UUID;
 
@@ -54,8 +52,23 @@ public abstract class BaseTask extends StorageObject {
         super(mId,mTitle);
         this.mText = mText;
         this.mDone = mDone;
-        setCreationDate();
-        setLastChangedDate();
+        initSortables();
+    }
+    /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    public BaseTask(BaseTask other){
+        super(other);
+        this.mText = other.mText;
+        this.mDone = other.mDone;
+        this.mTaskCompleteDate = other.mTaskCompleteDate;
+        initSortables();
+    }
+
+    private void initSortables(){
         this.addSortable(SortCategory.TASK_DONE_TIME, () -> mTaskCompleteDate);
         this.addSortable(SortCategory.TASK_DONE_STATE, () -> mDone);
     }
@@ -122,18 +135,10 @@ public abstract class BaseTask extends StorageObject {
     public abstract void deleteTask();
 
     /**
-     * get the localized state description of the task
-     * returns {@link R.string#content_task_done} if the task is done, {@link R.string#content_task_open} otherwise
-     * @return state description
+     * create a deep copy of itself
+     * @return deep copy
      */
-    @JsonIgnore
-    public String getStateDescription(){
-        if (mDone){
-            return ResourceManger.getString(R.string.content_task_done);
-        }else{
-            return ResourceManger.getString(R.string.content_task_open);
-        }
-    }
+    public abstract BaseTask deepCopy();
 
 
 }

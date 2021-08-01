@@ -109,22 +109,4 @@ public class StorableFactory {
         }
         return null;
     }
-
-    /*
-     * set the strategy for creating default storables
-     * @param strategy to use for defaults
-
-    public static void setDefaultStrategy(DefaultStorableStrategy strategy){
-        defaultStrategy = strategy;
-    }
-
-
-    /*
-     * get a default DatabaseStorable with currently set strategy
-     * @return
-
-    public static DatabaseStorable getDefaultStorable(){
-        return defaultStrategy.createDefault();
-    }
-*/
 }

@@ -1,7 +1,6 @@
 package com.nepumuk.notizen.tasks;
 
 import com.nepumuk.notizen.core.filtersort.SortCategory;
-import com.nepumuk.notizen.core.utils.ResourceManger;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
 import com.nepumuk.notizen.tasks.testutils.AndroidTest;
 
@@ -14,8 +13,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Created as part of notes in package com.nepumuk.notizen.test.FrontEnd.Task
@@ -43,6 +40,16 @@ public class BaseTaskTest extends AndroidTest {
             @Override
             public void deleteTask() {
 
+            }
+
+            /**
+             * create a deep copy of itself
+             *
+             * @return deep copy
+             */
+            @Override
+            public BaseTask deepCopy() {
+                return this;
             }
         };
         // then
@@ -163,26 +170,4 @@ public class BaseTaskTest extends AndroidTest {
         // already tested in setDoneState
     }
 
-    @Test
-    public void getStateDescriptionTrue() {
-        // given
-        boolean newDone = true;
-        String resultString = "RESULT_DONE";
-        task.setDone(newDone);
-        when(ResourceManger.getString(eq(R.string.content_task_done))).thenReturn(resultString);
-        // when
-        // then
-        assertEquals(resultString,task.getStateDescription());
-    }
-    @Test
-    public void getStateDescriptionFalse() {
-        // given
-        boolean newDone = false;
-        String resultString = "RESULT_OPEN";
-        task.setDone(newDone);
-        when(ResourceManger.getString(eq(R.string.content_task_open))).thenReturn(resultString);
-        // when
-        // then
-        assertEquals(resultString,task.getStateDescription());
-    }
 }

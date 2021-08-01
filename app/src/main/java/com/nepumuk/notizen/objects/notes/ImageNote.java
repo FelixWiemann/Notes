@@ -40,6 +40,17 @@ public class ImageNote extends Note {
     }
 
     /**
+     * copy constructor
+     *
+     * makes a deep clone of the given object
+     * @param other to copy from
+     */
+    public ImageNote(ImageNote other) {
+        super(other);
+        // TODO impl.
+    }
+
+    /**
      * default constructor used for deserialization from JACKSON
      */
     public ImageNote() {
@@ -92,5 +103,15 @@ public class ImageNote extends Note {
     @Override
     public int getVersion() {
         return 1;
+    }
+
+    /**
+     * create a deep copy of itself
+     *
+     * @return deep copy
+     */
+    @Override
+    public ImageNote deepCopy() {
+        return new ImageNote(this);
     }
 }

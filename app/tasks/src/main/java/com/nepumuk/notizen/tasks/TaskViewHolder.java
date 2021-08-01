@@ -7,9 +7,9 @@ import android.widget.TextView;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
+import com.nepumuk.notizen.core.utils.ResourceManger;
 import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderInterface;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
-import com.nepumuk.notizen.core.utils.ResourceManger;
 
 /**
  * ViewHolder that holds a view representing a TaskNote
@@ -39,12 +39,27 @@ public class TaskViewHolder extends ViewHolderInterface<BaseTask> {
         message.setContentDescription(ResourceManger.getString(R.string.content_task_message) + " " + toBind.getTitle() + ": " + toBind.getText());
         // first set the checked status
         done.setChecked(toBind.isDone());
-        done.setContentDescription(ResourceManger.getString(R.string.content_task_status) + " " + toBind.getTitle() + ": " + toBind.getStateDescription());
+        done.setContentDescription(ResourceManger.getString(R.string.content_task_status) + " " + toBind.getTitle() + ": " + getStateDescription(toBind.isDone()));
         // before adding the listener to avoid unclear state
         done.setOnCheckedChangeListener((buttonView, isChecked) -> {
             toBind.setDone(isChecked);
             wasClickHandledByChildView = true;
         });
     }
+
+    /**
+     * get the localized state description of the task
+     * returns {@link R.string#content_task_done} if the task is done, {@link R.string#content_task_open} otherwise
+     * @return state description
+     */
+    public String getStateDescription(boolean mDone){
+        if (mDone){
+            return ResourceManger.getString(R.string.content_task_done);
+        }else{
+            return ResourceManger.getString(R.string.content_task_open);
+        }
+    }
+
+
 
 }
