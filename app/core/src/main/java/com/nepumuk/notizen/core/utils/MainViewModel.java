@@ -132,7 +132,9 @@ public class MainViewModel extends ViewModel {
         dataMap.remove(storable.getId());
         liveData.setValue(dataMap);
         handler.delete(storable);
-        AppDataBaseHelper.getFavouriteDao().delete(new Favourite(storable.getId()));
+        new BackgroundWorker(()-> {
+            AppDataBaseHelper.getFavouriteDao().delete(new Favourite(storable.getId()));
+        }).start();
     }
 
 
