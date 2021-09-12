@@ -163,13 +163,15 @@ public class MainViewModelTest extends AndroidTest {
     }
 
     @Test
-    public void deleteData() {
+    public void deleteData() throws InterruptedException {
         // given
         // when
         modelUnderTest.deleteData(storable1);
         // then
         verify(handler).delete(storable1);
         verify(liveData).setValue(any(HashMap.class));
+        // ugly, but delete is run in background...
+        Thread.sleep(500);
         verify(favouriteDAO, atLeastOnce()).delete(any(Favourite.class));
     }
 
