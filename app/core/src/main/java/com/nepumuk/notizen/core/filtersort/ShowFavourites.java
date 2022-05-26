@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 
-import com.nepumuk.notizen.core.favourites.Favourite;
 import com.nepumuk.notizen.core.objects.IdObject;
+import com.nepumuk.notizen.db.Favourite;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,9 +37,9 @@ public class ShowFavourites<T extends IdObject> extends ViewFilter<T>{
      */
     @Override
     public boolean filter(@NonNull @NotNull T toFilter) {
-        String idString = toFilter.getIdString();
+        String idString = toFilter.getID();
         for (Favourite fav:ids) {
-            if (fav.NoteId.equals(idString)) return true;
+            if (fav.getNoteId().equals(idString)) return true;
         }
         return false;
     }

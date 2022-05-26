@@ -15,15 +15,6 @@ public class DataBaseStorableTestImpl extends StorageObject {
     public static final int VERSION_NO = 5423;
 
     /**
-     * overwrite getIdString to be able to create a defined ID
-     * instead of the randomly assigned in constructor
-     */
-    @Override
-    public String getIdString() {
-        return getId();
-    }
-
-    /**
      * since cStorageObject only compares to the content, not the objects itself,
      * we need to overwrite the behaviour for the tests
      */

@@ -2,8 +2,6 @@ package com.nepumuk.notizen.tasks.objects;
 
 import androidx.annotation.Keep;
 
-import java.util.UUID;
-
 /**
  * Implementation class for simple tasks containing only title, text and whether it is done
  *
@@ -20,7 +18,7 @@ public class Task extends BaseTask {
      * @param mText  text of the new task
      * @param mDone  flag if task is done or not
      */
-    public Task(UUID mId, String mTitle, String mText, boolean mDone) {
+    public Task(String mId, String mTitle, String mText, boolean mDone) {
         super(mId, mTitle, mText, mDone);
     }
 

@@ -16,7 +16,7 @@ public class DefaultTextNoteStrategy implements DefaultStorableStrategy<TextNote
 
     @Override
     public TextNote createDefault() {
-        return new TextNote(UUID.randomUUID(), DefaultStorableStrategy.DEFAULT_TITLE,DEFAULT_MESSAGE);
+        return new TextNote(UUID.randomUUID().toString(), DefaultStorableStrategy.DEFAULT_TITLE,DEFAULT_MESSAGE);
     }
 
     public static TextNote create(){

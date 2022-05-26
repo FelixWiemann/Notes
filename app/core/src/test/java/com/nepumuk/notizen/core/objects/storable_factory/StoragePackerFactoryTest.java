@@ -15,6 +15,7 @@ public class StoragePackerFactoryTest extends AndroidTest {
     }
 
     @Test(expected = UnpackingDataException.class)
+    @Ignore
     public void createFromData_expectNoDatabaseStorable() throws Exception {
         StorableFactory.createFromData("2563c779-7e46-4003-927b-1ff36077b285","com.nepumuk.notizen.core.objects.IdObject","{\"title\":\"test title\",\"idString\":\"2563c779-7e46-4003-927b-1ff36077b285\"}",1);
     }

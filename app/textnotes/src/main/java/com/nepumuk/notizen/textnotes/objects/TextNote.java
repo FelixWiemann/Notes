@@ -1,16 +1,16 @@
 package com.nepumuk.notizen.textnotes.objects;
 
 import androidx.annotation.Keep;
+import androidx.room.Entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nepumuk.notizen.core.objects.Note;
-
-import java.util.UUID;
 
 /**
  * a Text Note is a traditional note containing only a title and a message
  */
 @Keep
+@Entity
 public class TextNote extends Note {
 
     /**
@@ -26,7 +26,7 @@ public class TextNote extends Note {
      * @param pTitle title of Note
      * @param pMessage message of cTextNote
      */
-    public TextNote(UUID pID, String pTitle, String pMessage) {
+    public TextNote(String pID, String pTitle, String pMessage) {
         super(pID, pTitle);
         this.mMessage = pMessage;
     }

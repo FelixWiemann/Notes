@@ -9,8 +9,6 @@ import com.nepumuk.notizen.core.filtersort.SortCategory;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.utils.DateStrategy;
 
-import java.util.UUID;
-
 /**
  * Created as part of notes in package ${PACKAGE_NAME}
  * by Felix "nepumuk" Wiemann on 14/04/17.
@@ -48,7 +46,7 @@ public abstract class BaseTask extends StorageObject {
      * @param mText text of the new task
      * @param mDone flag if task is done or not
      */
-    public BaseTask(UUID mId, String mTitle, String mText, final boolean mDone){
+    public BaseTask(String mId, String mTitle, String mText, final boolean mDone){
         super(mId,mTitle);
         this.mText = mText;
         this.mDone = mDone;

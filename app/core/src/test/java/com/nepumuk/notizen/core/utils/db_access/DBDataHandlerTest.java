@@ -3,6 +3,7 @@ package com.nepumuk.notizen.core.utils.db_access;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.nepumuk.notizen.core.objects.IdObject;
 import com.nepumuk.notizen.core.testutils.AndroidTest;
 import com.nepumuk.notizen.core.testutils.DataBaseStorableTestImpl;
 
@@ -163,12 +164,12 @@ public class DBDataHandlerTest extends AndroidTest {
         PowerMockito.when(cursor.getString(COLUMN_JSONDATA)).thenReturn(testImpl.getDataString());
         PowerMockito.when(cursor.getInt(COLUMN_TYPEVERSION)).thenReturn(testImpl.getVersion());
         // when
-        DatabaseStorable storable = handlerUnderTest.contentValueToDatabaseStorable(cursor);
+        IdObject storable = handlerUnderTest.contentValueToDatabaseStorable(cursor);
         // then
-        Assert.assertEquals(testImpl.getType(),storable.getType());
-        Assert.assertEquals(testImpl.getId(),storable.getId());
-        Assert.assertEquals(testImpl.getDataString(),storable.getDataString());
-        Assert.assertEquals(testImpl.getVersion(),storable.getVersion());
+        Assert.assertEquals(testImpl.getType(),((DatabaseStorable) storable).getType());
+        Assert.assertEquals(testImpl.getId(),((DatabaseStorable) storable).getId());
+        Assert.assertEquals(testImpl.getDataString(),((DatabaseStorable) storable).getDataString());
+        Assert.assertEquals(testImpl.getVersion(),((DatabaseStorable) storable).getVersion());
     }
 
 

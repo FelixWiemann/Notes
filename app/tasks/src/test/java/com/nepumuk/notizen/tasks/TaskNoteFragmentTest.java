@@ -62,7 +62,7 @@ public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.Fr
         scenario.onFragment(fragment -> {
             // given
 
-            TaskNote note = new TaskNote(UUID.randomUUID(),"",new ArrayList<>());
+            TaskNote note = new TaskNote(UUID.randomUUID().toString(),"",new ArrayList<>());
             fragment.taskHolder.setAdapter(adapter);
             // when
             fragment.updateUI(note);
@@ -98,9 +98,9 @@ public class TaskNoteFragmentTest extends com.nepumuk.notizen.tasks.testutils.Fr
         scenario.onFragment(fragment ->{
             NavController controller = NavHostFragment.findNavController(fragment);
             EditNoteViewModel<TaskNote> mViewModel = new ViewModelProvider(fragment.requireActivity()).get(EditNoteViewModel.class);
-            mViewModel.setNote(new EditNoteViewModel.SaveState<>(new TaskNote(UUID.randomUUID(),"",new ArrayList<>())));
+            mViewModel.setNote(new EditNoteViewModel.SaveState<>(new TaskNote(UUID.randomUUID().toString(),"",new ArrayList<>())));
             EditNoteViewModel<BaseTask> model = new ViewModelProvider(controller.getCurrentBackStackEntry()).get(EditNoteViewModel.class);
-            EditNoteViewModel.SaveState<BaseTask> state = new EditNoteViewModel.SaveState<>(new Task(UUID.randomUUID(),"","",false));
+            EditNoteViewModel.SaveState<BaseTask> state = new EditNoteViewModel.SaveState<>(new Task(UUID.randomUUID().toString(),"","",false));
             state.save = true;
             model.setNote(state);
             // TODO verify note is only updated, when state.save = true

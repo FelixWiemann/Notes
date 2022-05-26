@@ -24,7 +24,7 @@ public class TextNoteFragmentTest extends FragmentTest<TextNoteFragment> {
     final String testTitle = "test_title";
     final String testText = "test_text";
     final String newText = "new_text";
-    TextNote storageObject = new TextNote(UUID.randomUUID(),testTitle,testText);
+    TextNote storageObject = new TextNote(UUID.randomUUID().toString(),testTitle,testText);
 
 
     @Override

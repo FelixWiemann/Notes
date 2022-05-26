@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
 import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 
@@ -56,12 +57,12 @@ public class DbDataHandler {
      * @param cursor object to convert
      * @return DatabaseStorable at the given cursor
      */
-    protected DatabaseStorable contentValueToDatabaseStorable(Cursor cursor){
+    protected StorageObject contentValueToDatabaseStorable(Cursor cursor){
         String type = cursor.getString(cursor.getColumnIndex(DbHelper.aDB_COLUMN_TYPE));
         String id = cursor.getString(cursor.getColumnIndex(DbHelper.aDB_COLUMN_ID));
         String data = cursor.getString(cursor.getColumnIndex(DbHelper.aDB_COLUMN_JSONDATA));
         int version = cursor.getInt(cursor.getColumnIndex(DbHelper.aDB_COLUMN_TYPEVERSION));
-        DatabaseStorable storable = null;
+        StorageObject storable = null;
         try {
             storable = StorableFactory.createFromData(id, type, data, version);
         } catch (UnpackingDataException e) {
@@ -74,9 +75,9 @@ public class DbDataHandler {
      * reads the database and returns all items in the database in a list
      * @return list of items in the database
      */
-    public ArrayList<DatabaseStorable> read(){
+    public ArrayList<StorageObject> read(){
         Cursor cursor = aHelper.getAll();
-        ArrayList<DatabaseStorable> list = new ArrayList<> ();
+        ArrayList<StorageObject> list = new ArrayList<> ();
         if(cursor.moveToFirst()){
             do{
                 list.add(contentValueToDatabaseStorable(cursor));

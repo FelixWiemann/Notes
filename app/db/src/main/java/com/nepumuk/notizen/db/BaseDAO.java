@@ -1,5 +1,6 @@
-package com.nepumuk.notizen.core.utils.db_access;
+package com.nepumuk.notizen.db;
 
+import androidx.annotation.WorkerThread;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -9,6 +10,7 @@ import androidx.room.Update;
 import java.util.Collection;
 
 @Dao
+@WorkerThread
 public abstract class BaseDAO<T> {
     /**
      * inserts all given objects

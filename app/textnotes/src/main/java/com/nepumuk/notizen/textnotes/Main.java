@@ -21,5 +21,8 @@ public class Main {
             if(object.getMessage().toLowerCase().contains(text)) return true;
             return false;
         });
+
+        //AppDataBaseHelper.registerDatabase(TextNoteDatabase.class);
+        //AppDataBaseHelper.getInstance().getDatabase(TextNoteDatabase.class).getTextNoteDao().createOrUpdate(new TextNote(UUID.randomUUID().toString(), "testtitle", "testmessage"));
     }
 }

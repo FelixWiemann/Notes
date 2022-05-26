@@ -10,7 +10,6 @@ import com.nepumuk.notizen.core.objects.Note;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created as part of notes in package ${PACKAGE_NAME}
@@ -40,7 +39,7 @@ public class TaskNote extends Note {
      * @param pTitle title of Note
      * @param pTaskList list of tasks in created note
      */
-    public TaskNote(UUID pID, String pTitle, List<BaseTask>pTaskList) {
+    public TaskNote(String pID, String pTitle, List<BaseTask>pTaskList) {
         super(pID, pTitle);
         this.setTaskList(pTaskList);
     }
@@ -152,9 +151,9 @@ public class TaskNote extends Note {
     public void updateTask(BaseTask updatedData) {
         HashMap<String, BaseTask> taskMap = new HashMap<>();
         for (BaseTask task:mTaskList){
-            taskMap.put(task.getIdString(), task);
+            taskMap.put(task.getID(), task);
         }
-        taskMap.put(updatedData.getIdString(),updatedData);
+        taskMap.put(updatedData.getID(),updatedData);
         this.setTaskList(new ArrayList<>(taskMap.values()));
     }
     /**
@@ -167,9 +166,9 @@ public class TaskNote extends Note {
     public void deleteTask(BaseTask toDelete) {
         HashMap<String, BaseTask> taskMap = new HashMap<>();
         for (BaseTask task:mTaskList){
-            taskMap.put(task.getIdString(), task);
+            taskMap.put(task.getID(), task);
         }
-        taskMap.remove(toDelete.getIdString());
+        taskMap.remove(toDelete.getID());
         toDelete.deleteTask();
         this.setTaskList(new ArrayList<>(taskMap.values()));
     }

@@ -24,7 +24,7 @@ public class NoteDisplayHeaderFragmentTest extends FragmentTest<NoteDisplayHeade
     final String testTitle = "test_title";
     final String newTitle = "new_title";
 
-    StorageObject storageObject = new StorageObject(UUID.randomUUID(),testTitle) {
+    StorageObject storageObject = new StorageObject(UUID.randomUUID().toString(),testTitle) {
         @Override
         public int getVersion() {
             return 0;

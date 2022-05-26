@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.nepumuk.notizen.db.AppDataBaseHelper;
 import com.nepumuk.notizen.core.objects.storable_factory.DefaultStorableStrategy;
 import com.nepumuk.notizen.core.settings.Settings;
 import com.nepumuk.notizen.core.settings.SettingsManager;
@@ -21,7 +22,6 @@ import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.ContextManager;
 import com.nepumuk.notizen.core.utils.ContextManagerException;
 import com.nepumuk.notizen.core.utils.MainViewModel;
-import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
         setContentView(R.layout.activity_main);
+        // init Room database
+        AppDataBaseHelper.getInstance(getApplicationContext());
+
         new BackgroundWorker(()-> {
             try {
                 // Module setup
@@ -60,8 +63,6 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // init Room database
-        AppDataBaseHelper.getInstance(getApplicationContext());
 
         NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host);
         NavHostController navController = (NavHostController) navHost.getNavController();
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
                 if (storable instanceof TaskNote) model.updateData(storable);
             });
         }
+        AppDataBaseHelper.deleteInstance();
         Settings.unregisterOnSharedPreferenceListeners(this);
     }
 
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
             String text = extra.containsKey(Intent.EXTRA_TEXT) ? extra.getString(Intent.EXTRA_TEXT) : "retrieving data failed";
             // empty default title for easier title manipulation
             String title = extra.containsKey(Intent.EXTRA_TITLE) ? extra.getString(Intent.EXTRA_TITLE) : "";
-            return new TextNote(UUID.randomUUID(), title, text);
+            return new TextNote(UUID.randomUUID().toString(), title, text);
         }
 
         private static DatabaseStorable handleMimeType(Intent intent){

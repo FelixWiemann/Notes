@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.nepumuk.notizen.core.favourites.Favourite;
-import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
+import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.utils.db_access.DbDataHandler;
+import com.nepumuk.notizen.db.AppDataBaseHelper;
+import com.nepumuk.notizen.db.Favourite;
 
 import java.util.HashMap;
 
@@ -76,9 +77,9 @@ public class MainViewModel extends ViewModel {
      * reads from the database and sets the values into the MutableLiveData
      */
     private void readFromDatabase(){
-        for (DatabaseStorable storable : handler.read()) {
+        for (StorageObject storable : handler.read()) {
             if (storable!=null) {
-                dataMap.put(storable.getId(), storable);
+                dataMap.put(storable.getId(), (DatabaseStorable) storable);
             }
         }
         liveData.postValue(dataMap);
@@ -132,9 +133,15 @@ public class MainViewModel extends ViewModel {
         dataMap.remove(storable.getId());
         liveData.setValue(dataMap);
         handler.delete(storable);
-        new BackgroundWorker(()-> {
-            AppDataBaseHelper.getFavouriteDao().delete(new Favourite(storable.getId()));
-        }).start();
+        BackgroundWorker worker = new BackgroundWorker(()-> {
+            AppDataBaseHelper.getInstance().getFavourites().delete(new Favourite(storable.getId()));
+        });
+        worker.start();
+        try {
+            worker.join();
+        } catch (InterruptedException e) {
+          //  e.printStackTrace();
+        }
     }
 
 

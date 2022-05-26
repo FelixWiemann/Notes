@@ -4,10 +4,12 @@ import android.content.Intent;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nepumuk.notizen.core.objects.IdObject;
+import com.nepumuk.notizen.core.objects.StorageObject;
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.objects.Migration;
 import com.nepumuk.notizen.core.objects.UnpackingDataError;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
-import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
 /**
  * class for serialization and deserialisatzion of Storables.
@@ -32,7 +34,7 @@ public class StorableFactory {
      * @throws UnpackingDataException the given type is not valid
      * @throws UnpackingDataError if there was an issue with the
      */
-    public static DatabaseStorable createFromData(String ID, String Type, String Data, int Version) throws UnpackingDataException {
+    public static StorageObject createFromData(String ID, String Type, String Data, int Version) throws UnpackingDataException {
         Throwable lEx;
         try {
             // try to create data
@@ -51,13 +53,14 @@ public class StorableFactory {
         }
     }
 
-    private static DatabaseStorable createfromdata(String ID, String Type, String Data, int Version)throws UnpackingDataException{
+    private static StorageObject createfromdata(String ID, String Type, String Data, int Version)throws UnpackingDataException{
         try {
             Class<?> clazz = Class.forName(Type);
-            DatabaseStorable object;
+            StorageObject object;
             ObjectMapper mapper = new ObjectMapper();
             try {
                 object = mapper.readValue(Data, mapper.getTypeFactory().constructType(clazz));
+
             } catch (JsonProcessingException e) {
                 throw new UnpackingDataError("he data in the database is corrupt or we did not properly transform versions of stored data on upgrade",e);
             }
@@ -96,7 +99,7 @@ public class StorableFactory {
      * @throws UnpackingDataException the given type is not valid
      * @throws UnpackingDataError if there was an issue with the
      */
-    public static DatabaseStorable storableFromIntent(Intent intent) throws UnpackingDataException {
+    public static IdObject storableFromIntent(Intent intent) throws UnpackingDataException {
         if (intent == null){
             return null;
         }

@@ -19,7 +19,7 @@ public class TimedTaskTest extends com.nepumuk.notizen.tasks.testutils.AndroidTe
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        testTask = new TimedTask(UUID.randomUUID(),"dis da title", "dis da text",false);
+        testTask = new TimedTask(UUID.randomUUID().toString(),"dis da title", "dis da text",false);
     }
 
     @Test

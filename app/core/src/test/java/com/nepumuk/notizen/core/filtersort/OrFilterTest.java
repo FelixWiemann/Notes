@@ -24,7 +24,7 @@ public class OrFilterTest {
         StorageObject obj4 = mock(StorageObject.class);
         StorageObject obj5 = mock(StorageObject.class);
         StorageObject obj6 = mock(StorageObject.class);
-        StorageObjectTestImpl obj7 = new StorageObjectTestImpl(UUID.randomUUID(),"");
+        StorageObjectTestImpl obj7 = new StorageObjectTestImpl(UUID.randomUUID().toString(),"");
         // in this array
         ArrayList<SortableObject> toSort = new ArrayList<>();
         toSort.add(obj1);
@@ -57,7 +57,7 @@ public class OrFilterTest {
 
     static class StorageObjectTestImpl extends StorageObject{
 
-        public StorageObjectTestImpl(UUID mID, String mTitle) {
+        public StorageObjectTestImpl(String mID, String mTitle) {
             super(mID, mTitle);
         }
 

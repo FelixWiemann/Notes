@@ -1,18 +1,22 @@
-package com.nepumuk.notizen.core.utils.db_access;
+package com.nepumuk.notizen.db;
 
 import android.content.Context;
 
 import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
-import com.nepumuk.notizen.core.favourites.FavouriteDAO;
+import java.util.Hashtable;
 
 /**
  * helper class for accessing the app database
  */
-public class AppDataBaseHelper {
+public class  AppDataBaseHelper {
+
+    public static final int DATABASE_VERSION=6;
 
     private static AppDataBaseHelper helper;
     private final AppDataBase appDataBase;
+    private Hashtable<Class<? extends RoomDatabase>, RoomDatabase> databaseDictionary;
 
     public static AppDataBaseHelper getInstance(Context context){
         if (helper ==null){
@@ -28,16 +32,9 @@ public class AppDataBaseHelper {
 
     private AppDataBaseHelper(Context context) {
         super();
-        appDataBase = Room.databaseBuilder(context,AppDataBase.class,"app_database").build();
-    }
-
-    /**
-     * get the favourite DAO
-     * @return fav dao
-     */
-    public static FavouriteDAO getFavouriteDao(){
-        checkState();
-        return helper.appDataBase.favouriteDAO();
+        databaseDictionary = new Hashtable<>();
+        appDataBase = Room.databaseBuilder(context,AppDataBase.class,"app_database").fallbackToDestructiveMigration().build();
+        Favourites = new FavouriteRepository(appDataBase.favouriteDAO());
     }
 
     private static void checkState(){
@@ -45,5 +42,16 @@ public class AppDataBaseHelper {
             throw new IllegalStateException("trying to access Database while database is not initialized");
         }
     }
+
+    public static void deleteInstance(){
+        helper = null;
+    }
+
+    private final FavouriteRepository Favourites ;
+
+    public FavouriteRepository getFavourites(){
+        return Favourites;
+    }
+
 
 }

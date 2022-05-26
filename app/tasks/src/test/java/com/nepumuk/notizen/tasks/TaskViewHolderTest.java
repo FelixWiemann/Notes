@@ -64,7 +64,7 @@ public class TaskViewHolderTest extends com.nepumuk.notizen.tasks.testutils.Andr
         String title = "TITLE";
         String text = "text";
         final boolean doneState = false;
-        BaseTask testTask = new Task(uuid, title, text, doneState);
+        BaseTask testTask = new Task(uuid.toString(), title, text, doneState);
         // when
         viewHolderUnderTest.bind(testTask);
         // then

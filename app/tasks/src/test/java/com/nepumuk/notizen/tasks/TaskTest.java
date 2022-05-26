@@ -17,7 +17,7 @@ public class TaskTest extends com.nepumuk.notizen.tasks.testutils.AndroidTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        testTask = new Task(UUID.randomUUID(),"title", "text", false);
+        testTask = new Task(UUID.randomUUID().toString(),"title", "text", false);
     }
 
     @Test

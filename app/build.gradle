@@ -81,6 +81,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "androidx.room:room-runtime:$room_version"
+    implementation project(path: ':app:db')
     annotationProcessor "androidx.room:room-compiler:$room_version"
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

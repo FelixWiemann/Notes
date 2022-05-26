@@ -167,7 +167,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         fabProvider.getFab().show();
         fabProvider.getFab().setOnClickListener(v -> {
             currentEditedNoteIndex = INVALID_INDEX;
-            callEditTaskFragment(new Task(UUID.randomUUID(),"","",false));
+            callEditTaskFragment(new Task(UUID.randomUUID().toString(),"","",false));
         });
     }
 }

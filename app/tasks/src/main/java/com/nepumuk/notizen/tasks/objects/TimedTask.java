@@ -3,8 +3,6 @@ package com.nepumuk.notizen.tasks.objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nepumuk.notizen.core.utils.DateStrategy;
 
-import java.util.UUID;
-
 /**
  * ${PACKAGE_NAME}
  * notes
@@ -63,7 +61,7 @@ public class TimedTask extends BaseTask {
      * @param mText text of the new task
      * @param mDone flag if task is done or not
      */
-    public TimedTask(UUID mId, String mTitle, String mText, boolean mDone) {
+    public TimedTask(String mId, String mTitle, String mText, boolean mDone) {
         super(mId,mTitle, mText, mDone);
     }
 

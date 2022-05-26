@@ -6,8 +6,6 @@ import com.nepumuk.notizen.textnotes.testutils.AndroidTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.UUID;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -27,7 +25,7 @@ public class TextNoteTest extends AndroidTest {
         super.setUp();
         String title = "title";
         String uuidString = "968bcf03-df33-4cb3-a2aa-75f591e55a36";
-        testNote = new TextNote(UUID.fromString(uuidString), title,message);
+        testNote = new TextNote(uuidString, title,message);
     }
 
     @Test

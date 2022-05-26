@@ -61,7 +61,7 @@ public class StorageObjectTest extends AndroidTest {
 
     @Test
     public void getId() {
-        assertEquals(object.getIdString(), object.getId());
+        assertEquals(object.getID(), object.getId());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class StorageObjectTest extends AndroidTest {
     @Ignore ("test support class, not to be tested")
     static class StorageObjectImpl extends StorageObject {
         StorageObjectImpl(){
-            super(UUID.randomUUID(),"");
+            super(UUID.randomUUID().toString(),"");
         }
 
         @Override

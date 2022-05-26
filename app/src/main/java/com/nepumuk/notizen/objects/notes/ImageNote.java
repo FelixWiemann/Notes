@@ -6,8 +6,6 @@ import androidx.annotation.Keep;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nepumuk.notizen.core.objects.Note;
 
-import java.util.UUID;
-
 /**
  *
  *
@@ -33,7 +31,7 @@ public class ImageNote extends Note {
      * @param pTitle title of Note
      * @param pImageLocation location of the image
      */
-    public ImageNote(UUID pID, String pTitle, String pImageLocation) {
+    public ImageNote(String pID, String pTitle, String pImageLocation) {
         super(pID, pTitle);
         // assign image location
         setImageLocation(pImageLocation);

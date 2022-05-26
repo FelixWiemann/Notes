@@ -1,7 +1,5 @@
 package com.nepumuk.notizen.core.objects;
 
-import java.util.UUID;
-
 /**
  * Created by felix on 13/04/17.
  * base class for Notes
@@ -13,7 +11,7 @@ public abstract class Note extends StorageObject {
      * @param pID id of note
      * @param pTitle title of note
      */
-    public Note(UUID pID, String pTitle){
+    public Note(String pID, String pTitle){
         super(pID,pTitle);
     }
 

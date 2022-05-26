@@ -5,15 +5,13 @@ import com.nepumuk.notizen.core.filtersort.SortCategory;
 import com.nepumuk.notizen.core.utils.DateStrategy;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
-import java.util.UUID;
-
 /**
  * object handling storing of objects
  * also handles state of the object (has it been saved since last data change?)
  */
 public abstract class StorageObject extends IdObject implements DatabaseStorable {
 
-    public StorageObject(UUID mID, String mTitle) {
+    public StorageObject(String mID, String mTitle) {
         super(mID, mTitle);
         initSortables();
 
@@ -29,8 +27,8 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
      */
     public StorageObject(StorageObject other) {
         super(other);
-        this.mCreationDate = other.mCreationDate;
-        this.mLastChangedDate = other.mLastChangedDate;
+        this.creationDate = other.creationDate;
+        this.lastChangedDate = other.lastChangedDate;
         initSortables();
     }
 
@@ -64,7 +62,7 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
 
     @Override
     public String getId() {
-        return this.getIdString();
+        return this.getID();
     }
 
     @Override
@@ -82,20 +80,34 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
      * @see DateStrategy#getCurrentTime()
      */
     @JsonProperty("creationDate")
-    private long mCreationDate = -1;
+    private long creationDate = -1;
     /**
      * date of last change, numbers of milliseconds after January 1, 1970 00:00:00 GMT
      * @see DateStrategy#getCurrentTime()
      */
     @JsonProperty("lastChangedDate")
-    private long mLastChangedDate = -1;
+    private long lastChangedDate = -1;
 
     /**
      * sets last changed date to current time in milliseconds after January 1, 1970 00:00:00 GMT
      * @see DateStrategy#getCurrentTime()
      */
     public void setLastChangedDate(){
-        mLastChangedDate = DateStrategy.getCurrentTime();
+        lastChangedDate = DateStrategy.getCurrentTime();
+    }
+
+    /**
+     * setter for room DB
+     */
+    public void setLastChangedDate(long lastChangedDate){
+        this.lastChangedDate = lastChangedDate;
+    }
+
+    /**
+     * setter for room DB
+     */
+    public void setCreationDate(long creationDate){
+        this.creationDate = creationDate;
     }
 
     /**
@@ -104,7 +116,7 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
      * @return last changed date
      */
     public long getLastChangedDate(){
-        return mLastChangedDate;
+        return lastChangedDate;
     }
 
     /**
@@ -113,7 +125,7 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
      * @return creation date
      */
     public long getCreationDate(){
-        return mCreationDate;
+        return creationDate;
     }
 
     /**
@@ -121,7 +133,7 @@ public abstract class StorageObject extends IdObject implements DatabaseStorable
      * @see DateStrategy#getCurrentTime()
      */
     protected void setCreationDate(){
-        mCreationDate = DateStrategy.getCurrentTime();
+        creationDate = DateStrategy.getCurrentTime();
     }
 
 }

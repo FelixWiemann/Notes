@@ -1,5 +1,7 @@
 package com.nepumuk.notizen.core.objects;
 
+import androidx.room.Ignore;
+
 import com.nepumuk.notizen.core.filtersort.SortAble;
 import com.nepumuk.notizen.core.filtersort.SortCategory;
 
@@ -31,6 +33,7 @@ public class SortableObject extends JsonObject {
     /**
      * map to hold all sortables, needs to be private
      */
+    @Ignore
     private final HashMap<SortCategory<?>, SortAble<?>> sortAbleHashMap = new HashMap<>();
 
 

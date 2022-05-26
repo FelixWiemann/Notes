@@ -5,6 +5,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
+
 /**
  * recycler view holder to bind typed Objects
  *
@@ -12,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
  *
  * @param <T> type the view holder shall bind to
  */
-public abstract class ViewHolderInterface<T> extends RecyclerView.ViewHolder {
+public abstract class ViewHolderInterface<T extends DatabaseStorable> extends RecyclerView.ViewHolder {
 
     public ViewHolderInterface(@NonNull View itemView) {
         super(itemView);

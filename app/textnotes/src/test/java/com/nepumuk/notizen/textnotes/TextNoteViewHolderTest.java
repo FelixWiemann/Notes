@@ -49,7 +49,7 @@ public class TextNoteViewHolderTest {
         UUID uuid = UUID.randomUUID();
         String title = "this is title";
         String message = "this is message";
-        TextNote toBind = new TextNote(uuid, title,message);
+        TextNote toBind = new TextNote(uuid.toString(), title,message);
         // when
         underTest.bind(toBind);
         // then

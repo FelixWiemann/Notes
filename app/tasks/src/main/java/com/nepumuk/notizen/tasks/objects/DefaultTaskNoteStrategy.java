@@ -14,7 +14,7 @@ public class DefaultTaskNoteStrategy implements DefaultStorableStrategy<TaskNote
     @Override
     public TaskNote createDefault() {
         // use default list, but create copy to not have same list all over the place
-        return new TaskNote(UUID.randomUUID(),"",new ArrayList<>(DEFAULT_LIST));
+        return new TaskNote(UUID.randomUUID().toString(),"",new ArrayList<>(DEFAULT_LIST));
     }
 
     public static TaskNote create(){

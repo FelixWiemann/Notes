@@ -23,14 +23,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nepumuk.notizen.db.AppDataBaseHelper;
+import com.nepumuk.notizen.db.Favourite;
 import com.nepumuk.notizen.core.R;
-import com.nepumuk.notizen.core.favourites.Favourite;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
 import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.ResourceManger;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
-import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.SearchView;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
@@ -217,7 +217,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         fragmentTransaction.commit();
 
         new BackgroundWorker(()-> {
-            isFav = AppDataBaseHelper.getFavouriteDao().findFavourite(mViewModel.getValue().getId()) != null;
+            isFav = AppDataBaseHelper.getInstance().getFavourites().exists(new Favourite(mViewModel.getValue().getId()));
             changeFavouriteIcon(isFav);
         }).start();
     }
@@ -279,10 +279,10 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         } else if (itemId == R.id.mnu_edit_note_fav){
             new BackgroundWorker(()-> {
                 if (isFav) {
-                    AppDataBaseHelper.getFavouriteDao().delete(new Favourite(mViewModel.getValue().getId()));
+                    AppDataBaseHelper.getInstance().getFavourites().delete(new Favourite(mViewModel.getValue().getId()));
                     isFav = false;
                 } else {
-                    AppDataBaseHelper.getFavouriteDao().createOrUpdate(new Favourite(mViewModel.getValue().getId()));
+                    AppDataBaseHelper.getInstance().getFavourites().createOrUpdate(new Favourite(mViewModel.getValue().getId()));
                     isFav = true;
                 }
                 changeFavouriteIcon(isFav);

@@ -31,7 +31,7 @@ public class BaseTaskTest extends AndroidTest {
         super.setUp();
         // given
         // when
-        task = new BaseTask(UUID.randomUUID(), title, text,initDoneState) {
+        task = new BaseTask(UUID.randomUUID().toString(), title, text,initDoneState) {
             @Override
             public int getVersion() {
                 return 0;

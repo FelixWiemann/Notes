@@ -15,6 +15,7 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.nepumuk.notizen.db.AppDataBaseHelper;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.core.filtersort.FilterShowAll;
 import com.nepumuk.notizen.core.filtersort.ShowAllOfType;
@@ -22,7 +23,6 @@ import com.nepumuk.notizen.core.filtersort.ShowFavourites;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.utils.ResourceManger;
-import com.nepumuk.notizen.core.utils.db_access.AppDataBaseHelper;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
 import com.nepumuk.notizen.textnotes.objects.TextNote;
 
@@ -70,7 +70,7 @@ public class FilterFragment extends Fragment {
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_text_notes, new ShowAllOfType<>(TextNote.class));
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_task_notes, new ShowAllOfType<>(TaskNote.class));
         // db-access need time, therefore we add it in background
-        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>(this, AppDataBaseHelper.getFavouriteDao().getAll()));
+        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>(this, AppDataBaseHelper.getInstance().getFavourites().getLiveFavourite()));
     }
 
     MyArrayAdapter listAdapter;

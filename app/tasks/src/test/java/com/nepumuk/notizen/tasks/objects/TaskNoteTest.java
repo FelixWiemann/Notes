@@ -26,11 +26,11 @@ public class TaskNoteTest extends com.nepumuk.notizen.tasks.testutils.AndroidTes
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        TaskNote test = new TaskNote(UUID.randomUUID(),"task note", new ArrayList<>());
+        TaskNote test = new TaskNote(UUID.randomUUID().toString(),"task note", new ArrayList<>());
         testNote = spy(test);
-        task1 = new Task(UUID.randomUUID(),"title task", "text task", false );
+        task1 = new Task(UUID.randomUUID().toString(),"title task", "text task", false );
         testNote.addTask(task1);
-        testNote.addTask(new Task(UUID.randomUUID(),"test task 2", "text task", false ));
+        testNote.addTask(new Task(UUID.randomUUID().toString(),"test task 2", "text task", false ));
         mockedTask = mock(Task.class);
     }
 
@@ -94,15 +94,15 @@ public class TaskNoteTest extends com.nepumuk.notizen.tasks.testutils.AndroidTes
     public void testJson() {
         // given
         // Jackson's toJSON doesn't like mocks, therefore a new note needed to be created
-        testNote = new TaskNote(UUID.randomUUID(),"task note", new ArrayList<>());
+        testNote = new TaskNote(UUID.randomUUID().toString(),"task note", new ArrayList<>());
         testNote.addTask(task1);
-        testNote.addTask(new Task(UUID.randomUUID(),"test task 2", "text task", false ));
+        testNote.addTask(new Task(UUID.randomUUID().toString(),"test task 2", "text task", false ));
         // when
         String JSON = testNote.toJson();
         // then
         assertTrue(JSON.contains("TaskList\":"));
-        assertTrue(JSON.contains(testNote.getTaskAtPos(0).getIdString()));
-        assertTrue(JSON.contains(testNote.getTaskAtPos(1).getIdString()));
+        assertTrue(JSON.contains(testNote.getTaskAtPos(0).getID()));
+        assertTrue(JSON.contains(testNote.getTaskAtPos(1).getID()));
         assertTrue(JSON.contains(testNote.getTaskAtPos(0).getText()));
         assertTrue(JSON.contains(testNote.getTaskAtPos(0).getTitle()));
         assertTrue(JSON.contains(Long.toString(testNote.getTaskAtPos(0).getTaskCompleteDate())));
@@ -112,7 +112,7 @@ public class TaskNoteTest extends com.nepumuk.notizen.tasks.testutils.AndroidTes
     public void testCreationFromJSON() throws UnpackingDataException {
         // given
         // Jackson's toJSON doesn't like mocks, therefore a new note needed to be created
-        testNote = new TaskNote(UUID.randomUUID(),"task note", new ArrayList<>());
+        testNote = new TaskNote(UUID.randomUUID().toString(),"task note", new ArrayList<>());
         String JSON = testNote.toJson();
         // when
         Object o = StorableFactory.createFromData(testNote.getId(),testNote.getType(),JSON,testNote.getVersion());

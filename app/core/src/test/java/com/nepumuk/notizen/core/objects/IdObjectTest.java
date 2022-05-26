@@ -27,12 +27,12 @@ public class IdObjectTest extends AndroidTest {
         super.setUp();
         UUID id = UUID.randomUUID();
         idString = id.toString();
-        object = new IdObject(id,testTitle);
+        object = new IdObject(id.toString(),testTitle);
     }
 
     @Test
     public void Constructor() {
-        assertEquals("Constructor_ID",object.getID(),UUID.fromString(idString));
+        assertEquals("Constructor_ID",object.getID(),idString);
         assertEquals("Constructor_Title",object.getTitle(),testTitle);
     }
 
@@ -46,12 +46,12 @@ public class IdObjectTest extends AndroidTest {
     @Test(expected = IllegalStateException.class)
     public void setId() {
         String ID_string = UUID.randomUUID().toString();
-        object.setId(UUID.fromString(ID_string));
+        object.setID(ID_string);
     }
 
     @Test
     public void getID() {
-        assertEquals("ID",UUID.fromString(idString),object.getID());
+        assertEquals("ID",idString,object.getID());
     }
 
     @Test
@@ -64,8 +64,8 @@ public class IdObjectTest extends AndroidTest {
         String json = object.toJson();
         assertTrue(json.contains(testTitle));
         assertTrue(json.contains(idString));
-        assertEquals(object, new IdObject(UUID.fromString(idString), testTitle));
-        assertNotEquals(object, new IdObject(UUID.randomUUID(), testTitle));
+        assertEquals(object, new IdObject(idString, testTitle));
+        assertNotEquals(object, new IdObject(UUID.randomUUID().toString(), testTitle));
     }
 
 

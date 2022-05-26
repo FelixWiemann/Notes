@@ -1,11 +1,13 @@
 package com.nepumuk.notizen.core.objects;
 
+import androidx.annotation.NonNull;
+import androidx.room.PrimaryKey;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 /**
  * Id object handles identities of all data objects.
@@ -20,7 +22,9 @@ public class IdObject extends SortableObject {
     /**
      * ID string of current note, used to identify each note
      */
-    private UUID mID;
+    @PrimaryKey
+    @NonNull
+    private String ID;
     /**
      * title of the note
      */
@@ -35,9 +39,9 @@ public class IdObject extends SortableObject {
      * @param mID id of already existing, stored object
      * @param mTitle title of object
      */
-    IdObject(UUID mID, String mTitle) {
+    IdObject(String mID, String mTitle) {
         super();
-        this.mID = mID;
+        this.ID = mID;
         this.mTitle = mTitle;
     }
 
@@ -49,7 +53,7 @@ public class IdObject extends SortableObject {
      */
     IdObject(@NotNull IdObject other) {
         super();
-        this.mID = other.mID;
+        this.ID = other.ID;
         this.mTitle = other.mTitle;
     }
 
@@ -73,11 +77,11 @@ public class IdObject extends SortableObject {
      * DO NOT USE THIS FUNCTION. CREATE A NEW OBJECT FROM DB VIA CONSTRUCTOR INSTEAD
      * @param pID new id
      */
-    protected void setId(UUID pID) {
-        if (mID == null){
-            mID = pID;
+    protected void setID(String pID) {
+        if (ID == null){
+            ID = pID;
         }else{
-            throw new IllegalStateException("ID was already set to " + mID.toString() + " when setting ID " + pID.toString());
+            throw new IllegalStateException("ID was already set to " + ID.toString() + " when setting ID " + pID.toString());
         }
     }
 
@@ -87,14 +91,15 @@ public class IdObject extends SortableObject {
      */
     @JsonSetter("idString")
     private void setIdString(String id) {
-        setId(UUID.fromString(id));
+        setID(id);
     }
     /**
      * gets the id o the note
      * @return id
      */
-    UUID getID(){
-        return mID;
+    @JsonGetter("idString")
+    public String getID(){
+        return ID;
     }
 
     /**
@@ -103,10 +108,6 @@ public class IdObject extends SortableObject {
      */
     public String getTitle(){
         return mTitle;
-    }
-
-    public String getIdString(){
-        return mID.toString();
     }
 
 }
