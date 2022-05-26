@@ -63,26 +63,26 @@ public class MainViewModelTest extends AndroidTest {
     @Mock(name ="dao")
     FavouriteDAO favouriteDAO;
 
-    @InjectMocks
-    FavouriteRepository favouriteRepository;
+    @Mock
+    AppDataBaseHelper appDataBaseHelper;
+
 
     FavouriteRepository spyRepo ;
 
-    @Mock
-    AppDataBaseHelper appDataBaseHelper;
 
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
-        MockitoAnnotations.initMocks(this);
+        when(AppDataBaseHelper.getInstance()).thenReturn(appDataBaseHelper);
 
+        MockitoAnnotations.initMocks(this);
         when(storable1.getId()).thenReturn(UUID.randomUUID().toString());
         when(storable2.getId()).thenReturn(UUID.randomUUID().toString());
         when(storable3.getId()).thenReturn(UUID.randomUUID().toString());
 
-        spyRepo = spy(favouriteRepository);
+        spyRepo = spy(new FavouriteRepository(favouriteDAO));
 
         // create a list stored in Database
         storables = new HashMap<>();
@@ -96,7 +96,6 @@ public class MainViewModelTest extends AndroidTest {
         // wait for the loading to finish
         // in reality will be in background, cannot have for reliable/replicable testing
         modelUnderTest.waitForFetchToFinish();
-        when(AppDataBaseHelper.getInstance()).thenReturn(appDataBaseHelper);
         when(appDataBaseHelper.getFavourites()).thenReturn(spyRepo);
     }
 

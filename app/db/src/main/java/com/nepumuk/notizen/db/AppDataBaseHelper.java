@@ -15,7 +15,7 @@ public class  AppDataBaseHelper {
     public static final int DATABASE_VERSION=6;
 
     private static AppDataBaseHelper helper;
-    private final AppDataBase appDataBase;
+    protected final AppDataBase appDataBase;
     private Hashtable<Class<? extends RoomDatabase>, RoomDatabase> databaseDictionary;
 
     public static AppDataBaseHelper getInstance(Context context){
@@ -35,6 +35,8 @@ public class  AppDataBaseHelper {
         databaseDictionary = new Hashtable<>();
         appDataBase = Room.databaseBuilder(context,AppDataBase.class,"app_database").fallbackToDestructiveMigration().build();
         Favourites = new FavouriteRepository(appDataBase.favouriteDAO());
+        // observer required for live updates
+        Favourites.getLiveFavourite().observeForever(favourites -> {});
     }
 
     private static void checkState(){

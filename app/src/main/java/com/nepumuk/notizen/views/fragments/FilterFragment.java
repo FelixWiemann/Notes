@@ -70,7 +70,7 @@ public class FilterFragment extends Fragment {
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_text_notes, new ShowAllOfType<>(TextNote.class));
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_task_notes, new ShowAllOfType<>(TaskNote.class));
         // db-access need time, therefore we add it in background
-        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>(this, AppDataBaseHelper.getInstance().getFavourites().getLiveFavourite()));
+        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>(AppDataBaseHelper.getInstance().getFavourites()));
     }
 
     MyArrayAdapter listAdapter;

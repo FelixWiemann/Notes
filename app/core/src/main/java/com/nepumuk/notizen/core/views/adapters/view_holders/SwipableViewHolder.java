@@ -7,12 +7,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.nepumuk.notizen.db.AppDataBaseHelper;
-import com.nepumuk.notizen.db.Favourite;
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.SwipableView;
+import com.nepumuk.notizen.db.AppDataBaseHelper;
 
 
 public class SwipableViewHolder<T extends DatabaseStorable> extends ViewHolderInterface<T> {
@@ -31,7 +30,7 @@ public class SwipableViewHolder<T extends DatabaseStorable> extends ViewHolderIn
         new BackgroundWorker(() -> {
             Drawable drawable = null;
 
-            if (AppDataBaseHelper.getInstance().getFavourites().exists(new Favourite(toBind.getId()))) {
+            if (AppDataBaseHelper.getInstance().getFavourites().exists(toBind.getId())) {
                 drawable = ContextCompat.getDrawable(itemView.getContext(),R.drawable.favourite_border);
             }
             Drawable finalDrawable = drawable;
