@@ -23,7 +23,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.nepumuk.notizen.db.AppDataBaseHelper;
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
@@ -33,6 +32,7 @@ import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.SearchView;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
+import com.nepumuk.notizen.db.FavouriteRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -216,7 +216,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         fragmentTransaction.commit();
 
         new BackgroundWorker(()-> {
-            isFav = AppDataBaseHelper.getInstance().getFavourites().exists(mViewModel.getValue().getId());
+            isFav = FavouriteRepository.INSTANCE.exists(mViewModel.getValue().getId());
             changeFavouriteIcon(isFav);
         }).start();
     }
@@ -278,10 +278,10 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         } else if (itemId == R.id.mnu_edit_note_fav){
             new BackgroundWorker(()-> {
                 if (isFav) {
-                    AppDataBaseHelper.getInstance().getFavourites().delete(mViewModel.getValue().getId());
+                    FavouriteRepository.INSTANCE.delete(mViewModel.getValue().getId());
                     isFav = false;
                 } else {
-                    AppDataBaseHelper.getInstance().getFavourites().createOrUpdate(mViewModel.getValue().getId());
+                    FavouriteRepository.INSTANCE.createOrUpdate(mViewModel.getValue().getId());
                     isFav = true;
                 }
                 changeFavouriteIcon(isFav);

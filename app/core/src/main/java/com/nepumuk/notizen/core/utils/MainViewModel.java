@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.utils.db_access.DbDataHandler;
-import com.nepumuk.notizen.db.AppDataBaseHelper;
+import com.nepumuk.notizen.db.FavouriteRepository;
 
 import java.util.HashMap;
 
@@ -133,7 +133,7 @@ public class MainViewModel extends ViewModel {
         liveData.setValue(dataMap);
         handler.delete(storable);
         BackgroundWorker worker = new BackgroundWorker(()-> {
-            AppDataBaseHelper.getInstance().getFavourites().delete(storable.getId());
+            FavouriteRepository.INSTANCE.delete(storable.getId());
         });
         worker.start();
         try {

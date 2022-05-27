@@ -1,14 +1,22 @@
 package com.nepumuk.notizen.db
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 
 data class Favourite (val noteId:String){}
 
-open class FavouriteRepository(private val dao: FavouriteDAO = AppDataBaseHelper.getInstance().appDataBase.favouriteDAO()) {
+object FavouriteRepository {
 
-    val liveFavourite: LiveData<List<Favourite>> = Transformations.map(dao.all){ it ->
+    private val dao: FavouriteDAO = AppDataBaseHelper.getInstance().appDataBase.favouriteDAO()
+
+    private val liveFavourite: LiveData<List<Favourite>> = Transformations.map(dao.all){ it ->
         it.map { it.toFavourite() }
+    }
+
+    init {
+        // observe required, otherwise data gets not updated
+        liveFavourite.observeForever { Log.d("", "")}
     }
 
     fun exists(fav :Favourite) :Boolean{

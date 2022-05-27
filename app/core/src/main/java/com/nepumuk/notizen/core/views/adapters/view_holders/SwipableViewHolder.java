@@ -1,6 +1,5 @@
 package com.nepumuk.notizen.core.views.adapters.view_holders;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -8,10 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.nepumuk.notizen.core.R;
-import com.nepumuk.notizen.core.utils.BackgroundWorker;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.SwipableView;
-import com.nepumuk.notizen.db.AppDataBaseHelper;
+import com.nepumuk.notizen.db.FavouriteRepository;
 
 
 public class SwipableViewHolder<T extends DatabaseStorable> extends ViewHolderInterface<T> {
@@ -27,17 +25,12 @@ public class SwipableViewHolder<T extends DatabaseStorable> extends ViewHolderIn
     public void bind(T toBind) {
         ((SwipableView)this.itemView).setMainView(viewHolderInterface.itemView);
         viewHolderInterface.bind(toBind);
-        new BackgroundWorker(() -> {
-            Drawable drawable = null;
-
-            if (AppDataBaseHelper.getInstance().getFavourites().exists(toBind.getId())) {
-                drawable = ContextCompat.getDrawable(itemView.getContext(),R.drawable.favourite_border);
-            }
-            Drawable finalDrawable = drawable;
-            // hacky -> make it proper
-            ((Activity)itemView.getContext()).runOnUiThread(()->itemView.setBackground(finalDrawable));
-
-        }).start();
+        Drawable drawable = null;
+        if (FavouriteRepository.INSTANCE.exists(toBind.getId())) {
+            drawable = ContextCompat.getDrawable(itemView.getContext(),R.drawable.favourite_border);
+        }
+        Drawable finalDrawable = drawable;
+        itemView.setBackground(finalDrawable);
     }
 
     public void setBackgroundVisibility(float position){
