@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.pm.ShortcutManager;
 import android.os.Build;
 
-import com.nepumuk.notizen.core.objects.storable_factory.DefaultStorableStrategy;
-import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
-
 import java.util.HashMap;
 
 /**
@@ -47,21 +44,13 @@ public class ShortCutHelper {
         }
     }
 
-    static HashMap<String, DefaultStorableStrategy<DatabaseStorable>> strategyMap = new HashMap<>();
     static HashMap<String, String> shortCutIdMap = new HashMap<>();
 
-    public DatabaseStorable createAndReportUsage(String ShortCutVariableName){
-        if (strategyMap.containsKey(ShortCutVariableName)) {
-            reportUsage(shortCutIdMap.get(ShortCutVariableName));
-            return strategyMap.get(ShortCutVariableName).createDefault();
-        }
-        // if this exception comes, check if case-sensitive error
-        // or argument was not added with registerShortcut
-        throw new IllegalArgumentException("Cannot create DataBaseStorable of type " + ShortCutVariableName);
+    public void reportUsageUsingVariableName(String ShortCutVariableName){
+        reportUsage(shortCutIdMap.get(ShortCutVariableName));
     }
 
-    public static void registerShortcut(DefaultStorableStrategy strategy, String ShortCutID, String ShortCutVariableName){
-        strategyMap.put(ShortCutVariableName,strategy);
+    public static void registerShortcut( String ShortCutID, String ShortCutVariableName){
         shortCutIdMap.put(ShortCutVariableName,ShortCutID);
     }
 

@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.objects.StorageObject;
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 
 public class TitleViewHolder<T extends StorageObject> extends ViewHolderInterface<T> {
 
@@ -23,6 +23,6 @@ public class TitleViewHolder<T extends StorageObject> extends ViewHolderInterfac
     @Override
     public void bind(T toBind) {
         title.setText(toBind.getTitle());
-        title.setContentDescription(ResourceManger.getString(R.string.content_note_message) + " " + toBind.getTitle());
+        title.setContentDescription(ResourceManager.getString(R.string.content_note_message) + " " + toBind.getTitle());
     }
 }

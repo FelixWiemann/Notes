@@ -11,9 +11,9 @@ public class ShowFavourites<T extends IdObject> extends ViewFilter<T>{
 
     FavouriteRepository favouriteRepository;
 
-    public ShowFavourites(FavouriteRepository favouriteRepository){
+    public ShowFavourites(){
         super();
-        this.favouriteRepository =favouriteRepository;
+        this.favouriteRepository = FavouriteRepository.INSTANCE;
     }
 
     /**

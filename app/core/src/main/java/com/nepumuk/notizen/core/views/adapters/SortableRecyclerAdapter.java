@@ -2,10 +2,10 @@ package com.nepumuk.notizen.core.views.adapters;
 
 import androidx.annotation.Keep;
 
-import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.filtersort.FilterShowAll;
 import com.nepumuk.notizen.core.filtersort.Sorter;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
+import com.nepumuk.notizen.core.objects.StorageObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +36,10 @@ public class SortableRecyclerAdapter<T extends StorageObject> extends BaseRecycl
     public void filter(ViewFilter<T> filter){
         currentFilter = filter;
         filter();
+    }
+
+    public void showAll(){
+        filter(new FilterShowAll<>());
     }
 
     /**

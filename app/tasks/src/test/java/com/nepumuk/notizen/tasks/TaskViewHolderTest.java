@@ -5,7 +5,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
 import com.nepumuk.notizen.tasks.objects.Task;
 
@@ -92,7 +92,7 @@ public class TaskViewHolderTest extends com.nepumuk.notizen.tasks.testutils.Andr
         final boolean newDone = true;
         String resultString = "RESULT_DONE";
         when(task.isDone()).thenReturn(newDone);
-        when(ResourceManger.getString(eq(R.string.content_task_done))).thenReturn(resultString);
+        when(ResourceManager.getString(eq(R.string.content_task_done))).thenReturn(resultString);
         // when
         String result = viewHolderUnderTest.getStateDescription(task.isDone());
         // then
@@ -104,7 +104,7 @@ public class TaskViewHolderTest extends com.nepumuk.notizen.tasks.testutils.Andr
         final boolean newDone = false;
         String resultString = "RESULT_OPEN";
         when(task.isDone()).thenReturn(newDone);
-        when(ResourceManger.getString(eq(R.string.content_task_open))).thenReturn(resultString);
+        when(ResourceManager.getString(eq(R.string.content_task_open))).thenReturn(resultString);
         // when
         String result = viewHolderUnderTest.getStateDescription(task.isDone());
         // then

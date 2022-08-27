@@ -1,7 +1,9 @@
 package com.nepumuk.notizen.tasks;
 
+import com.nepumuk.notizen.core.filtersort.ShowAllOfType;
 import com.nepumuk.notizen.core.filtersort.TextFilter;
 import com.nepumuk.notizen.core.objects.Migration;
+import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderFactory;
 import com.nepumuk.notizen.core.views.fragments.NoteDisplayFragmentFactory;
@@ -16,7 +18,9 @@ public class Main {
         ViewHolderFactory.registerNewViewHolder(R.layout.task_note_view, TaskNote.class, TaskNoteViewHolder.class);
         NoteDisplayFragmentFactory.addMapping(TaskNote.class, TaskNoteFragment.class);
         Migration.addMigrationService("com.nepumuk.notizen.objects.notes.TaskNote",new TaskNoteMigrationService(),1);
-        ShortCutHelper.registerShortcut(new DefaultTaskNoteStrategy(),ShortCutHelper.ID_NEW_TASK_NOTE,"TaskNote");
+        ShortCutHelper.registerShortcut(ShortCutHelper.ID_NEW_TASK_NOTE,"TaskNote");
+        StorableFactory.registerDefaultStorableStrategy("TaskNote",new DefaultTaskNoteStrategy());
+
         TextFilter.addMapping(TaskNote.class, (object, text) -> {
             // if text in title
             if (object.getTitle().toLowerCase().contains(text)) return true;
@@ -43,5 +47,6 @@ public class Main {
             // not found
             return false;
         });
+        ShowAllOfType.availableFilters.put(R.string.filter_show_task_notes, new ShowAllOfType<>(TaskNote.class));
     }
 }

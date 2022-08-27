@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderInterface;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
 
@@ -34,12 +34,12 @@ public class TaskViewHolder extends ViewHolderInterface<BaseTask> {
         done.setOnCheckedChangeListener(null);
         // finally we cna bind all the other stuff
         title.setText(toBind.getTitle());
-        title.setContentDescription(ResourceManger.getString(R.string.content_task_title) + " " + toBind.getTitle());
+        title.setContentDescription(ResourceManager.getString(R.string.content_task_title) + " " + toBind.getTitle());
         message.setText(toBind.getText());
-        message.setContentDescription(ResourceManger.getString(R.string.content_task_message) + " " + toBind.getTitle() + ": " + toBind.getText());
+        message.setContentDescription(ResourceManager.getString(R.string.content_task_message) + " " + toBind.getTitle() + ": " + toBind.getText());
         // first set the checked status
         done.setChecked(toBind.isDone());
-        done.setContentDescription(ResourceManger.getString(R.string.content_task_status) + " " + toBind.getTitle() + ": " + getStateDescription(toBind.isDone()));
+        done.setContentDescription(ResourceManager.getString(R.string.content_task_status) + " " + toBind.getTitle() + ": " + getStateDescription(toBind.isDone()));
         // before adding the listener to avoid unclear state
         done.setOnCheckedChangeListener((buttonView, isChecked) -> {
             toBind.setDone(isChecked);
@@ -54,9 +54,9 @@ public class TaskViewHolder extends ViewHolderInterface<BaseTask> {
      */
     public String getStateDescription(boolean mDone){
         if (mDone){
-            return ResourceManger.getString(R.string.content_task_done);
+            return ResourceManager.getString(R.string.content_task_done);
         }else{
-            return ResourceManger.getString(R.string.content_task_open);
+            return ResourceManager.getString(R.string.content_task_open);
         }
     }
 

@@ -21,10 +21,7 @@ import com.nepumuk.notizen.core.filtersort.ShowAllOfType;
 import com.nepumuk.notizen.core.filtersort.ShowFavourites;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
-import com.nepumuk.notizen.core.utils.ResourceManger;
-import com.nepumuk.notizen.db.FavouriteRepository;
-import com.nepumuk.notizen.tasks.objects.TaskNote;
-import com.nepumuk.notizen.textnotes.objects.TextNote;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -67,15 +64,18 @@ public class FilterFragment extends Fragment {
         listAdapter = new MyArrayAdapter(requireContext(), com.nepumuk.notizen.core.R.layout.favlist_rowlayout, titleList);
         listView.setAdapter(listAdapter);
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_all, new FilterShowAll<>());
-        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_text_notes, new ShowAllOfType<>(TextNote.class));
-        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_task_notes, new ShowAllOfType<>(TaskNote.class));
+        for (Integer i:ShowAllOfType.availableFilters.keySet()) {
+            addFilterSelect(i,ShowAllOfType.availableFilters.get(i));
+        }
+        //addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_text_notes, new ShowAllOfType<>(TextNote.class));
+        //addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_task_notes, new ShowAllOfType<>(TaskNote.class));
         // db-access need time, therefore we add it in background
-        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>(FavouriteRepository.INSTANCE));
+        addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>());
     }
 
     MyArrayAdapter listAdapter;
-    private void addFilterSelect(@StringRes int TextRes, ViewFilter<StorageObject> filter){
-        titleList.add(ResourceManger.getString(TextRes));
+    public void addFilterSelect(@StringRes int TextRes, ViewFilter<StorageObject> filter){
+        titleList.add(ResourceManager.getString(TextRes));
         filterList.add(filter);
         listAdapter.notifyDataSetChanged();
     }

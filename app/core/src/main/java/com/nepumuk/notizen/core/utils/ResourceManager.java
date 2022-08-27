@@ -1,16 +1,15 @@
 package com.nepumuk.notizen.core.utils;
 
 import android.content.res.Resources;
-import androidx.annotation.StringRes;
 
-import com.nepumuk.notizen.core.utils.ContextManager;
+import androidx.annotation.StringRes;
 
 /**
  * wrapper for Resources.getSystem()
  *
  * makes mocking for testing easier
  */
-public class ResourceManger {
+public class ResourceManager {
 
     /**
      * wrapper for {@link Resources#getString(int)}

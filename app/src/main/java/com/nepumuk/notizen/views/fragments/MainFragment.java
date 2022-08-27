@@ -22,11 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.R;
-import com.nepumuk.notizen.core.filtersort.FilterShowAll;
 import com.nepumuk.notizen.core.filtersort.SortProvider;
 import com.nepumuk.notizen.core.filtersort.TextFilter;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
 import com.nepumuk.notizen.core.objects.StorageObject;
+import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.MainViewModel;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
@@ -39,8 +39,6 @@ import com.nepumuk.notizen.core.views.adapters.SwipableRecyclerAdapter;
 import com.nepumuk.notizen.core.views.adapters.TitleAdapter;
 import com.nepumuk.notizen.core.views.adapters.view_holders.CompoundViewHolder;
 import com.nepumuk.notizen.core.views.fragments.EditNoteViewModel;
-import com.nepumuk.notizen.tasks.objects.DefaultTaskNoteStrategy;
-import com.nepumuk.notizen.textnotes.DefaultTextNoteStrategy;
 import com.nepumuk.notizen.views.NoteListViewHeaderView;
 import com.nepumuk.notizen.views.fabs.FabSpawnerFab;
 
@@ -147,7 +145,7 @@ public class MainFragment extends Fragment {
                 throw new RuntimeException("fail");
             }
         });
-        adapter.filter(new FilterShowAll<>());
+        adapter.showAll();
 
         adapter.sort(SortProvider.SortByType);
         recyclerView.setAdapter(adapter);
@@ -176,9 +174,9 @@ public class MainFragment extends Fragment {
         final FabSpawnerFab fabSpawner = content.findViewById(R.id.fab_add_notes);
         FloatingActionButton fab =  content.findViewById(R.id.fab_text_note);
         fab.setOnClickListener(view -> {
-            callEditNote(DefaultTextNoteStrategy.create());
             // report as per https://developer.android.com/guide/topics/ui/shortcuts/best-practices
             new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TEXT_NOTE);
+            callEditNote(StorableFactory.create("TextNote"));
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);
@@ -186,7 +184,7 @@ public class MainFragment extends Fragment {
         fab.setOnClickListener(view -> {
             // report as per https://developer.android.com/guide/topics/ui/shortcuts/best-practices
             new ShortCutHelper(getContext()).reportUsage(ShortCutHelper.ID_NEW_TASK_NOTE);
-            callEditNote(DefaultTaskNoteStrategy.create());
+            callEditNote(StorableFactory.create("TaskNote"));
             fabSpawner.callOnClick();
         });
         fabSpawner.addFabToSpawn(fab);

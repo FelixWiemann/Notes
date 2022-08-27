@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import androidx.annotation.Nullable;
 
 import com.nepumuk.notizen.core.R;
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 
 public class SearchView extends android.widget.SearchView {
 
@@ -33,7 +33,7 @@ public class SearchView extends android.widget.SearchView {
     }
 
     public void init(){
-        setQueryHint(ResourceManger.getString(R.string.hint_search_notes));
+        setQueryHint(ResourceManager.getString(R.string.hint_search_notes));
         setOnQueryTextListener(new OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

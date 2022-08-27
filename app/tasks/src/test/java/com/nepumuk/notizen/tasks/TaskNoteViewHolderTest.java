@@ -3,7 +3,7 @@ package com.nepumuk.notizen.tasks;
 import android.os.Build;
 import android.view.View;
 
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 import com.nepumuk.notizen.core.views.NestedRecyclerView;
 import com.nepumuk.notizen.core.views.adapters.SortableRecyclerAdapter;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
@@ -33,7 +33,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @RunWith( RobolectricTestRunner.class)
 @Config(maxSdk = Build.VERSION_CODES.P)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "androidx.*" })
-@PrepareForTest({TaskNoteViewHolder.class, ResourceManger.class})
+@PrepareForTest({TaskNoteViewHolder.class, ResourceManager.class})
 @Ignore("fix null pointers in recycler view tests due to mocking...")
 public class TaskNoteViewHolderTest extends AndroidTest {
 
@@ -52,7 +52,7 @@ public class TaskNoteViewHolderTest extends AndroidTest {
 
     @Before
     public void setUp(){
-        PowerMockito.mockStatic(ResourceManger.class);
+        PowerMockito.mockStatic(ResourceManager.class);
         MockitoAnnotations.initMocks(this);
         when(viewMock.findViewById(anyInt())).thenReturn(recyclerViewMock);
         ArrayList<BaseTask> tasks =  new ArrayList<>();

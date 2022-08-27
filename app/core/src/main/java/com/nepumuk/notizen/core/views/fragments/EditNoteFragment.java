@@ -1,7 +1,6 @@
 package com.nepumuk.notizen.core.views.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,9 +24,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.objects.StorageObject;
+import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
 import com.nepumuk.notizen.core.utils.BackgroundWorker;
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 import com.nepumuk.notizen.core.utils.ShortCutHelper;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.SearchView;
@@ -121,23 +121,6 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     public void onStart() {
         super.onStart();
         loadData();
-
-    }
-
-    /**
-     * Called when a fragment is first attached to its context.
-     * {@link #onCreate(Bundle)} will be called after this.
-     *
-     * @param context
-     */
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        getChildFragmentManager().addFragmentOnAttachListener((fragmentManager, fragment) -> {
-            if(fragment instanceof RequiresFabFragment) {
-                ((RequiresFabFragment) fragment).registerFabProvider(this);
-            }
-        });
     }
 
     public void discard() {
@@ -196,7 +179,8 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         mViewModel.observe(this, o -> wasChanged = true);
 
         if (!mViewModel.isValueSet()) {
-            DatabaseStorable data = new ShortCutHelper(getContext()).createAndReportUsage(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
+            new ShortCutHelper(getContext()).reportUsageUsingVariableName(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
+            DatabaseStorable data = StorableFactory.create(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
             EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
             // using replace to make sure we have a value immediately after setting
             mViewModel.replace(saveState);
@@ -316,7 +300,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     }
     public void setSearchVisible(boolean visible, SearchView.SearchWatcher watcher, @StringRes int SearchHintText){
         setSearchVisible(visible, watcher);
-        this.SearchHintText= ResourceManger.getString(SearchHintText);
+        this.SearchHintText= ResourceManager.getString(SearchHintText);
     }
     public void setSearchVisible(boolean visible, SearchView.SearchWatcher watcher){
         SeachFieldVisible = visible;

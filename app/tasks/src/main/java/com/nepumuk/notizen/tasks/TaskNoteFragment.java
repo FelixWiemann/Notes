@@ -1,6 +1,7 @@
 package com.nepumuk.notizen.tasks;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nepumuk.notizen.core.filtersort.TextFilter;
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 import com.nepumuk.notizen.core.views.SwipableOnItemTouchListener;
 import com.nepumuk.notizen.core.views.SwipeRecyclerView;
 import com.nepumuk.notizen.core.views.adapters.SwipableRecyclerAdapter;
@@ -29,6 +30,8 @@ import com.nepumuk.notizen.tasks.filtersort.SortProvider;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
 import com.nepumuk.notizen.tasks.objects.Task;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -163,11 +166,25 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         fabProvider = provider;
         if (fabProvider.getFab() == null)  return;
         fabProvider.getFab().setImageResource(R.drawable.ic_create_task_note);
-        fabProvider.getFab().setContentDescription(ResourceManger.getString(R.string.content_add_task));
+        fabProvider.getFab().setContentDescription(ResourceManager.getString(R.string.content_add_task));
         fabProvider.getFab().show();
         fabProvider.getFab().setOnClickListener(v -> {
             currentEditedNoteIndex = INVALID_INDEX;
             callEditTaskFragment(new Task(UUID.randomUUID().toString(),"","",false));
         });
+    }
+
+    /**
+     * Called when a fragment is first attached to its context.
+     * {@link #onCreate(Bundle)} will be called after this.
+     *
+     * @param context
+     */
+    @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        super.onAttach(context);
+        if (getParentFragment() instanceof FabProvider){
+            this.registerFabProvider((FabProvider)getParentFragment());
+        }
     }
 }

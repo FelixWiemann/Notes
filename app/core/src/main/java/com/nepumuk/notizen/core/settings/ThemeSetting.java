@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.utils.BackgroundWorker;
 
-import static com.nepumuk.notizen.core.utils.ResourceManger.getString;
+import static com.nepumuk.notizen.core.utils.ResourceManager.getString;
 
 public class ThemeSetting extends Setting{
 

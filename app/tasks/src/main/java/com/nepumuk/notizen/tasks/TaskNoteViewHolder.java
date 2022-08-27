@@ -6,7 +6,7 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 import com.nepumuk.notizen.core.views.NestedRecyclerView;
 import com.nepumuk.notizen.core.views.adapters.SortableRecyclerAdapter;
 import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderInterface;
@@ -35,6 +35,6 @@ public class TaskNoteViewHolder extends ViewHolderInterface<TaskNote> {
         }
         adapter.replace(toBind.getTaskList());
         adapter.notifyDataSetChanged();
-        taskRecyclerView.setContentDescription(ResourceManger.getString(R.string.content_note_tasks) + " " + toBind.getTitle());
+        taskRecyclerView.setContentDescription(ResourceManager.getString(R.string.content_note_tasks) + " " + toBind.getTitle());
     }
 }

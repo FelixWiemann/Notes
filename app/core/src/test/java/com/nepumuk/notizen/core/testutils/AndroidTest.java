@@ -6,9 +6,9 @@ import android.util.Log;
 
 import androidx.annotation.CallSuper;
 
+import com.nepumuk.notizen.core.utils.ResourceManager;
 import com.nepumuk.notizen.db.AppDataBaseHelper;
 import com.nepumuk.notizen.core.utils.BackgroundWorker;
-import com.nepumuk.notizen.core.utils.ResourceManger;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -32,7 +32,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * Helper test class to be extended, if android stuff needs to be mocked
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class, ResourceManger.class, AppDataBaseHelper.class, BackgroundWorker.class})
+@PrepareForTest({Log.class, ResourceManager.class, AppDataBaseHelper.class, BackgroundWorker.class})
 @PowerMockIgnore("jdk.internal.reflect.*")
 public abstract class AndroidTest {
 
@@ -70,8 +70,8 @@ public abstract class AndroidTest {
             }
         });
 
-        PowerMockito.mockStatic(ResourceManger.class);
-        when(ResourceManger.getString(ArgumentMatchers.anyInt())).thenReturn(ResourcesGetStringValue);
+        PowerMockito.mockStatic(ResourceManager.class);
+        when(ResourceManager.getString(ArgumentMatchers.anyInt())).thenReturn(ResourcesGetStringValue);
         PowerMockito.whenNew(Intent.class).withNoArguments().thenReturn(mockedIntent);
         PowerMockito.whenNew(Intent.class).withAnyArguments().thenReturn(mock(Intent.class));
        // PowerMockito.whenNew(BackgroundWorker.class).withArguments(captor.capture()).thenReturn(new BackgroundWorkerTestImpl(captor.getValue()));

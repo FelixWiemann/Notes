@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.nepumuk.notizen.core.views.adapters.view_holders.ViewHolderInterface;
 import com.nepumuk.notizen.textnotes.objects.TextNote;
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 
 public class TextNoteViewHolder extends ViewHolderInterface<TextNote> {
 
@@ -23,6 +23,6 @@ public class TextNoteViewHolder extends ViewHolderInterface<TextNote> {
     @Override
     public void bind(TextNote toBind) {
         message.setText(toBind.getMessage());
-        message.setContentDescription(ResourceManger.getString(R.string.content_note_message) + " " + toBind.getTitle() + ": " + toBind.getMessage());
+        message.setContentDescription(ResourceManager.getString(R.string.content_note_message) + " " + toBind.getTitle() + ": " + toBind.getMessage());
     }
 }

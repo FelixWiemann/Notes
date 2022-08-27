@@ -3,7 +3,7 @@ package com.nepumuk.notizen.textnotes;
 import android.view.View;
 import android.widget.TextView;
 
-import com.nepumuk.notizen.core.utils.ResourceManger;
+import com.nepumuk.notizen.core.utils.ResourceManager;
 import com.nepumuk.notizen.textnotes.objects.TextNote;
 
 import org.junit.Before;
@@ -26,7 +26,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(ResourceManger.class)
+@PrepareForTest(ResourceManager.class)
 public class TextNoteViewHolderTest {
 
     @Mock
@@ -39,7 +39,7 @@ public class TextNoteViewHolderTest {
     @Before
     public void setUp(){
         when(viewMock.findViewById(anyInt())).thenReturn(textViewMock);
-        mockStatic(ResourceManger.class);
+        mockStatic(ResourceManager.class);
     }
 
     @Test

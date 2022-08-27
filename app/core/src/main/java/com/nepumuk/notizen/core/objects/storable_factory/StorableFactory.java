@@ -11,6 +11,8 @@ import com.nepumuk.notizen.core.objects.Migration;
 import com.nepumuk.notizen.core.objects.UnpackingDataError;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
 
+import java.util.HashMap;
+
 /**
  * class for serialization and deserialisatzion of Storables.
  * TODO create own exception to encapsulate the JACKSON behavior totally
@@ -21,7 +23,22 @@ public class StorableFactory {
     private static final String INTENT_NAME_NOTE_DATA = "INTENT_NAME_NOTE_DATA";
     private static final String INTENT_NAME_NOTE_TYPE = "INTENT_NAME_NOTE_TYPE";
     private static final String INTENT_NAME_NOTE_VERSION = "INTENT_NAME_NOTE_VERSION";
+    static HashMap<String, DefaultStorableStrategy<DatabaseStorable>> strategyMap = new HashMap<>();
     //private static DefaultStorableStrategy defaultStrategy = new DefaultTextNoteStrategy();
+
+    public static void registerDefaultStorableStrategy(String ShortCutVariableName,DefaultStorableStrategy strategy){
+        strategyMap.put(ShortCutVariableName,strategy);
+    }
+
+    public static DatabaseStorable create(String ShortCutVariableName){
+        if (strategyMap.containsKey(ShortCutVariableName)) {
+            return strategyMap.get(ShortCutVariableName).createDefault();
+        }
+        // if this exception comes, check if case-sensitive error
+        // or argument was not added with registerShortcut
+        throw new IllegalArgumentException("Cannot create DataBaseStorable of type " + ShortCutVariableName);
+    }
+
 
     /**
      * creates a storable from the given information
