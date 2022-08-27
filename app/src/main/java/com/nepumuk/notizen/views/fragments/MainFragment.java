@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -190,6 +191,8 @@ public class MainFragment extends Fragment {
         fabSpawner.addFabToSpawn(fab);
         // TODO add fab for new types
         //  e.g. camera
+
+        editNoteModel.observeForever(observer);
     }
 
     /**
@@ -204,13 +207,15 @@ public class MainFragment extends Fragment {
         saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
         editNoteModel.replace(saveState);
         editNoteModel.getSaveState().save = false;
-        editNoteModel.observe(this,state ->{
-            if(state.save){
-                mainViewModel.updateOrCreate(state.data);
-                state.save = false;
-            }
-        });
     }
+
+    private Observer<EditNoteViewModel.SaveState<DatabaseStorable>> observer = (state) -> {
+        if(state.save){
+            mainViewModel.updateOrCreate(state.data);
+            state.save = false;
+        }
+    };
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

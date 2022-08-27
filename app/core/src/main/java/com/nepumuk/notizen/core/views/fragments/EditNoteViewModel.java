@@ -75,6 +75,14 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
         note.observe(owner, observer);
     }
 
+    public void observeForever(Observer<SaveState<T>> observer){
+        note.observeForever(observer);
+    }
+
+    public void removeObserver(Observer<SaveState<T>> observer){
+        note.removeObserver(observer);
+    }
+
     /**
      * helper class for keeping track of data state before it is saved
      * @param <Y> type param
