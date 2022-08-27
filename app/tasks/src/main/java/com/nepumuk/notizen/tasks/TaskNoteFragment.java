@@ -112,6 +112,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         taskViewModel.observe(this, data-> {
             if (data.save) {
                 updateTask(data.data);
+                data.save=false;
             }
         });
     }
