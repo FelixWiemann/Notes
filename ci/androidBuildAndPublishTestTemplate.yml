@@ -17,6 +17,7 @@ steps:
     workingDirectory: ''
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
+    jdkVersionOption: '1.11'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'clean assemble${{parameters.BUILD_TYPE}} test${{parameters.BUILD_TYPE}}UnitTest'
