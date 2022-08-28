@@ -118,7 +118,7 @@ dependencies {
 
     /**test dependencies**/
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation "androidx.test:core:$androidxtest_version"
+    testImplementation "androidx.test:core:$androidxtest_version"
 
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation "androidx.test:runner:$androidxtest_version"
