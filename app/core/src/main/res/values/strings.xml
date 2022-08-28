@@ -63,6 +63,11 @@
     <string name="preference_name_theme_system">Use system settings</string>
     <string name="preference_name_theme_dark">dark theme</string>
     <string name="preference_name_theme_light">light theme</string>
+    <string name="preference_cannot_send_feedback">Cannot send feedback, email application not found!</string>
+    <string name="preference_ok">OK</string>
+    <string name="preference_send_feedback_accept_privacy">When sending feedback, you share your email address to the developer. When you continue you accept the privacy notice.</string>
+    <string name="preference_decline">decline</string>
+
     <string name="lbl_edit_note">edit</string>
     <string name="lbl_home" />
 

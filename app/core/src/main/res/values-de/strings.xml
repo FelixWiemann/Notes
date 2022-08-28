@@ -59,6 +59,11 @@
     <string name="preference_title_theme" >Theme</string>
     <string name="preference_title_privacy_notice">Datenschutzhinweise</string>
     <string name="preference_summary_privacy_notice">Zeigt die Datenschutzhinweise an</string>
+    <string name="preference_cannot_send_feedback">Feedback kann nicht gesendet werden, es wurde keine eMail App gefunden</string>
+    <string name="preference_ok">Ok</string>
+    <string name="preference_send_feedback_accept_privacy">Mit dem Senden von Feedback teilen Sie ihre eMail Adresse mit dem Entwickler. Wenn Sie fortfahren aktzeptieren Sie die verarbeitung Ihrer eMail Adresse durch den Entwickler.</string>
+    <string name="preference_decline">Abbrechen</string>
+
 
 
     <string name="lbl_edit_note">editieren</string>

@@ -1,6 +1,7 @@
 package com.nepumuk.notizen.core.settings;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -115,16 +116,30 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }, null);
     }
 
-    private void onSendFeedBack(){
+    private void createAndStartFeedbackIntent(){
         Intent Email = new Intent(Intent.ACTION_SENDTO);
         //Email.setType("text/plain");
         Email.setData(Uri.parse("mailto:")); // only email apps should handle this
         Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "feedback@nepumuk.com" });
         Email.putExtra(Intent.EXTRA_SUBJECT, "Feedback" );
         Email.putExtra(Intent.EXTRA_TEXT, "" + "");
-        if (Email.resolveActivity(getActivity().getPackageManager()) != null) {
+        try{
             startActivity(Email);
+        }catch (ActivityNotFoundException e){
+            new AlertDialog.Builder(getContext())
+                    .setMessage(getString(R.string.preference_cannot_send_feedback))
+                    .setPositiveButton(getString(R.string.preference_ok), (dialogInterface, i) -> {})
+                    .create().show();
         }
+    }
+
+    private void onSendFeedBack(){
+        new AlertDialog.Builder(getContext())
+                .setMessage(getString(R.string.preference_send_feedback_accept_privacy))
+                .setPositiveButton(getString(R.string.preference_ok), (dialogInterface, i) -> createAndStartFeedbackIntent())
+                .setNegativeButton(getString(R.string.preference_decline),(dialogInterface, i)->{})
+                .create().show();
+
     }
 
     private boolean onThemeChange(Preference preference, Object newValue){
