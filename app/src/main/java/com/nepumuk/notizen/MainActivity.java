@@ -13,8 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.nepumuk.notizen.db.AppDataBaseHelper;
-import com.nepumuk.notizen.core.objects.storable_factory.DefaultStorableStrategy;
+import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.settings.Settings;
 import com.nepumuk.notizen.core.settings.SettingsManager;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
@@ -24,6 +23,7 @@ import com.nepumuk.notizen.core.utils.ContextManagerException;
 import com.nepumuk.notizen.core.utils.MainViewModel;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.views.ToolbarProvider;
+import com.nepumuk.notizen.db.AppDataBaseHelper;
 import com.nepumuk.notizen.tasks.objects.TaskNote;
 import com.nepumuk.notizen.textnotes.objects.TextNote;
 
@@ -34,6 +34,27 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
 
     private static final String TAG = "MAINACTIVITY";
     private MainViewModel model;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent){
+        DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(intent);
+        if (fromIntent != null) {
+            try {
+                Bundle b = new Bundle(intent.getExtras());
+                StorableFactory.addToBundle(b,fromIntent);
+                NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host);
+                NavHostController navController = (NavHostController) navHost.getNavController();
+                navController.createDeepLink().setDestination(R.id.editNoteFragment).setArguments(b).createPendingIntent().send();
+            } catch (PendingIntent.CanceledException e) {
+                Log.e(TAG, "onCreate: could not navigate to intent", e);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +96,8 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
         NavigationUI.setupWithNavController(toolbar, navController,findViewById(R.id.drawerLayout));
         NavigationUI.setupActionBarWithNavController(this, navController,appBarConfiguration);
 
-        DatabaseStorable fromIntent = IntentHandler.StorableFromIntent(getIntent());
-        if (fromIntent != null) {
-            try {
-                navController.createDeepLink().setDestination(R.id.editNoteFragment).setArguments(getIntent().getExtras()).createPendingIntent().send();
-            } catch (PendingIntent.CanceledException e) {
-                Log.e(TAG, "onCreate: could not navigate to intent", e);
-            }
-        }
+        handleIntent(getIntent());
+
         new BackgroundWorker(()-> SettingsManager.getInstance().init()).start();
     }
 
@@ -104,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
         return findViewById(R.id.toolbar);
     }
 
-    public static class IntentHandler implements DefaultStorableStrategy<DatabaseStorable> {
+    public static class IntentHandler {
 
         private Bundle extra;
 
@@ -140,11 +155,6 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
             }
             // could not be handled, return default storable
             return null;
-        }
-
-        @Override
-        public DatabaseStorable createDefault() {
-            return handleExtra(extra);
         }
     }
 }

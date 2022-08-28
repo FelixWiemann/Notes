@@ -24,6 +24,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.R;
 import com.nepumuk.notizen.core.objects.StorageObject;
+import com.nepumuk.notizen.core.objects.UnpackingDataException;
 import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.toolbar.InterceptableNavigationToolbar;
 import com.nepumuk.notizen.core.utils.BackgroundWorker;
@@ -180,7 +181,16 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
 
         if (!mViewModel.isValueSet()) {
             new ShortCutHelper(getContext()).reportUsageUsingVariableName(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
-            DatabaseStorable data = StorableFactory.create(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
+            DatabaseStorable data=null;
+            try {
+                data = StorableFactory.storableFromBundle(requireArguments());
+                originalData="-";
+            } catch (UnpackingDataException ignored) {
+            }
+            if (data == null) {
+                data = StorableFactory.create(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
+            }
+
             EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
             // using replace to make sure we have a value immediately after setting
             mViewModel.replace(saveState);

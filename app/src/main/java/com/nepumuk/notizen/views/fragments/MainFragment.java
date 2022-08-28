@@ -92,10 +92,6 @@ public class MainFragment extends Fragment {
     private void initFragment(@NonNull View content){
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         editNoteModel = new ViewModelProvider(requireActivity()).get(EditNoteViewModel.class);
-        if (editNoteModel.isValueSet()&&editNoteModel.getSaveState().origin != EditNoteViewModel.SaveState.Origin.PARENT){
-            // if created via deeplink
-            mainViewModel.updateOrCreate(editNoteModel.getValue());
-        }
         // setup views
         recyclerView = content.findViewById(R.id.adapterView);
         ArrayList<StorageObject> list = new ArrayList<>();

@@ -1,15 +1,14 @@
 package com.nepumuk.notizen.core.objects.storable_factory;
 
-import android.content.Intent;
+import android.os.Bundle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nepumuk.notizen.core.objects.IdObject;
-import com.nepumuk.notizen.core.objects.StorageObject;
-import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 import com.nepumuk.notizen.core.objects.Migration;
+import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.objects.UnpackingDataError;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
+import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
 import java.util.HashMap;
 
@@ -97,12 +96,12 @@ public class StorableFactory {
      * @param storable the storable to be added to the intent
      * @return Intent that the storable has been added to
      */
-    public static Intent addToIntent(Intent intentToAddTo, DatabaseStorable storable){
+    public static Bundle addToBundle(Bundle intentToAddTo, DatabaseStorable storable){
         if (storable != null){
-            intentToAddTo.putExtra(INTENT_NAME_NOTE_ID,storable.getId());
-            intentToAddTo.putExtra(INTENT_NAME_NOTE_DATA,storable.getDataString());
-            intentToAddTo.putExtra(INTENT_NAME_NOTE_TYPE,storable.getType());
-            intentToAddTo.putExtra(INTENT_NAME_NOTE_VERSION,storable.getVersion());
+            intentToAddTo.putString(INTENT_NAME_NOTE_ID,storable.getId());
+            intentToAddTo.putString(INTENT_NAME_NOTE_DATA,storable.getDataString());
+            intentToAddTo.putString(INTENT_NAME_NOTE_TYPE,storable.getType());
+            intentToAddTo.putInt(INTENT_NAME_NOTE_VERSION,storable.getVersion());
         }
         return intentToAddTo;
     }
@@ -116,15 +115,15 @@ public class StorableFactory {
      * @throws UnpackingDataException the given type is not valid
      * @throws UnpackingDataError if there was an issue with the
      */
-    public static IdObject storableFromIntent(Intent intent) throws UnpackingDataException {
+    public static StorageObject storableFromBundle(Bundle intent) throws UnpackingDataException {
         if (intent == null){
             return null;
         }
-        if (intent.hasExtra(INTENT_NAME_NOTE_ID)){
-            return createFromData(intent.getStringExtra(INTENT_NAME_NOTE_ID),
-                    intent.getStringExtra(INTENT_NAME_NOTE_TYPE),
-                    intent.getStringExtra(INTENT_NAME_NOTE_DATA),
-                    intent.getIntExtra(INTENT_NAME_NOTE_VERSION,1));
+        if (intent.containsKey(INTENT_NAME_NOTE_ID)){
+            return createFromData(intent.getString(INTENT_NAME_NOTE_ID),
+                    intent.getString(INTENT_NAME_NOTE_TYPE),
+                    intent.getString(INTENT_NAME_NOTE_DATA),
+                    intent.getInt(INTENT_NAME_NOTE_VERSION,1));
 
         }
         return null;
