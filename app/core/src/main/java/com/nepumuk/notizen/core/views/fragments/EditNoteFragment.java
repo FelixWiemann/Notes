@@ -97,7 +97,6 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // TODO better way to get the toolbar
         if (toolbar==null) {
             toolbar = ((ToolbarProvider) requireActivity()).getToolbar();
         }
