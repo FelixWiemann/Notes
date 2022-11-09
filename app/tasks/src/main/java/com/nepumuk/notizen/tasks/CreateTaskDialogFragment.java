@@ -11,13 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 
+import com.nepumuk.notizen.core.utils.SimpleTextWatcher;
 import com.nepumuk.notizen.core.views.fragments.EditNoteViewModel;
 import com.nepumuk.notizen.tasks.objects.BaseTask;
-import com.nepumuk.notizen.core.utils.SimpleTextWatcher;
 
 /**
  * <p>
@@ -67,78 +65,22 @@ public class CreateTaskDialogFragment extends DialogFragment {
         textTaskTitle.addTextChangedListener(taskTitleWatcher);
         textTaskMessage = view.findViewById(R.id.task_message);
         textTaskMessage.addTextChangedListener(taskTextWatcher);
-        NavBackStackEntry entry = NavHostFragment.findNavController(this).getPreviousBackStackEntry();
-        taskViewModel = new ViewModelProvider(entry).get(EditNoteViewModel.class);
-        taskViewModel.observe(this, task -> {
-            if (task ==null) return;
-            if (isTyping) {
-                isTyping = false;
-                return;
-            }
-            isUpdate = true;
-            textTaskMessage.setText(task.data.getText());
-            textTaskTitle.setText(task.data.getTitle());
-            isUpdate = false;
-        });
-        return alertDialog;
-        //return super.onCreateDialog(savedInstanceState);
-    }
-
-    /*
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.create_task_fragment,container,false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // cannot cancel
-        setCancelable(false);
-
-        Button positive = view.findViewById(R.id.positive_action);
-        positive.setOnClickListener(v -> {
-            taskViewModel.getSaveState().save=true;
-            taskViewModel.update();
-            dismiss();
-        });
-        Button negative = view.findViewById(R.id.negative_action);
-        negative.setOnClickListener(v -> {
-            taskViewModel.getSaveState().save=false;
-            taskViewModel.update();
-            dismiss();
-        });
-
-
-        NavBackStackEntry entry = NavHostFragment.findNavController(this).getPreviousBackStackEntry();
-        taskViewModel = new ViewModelProvider(entry).get(EditNoteViewModel.class);
-        textTaskTitle = view.findViewById(R.id.task_title);
-        taskViewModel.observe(this, task -> {
-            if (task ==null) return;
-            if (isTyping) {
-                isTyping = false;
-                return;
-            }
-            isUpdate = true;
-            textTaskMessage.setText(task.data.getText());
-            textTaskTitle.setText(task.data.getTitle());
-            isUpdate = false;
-        });
-
-        textTaskTitle.addTextChangedListener(taskTitleWatcher);
-        Dialog dialog = getDialog();
-        if (dialog != null) {
-            // when testing, the dialog fragment is not part of a dialog, get dialog returns null.
-            Window window = dialog.getWindow();
-            if (window != null) {
-                window.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE);
-            }
+        if (taskViewModel==null){
+            taskViewModel = new ViewModelProvider(requireActivity()).get(EditBaseTaskViewModel.class);
+            taskViewModel.observeForever(task -> {
+                if (task ==null) return;
+                if (isTyping) {
+                    isTyping = false;
+                    return;
+                }
+                isUpdate = true;
+                textTaskMessage.setText(task.data.getText());
+                textTaskTitle.setText(task.data.getTitle());
+                isUpdate = false;
+            });
         }
-        textTaskMessage = view.findViewById(R.id.task_message);
-
-        textTaskMessage.addTextChangedListener(taskTextWatcher);
-    }*/
+        return alertDialog;
+    }
 
     private final TextWatcher taskTitleWatcher = new SimpleTextWatcher(s -> {
             if (isInitialSetup || isUpdate) {

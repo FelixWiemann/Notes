@@ -48,7 +48,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
      */
     private static final int NOT_YET_INDEXED = -2;
     SwipeRecyclerView<BaseTask> taskHolder;
-    EditNoteViewModel<BaseTask> taskViewModel;
+    EditBaseTaskViewModel taskViewModel;
 
     FabProvider fabProvider;
 
@@ -107,12 +107,13 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
             ((EditNoteFragment)getParentFragment()).setSearchVisible(true,phrase -> adapter.filter(new TextFilter<>(phrase)), R.string.hint_search_tasks);
         NavController controller = NavHostFragment.findNavController(this);
         // get the view model of the parent activity
-        taskViewModel = new ViewModelProvider(controller.getCurrentBackStackEntry()).get(EditNoteViewModel.class);
+        taskViewModel = new ViewModelProvider(requireActivity()).get(EditBaseTaskViewModel.class);
         // let this observe the view model
         taskViewModel.observe(this, data-> {
             if (data.save) {
                 updateTask(data.data);
-                data.save=false;
+                data.save = false;
+                taskViewModel.setNote(data);
             }
         });
     }
@@ -139,12 +140,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
     private void updateTask(BaseTask updated){
         if (updated == null) return;
         EditNoteViewModel.SaveState<TaskNote> state = mViewModel.getSaveState();
-        if (currentEditedNoteIndex == INVALID_INDEX){
-            currentEditedNoteIndex = NOT_YET_INDEXED;
-            state.data.addTask(updated);
-        }else {
-            state.data.updateTask(updated);
-        }
+        state.data.updateTask(updated);
         mViewModel.setNote(state);
     }
 
@@ -158,7 +154,7 @@ public class TaskNoteFragment extends NoteDisplayFragment<TaskNote> implements R
         EditNoteViewModel.SaveState<BaseTask> saveState = null;
         saveState = new EditNoteViewModel.SaveState<>(taskToEdit.deepCopy());
         saveState.origin = EditNoteViewModel.SaveState.Origin.PARENT;
-        taskViewModel.setNote(saveState);
+        taskViewModel.setNote(saveState, true);
         Navigation.findNavController(requireView()).navigate(R.id.createTaskDialogFragment);
     }
 

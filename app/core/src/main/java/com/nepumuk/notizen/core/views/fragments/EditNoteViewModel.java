@@ -42,12 +42,17 @@ public class EditNoteViewModel<T extends DatabaseStorable> extends ViewModel {
      * @param note
      */
     public void setNote(SaveState<T> note) {
+        setNote(note, false);
+    }
+
+    public void setNote(SaveState<T> note, boolean force){
         // first time set it, afterwards post it asynchronously
-        if (this.note.getValue()== null){
+        if (this.note.getValue() == null
+                || force){
             this.note.setValue(note);
-        }else{
-            this.note.postValue(note);
+            return;
         }
+        this.note.postValue(note);
     }
 
     public SaveState<T> getSaveState(){
