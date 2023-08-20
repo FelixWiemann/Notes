@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -101,15 +102,27 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
         new BackgroundWorker(()-> SettingsManager.getInstance().init()).start();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void saveData(){
         // TODO update view model data on click
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             model.getData().getValue().values().forEach(storable -> {
                 if (storable instanceof TaskNote) model.updateData(storable);
             });
         }
+        Toast.makeText(this, R.string.saving_data,Toast.LENGTH_SHORT).show();
+        Log.d("MainAcitivity","saving data");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveData();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveData();
         AppDataBaseHelper.deleteInstance();
         Settings.unregisterOnSharedPreferenceListeners(this);
     }

@@ -64,6 +64,7 @@
     <string name="lbl_edit_note">editieren</string>
     <string name="lbl_home" />
 
+    <string name="saving_data">speichere Daten</string>
     <string name="action_cancel">abbrechen</string>
     <string name="action_save">speichern</string>
     <string name="action_favourite">Favoriten toggeln</string>
