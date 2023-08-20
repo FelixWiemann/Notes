@@ -9,7 +9,7 @@ ext{
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion '30.0.3'
 
     compileOptions {
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId "com.nepumuk.notizen"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 33
         // check version code from system environment (if input from CI-System)
         if ("$System.env.VERSIONCODE"=="null") {
             // not found, check local properties file in root dir of project
