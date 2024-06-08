@@ -4,10 +4,10 @@ apply plugin: 'jacoco'
 buildscript {
 
     ext{
-        kotlin_version = '1.4.21'
-        nav_version = "2.3.4"
+        kotlin_version = '1.8.22'
+        nav_version = '2.7.7'
         testCoverage = false
-        room_version = "2.3.0"
+        room_version = "2.6.1"
     }
 
     repositories {
@@ -16,10 +16,10 @@ buildscript {
     }
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:8.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
-        classpath "org.jacoco:org.jacoco.core:0.8.6"
+        classpath "org.jacoco:org.jacoco.core:0.8.8"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -49,14 +49,18 @@ allprojects {
         }
         maxParallelForks = 4
         forkEvery=0
+        // https://github.com/powermock/powermock/issues/1161
+        jvmArgs = jvmArgs + ['--add-opens=java.base/java.lang=ALL-UNNAMED', '--add-opens=java.base/java.util=ALL-UNNAMED', '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED' ]
     }
 
 }
-
+/*
 subprojects{
     println("adding jacoco to " + project)
     apply from: "$project.rootDir/jacoco.gradle"
 }
+ */
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

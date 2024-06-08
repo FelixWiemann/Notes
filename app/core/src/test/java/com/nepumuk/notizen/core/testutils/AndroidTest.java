@@ -58,7 +58,7 @@ public abstract class AndroidTest {
 
                 Throwable exs = invocation.getArgument(2);
                 System.out.println(TAG + ": "+ Message + ": ");
-                printException(exs, "");
+                // fails for some reason printException(exs, "");
                 return null;
             }
         });

@@ -25,7 +25,7 @@ public class ShowFavourites<T extends IdObject> extends ViewFilter<T>{
         super();
         ids = data.getValue();
         this.data = data;
-        data.observe(owner, (list) -> ids = list);
+        data.observe(owner.requireActivity(), (list) -> ids = list);
     }
 
     /**

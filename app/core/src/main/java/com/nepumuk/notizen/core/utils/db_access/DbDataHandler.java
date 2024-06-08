@@ -57,10 +57,10 @@ public class DbDataHandler {
      * @return DatabaseStorable at the given cursor
      */
     protected DatabaseStorable contentValueToDatabaseStorable(Cursor cursor){
-        String type = cursor.getString(cursor.getColumnIndex(DbHelper.aDB_COLUMN_TYPE));
-        String id = cursor.getString(cursor.getColumnIndex(DbHelper.aDB_COLUMN_ID));
-        String data = cursor.getString(cursor.getColumnIndex(DbHelper.aDB_COLUMN_JSONDATA));
-        int version = cursor.getInt(cursor.getColumnIndex(DbHelper.aDB_COLUMN_TYPEVERSION));
+        String type = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.aDB_COLUMN_TYPE));
+        String id = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.aDB_COLUMN_ID));
+        String data = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.aDB_COLUMN_JSONDATA));
+        int version = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.aDB_COLUMN_TYPEVERSION));
         DatabaseStorable storable = null;
         try {
             storable = StorableFactory.createFromData(id, type, data, version);
