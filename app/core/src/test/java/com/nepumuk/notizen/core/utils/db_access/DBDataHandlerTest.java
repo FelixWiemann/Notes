@@ -153,10 +153,10 @@ public class DBDataHandlerTest extends AndroidTest {
         final int COLUMN_JSONDATA = 2;
         final int COLUMN_TYPEVERSION = 3;
         Cursor cursor = PowerMockito.mock(Cursor.class);
-        PowerMockito.when(cursor.getColumnIndex(ArgumentMatchers.matches(DbHelper.aDB_COLUMN_TYPE))).thenReturn(COLUMN_TYPE);
-        PowerMockito.when(cursor.getColumnIndex(ArgumentMatchers.matches(DbHelper.aDB_COLUMN_ID))).thenReturn(COLUMN_ID);
-        PowerMockito.when(cursor.getColumnIndex(ArgumentMatchers.matches(DbHelper.aDB_COLUMN_JSONDATA))).thenReturn(COLUMN_JSONDATA);
-        PowerMockito.when(cursor.getColumnIndex(ArgumentMatchers.matches(DbHelper.aDB_COLUMN_TYPEVERSION))).thenReturn(COLUMN_TYPEVERSION);
+        PowerMockito.when(cursor.getColumnIndexOrThrow(ArgumentMatchers.matches(DbHelper.aDB_COLUMN_TYPE))).thenReturn(COLUMN_TYPE);
+        PowerMockito.when(cursor.getColumnIndexOrThrow(ArgumentMatchers.matches(DbHelper.aDB_COLUMN_ID))).thenReturn(COLUMN_ID);
+        PowerMockito.when(cursor.getColumnIndexOrThrow(ArgumentMatchers.matches(DbHelper.aDB_COLUMN_JSONDATA))).thenReturn(COLUMN_JSONDATA);
+        PowerMockito.when(cursor.getColumnIndexOrThrow(ArgumentMatchers.matches(DbHelper.aDB_COLUMN_TYPEVERSION))).thenReturn(COLUMN_TYPEVERSION);
         DataBaseStorableTestImpl testImpl = new DataBaseStorableTestImpl();
 
         PowerMockito.when(cursor.getString(COLUMN_TYPE)).thenReturn(testImpl.getType());
