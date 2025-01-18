@@ -4,8 +4,8 @@ apply plugin: 'jacoco'
 buildscript {
 
     ext{
-        kotlin_version = '1.8.22'
-        nav_version = '2.7.7'
+        kotlin_version = '1.9.20'
+        nav_version = '2.8.5'
         testCoverage = false
         room_version = "2.6.1"
     }
@@ -16,7 +16,7 @@ buildscript {
     }
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:8.3.2'
+        classpath 'com.android.tools.build:gradle:8.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath "org.jacoco:org.jacoco.core:0.8.8"
@@ -54,12 +54,12 @@ allprojects {
     }
 
 }
-/*
+
 subprojects{
     println("adding jacoco to " + project)
     apply from: "$project.rootDir/jacoco.gradle"
 }
- */
+
 
 
 task clean(type: Delete) {

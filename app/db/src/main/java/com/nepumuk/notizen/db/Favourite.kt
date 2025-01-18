@@ -2,7 +2,7 @@ package com.nepumuk.notizen.db
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 
 data class Favourite (val noteId:String){}
 
@@ -10,7 +10,7 @@ object FavouriteRepository {
 
     private val dao: FavouriteDAO = AppDataBaseHelper.getInstance().appDataBase.favouriteDAO()
 
-    private val liveFavourite: LiveData<List<Favourite>> = Transformations.map(dao.all){ it ->
+    private val liveFavourite: LiveData<List<Favourite>> = dao.all.map{ it ->
         it.map { it.toFavourite() }
     }
 
