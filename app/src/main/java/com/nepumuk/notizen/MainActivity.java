@@ -4,10 +4,15 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavHostController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -66,6 +71,19 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
             Log.e(TAG, "onCreate: error during context setup", e);
         }
         setContentView(R.layout.activity_main);
+        DrawerLayout view = findViewById(R.id.drawerLayout);
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets)->{
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            var mlp = (ViewGroup.MarginLayoutParams)  view.getLayoutParams();
+            mlp.leftMargin = insets.left;
+            mlp.bottomMargin = insets.bottom;
+            mlp.rightMargin = insets.right;
+            mlp.topMargin = insets.top;
+            v.setLayoutParams(mlp);
+            // Return CONSUMED if you don't want the window insets to keep passing down
+            // to descendant views.
+            return WindowInsetsCompat.CONSUMED;
+        });
         // init Room database
         AppDataBaseHelper.getInstance(getApplicationContext());
 
@@ -91,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarProvider {
         //navController.enableOnBackPressed(true);
         AppBarConfiguration appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph())
-                        .setOpenableLayout(findViewById(R.id.drawerLayout))
+                        .setOpenableLayout(view)
                         .build();
 
         NavigationUI.setupWithNavController(toolbar, navController,findViewById(R.id.drawerLayout));
