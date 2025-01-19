@@ -20,7 +20,7 @@ steps:
     jdkVersionOption: '1.17'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'clean assemble${{parameters.BUILD_TYPE}} test${{parameters.BUILD_TYPE}}UnitTest'
+    tasks: 'clean assemble${{parameters.BUILD_TYPE}} test${{parameters.BUILD_TYPE}}UnitTest codeCoverageReport${{parameters.BUILD_TYPE}}'
     # currently disabled, as not working correctly: codeCoverageReport${{parameters.BUILD_TYPE}}
 
 - task: PublishCodeCoverageResults@1
