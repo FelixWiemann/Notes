@@ -24,8 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.R;
 import com.nepumuk.notizen.core.filtersort.SortProvider;
+import com.nepumuk.notizen.core.filtersort.Sorter;
 import com.nepumuk.notizen.core.filtersort.TextFilter;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
+import com.nepumuk.notizen.core.objects.SortableObject;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.MainViewModel;
@@ -143,8 +145,8 @@ public class MainFragment extends Fragment {
             }
         });
         adapter.showAll();
-
-        adapter.sort(SortProvider.SortByType);
+        // TODO sort by type and title / creation date, etc
+        adapter.sort(SortProvider.SortByLastChangeDate);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener(recyclerView,(e) -> {
             if (deleteWasClicked){
@@ -245,5 +247,9 @@ public class MainFragment extends Fragment {
 
     public void filter(ViewFilter<StorageObject> filter){
         adapter.filter(filter);
+    }
+
+    public void sort(Sorter<StorageObject> sorter){
+        adapter.sort(sorter);
     }
 }

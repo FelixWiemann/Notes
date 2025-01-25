@@ -94,6 +94,11 @@
     <string name="filter_show_task_notes">Zeige nur Aufgabennotizen</string>
     <string name="filter_show_text_notes">Zeige nur Textnotizen</string>
     <string name="filter_show_favourites">Zeige Favoriten</string>
+    <string name="sort_by_type">Nach Typ sortieren</string>
     <string name="content_search_for">Suche nach: %s</string>
+    <string name="sort_by_title_ascending">Nach Titel aufsteigend sortieren</string>
+    <string name="sort_by_title_descending">Nach Titel absteigend sortieren</string>
+    <string name="sort_by_creationdate_descending">Nach Erstellungdatum absteigend sortieren</string>
+    <string name="sort_by_lastchangedate_descending">Nach letzter Änderung absteigend sortieren</string>
 
 </resources>

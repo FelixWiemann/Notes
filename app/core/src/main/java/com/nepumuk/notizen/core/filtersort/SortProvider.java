@@ -1,6 +1,5 @@
 package com.nepumuk.notizen.core.filtersort;
 
-import com.nepumuk.notizen.core.objects.SortableObject;
 import com.nepumuk.notizen.core.objects.StorageObject;
 
 public class SortProvider {
@@ -11,7 +10,7 @@ public class SortProvider {
      * </p><p>
      * </p><p> Note: this comparator imposes orderings that are inconsistent with equals.
      */
-    public static final Sorter<SortableObject> SortByTitleDescending =
+    public static final Sorter<StorageObject> SortByTitleDescending =
             (t1, t2) -> (t2.getSortable(SortCategory.TITLE)).compareToIgnoreCase((t1.getSortable(SortCategory.TITLE)));
 
     /**
@@ -21,7 +20,7 @@ public class SortProvider {
      * </p><p>
      * </p><p> Note: this comparator imposes orderings that are inconsistent with equals.
      */
-    public static final Sorter<SortableObject> SortByTitleAscending =
+    public static final Sorter<StorageObject> SortByTitleAscending =
             (t1,t2)->(SortByTitleDescending.compare(t2,t1));
 
     /**
@@ -32,6 +31,17 @@ public class SortProvider {
      */
     public static final Sorter<StorageObject> SortByType =
             (t1, t2) -> t1.getClass().getCanonicalName().compareTo(t2.getClass().getCanonicalName());
+
+    /**
+     */
+    public static final Sorter<StorageObject> SortByCreateDate =
+            (t1, t2) -> Math.toIntExact(t1.getCreationDate()-t2.getCreationDate());
+
+    /**
+     */
+    public static final Sorter<StorageObject> SortByLastChangeDate =
+            (t1, t2) -> Math.toIntExact(t1.getLastChangedDate()-t2.getLastChangedDate());
+
 
 
 }
