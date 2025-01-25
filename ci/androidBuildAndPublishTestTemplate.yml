@@ -11,7 +11,7 @@ steps:
       echo $VERSIONCODE
       echo $VERSIONNAME
 
-- task: Gradle@2
+- task: Gradle@3
   condition: always()
   inputs:
     workingDirectory: ''
@@ -23,7 +23,7 @@ steps:
     tasks: 'clean assemble${{parameters.BUILD_TYPE}} test${{parameters.BUILD_TYPE}}UnitTest codeCoverageReport${{parameters.BUILD_TYPE}}'
     # currently disabled, as not working correctly: codeCoverageReport${{parameters.BUILD_TYPE}}
 
-- task: PublishCodeCoverageResults@1
+- task: PublishCodeCoverageResults@2
   condition: always()
   inputs:
     codeCoverageTool: 'JaCoCo'
