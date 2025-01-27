@@ -35,12 +35,12 @@ public class SortProvider {
     /**
      */
     public static final Sorter<StorageObject> SortByCreateDate =
-            (t1, t2) -> Math.toIntExact(t1.getCreationDate()-t2.getCreationDate());
+            (t1, t2) -> Long.compare(t1.getCreationDate(), t2.getCreationDate());
 
     /**
      */
     public static final Sorter<StorageObject> SortByLastChangeDate =
-            (t1, t2) -> Math.toIntExact(t1.getLastChangedDate()-t2.getLastChangedDate());
+            (t1, t2) -> Long.compare(t1.getLastChangedDate(),t2.getLastChangedDate());
 
 
 
