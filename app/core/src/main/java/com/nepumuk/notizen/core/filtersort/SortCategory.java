@@ -5,6 +5,7 @@ package com.nepumuk.notizen.core.filtersort;
  *
  * T is the expected return values type
  * @param <T>
+ * @deprecated
  */
 public class SortCategory<T>{
     public static final SortCategory<String> TITLE = new SortCategory<>();

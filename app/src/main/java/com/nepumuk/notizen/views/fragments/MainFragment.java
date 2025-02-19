@@ -27,7 +27,6 @@ import com.nepumuk.notizen.core.filtersort.SortProvider;
 import com.nepumuk.notizen.core.filtersort.Sorter;
 import com.nepumuk.notizen.core.filtersort.TextFilter;
 import com.nepumuk.notizen.core.filtersort.ViewFilter;
-import com.nepumuk.notizen.core.objects.SortableObject;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
 import com.nepumuk.notizen.core.utils.MainViewModel;
@@ -146,7 +145,7 @@ public class MainFragment extends Fragment {
         });
         adapter.showAll();
         // TODO sort by type and title / creation date, etc
-        adapter.sort(SortProvider.SortByLastChangeDate);
+        adapter.sort(SortProvider.SortByLastChangeDateDescending);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new SwipableOnItemTouchListener(recyclerView,(e) -> {
             if (deleteWasClicked){

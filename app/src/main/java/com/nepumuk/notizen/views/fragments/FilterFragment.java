@@ -61,8 +61,17 @@ public class FilterFragment extends Fragment {
             if (navHostFragment.getChildFragmentManager().getFragments().get(0) instanceof MainFragment){
                 ViewFilter<StorageObject> filter  = appliables.get(i).filter;
                 Sorter<StorageObject> sorter = appliables.get(i).sorter;
-                if (filter != null) ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).filter(filter);
-                if (sorter != null) ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).sort(sorter);
+                Sorter<StorageObject> inverted = appliables.get(i).invertedSorter;
+                if (filter != null) {
+                    ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).filter(filter);
+                }
+                if (inverted != null && appliables.get(i).inverted) {
+                    ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).sort(inverted);
+                    appliables.get(i).inverted = !appliables.get(i).inverted;
+                } else if (sorter != null && !appliables.get(i).inverted) {
+                    ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).sort(sorter);
+                    appliables.get(i).inverted = !appliables.get(i).inverted;
+                }
             }
         });
         listAdapter = new MyArrayAdapter(requireContext(), com.nepumuk.notizen.core.R.layout.favlist_rowlayout, appliables);
@@ -75,11 +84,10 @@ public class FilterFragment extends Fragment {
         //addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_task_notes, new ShowAllOfType<>(TaskNote.class));
         // db-access need time, therefore we add it in background
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>());
-        addSortSelect(R.string.sort_by_title_ascending, SortProvider.SortByTitleAscending);
-        addSortSelect(R.string.sort_by_title_descending, SortProvider.SortByTitleDescending);
-        addSortSelect(R.string.sort_by_type, SortProvider.SortByType);
-        addSortSelect(R.string.sort_by_lastchangedate_descending, SortProvider.SortByLastChangeDate);
-        addSortSelect(R.string.sort_by_creationdate_descending, SortProvider.SortByCreateDate);
+        addSortSelect(R.string.sort_by_title, SortProvider.SortByTitleAscending, SortProvider.SortByTitleDescending);
+        addSortSelect(R.string.sort_by_type, SortProvider.SortByType, SortProvider.SortByTypeInverted);
+        addSortSelect(R.string.sort_by_lastchangedate, SortProvider.SortByLastChangeDateDescending, SortProvider.SortByLastChangeDateAscending);
+        addSortSelect(R.string.sort_by_creationdate, SortProvider.SortByCreateDateDescending, SortProvider.SortByCreateDateAscending);
     }
 
     MyArrayAdapter listAdapter;
@@ -90,10 +98,11 @@ public class FilterFragment extends Fragment {
         this.appliables.add(applyable);
         listAdapter.notifyDataSetChanged();
     }
-    public void addSortSelect(@StringRes int TextRes, Sorter<StorageObject> sorter){
+    public void addSortSelect(@StringRes int TextRes, Sorter<StorageObject> sorter, Sorter<StorageObject> inverted){
         Applyable applyable = new Applyable();
         applyable.title = ResourceManager.getString(TextRes);
         applyable.sorter = sorter;
+        applyable.invertedSorter = inverted;
         this.appliables.add(applyable);
         listAdapter.notifyDataSetChanged();
     }
@@ -119,8 +128,10 @@ public class FilterFragment extends Fragment {
     }
 
     static class Applyable {
+        public boolean inverted = false;
         public String title;
         public Sorter<StorageObject> sorter = null;
+        public Sorter<StorageObject> invertedSorter = null;
         public ViewFilter<StorageObject> filter = null;
     }
 }

@@ -98,10 +98,9 @@
     <string name="filter_show_task_notes">Only show task notes</string>
     <string name="filter_show_text_notes">Only show text notes</string>
     <string name="filter_show_favourites">Show Favourites</string>
-    <string name="sort_by_title_ascending">Sort by title ascending</string>
-    <string name="sort_by_title_descending">Sort by title descending</string>
-    <string name="sort_by_creationdate_descending">Sort by creation date descending</string>
-    <string name="sort_by_lastchangedate_descending">Sort by last change date descending</string>
+    <string name="sort_by_title">Sort by title</string>
+    <string name="sort_by_creationdate">Sort by creation date</string>
+    <string name="sort_by_lastchangedate">Sort by last change date</string>
     <string name="sort_by_type">Sort by type</string>
 
 

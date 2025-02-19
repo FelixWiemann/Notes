@@ -96,9 +96,8 @@
     <string name="filter_show_favourites">Zeige Favoriten</string>
     <string name="sort_by_type">Nach Typ sortieren</string>
     <string name="content_search_for">Suche nach: %s</string>
-    <string name="sort_by_title_ascending">Nach Titel aufsteigend sortieren</string>
-    <string name="sort_by_title_descending">Nach Titel absteigend sortieren</string>
-    <string name="sort_by_creationdate_descending">Nach Erstellungdatum absteigend sortieren</string>
-    <string name="sort_by_lastchangedate_descending">Nach letzter Änderung absteigend sortieren</string>
+    <string name="sort_by_title">Nach Titel sortieren</string>
+    <string name="sort_by_creationdate">Nach Erstellungdatum sortieren</string>
+    <string name="sort_by_lastchangedate">Nach letzter Änderung sortieren</string>
 
 </resources>

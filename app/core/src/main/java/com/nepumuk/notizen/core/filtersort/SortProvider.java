@@ -32,16 +32,26 @@ public class SortProvider {
     public static final Sorter<StorageObject> SortByType =
             (t1, t2) -> t1.getClass().getCanonicalName().compareTo(t2.getClass().getCanonicalName());
 
-    /**
+    public static final Sorter<StorageObject> SortByTypeInverted =
+            (t1, t2) -> SortByType.compareTypeSpec(t2, t1);
+
+
+    /**SortByCreateDateAscending
      */
-    public static final Sorter<StorageObject> SortByCreateDate =
+    public static final Sorter<StorageObject> SortByCreateDateAscending =
             (t1, t2) -> Long.compare(t1.getCreationDate(), t2.getCreationDate());
 
+    public static final Sorter<StorageObject> SortByCreateDateDescending=
+            (t1, t2) -> Long.compare(t2.getCreationDate(), t1.getCreationDate());
+
     /**
      */
-    public static final Sorter<StorageObject> SortByLastChangeDate =
+    public static final Sorter<StorageObject> SortByLastChangeDateAscending =
             (t1, t2) -> Long.compare(t1.getLastChangedDate(),t2.getLastChangedDate());
 
-
+    /**
+     */
+    public static final Sorter<StorageObject> SortByLastChangeDateDescending =
+            (t1, t2) -> Long.compare(t2.getLastChangedDate(),t1.getLastChangedDate());
 
 }
