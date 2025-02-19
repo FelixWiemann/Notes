@@ -64,6 +64,7 @@ public class FilterFragment extends Fragment {
                 Sorter<StorageObject> inverted = appliables.get(i).invertedSorter;
                 if (filter != null) {
                     ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).filter(filter);
+                    return;
                 }
                 if (inverted != null && appliables.get(i).inverted) {
                     ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).sort(inverted);
@@ -72,6 +73,7 @@ public class FilterFragment extends Fragment {
                     ((MainFragment) navHostFragment.getChildFragmentManager().getFragments().get(0)).sort(sorter);
                     appliables.get(i).inverted = !appliables.get(i).inverted;
                 }
+                view1.findViewById(com.nepumuk.notizen.core.R.id.imageView2).setRotation(appliables.get(i).inverted?180:0);
             }
         });
         listAdapter = new MyArrayAdapter(requireContext(), com.nepumuk.notizen.core.R.layout.favlist_rowlayout, appliables);
@@ -86,8 +88,8 @@ public class FilterFragment extends Fragment {
         addFilterSelect(com.nepumuk.notizen.core.R.string.filter_show_favourites, new ShowFavourites<>());
         addSortSelect(R.string.sort_by_title, SortProvider.SortByTitleAscending, SortProvider.SortByTitleDescending);
         addSortSelect(R.string.sort_by_type, SortProvider.SortByType, SortProvider.SortByTypeInverted);
-        addSortSelect(R.string.sort_by_lastchangedate, SortProvider.SortByLastChangeDateDescending, SortProvider.SortByLastChangeDateAscending);
-        addSortSelect(R.string.sort_by_creationdate, SortProvider.SortByCreateDateDescending, SortProvider.SortByCreateDateAscending);
+        addSortSelect(R.string.sort_by_lastchangedate, SortProvider.SortByLastChangeDateAscending, SortProvider.SortByLastChangeDateDescending);
+        addSortSelect(R.string.sort_by_creationdate, SortProvider.SortByCreateDateAscending, SortProvider.SortByCreateDateDescending);
     }
 
     MyArrayAdapter listAdapter;
@@ -119,8 +121,7 @@ public class FilterFragment extends Fragment {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             if (convertView==null){
-                convertView =  getLayoutInflater().inflate(com.nepumuk.notizen.core.R.layout.favlist_rowlayout,parent, false);
-
+                convertView = getLayoutInflater().inflate(com.nepumuk.notizen.core.R.layout.favlist_rowlayout,parent, false);
             }
             ((TextView)convertView.findViewById(com.nepumuk.notizen.core.R.id.filter_line_title)).setText(getItem(position).title);
             return convertView;
