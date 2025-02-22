@@ -1,5 +1,6 @@
 package com.nepumuk.notizen.core.objects.storable_factory;
 
+import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
 /**
@@ -8,7 +9,7 @@ import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
  * any implementation should hold a strategy to fall back on, when a new storable is needed but for
  * some reason could not created (e.g. if data is invalid, missing, corrupt, etc.)
  */
-public interface DefaultStorableStrategy<T extends DatabaseStorable> {
+public interface DefaultStorableStrategy<T extends StorageObject> {
 
     /**
      * default title to be used in the different strategies

@@ -23,6 +23,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nepumuk.notizen.core.R;
+import com.nepumuk.notizen.core.objects.Note;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.objects.UnpackingDataException;
 import com.nepumuk.notizen.core.objects.storable_factory.StorableFactory;
@@ -44,7 +45,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
     /**
      * view model containing the data displayed in this activity
      */
-    private EditNoteViewModel<DatabaseStorable> mViewModel;
+    private EditNoteViewModel<Note> mViewModel;
 
     /**
      * original data that was sent to this activity,
@@ -134,7 +135,9 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
      */
     private void save(){
         mViewModel.getSaveState().save = true;
+        mViewModel.getSaveState().data.setLastChangedDate();
         mViewModel.update();
+
     }
 
     private void exit(){
@@ -180,7 +183,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
 
         if (!mViewModel.isValueSet()) {
             new ShortCutHelper(getContext()).reportUsageUsingVariableName(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
-            DatabaseStorable data=null;
+            Note data=null;
             try {
                 data = StorableFactory.storableFromBundle(requireArguments());
                 originalData="-";
@@ -190,7 +193,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
                 data = StorableFactory.create(EditNoteFragmentArgs.fromBundle(requireArguments()).getType());
             }
 
-            EditNoteViewModel.SaveState<DatabaseStorable> saveState = new EditNoteViewModel.SaveState<>(data);
+            EditNoteViewModel.SaveState<Note> saveState = new EditNoteViewModel.SaveState<>(data);
             // using replace to make sure we have a value immediately after setting
             mViewModel.replace(saveState);
             mViewModel.getSaveState().origin = EditNoteViewModel.SaveState.Origin.EDITOR;
@@ -243,7 +246,7 @@ public class EditNoteFragment extends Fragment implements SaveDataFragmentListen
         return true;
     }
 
-    public EditNoteViewModel<DatabaseStorable> getModel(){
+    public EditNoteViewModel<Note> getModel(){
         return mViewModel;
     }
 

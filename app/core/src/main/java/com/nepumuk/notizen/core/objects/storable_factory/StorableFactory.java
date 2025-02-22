@@ -22,16 +22,16 @@ public class StorableFactory {
     private static final String INTENT_NAME_NOTE_DATA = "INTENT_NAME_NOTE_DATA";
     private static final String INTENT_NAME_NOTE_TYPE = "INTENT_NAME_NOTE_TYPE";
     private static final String INTENT_NAME_NOTE_VERSION = "INTENT_NAME_NOTE_VERSION";
-    static HashMap<String, DefaultStorableStrategy<DatabaseStorable>> strategyMap = new HashMap<>();
+    static HashMap<String, DefaultStorableStrategy<StorageObject>> strategyMap = new HashMap<>();
     //private static DefaultStorableStrategy defaultStrategy = new DefaultTextNoteStrategy();
 
     public static void registerDefaultStorableStrategy(String ShortCutVariableName,DefaultStorableStrategy strategy){
         strategyMap.put(ShortCutVariableName,strategy);
     }
 
-    public static DatabaseStorable create(String ShortCutVariableName){
+    public static <T extends StorageObject> T  create(String ShortCutVariableName){
         if (strategyMap.containsKey(ShortCutVariableName)) {
-            return strategyMap.get(ShortCutVariableName).createDefault();
+            return (T) strategyMap.get(ShortCutVariableName).createDefault();
         }
         // if this exception comes, check if case-sensitive error
         // or argument was not added with registerShortcut
@@ -50,7 +50,7 @@ public class StorableFactory {
      * @throws UnpackingDataException the given type is not valid
      * @throws UnpackingDataError if there was an issue with the
      */
-    public static StorageObject createFromData(String ID, String Type, String Data, int Version) throws UnpackingDataException {
+    public static <T extends StorageObject> T  createFromData(String ID, String Type, String Data, int Version) throws UnpackingDataException {
         Throwable lEx;
         try {
             // try to create data
@@ -69,7 +69,7 @@ public class StorableFactory {
         }
     }
 
-    private static StorageObject createfromdata(String ID, String Type, String Data, int Version)throws UnpackingDataException{
+    private static <T extends StorageObject> T createfromdata(String ID, String Type, String Data, int Version)throws UnpackingDataException{
         try {
             Class<?> clazz = Class.forName(Type);
             StorageObject object;
@@ -80,7 +80,7 @@ public class StorableFactory {
             } catch (JsonProcessingException e) {
                 throw new UnpackingDataError("he data in the database is corrupt or we did not properly transform versions of stored data on upgrade",e);
             }
-            return object;
+            return (T) object;
         }catch (ClassNotFoundException ex){
             // TODO better exception handling
             //  wrong data was given in both cases of the exception...
@@ -115,7 +115,7 @@ public class StorableFactory {
      * @throws UnpackingDataException the given type is not valid
      * @throws UnpackingDataError if there was an issue with the
      */
-    public static StorageObject storableFromBundle(Bundle intent) throws UnpackingDataException {
+    public static <T extends StorageObject> T  storableFromBundle(Bundle intent) throws UnpackingDataException {
         if (intent == null){
             return null;
         }
