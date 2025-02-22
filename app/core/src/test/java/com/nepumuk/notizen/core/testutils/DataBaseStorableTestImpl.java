@@ -1,5 +1,6 @@
 package com.nepumuk.notizen.core.testutils;
 
+import com.nepumuk.notizen.core.objects.Note;
 import com.nepumuk.notizen.core.objects.StorageObject;
 import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
 
@@ -8,7 +9,7 @@ import com.nepumuk.notizen.core.utils.db_access.DatabaseStorable;
  * but can be used for testing when a DatabaseStorable is needed
  * warnings suppressed, as test class
  */
-public class DataBaseStorableTestImpl extends StorageObject {
+public class DataBaseStorableTestImpl extends Note {
     public static final String DATA_STRING = "{\"lastChangedDate\":1594896550151,\"title\":\"title\",\"creationDate\":1594896550151,\"idString\":\"bb4bb4a3-51e2-4fd4-b96e-5b7a3a132be2\"}";
     public static final String DATA_TYPE = DataBaseStorableTestImpl.class.getCanonicalName();
     public static final String DATA_ID = "bb4bb4a3-51e2-4fd4-b96e-5b7a3a132be2";
@@ -52,5 +53,10 @@ public class DataBaseStorableTestImpl extends StorageObject {
     @Override
     public DatabaseStorable deepCopy() {
         return this;
+    }
+
+    @Override
+    public void deleteNote() {
+
     }
 }
