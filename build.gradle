@@ -55,6 +55,20 @@ allprojects {
 
 }
 
+// Ensure Kotlin compiler JVM target is consistent across all modules
+// This forces Kotlin to target Java 17 and avoids "Inconsistent JVM-target compatibility" errors
+subprojects {
+    afterEvaluate { proj ->
+        try {
+            proj.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach { kotlinCompile ->
+                kotlinCompile.kotlinOptions.jvmTarget = "17"
+            }
+        } catch (ignored) {
+            // ignore modules that don't apply the Kotlin plugin
+        }
+    }
+}
+
 subprojects{
     println("adding jacoco to " + project)
     apply from: "$project.rootDir/jacoco.gradle"
