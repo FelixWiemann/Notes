@@ -9,7 +9,7 @@ ext{
 }
 
 android {
-    compileSdk 35
+    compileSdkVersion compile_sdk_version
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -18,8 +18,8 @@ android {
 
     defaultConfig {
         applicationId "com.nepumuk.notizen"
-        minSdkVersion 28
-        targetSdkVersion 35
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
         // check version code from system environment (if input from CI-System)
         if ("$System.env.VERSIONCODE"=="null") {
             // not found, check local properties file in root dir of project
